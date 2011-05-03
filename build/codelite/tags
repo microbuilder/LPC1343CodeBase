@@ -1,0 +1,4 @@
+rx_data	C:\Documents and Settings\Kevin\My Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase\main.c	/^static chb_rx_data_t rx_data;$/;"	variable	line:66
+main	C:\Documents and Settings\Kevin\My Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase\main.c	/^int main (void)$/;"	function	line:70	signature:(void)	returns:int
+__putchar	C:\Documents and Settings\Kevin\My Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase\main.c	/^void __putchar(char c) $/;"	function	line:186	signature:(char c)	returns:void
+puts	C:\Documents and Settings\Kevin\My Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase\main.c	/^int puts ( const char * str )$/;"	function	line:191	signature:( const char * str )	returns:int

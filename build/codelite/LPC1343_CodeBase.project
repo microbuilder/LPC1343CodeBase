@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeLite_Project Name="LPC1343_CodeBase" InternalType="">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
+  </Plugins>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="core">
+    <VirtualDirectory Name="adc">
+      <File Name="../../core/adc/adc.c"/>
+      <File Name="../../core/adc/adc.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="cpu">
+      <File Name="../../core/cpu/cpu.c"/>
+      <File Name="../../core/cpu/cpu.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="gpio">
+      <File Name="../../core/gpio/gpio.c"/>
+      <File Name="../../core/gpio/gpio.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="i2c">
+      <File Name="../../core/i2c/i2c.c"/>
+      <File Name="../../core/i2c/i2c.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="libc">
+      <File Name="../../core/libc/stdio.c"/>
+      <File Name="../../core/libc/string.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="pmu">
+      <File Name="../../core/pmu/pmu.c"/>
+      <File Name="../../core/pmu/pmu.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="ssp">
+      <File Name="../../core/ssp/ssp.c"/>
+      <File Name="../../core/ssp/ssp.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="systick">
+      <File Name="../../core/systick/systick.c"/>
+      <File Name="../../core/systick/systick.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="timer16">
+      <File Name="../../core/timer16/timer16.c"/>
+      <File Name="../../core/timer16/timer16.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="timer32">
+      <File Name="../../core/timer32/timer32.c"/>
+      <File Name="../../core/timer32/timer32.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="uart">
+      <File Name="../../core/uart/uart.c"/>
+      <File Name="../../core/uart/uart.h"/>
+      <File Name="../../core/uart/uart_buf.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="usbhid-rom">
+      <File Name="../../core/usbhid-rom/rom_drivers.h"/>
+      <File Name="../../core/usbhid-rom/usb.h"/>
+      <File Name="../../core/usbhid-rom/usbconfig.c"/>
+      <File Name="../../core/usbhid-rom/usbconfig.h"/>
+      <File Name="../../core/usbhid-rom/usbhid.c"/>
+      <File Name="../../core/usbhid-rom/usbhid.h"/>
+      <File Name="../../core/usbhid-rom/hidexample.c"/>
+      <File Name="../../core/usbhid-rom/hidexample.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="wdt">
+      <File Name="../../core/wdt/wdt.c"/>
+      <File Name="../../core/wdt/wdt.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="cmd">
+      <File Name="../../core/cmd/cmd.c"/>
+      <File Name="../../core/cmd/cmd.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="usbcdc">
+      <File Name="../../core/usbcdc/cdc.h"/>
+      <File Name="../../core/usbcdc/cdcuser.c"/>
+      <File Name="../../core/usbcdc/cdcuser.h"/>
+      <File Name="../../core/usbcdc/config.h"/>
+      <File Name="../../core/usbcdc/usb.h"/>
+      <File Name="../../core/usbcdc/usbcfg.h"/>
+      <File Name="../../core/usbcdc/usbcore.c"/>
+      <File Name="../../core/usbcdc/usbcore.h"/>
+      <File Name="../../core/usbcdc/usbdesc.c"/>
+      <File Name="../../core/usbcdc/usbdesc.h"/>
+      <File Name="../../core/usbcdc/usbhw.c"/>
+      <File Name="../../core/usbcdc/usbhw.h"/>
+      <File Name="../../core/usbcdc/usbreg.h"/>
+      <File Name="../../core/usbcdc/usbuser.c"/>
+      <File Name="../../core/usbcdc/usbuser.h"/>
+      <File Name="../../core/usbcdc/cdc_buf.c"/>
+      <File Name="../../core/usbcdc/cdc_buf.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="pwm">
+      <File Name="../../core/pwm/pwm.c"/>
+      <File Name="../../core/pwm/pwm.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="iap">
+      <File Name="../../core/iap/iap.c"/>
+      <File Name="../../core/iap/iap.h"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="drivers">
+    <VirtualDirectory Name="chibi">
+      <File Name="../../drivers/chibi/chb.c"/>
+      <File Name="../../drivers/chibi/chb.h"/>
+      <File Name="../../drivers/chibi/chb_buf.c"/>
+      <File Name="../../drivers/chibi/chb_buf.h"/>
+      <File Name="../../drivers/chibi/chb_drvr_at86rf212.c"/>
+      <File Name="../../drivers/chibi/chb_drvr_at86rf212.h"/>
+      <File Name="../../drivers/chibi/chb_eeprom.c"/>
+      <File Name="../../drivers/chibi/chb_eeprom.h"/>
+      <File Name="../../drivers/chibi/chb_spi.c"/>
+      <File Name="../../drivers/chibi/chb_spi.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="eeprom">
+      <VirtualDirectory Name="mcp24aa">
+        <File Name="../../drivers/eeprom/mcp24aa/mcp24aa.c"/>
+        <File Name="../../drivers/eeprom/mcp24aa/mcp24aa.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="at25040">
+        <File Name="../../drivers/eeprom/at25040/at25040.c"/>
+        <File Name="../../drivers/eeprom/at25040/at25040.h"/>
+      </VirtualDirectory>
+      <File Name="../../drivers/eeprom/eeprom.c"/>
+      <File Name="../../drivers/eeprom/eeprom.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="sensors">
+      <VirtualDirectory Name="lm75b">
+        <File Name="../../drivers/sensors/lm75b/lm75b.c"/>
+        <File Name="../../drivers/sensors/lm75b/lm75b.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="pn532">
+        <File Name="../../drivers/sensors/pn532/pn532.c"/>
+        <File Name="../../drivers/sensors/pn532/pn532.h"/>
+        <File Name="../../drivers/sensors/pn532/pn532_drvr.h"/>
+        <File Name="../../drivers/sensors/pn532/pn532_drvr_uart.c"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="tcs3414">
+        <File Name="../../drivers/sensors/tcs3414/tcs3414.c"/>
+        <File Name="../../drivers/sensors/tcs3414/tcs3414.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="tsl2561">
+        <File Name="../../drivers/sensors/tsl2561/tsl2561.c"/>
+        <File Name="../../drivers/sensors/tsl2561/tsl2561.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="fatfs">
+      <File Name="../../drivers/fatfs/ccsbcs.c"/>
+      <File Name="../../drivers/fatfs/diskio.h"/>
+      <File Name="../../drivers/fatfs/ff.c"/>
+      <File Name="../../drivers/fatfs/ff.h"/>
+      <File Name="../../drivers/fatfs/ffconf.h"/>
+      <File Name="../../drivers/fatfs/integer.h"/>
+      <File Name="../../drivers/fatfs/mmc.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="lcd">
+      <VirtualDirectory Name="tft">
+        <VirtualDirectory Name="hw">
+          <File Name="../../drivers/lcd/tft/hw/ILI9325.c"/>
+          <File Name="../../drivers/lcd/tft/hw/ILI9325.h"/>
+          <File Name="../../drivers/lcd/tft/hw/st7783.c"/>
+          <File Name="../../drivers/lcd/tft/hw/st7783.h"/>
+          <File Name="../../drivers/lcd/tft/hw/st7735.c"/>
+          <File Name="../../drivers/lcd/tft/hw/st7735.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="fonts">
+          <File Name="../../drivers/lcd/tft/fonts/bitmapfonts.h"/>
+          <File Name="../../drivers/lcd/tft/fonts/dejavusans9.c"/>
+          <File Name="../../drivers/lcd/tft/fonts/dejavusans9.h"/>
+          <File Name="../../drivers/lcd/tft/fonts/dejavusansbold9.c"/>
+          <File Name="../../drivers/lcd/tft/fonts/dejavusansbold9.h"/>
+          <File Name="../../drivers/lcd/tft/fonts/dejavusanscondensed9.c"/>
+          <File Name="../../drivers/lcd/tft/fonts/dejavusanscondensed9.h"/>
+          <File Name="../../drivers/lcd/tft/fonts/dejavusansmono8.c"/>
+          <File Name="../../drivers/lcd/tft/fonts/dejavusansmono8.h"/>
+          <File Name="../../drivers/lcd/tft/fonts/dejavusansmonobold8.c"/>
+          <File Name="../../drivers/lcd/tft/fonts/dejavusansmonobold8.h"/>
+          <File Name="../../drivers/lcd/tft/fonts/veramono9.c"/>
+          <File Name="../../drivers/lcd/tft/fonts/veramono9.h"/>
+          <File Name="../../drivers/lcd/tft/fonts/veramono11.c"/>
+          <File Name="../../drivers/lcd/tft/fonts/veramono11.h"/>
+          <File Name="../../drivers/lcd/tft/fonts/veramonobold9.c"/>
+          <File Name="../../drivers/lcd/tft/fonts/veramonobold9.h"/>
+          <File Name="../../drivers/lcd/tft/fonts/veramonobold11.c"/>
+          <File Name="../../drivers/lcd/tft/fonts/veramonobold11.h"/>
+        </VirtualDirectory>
+        <File Name="../../drivers/lcd/tft/drawing.c"/>
+        <File Name="../../drivers/lcd/tft/drawing.h"/>
+        <File Name="../../drivers/lcd/tft/lcd.h"/>
+        <File Name="../../drivers/lcd/tft/touchscreen.c"/>
+        <File Name="../../drivers/lcd/tft/touchscreen.h"/>
+        <File Name="../../drivers/lcd/tft/colors.h"/>
+        <File Name="../../drivers/lcd/tft/bmp.c"/>
+        <File Name="../../drivers/lcd/tft/bmp.h"/>
+        <VirtualDirectory Name="dialogues">
+          <File Name="../../drivers/lcd/tft/dialogues/alphanumeric.c"/>
+          <File Name="../../drivers/lcd/tft/dialogues/alphanumeric.h"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <VirtualDirectory Name="bitmap">
+        <VirtualDirectory Name="st7565">
+          <File Name="../../drivers/lcd/bitmap/ST7565/ST7565.c"/>
+          <File Name="../../drivers/lcd/bitmap/ST7565/ST7565.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="ssd1306">
+          <File Name="../../drivers/lcd/bitmap/ssd1306/ssd1306.c"/>
+          <File Name="../../drivers/lcd/bitmap/ssd1306/ssd1306.h"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <File Name="../../drivers/lcd/smallfonts.c"/>
+      <File Name="../../drivers/lcd/smallfonts.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="motor">
+      <VirtualDirectory Name="stepper">
+        <File Name="../../drivers/motor/stepper/stepper.c"/>
+        <File Name="../../drivers/motor/stepper/stepper.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="rsa">
+      <File Name="../../drivers/rsa/rsa.c"/>
+      <File Name="../../drivers/rsa/rsa.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="dac">
+      <VirtualDirectory Name="mcp4725">
+        <File Name="../../drivers/dac/mcp4725/mcp4725.c"/>
+        <File Name="../../drivers/dac/mcp4725/mcp4725.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="lpc1xxx">
+    <File Name="../../lpc1xxx/linkscript.ld"/>
+    <File Name="../../lpc1xxx/LPC1xxx_startup.c"/>
+    <File Name="../../lpc1xxx/LPC13xx_handlers.c"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="root">
+    <File Name="../../lpc134x.h"/>
+    <File Name="../../main.c"/>
+    <File Name="../../Makefile"/>
+    <File Name="../../projectconfig.h"/>
+    <File Name="../../sysdefs.h"/>
+    <File Name="../../sysinit.c"/>
+    <File Name="../../sysinit.h"/>
+    <File Name="../../ChangeLog.txt"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="project">
+    <File Name="../../project/cmd_tbl.h"/>
+    <File Name="../../project/commands.c"/>
+    <VirtualDirectory Name="commands">
+      <File Name="../../project/commands/cmd_chibi_addr.c"/>
+      <File Name="../../project/commands/cmd_chibi_tx.c"/>
+      <File Name="../../project/commands/cmd_i2ceeprom_read.c"/>
+      <File Name="../../project/commands/cmd_i2ceeprom_write.c"/>
+      <File Name="../../project/commands/cmd_lm75b_gettemp.c"/>
+      <File Name="../../project/commands/cmd_sd_dir.c"/>
+      <File Name="../../project/commands/cmd_sysinfo.c"/>
+      <VirtualDirectory Name="drawing">
+        <File Name="../../project/commands/drawing/cmd_button.c"/>
+        <File Name="../../project/commands/drawing/cmd_circle.c"/>
+        <File Name="../../project/commands/drawing/cmd_clear.c"/>
+        <File Name="../../project/commands/drawing/cmd_line.c"/>
+        <File Name="../../project/commands/drawing/cmd_pixel.c"/>
+        <File Name="../../project/commands/drawing/cmd_progress.c"/>
+        <File Name="../../project/commands/drawing/cmd_bmp.c"/>
+        <File Name="../../project/commands/drawing/cmd_calibrate.c"/>
+        <File Name="../../project/commands/drawing/cmd_gettext.c"/>
+        <File Name="../../project/commands/drawing/cmd_text.c"/>
+        <File Name="../../project/commands/drawing/cmd_textw.c"/>
+        <File Name="../../project/commands/drawing/cmd_tswait.c"/>
+        <File Name="../../project/commands/drawing/cmd_orientation.c"/>
+        <File Name="../../project/commands/drawing/cmd_rectangle.c"/>
+        <File Name="../../project/commands/drawing/cmd_tsthreshhold.c"/>
+      </VirtualDirectory>
+      <File Name="../../project/commands/cmd_uart.c"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <Settings Type="Dynamic Library">
+    <Configuration Name="Debug" CompilerType="gnu gcc" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g" Required="yes" PreCompiledHeader="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="" IntermediateDirectory="./Debug" Command="" CommandArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;"/>
+      <Debugger IsRemote="yes" RemoteHostName="localhost" RemoteHostPort="2331" DebuggerPath="arm-none-eabi-gdb.exe">
+        <PostConnectCommands># Make sure that we are using SWD
+monitor interface SWD
+
+# Set monitor to little endian
+monitor endian little
+
+# Set monitor speed
+monitor speed 1000
+
+# Reset device
+monitor reset
+
+# Set device ID to LPC1343
+monitor flash device = LPC1343
+
+# Enable flash download
+monitor flash download = 1
+
+# Transfer the firmware to the device
+load "../../firmware.elf"
+
+# Initializing PC and stack pointer
+monitor reg r13 = (0x00000000)
+monitor reg pc = (0x00000004)
+</PostConnectCommands>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <RebuildCommand/>
+        <CleanCommand>make clean</CleanCommand>
+        <BuildCommand>make</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>$(WorkspacePath)/../../</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="gnu gcc" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="" Required="yes" PreCompiledHeader="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="-O2" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="" IntermediateDirectory="./Release" Command="" CommandArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;"/>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <RebuildCommand/>
+        <CleanCommand>make clean</CleanCommand>
+        <BuildCommand>make</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>$(WorkspacePath)</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+    </Configuration>
+    <GlobalSettings>
+      <Compiler Options="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+  </Settings>
+</CodeLite_Project>

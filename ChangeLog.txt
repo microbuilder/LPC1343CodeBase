@@ -1,0 +1,384 @@
+v0.9.2 - Ongoing
+================
+
+- Added lcdDrawPixels() to lcd.h and the current lcd
+  drivers to render rows of raw lcd data much quicker
+  than addressing consecutive pixels individually.
+  Can be used with windowing in future for fast
+  animation, continuously writing raw pixels in a
+  32x32 pixel frame, etc.
+- Fixed ili9328SetWindow() and ili9325SetWindow(). 
+  They can now be used for fast screen paints of
+  restricted areas of the screen, such as animations
+  where raw pixel data is constantly fed to the LCD.
+- Fixed pixel overflow bugs in drawCircleFilled(). Any
+  pixels that exceed screen limits will now be dropped,
+  though at the expense of slightly slower code.
+- Added drawLineDotted() to drawing.c to draw lines with
+  a fixed pattern of empty and solid pixels
+- Added __resetBootloader() macro to lpc134x.h to
+  reset and enter the USB bootloader (LPC1343 Reference
+  Design Base Board only since this depends on the
+  existance of the RC combination on the ISP pin).
+  To reset and executre code normally, the watchdog
+  time can be used (see "core/wdt").
+- Added AIRCR register to lpc134x.h (Application Interrupt
+  and Reset Control Register).
+- Added drawIcon16() to drawing.c to render monochrome
+  16x16 pixel icons from a byte array.
+- Added a handful of common 16x16 icon definitions in
+  /drivers/lcd/icons16.h ... adapted from Gentleface
+  Toolbar Icon Set.  For license terms see
+  http://www.gentleface.com/free_icon_set.html
+- Added a few basic RGB565 color schemes to colors.h and
+  an image file showing the colors in /tools/colors_h.png
+- Updated alphanumeric dialogue form to use new buttons.
+- Rewrote drawButton() to use rounded rectangle and
+  all colors are now passed in as parameters.  Also
+  modified the button command in the CLI to match this.
+- Rewrote drawProgressBar() to take advantage of the
+  new rounded rectangle function (below).  Also
+  modified the progress bar command in the CLI to
+  allow more colors to be indicated when rendering.
+- Added drawRectangleRounded() to drawing.c (filled
+  rectangle with configurable rounded corners).
+- Added drawArrow() to drawing.c to make small rectangles
+  for left/right menu items, etc.
+- Completely rewrote the touch screen calibration code to
+  be much more accurate.
+
+v0.9.0 - 28 March 2011
+======================
+
+- Calibration process no longer starts automatically when
+  calibration data is not found in EEPROM.  tsCalibrate()
+  now needs to called manually or from the CLI.
+- Fixed a bug in cmd_tswait.c when no delay was passed.
+- Added CLI command to set touch screen threshold 
+  to register a touch event (since this can vary from
+  screen to screen).  Type 'x' at the CLI to get/set
+  the value.  The setting is persisted to EEPROM, and if
+  no value is found on EEPROM CFG_TFTLCD_TS_DEFAULTTHRESHOLD
+  from projectconfig.h is used.
+- Adjusted touch screen code to check ADC values twice
+  and compare.  If mismatch occurs, and error is returned.
+  This provides far more consistent TS values at the
+  expense of having to check the error results. See
+  'alphanumeric.c' for an example of doing this
+  correctly.
+- Added seperate driver for ILI9328 based displays, even
+  though it seems to be identical to the ILI9325.  Files
+  were seperated in case the initialisation needs to be
+  tweeked later or if incompatibilities are found.
+- Added the ability to write the contents of the LCD
+  to a bitmap image, though it's very slow reading data
+  pixel by pixel and converting it to 24-bit RGB values.
+  Performance can definately be improved.
+- Added 'drawRGB565toBGRA32' to drawing.c to convert
+  RGB565 colors back to the canonical BGRA32 format
+- Added gain controls to TSL2561 driver to increase or
+  decrease sensitivity.  Should be easy to implement
+  auto-gain functionality now.
+- Changed USB VID to a valid value.  Source files and
+  lpc134x-vcom.inf updated accordingly.
+- Moved USB VID and PID to projectconfig.h
+- Added '-mcpu' flag to the linker in Makefile (the wrong
+  libm was being linked because of this).
+
+  WARNING
+  --------------------------------------------------------
+- Some config settings in EEPROM were relocated in v0.90+
+  of the LPC1343 Code Base to take into account the new
+  touch screen calibration code.  See projectconfig.h
+  for more details of the new EEPROM layout.
+
+v0.8.6 - 21 March 2011
+======================
+
+- Added DWT section to LPC134x.h (see Cortex-M3
+  Technical Reference Manual section 8.3)
+- Added CPU_RESET_CYCLECOUNTER to cpu.c to do rough
+  in-code performance checks (counts CPU cycles)
+- Added '-lm' to linker in Makefile for math.c support
+- Increased MAX_STRING_SIZE from 100 to 255 in stdio.c
+- Added driver for the TCS3414 RGB color sensor
+- Added driver for the TSL2561 digital light sensor
+- Added CFG_USBCDC_BUFFERSIZE to projectconfig.h
+  instead of cdc_buf.h.
+- Added a PWM example using a piezo buzzer (see
+  'tools/examples/basics/pwm_piezobuzzer' for details)
+- Added ctype.c to 'core/libc'
+- Changed Crossworks project to use libc files from
+  'core/libc' and modified the USB CDC printf to be
+  much faster by redirecting inside 'puts' rather than
+  '__putchar' (see 'sysinit.c').
+- Fixed a bug in LPC134x.h ... USB_CMDCODE write and read
+  masks were reversed
+- Added a simple example of reading the card ID from an
+  ISO14443A (Mifare Classic, etc.) card using the PN532
+  ('/tools/examples/sensors/pn532/ISO14443A_ID').
+- Added an 'lcd' folder to 'tools/examples' showing how to use
+  the generic lcd drawing routines, the touch-screen, etc.
+- Rewrote part of the touch screen calibration code to get more
+  accurate results.  Each point is now tested twice and the
+  results are averaged.  Values beyond a certain limit are also
+  rejected to ignore wacky readings.
+- Added a preliminary PN532 (NFC/RFID) driver.  Currently UART
+  only, and only allows simple commands to be sent and received.
+  By default, all data is fed out to the console via printf.
+  Will be elaborated and expanded in future releases.
+- Cleaned up the ILI9325 TFT LCD driver a bit, adding a proper
+  enum for the commands, etc.
+  
+
+v0.8.5 - 7 March 2011
+=====================
+
+- Fixed a problem with GDB script when deploying firmware
+  with Segger J-Link in CodeLite.  Code will now deploy
+  and start executing properly when F5 is pressed (assuming
+  the Segger GDB Server software is running in the background).
+- Interrupts are now disabled while feeding the watchdog as per
+  a warning in the usermanual.
+- Changed fonts for TTF LCDs.  DejaVu Sans 9 is now used by default
+  in the LPC1343 Code Base.  The following open source fonts have
+  been converted using The Dot Factory (see '/tools/dotfactory') and
+  can be found in '/drivers/lcd/tft/fonts':
+  
+      FONT NAME                         WIDTH
+      -------------------------------   ----------
+    - Bitstream Vera Mono 9             Fixed (8)
+    - Bitstream Vera Mono 9 Bold        Fixed (8)
+    - Bitstream Vera Mono 11            Fixed (9)
+    - Bitstream Vera Mono 11 Bold       Fixed (9)
+    - DejaVu Sans 9                     Variable
+    - DejaVu Sans 9 Bold                Variable
+    - DejaVu Sans Condensed 9           Variable
+    - DejaVu Sans Mono 8                Fixed (8)
+    - DejaVu Sans Mono 8 Bold           Fixed (8)
+    
+- Modified projectconfig.h to select the target board and configure
+  the project accordingly.  This isn't ideal, but it's a lot more
+  maintainable than have a seperate code base for every board since
+  they share 95% of the same code.
+- Modified WDT code to use the WDT oscillator (rather than the
+  external crystal)
+- Fixed a bug when waking up from sleep in Chibi.  Removed systick
+  delay when toggling reset and slptr pins since this was causing
+  a blocking condition with the wakeup ISR.
+- Added an example of how to retrieve the MCU's unique
+  128-bit serial number using IAP (core/iap)
+- Added an option to projectconfig.h to select which pin to use for
+  SCK on SSP0, since the QFN33 package doesn't have all the same
+  pins.
+- Updated Chibi to v0.91 (adds sleep method and promiscuous mode to allow
+  Chibi to act as an 802.15.4 packet sniffer, etc.).
+- Added lcdProperties_t to lcd.h to indicate the properties of different
+  LCDs (to determine if there is a touch screen present, whether the
+  screen orientation can be changed, etc.)
+- Added basic ST7735 LCD driver (128x160 pixel TFT LCD using 6-pin
+  SPI-esque interface).  Work in progress (no orientation support, etc.).
+- Added some simple examples in the 'tools/examples' folder.
+
+v0.80 - 27 Jan 2011
+===================
+
+- Added optimised lcdDrawVLine using orientation
+  though this should only be used on lines
+  greate than 20 pixels or so to see any real
+  advantage
+- Added cmd_uart to allow the HW UART speed
+  to be set in EEPROM (between 9600 and
+  115200).  Use the 'U' command.
+- Updated Crossworks projects files to use
+  custom printf in 'core/libc' (gains about
+  1.3KB in release mode)
+- Added driver for SSD1306 OLED displays
+  to '/drivers/bitmap/ssd1306'
+- Changed commands in the CLI to single
+  characters and shortened descriptions
+  to save flash space (~0.7KB)
+- Updated ILI9325 to allow the screen
+  orientation to be changed to portrait
+  of landscape mode.
+- Added cmd_orientation to change the LCD
+  orientation from the CLI
+- Fixed a bug in the PMU Wakeup interrupt
+  handler
+- Added a circular buffer for outgoing CDC
+  data (cdc_buf.c) since you can only feed one
+  frame per ms (max 64 bytes).  The speed needs
+  to be improved finding the right balance
+  between caching data and sending it to the EP,
+  but this should avoid any dropped characters.
+  More testing will be needed to improve this.
+- Fixed a bug with the USB CDC buffer
+- Added SILENTMODE to the CLI to disable the
+  command prompt and echo of input characters
+  (see CFG_INTERFACE_SILENTMODE).  Useful
+  when another MCU is use the CLI rather than
+  a human.
+- Added IRQ pin to the CLI to indicate when a 
+  command is being processed (pin = low) and
+  when it has completed or a new command can
+  be processed (pin = high).
+- Added 'cmd_tswait' to wait for a touch event
+- Removed 'drivers/nfc/pn532' until proper drivers
+  can be written
+- Added 'cmd_text' and 'cmd_textw' to the CLI to
+  render text on the LCD and get the width in
+  pixels of the specified text before rendering.
+
+v0.70 - 18 Dec 2010
+===================
+
+- Added 'calibrate' and 'gettext' commands to the CLI
+- Added a dialogue box for the TFT LCD/Touchscreen
+  to input alpha-numeric data and return the
+  results as a string ('drivers/lcd/tft/dialogues/*')
+- Added touch screen calibration code and UI
+  ('drivers/lcd/tft/touchscreen.c')
+- Fixed a bug in ILI9325.c to make sure that the LCD
+  is reset during initialisation
+- ** IMPORTANT ** Changed 'core/i2c/*' to fix a number
+  of bugs (thanks Rob65!) ... though this means all
+  i2c peripherals and drivers will need to be tested.
+- Added 'colorscheme_t' to drawing.h to try to use a
+  standard color palette across GUI controls and make
+  it easy to change later.  Currently only the button
+  and progress bar make use of this.
+- Added 'lcdBacklightOn()' and 'lcdBacklightOff()' to
+  lcd.h
+- Added 'CFG_TFTLCD_TS_THRESHOLD' to projectconfig.h
+  to configure touch-screen sensitivity when waiting
+  for a touch event
+- Modified 'core/gpio/gpio.c' to reduce the compiled code
+  size. Repetitive switches where only the registers
+  change were modified to use temporary registers and
+  execute the code only once.
+- Added the source and binaries for TheDotFactory to
+  'tools/dotfactory' for convenience sake. See:
+  http://www.pavius.net/downloads/tools/53-the-dot-factory
+- Removed 'drivers/lcd/tft/tscalibration.c' and moved
+  the relevant code to touchscreen.c
+- Removed the imgconv tool from 'tools/imgconv' (see
+  point below for more information)
+- Removed the previous custom image code and replaced
+  it with 24-bit Windows bitmap files.  This is a bit
+  slower (since 24-bit data needs to be converted to
+  RGB565 for each pixel and rows are rendered bottom
+  up making pixel drawing harder to optimise) but
+  converting and eventually saving images is easier.
+  The current code is functional but needs to be
+  heavily optimised.
+- Made some minor optimisations to the data and cmd
+  functions in the ILI9325 driver.  Other functions
+  need to be optimised as well, but these two should
+  be close to optimal now.  Currently 25 cycles
+  compiled with -Os, 36 cycles with no optimisation.
+- Added 'projects/command/drawing/cmd_bmp.c' to load
+  24-bit Windows bitmap images from the SD card and
+  display them on the TFT LCD.
+- Added some schematics to '/tools/schematics' to
+  show the assumed pin configurations
+
+v0.60 - 8 December 2010
+=======================
+
+- Added a number of CLI commands for the TFT LCD
+  (see 'project/commands/drawing')
+- Modified FCLK_FAST() in 'drivers/fatfs/mmc.c' to set
+  the max speed to 6.0MHz for improved reliability.
+  Tested with a 4GB microSD card, 300KB/s can be read
+  using a 512 byte read buffer.
+- Modified Chibi to use 16-bit timer 0 for us delays
+  (more accurate)
+- Added a number of commands to
+  '/projects/commands/drawing' for basic TFT LCD
+  operations.  Removed 'lcd-test.c' and 'lcd-fill.c'.
+- Added a flag to projectconfig.h to make FATFS read-only
+  (to save a couple KB when space is tight).
+- Moved 'project/eeprom.*' to 'drivers/eeprom' to add a
+  level of abstraction to eeprom access throughout the code
+- Added a table to projectconfig.h to manage eeprom
+  addresses. First 256 byte of eeprom should be reserved
+  for this.
+- Added 'drivers/lcd/tft/colors.h' to keep all common
+  16-bit RGB565 color definitions in one location
+- Added some sample images to 'tools/imgconv' that can
+  be used to render a basic clock on a TFT LCD screen
+  (using drawImageFromFile in 'drivers/lcd/tft/drawing.c')
+- Modified the makefile to automatically run './lpcrc' 
+  post-build
+- Added drawButton() to 'drivers/lcd/tft/drawing.c'
+- Updated 'drivers/lcd/tft/touchscreen.c' to do basic
+  debouncing.  tsReadZ() was added to detect pressure on
+  the touch screen, and tsWaitForEvent() will only exit
+  when the pressure passes a minimum threshold.  (Thanks
+  to Limor for pointing out some code by Rossum for this.)
+- Fixed some off-by-one pixel errors in cmd-test and
+  elsewhere
+
+v0.51 - 27 November 2010
+========================
+
+- Added simple RSA encryption/decryption driver.  Currently limited to
+  using 64-bit and 32-bit numbers in key pairs, which isn't terribly secure,
+  but allows much smaller code size than if huge number support was included.
+- Added a driver for the MCP4725 I2C DAC (see "drivers/dac/mcp4725").
+- Moved 'rom_drivers.h' from 'core/usbhid-rom' to 'core' since it can be used
+  for usbmsd-rom as well if it is implemented at a later date.
+- ili9325ReadData() added to ili9325.c by Adafruit Industries (thanks!)
+- Modified FCLK_FAST() in 'drivers/fatfs/mmc.c' to set fast SPI speed
+  to 18MHz instead of the previous 4MHz.  This allows for slightly faster
+  rendering of bitmap images from SD cards, amongst other things.
+- Fixed ILI9325 driver to use 0,0 based pixels and not 1x1, meaning the
+  pixel co-ordinates are 0..239 for X and 0..319 for Y.  There may still be
+  some off-by-one pixel issues that need to be further tested.
+
+v0.50 - 26 October 2010
+=======================
+
+- Moved command.c and cmd_tbl.h to /project to try to keep all 
+  project-specific files in one location to improve code-sharing and make
+  upgrading easier
+- Created seperate .c files for every command for the command-line interface
+  to make it easier to maintain and share code between projects.  All commands
+  listed in cmd_tbl.h are now stored in their own files in /project/commands 
+  (ex.: "/project/commands/cmd_hello.c", etc.)
+- Added a CLI command to demonstrate how to draw to the ILI9325 TFT LCD
+- Added a CLI command to show the contents of any directory from the SD card 
+  (/project/commmands/cmd_sd_dir.c)
+- Added a CLI command showing how to enter deep-sleep and exit with a SW
+  wakeup (/project/commands/cmd_deepsleep.c).  Please note that the wakeup
+  will not work if you are using USB for the CLI.  To see the wakeup message,
+  you must use UART for the CLI, which is selected by uncommenting
+  CFG_PRINTF_UART in projectconfig.h
+- Fixed pmu.c to set the core clock back to an appropriate state after wakeup
+- Added simple wrapper for eeprom access (projects/eeprom.c)
+- Reorganised drivers/lcd to take into account non TFT LCD displays.
+- Added a preliminary (experimental) driver for 128x64 pixel ST7565-based
+  bitmap LCDs (ex: Adafruit Industries - http://bit.ly/9xj5vw) ... based on a
+  driver from Limor Fried at Adafruit
+- Numerous bug fixes added by Roel Verdult (Linux compatibility, GCC warnings, etc.)
+- Added stub files for PN532 driver (/drivers/nfc/pn532), and added CFG_PN532 to
+  projectconfig.h as an option
+- Added a simple pwm example using 16-bit timer 1 and p1.9 (MAT0) for the output.  PWM can be used
+  to drive stepper motors, or to dim LEDs by adjusting the duty-cycle, etc.  The example can be
+  found in "/core/pwm"
+- Added a bi-polar stepper motor driver based on the Arduino library.  Basic position data was added
+  to detece deviation from the 'Home' position and to retrieve the spindle's current angle.  See
+  "drivers/motor/stepper" for more information.
+- Added test firmware for the UART and USBCDC CLI (tools/testfirmware)
+- Added a table to projectconfig.h to try to keep track of pin and peripherals
+  usage by drivers and the included SW examples.
+- Reorganised some pins used by drivers to avoid pin conflicts.
+- Modified core/timer16/timer16.c to allow PWM output to be stopped after a
+  certain number of pulses have been sent out.
+
+  KNOWN ISSUES
+  
+- The SPI code needs to be modified to allow several SPI devices to be safely
+  connected on the same bus.  At present, this has not been tested since the
+  SSP/SPI blocks are used exclusively in the current drivers. 
+  

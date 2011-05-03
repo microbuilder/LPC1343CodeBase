@@ -1,0 +1,1 @@
+Causes the LED to blink once per second
