@@ -19,6 +19,15 @@
   <ProjectSessionItem path="LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;core" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;core;cmd" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;lcd" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;lcd;tft" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;lcd;tft;hw" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;project" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;project;commands" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;project;commands;drawing" name="unnamed" />
  </Project>
  <Register1>
   <RegisterWindow openNodes="GPIO2;SSP0/SSP0CR0;SSP0/SSP0CR1;SSP0/SSP0CPSR;SYSCON" binaryNodes="GPIO1/GPIO1DATA;GPIO2/GPIO2DATA;GPIO2/GPIO2DIR;GPIO3/GPIO3DATA" hiddenNodes="" unsignedNodes="" visibleGroups="GPIO2;SSP0;GPIO1;CPU;GPIO3;SCB;SYSCON" decimalNodes="" octalNodes="" asciiNodes="" />
@@ -38,10 +47,10 @@
  </TraceWindow>
  <Watch1>
   <Watches active="1" update="Each Second" >
-   <Watchpoint linenumber="66" radix="10" name="msTicks" expression="msTicks" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/core/systick/systick.c" />
-   <Watchpoint linenumber="138" radix="16" name="timer32_0_counter" expression="timer32_0_counter" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/core/timer32/timer32.c" />
-   <Watchpoint linenumber="155" radix="-1" name="xTickCount" expression="xTickCount" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/freertos/tasks.c" />
    <Watchpoint linenumber="155" radix="16" name="Tick" expression="Tick" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/freertos/tasks.c" />
+   <Watchpoint linenumber="155" radix="-1" name="xTickCount" expression="xTickCount" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/freertos/tasks.c" />
+   <Watchpoint linenumber="138" radix="16" name="timer32_0_counter" expression="timer32_0_counter" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/core/timer32/timer32.c" />
+   <Watchpoint linenumber="66" radix="10" name="msTicks" expression="msTicks" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/core/systick/systick.c" />
   </Watches>
  </Watch1>
  <Watch2>
@@ -54,8 +63,8 @@
   <Watches active="0" update="Never" />
  </Watch4>
  <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="71" debugPath="C:\Users\Kevin\Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase\main.c" y="17" path="C:\Users\Kevin\Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase\main.c" left="0" selected="1" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Users\Kevin\Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase\projectconfig.h" y="281" path="C:\Users\Kevin\Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase\projectconfig.h" left="0" selected="0" name="unnamed" top="247" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Users\Kevin\Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" y="0" path="C:\Users\Kevin\Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" left="0" selected="1" name="unnamed" top="84" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="45" debugPath="C:\Users\Kevin\Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\projectconfig.h" y="433" path="C:\Users\Kevin\Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\projectconfig.h" left="0" selected="0" name="unnamed" top="421" />
  </Files>
  <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="Segger J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Users\Kevin\Documents\My Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase\drivers\lcd" fileDialogDefaultFilter="*.c" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Release" />
 </session>

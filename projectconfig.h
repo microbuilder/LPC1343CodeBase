@@ -48,8 +48,9 @@
     are using by enabling one of the following definitions. The code base
     will then try to configure itself accordingly for that board.
     -----------------------------------------------------------------------*/
-    // #define CFG_BRD_LPC1343_REFDESIGN
-    #define CFG_BRD_LPC1343_TFTLCDSTANDALONE
+    #define CFG_BRD_LPC1343_REFDESIGN
+    // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
+    // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
     // #define CFG_BRD_LPC1343_802154USBSTICK
 /*=========================================================================*/
 
@@ -120,17 +121,7 @@
                     other peripherals to determine timing.
 
     -----------------------------------------------------------------------*/
-    #ifdef CFG_BRD_LPC1343_REFDESIGN
-      #define CFG_CPU_CCLK                (72000000)  // 1 tick = 13.88nS
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
-      #define CFG_CPU_CCLK                (72000000)  // 1 tick = 13.88nS
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_802154USBSTICK
-      #define CFG_CPU_CCLK                (72000000)  // 1 tick = 13.88nS
-    #endif
+    #define CFG_CPU_CCLK                (72000000)  // 1 tick = 13.88nS
 /*=========================================================================*/
 
 
@@ -142,17 +133,7 @@
                               of the systick timer.
 
     -----------------------------------------------------------------------*/
-    #ifdef CFG_BRD_LPC1343_REFDESIGN
-      #define CFG_SYSTICK_DELAY_IN_MS     (1)
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
-      #define CFG_SYSTICK_DELAY_IN_MS     (1)
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_802154USBSTICK
-      #define CFG_SYSTICK_DELAY_IN_MS     (1)
-    #endif
+    #define CFG_SYSTICK_DELAY_IN_MS     (1)
 /*=========================================================================*/
 
 
@@ -175,8 +156,13 @@
       #define CFG_UART_BUFSIZE            (512)
     #endif
 
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
+    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
       #define CFG_UART_BAUDRATE           (115200)
+      #define CFG_UART_BUFSIZE            (512)
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
+      #define CFG_UART_BAUDRATE           (9600)
       #define CFG_UART_BUFSIZE            (512)
     #endif
 
@@ -200,7 +186,7 @@
       // #define CFG_SSP0_SCKPIN_0_6
     #endif
 
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
+    #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       #define CFG_SSP0_SCKPIN_2_11
       // #define CFG_SSP0_SCKPIN_0_6
     #endif
@@ -229,7 +215,7 @@
       #define CFG_LED_OFF                 (1)
     #endif
 
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
+    #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       #define CFG_LED_PORT                (2)
       #define CFG_LED_PIN                 (10)
       #define CFG_LED_ON                  (0)
@@ -276,7 +262,7 @@
       #define CFG_SDCARD_CDPIN            (0)
     #endif
 
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
+    #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       #define CFG_SDCARD
       #define CFG_SDCARD_READONLY         (1)   // Must be 0 or 1
       #define CFG_SDCARD_CDPORT           (3)
@@ -324,9 +310,17 @@
       #define CFG_USBCDC_BUFFERSIZE       (256)
     #endif
 
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
+    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
       // #define CFG_USBHID
       #define CFG_USBCDC
+      #define CFG_USBCDC_BAUDRATE         (115200)
+      #define CFG_USBCDC_INITTIMEOUT      (5000)
+      #define CFG_USBCDC_BUFFERSIZE       (256)
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
+      // #define CFG_USBHID
+      // #define CFG_USBCDC
       #define CFG_USBCDC_BAUDRATE         (115200)
       #define CFG_USBCDC_INITTIMEOUT      (5000)
       #define CFG_USBCDC_BUFFERSIZE       (256)
@@ -350,7 +344,7 @@
                               redirected to UART
     CFG_PRINTF_USBCDC         Will cause all printf statements to be
                               redirect to USB Serial
-    CFG_PRINTF_NEWLINE        This should be either "\r\n" for Windows or
+    CFG_PRINTF_NEWLINE        This is typically "\r\n" for Windows or
                               "\n" for *nix
 
     Note: If no printf redirection definitions are present, all printf
@@ -361,19 +355,25 @@
     #ifdef CFG_BRD_LPC1343_REFDESIGN
       // #define CFG_PRINTF_UART
       #define CFG_PRINTF_USBCDC
-      #define CFG_PRINTF_NEWLINE          "\r\n"
+      #define CFG_PRINTF_NEWLINE          "\n"
     #endif
 
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
+    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
       // #define CFG_PRINTF_UART
       #define CFG_PRINTF_USBCDC
-      #define CFG_PRINTF_NEWLINE          "\r\n"
+      #define CFG_PRINTF_NEWLINE          "\n"
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
+      #define CFG_PRINTF_UART
+      // #define CFG_PRINTF_USBCDC
+      #define CFG_PRINTF_NEWLINE          "\n"
     #endif
 
     #ifdef CFG_BRD_LPC1343_802154USBSTICK
       // #define CFG_PRINTF_UART
       #define CFG_PRINTF_USBCDC
-      #define CFG_PRINTF_NEWLINE          "\r\n"
+      #define CFG_PRINTF_NEWLINE          "\n"
     #endif
 /*=========================================================================*/
 
@@ -397,6 +397,8 @@
                               is normally only desirable in a situation
                               where another MCU is communicating with 
                               the LPC1343.
+    CFG_INTERFACE_DROPCR      If this is set to 1 all incoming \r
+                              characters will be dropped
     CFG_INTERFACE_ENABLEIRQ   If this is set to 1 the IRQ pin will be
                               set high when a command starts executing
                               and will go low when the command has
@@ -405,6 +407,17 @@
                               new command can safely be sent.
     CFG_INTERFACE_IRQPORT     The gpio port for the IRQ/busy pin
     CFG_INTERFACE_IRQPIN      The gpio pin number for the IRQ/busy pin
+    CFG_INTERFACE_SHORTERRORS If this is enabled only short 1 character
+                              error messages will be returned (followed
+                              by CFG_PRINTF_NEWLINE), rather than more
+                              verbose error messages.  The specific
+                              characters used are defined below.
+    CFG_INTERFACE_CONFIRMREADY  If this is set to 1 a text confirmation
+                              will be sent when the command prompt is
+                              ready for a new command.  This is in
+                              addition to CFG_INTERFACE_ENABLEIRQ if
+                              this is also enabled.  The character used
+                              is defined below.
 
     NOTE:                     The command-line interface will use either
                               USB-CDC or UART depending on whether
@@ -416,19 +429,46 @@
       #define CFG_INTERFACE_MAXMSGSIZE    (256)
       #define CFG_INTERFACE_PROMPT        "LPC1343 >> "
       #define CFG_INTERFACE_SILENTMODE    (0)
+      #define CFG_INTERFACE_DROPCR        (1)
       #define CFG_INTERFACE_ENABLEIRQ     (0)
       #define CFG_INTERFACE_IRQPORT       (2)
       #define CFG_INTERFACE_IRQPIN        (0)
+      #define CFG_INTERFACE_SHORTERRORS   (0)
+      #define CFG_INTERFACE_CONFIRMREADY  (0)
     #endif
 
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
+    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
       #define CFG_INTERFACE
       #define CFG_INTERFACE_MAXMSGSIZE    (256)
       #define CFG_INTERFACE_PROMPT        "LCD >> "
       #define CFG_INTERFACE_SILENTMODE    (0)
+      #define CFG_INTERFACE_DROPCR        (1)
+      #define CFG_INTERFACE_ENABLEIRQ     (0)
+      #define CFG_INTERFACE_IRQPORT       (2)
+      #define CFG_INTERFACE_IRQPIN        (0)
+      #define CFG_INTERFACE_SHORTERRORS   (0)
+      #define CFG_INTERFACE_CONFIRMREADY  (0)
+      #define CFG_INTERFACE_SHORTERRORS_UNKNOWNCOMMAND    "?"
+      #define CFG_INTERFACE_SHORTERRORS_TOOMANYARGS       ">"
+      #define CFG_INTERFACE_SHORTERRORS_TOOFEWARGS        "<"
+      #define CFG_INTERFACE_CONFIRMREADY_TEXT             "."
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
+      #define CFG_INTERFACE
+      #define CFG_INTERFACE_MAXMSGSIZE    (256)
+      #define CFG_INTERFACE_PROMPT        "LCD >> "
+      #define CFG_INTERFACE_SILENTMODE    (1)
+      #define CFG_INTERFACE_DROPCR        (1)
       #define CFG_INTERFACE_ENABLEIRQ     (1)
       #define CFG_INTERFACE_IRQPORT       (2)
       #define CFG_INTERFACE_IRQPIN        (0)
+      #define CFG_INTERFACE_SHORTERRORS   (1)
+      #define CFG_INTERFACE_CONFIRMREADY  (1)
+      #define CFG_INTERFACE_SHORTERRORS_UNKNOWNCOMMAND    "?"
+      #define CFG_INTERFACE_SHORTERRORS_TOOMANYARGS       ">"
+      #define CFG_INTERFACE_SHORTERRORS_TOOFEWARGS        "<"
+      #define CFG_INTERFACE_CONFIRMREADY_TEXT             "."
     #endif
 
     #ifdef CFG_BRD_LPC1343_802154USBSTICK
@@ -436,9 +476,12 @@
       #define CFG_INTERFACE_MAXMSGSIZE    (256)
       #define CFG_INTERFACE_PROMPT        "CMD >> "
       #define CFG_INTERFACE_SILENTMODE    (0)
+      #define CFG_INTERFACE_DROPCR        (1)
       #define CFG_INTERFACE_ENABLEIRQ     (0)
       #define CFG_INTERFACE_IRQPORT       (2)
       #define CFG_INTERFACE_IRQPIN        (0)
+      #define CFG_INTERFACE_SHORTERRORS   (0)
+      #define CFG_INTERFACE_CONFIRMREADY  (0)
     #endif
 /*=========================================================================*/
 
@@ -461,23 +504,9 @@
     DEPENDENCIES:               PWM output requires the use of 16-bit
                                 timer 1 and pin 1.9 (CT16B1_MAT0).
     -----------------------------------------------------------------------*/
-    #ifdef CFG_BRD_LPC1343_REFDESIGN
-      // #define CFG_PWM
-      #define CFG_PWM_DEFAULT_PULSEWIDTH  (CFG_CPU_CCLK / 1000)
-      #define CFG_PWM_DEFAULT_DUTYCYCLE   (50)
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
-      // #define CFG_PWM
-      #define CFG_PWM_DEFAULT_PULSEWIDTH  (CFG_CPU_CCLK / 1000)
-      #define CFG_PWM_DEFAULT_DUTYCYCLE   (50)
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_802154USBSTICK
-      // #define CFG_PWM
-      #define CFG_PWM_DEFAULT_PULSEWIDTH  (CFG_CPU_CCLK / 1000)
-      #define CFG_PWM_DEFAULT_DUTYCYCLE   (50)
-    #endif
+    // #define CFG_PWM
+    #define CFG_PWM_DEFAULT_PULSEWIDTH  (CFG_CPU_CCLK / 1000)
+    #define CFG_PWM_DEFAULT_DUTYCYCLE   (50)
 /*=========================================================================*/
 
 
@@ -492,17 +521,7 @@
     DEPENDENCIES:               STEPPER requires the use of pins 3.0-3 and
                                 32-bit Timer 0.
     -----------------------------------------------------------------------*/
-    #ifdef CFG_BRD_LPC1343_REFDESIGN
-      // #define CFG_STEPPER
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
-      // #define CFG_STEPPER
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_802154USBSTICK
-      // #define CFG_STEPPER
-    #endif
+    // #define CFG_STEPPER
 /*=========================================================================*/
 
 
@@ -520,9 +539,9 @@
       #define CFG_I2CEEPROM_SIZE          (3072)
     #endif
 
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
+    #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       #define CFG_I2CEEPROM
-      #define CFG_I2CEEPROM_SIZE          (3072)
+      #define CFG_I2CEEPROM_SIZE          (4096)
     #endif
 
     #ifdef CFG_BRD_LPC1343_802154USBSTICK
@@ -589,17 +608,7 @@
                               build (requires external HW)
 
     -----------------------------------------------------------------------*/
-    #ifdef CFG_BRD_LPC1343_REFDESIGN
-      // #define CFG_LM75B
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
-      // #define CFG_LM75B
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_802154USBSTICK
-      // #define CFG_LM75B
-    #endif
+    // #define CFG_LM75B
 /*=========================================================================*/
 
 
@@ -639,7 +648,7 @@
       #define CFG_CHIBI_BUFFERSIZE        (128)
     #endif
 
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
+    #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       // #define CFG_CHIBI
       #define CFG_CHIBI_MODE              (0)                 // OQPSK_868MHZ
       #define CFG_CHIBI_POWER             (0xE9)              // CHB_PWR_EU2_3DBM
@@ -701,7 +710,7 @@
       #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
     #endif
 
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
+    #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       #define CFG_TFTLCD
       #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
@@ -733,20 +742,8 @@
     DEPENDENCIES:             ST7565 requires the use of pins 2.1-6.
     DEPENDENCIES:             SSD1306 requires the use of pins 2.1-6.
     -----------------------------------------------------------------------*/
-    #ifdef CFG_BRD_LPC1343_REFDESIGN
-      // #define CFG_ST7565
-      // #define CFG_SSD1306
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
-      // #define CFG_ST7565
-      // #define CFG_SSD1306
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_802154USBSTICK
-      // #define CFG_ST7565
-      // #define CFG_SSD1306
-    #endif
+    // #define CFG_ST7565
+    // #define CFG_SSD1306
 /*=========================================================================*/
 
 
@@ -767,20 +764,8 @@
     NOTE:                       Please note that Printf can not be
                                 used to display 64-bit values (%lld)!
     -----------------------------------------------------------------------*/
-    #ifdef CFG_BRD_LPC1343_REFDESIGN
-      // #define CFG_RSA
-      #define CFG_RSA_BITS                  (32)
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE
-      // #define CFG_RSA
-      #define CFG_RSA_BITS                  (32)
-    #endif
-
-    #ifdef CFG_BRD_LPC1343_802154USBSTICK
-      // #define CFG_RSA
-      #define CFG_RSA_BITS                  (32)
-    #endif
+    // #define CFG_RSA
+    #define CFG_RSA_BITS                  (32)
 /*=========================================================================*/
 
 
@@ -794,11 +779,8 @@
 
   =========================================================================*/
 
-#if !defined CFG_BRD_LPC1343_REFDESIGN && !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE && !defined CFG_BRD_LPC1343_802154USBSTICK
-  #error "You must defined a target board (CFG_BRD_LPC1343_REFDESIGN or CFG_BRD_LPC1343_TFTLCDSTANDALONE or CFG_BRD_LPC1343_802154USBSTICK)"
-#endif
-#if (defined CFG_BRD_LPC1343_REFDESIGN && defined CFG_BRD_LPC1343_TFTLCDSTANDALONE) || (defined CFG_BRD_LPC1343_TFTLCDSTANDALONE && defined CFG_BRD_LPC1343_802154USBSTICK) || (defined CFG_BRD_LPC1343_REFDESIGN && defined CFG_BRD_LPC1343_802154USBSTICK)
-  #error "Only one target board can be defined at a time"
+#if !defined CFG_BRD_LPC1343_REFDESIGN && !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB && !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART && !defined CFG_BRD_LPC1343_802154USBSTICK
+  #error "You must defined a target board (CFG_BRD_LPC1343_REFDESIGN or CFG_BRD_LPC1343_TFTLCDSTANDALONE or CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART or CFG_BRD_LPC1343_802154USBSTICK)"
 #endif
 
 #if defined CFG_PRINTF_USBCDC && defined CFG_PRINTF_UART

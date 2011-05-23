@@ -1,6 +1,18 @@
 v0.9.2 - Ongoing
 ================
 
+- Added CFG_INTERFACE_DROPCR to projectconfig.h to
+  ignore CR (\r) characters in incoming data for
+  the CLI
+- Added CFG_INTERFACE_SHORTERRORS to projectconfig.h
+  to only send short (1 char + new line) CLI error
+  messages rather than something verbose 
+- Added CFG_INTERFACE_CONFIRMREADY to projectconfig.h
+  to provide a character to indicate when a command
+  is complete in case the IRQ pin
+  (CFG_INTERFACE_ENABLEIRQ) can't be used
+- Fixed a bug with reversed R and B bits when reading
+  a pixel from the LCD in CLI mode
 - Added lcdDrawPixels() to lcd.h and the current lcd
   drivers to render rows of raw lcd data much quicker
   than addressing consecutive pixels individually.

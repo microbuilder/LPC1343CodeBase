@@ -83,7 +83,8 @@ void cmd_getpixel(uint8_t argc, char **argv)
   getNumber (argv[0], &x);
   getNumber (argv[1], &y);
 
-  uint16_t value = lcdGetPixel(x, y);
+  // Get pixel and switch R and B
+  uint16_t value = drawBGR2RGB(lcdGetPixel(x, y));
 
   // Output the results
   printf("%d%s", value, CFG_PRINTF_NEWLINE);

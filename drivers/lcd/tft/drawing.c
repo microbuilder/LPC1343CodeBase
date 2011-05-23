@@ -970,7 +970,7 @@ uint16_t drawBGR2RGB(uint16_t color)
   r = (color>>11) & 0x1f;   
      
   return( (b<<11) + (g<<5) + (r<<0) );
-}  
+}
 
 /**************************************************************************/
 /*!
@@ -1131,7 +1131,6 @@ void drawButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const F
 void drawIcon16(uint16_t x, uint16_t y, uint16_t color, uint16_t icon[])
 {
   int i;
-  uint16_t row;
   for (i = 0; i<16; i++)
   {
     if (icon[i] & (0X8000)) drawPixel(x, y+i, color);

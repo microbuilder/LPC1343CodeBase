@@ -121,6 +121,9 @@ void cmdRx(uint8_t c)
   switch (c)
   {
     case '\r':
+      #if CFG_INTERFACE_DROPCR == 1
+      break;
+      #endif
     case '\n':
         // terminate the msg and reset the msg ptr. then send
         // it to the handler for processing.
@@ -163,6 +166,9 @@ static void cmdMenu()
   printf(CFG_PRINTF_NEWLINE);
   printf(CFG_INTERFACE_PROMPT);
   #endif
+  #if CFG_INTERFACE_CONFIRMREADY == 1
+  printf("%s%s", CFG_INTERFACE_CONFIRMREADY_TEXT, CFG_PRINTF_NEWLINE);
+  #endif
 }
 
 /**************************************************************************/
@@ -201,14 +207,22 @@ void cmdParse(char *cmd)
         else if ((argc - 1) < cmd_tbl[i].minArgs)
         {
           // Too few arguments supplied
+          #if CFG_INTERFACE_SHORTERRORS == 1
+          printf ("%s%s", CFG_INTERFACE_SHORTERRORS_TOOFEWARGS, CFG_PRINTF_NEWLINE);
+          #else
           printf ("Too few arguments (%d expected)%s", cmd_tbl[i].minArgs, CFG_PRINTF_NEWLINE);
           printf ("%sType '%s ?' for more information%s%s", CFG_PRINTF_NEWLINE, cmd_tbl[i].command, CFG_PRINTF_NEWLINE, CFG_PRINTF_NEWLINE);
+          #endif
         }
         else if ((argc - 1) > cmd_tbl[i].maxArgs)
         {
           // Too many arguments supplied
+          #if CFG_INTERFACE_SHORTERRORS == 1
+          printf ("%s%s", CFG_INTERFACE_SHORTERRORS_TOOMANYARGS, CFG_PRINTF_NEWLINE);
+          #else
           printf ("Too many arguments (%d maximum)%s", cmd_tbl[i].maxArgs, CFG_PRINTF_NEWLINE);
           printf ("%sType '%s ?' for more information%s%s", CFG_PRINTF_NEWLINE, cmd_tbl[i].command, CFG_PRINTF_NEWLINE, CFG_PRINTF_NEWLINE);
+          #endif
         }
         else
         {
@@ -229,9 +243,14 @@ void cmdParse(char *cmd)
         return;
       }
   }
+  // Command not recognized
+  #if CFG_INTERFACE_SHORTERRORS == 1
+  printf ("%s%s", CFG_INTERFACE_SHORTERRORS_UNKNOWNCOMMAND, CFG_PRINTF_NEWLINE);
+  #else
   printf("Command not recognized: '%s'%s%s", cmd, CFG_PRINTF_NEWLINE, CFG_PRINTF_NEWLINE);
   #if CFG_INTERFACE_SILENTMODE == 0
   printf("Type '?' for a list of all available commands%s", CFG_PRINTF_NEWLINE);
+  #endif
   #endif
 
   cmdMenu();
