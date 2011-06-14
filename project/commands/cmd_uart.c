@@ -78,9 +78,18 @@ void cmd_uart(uint8_t argc, char **argv)
     // Display the current baud rate
     #ifdef CFG_PRINTF_UART
       uart_pcb_t *pcb = uartGetPCB();
-      printf("%d%s", pcb->baudrate, CFG_PRINTF_NEWLINE);
+      printf("%u%s", (unsigned int)(pcb->baudrate), CFG_PRINTF_NEWLINE);
     #else
-      printf("UART not initialised (using USBCDC)%s", CFG_PRINTF_NEWLINE);
+      // Try to get UART from EEPROM
+      uint32_t uartEEPROM = eepromReadU32(CFG_EEPROM_UART_SPEED);
+      if ((uartEEPROM < 9600) || (uartEEPROM > 115200))
+      {
+        printf("UART not set in EEPROM%s", CFG_PRINTF_NEWLINE);
+      }
+      else
+      {
+        printf("%u%s", uartEEPROM, CFG_PRINTF_NEWLINE);
+      }
     #endif
   }
 }

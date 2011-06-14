@@ -50,11 +50,13 @@ void cmd_help(uint8_t argc, char **argv);         // handled by core/cmd/cmd.c
 void cmd_sysinfo(uint8_t argc, char **argv);
 
 #ifdef CFG_TFTLCD
+void cmd_backlight(uint8_t argc, char **argv);
 void cmd_button(uint8_t argc, char **argv);
 void cmd_circle(uint8_t argc, char **argv);
 void cmd_clear(uint8_t argc, char **argv);
 void cmd_line(uint8_t argc, char **argv);
 void cmd_rectangle(uint8_t argc, char **argv);
+void cmd_rectangleround(uint8_t argc, char **argv);
 void cmd_pixel(uint8_t argc, char **argv);
 void cmd_progress(uint8_t argc, char **argv);
 void cmd_getpixel(uint8_t argc, char **argv);
@@ -120,12 +122,14 @@ cmd_t cmd_tbl[] =
   { "c",    4,  6,  0, cmd_circle            , "Circle"                         , "'c <x> <y> <radius> <color> [<filled[0|1]> <bcolor>]'" },
   { "C",    0,  0,  0, cmd_calibrate         , "Calibrate Touch Screen"         , CMD_NOPARAMS },
   { "F",    0,  1,  0, cmd_clear             , "Fill"                           , "'F [<color>]'" },
+  { "g",    2,  2,  0, cmd_getpixel          , "Get Pixel"                      , "'g <x> <y>'" },
   { "l",    5,  7,  0, cmd_line              , "Line"                           , "'l <x1> <y1> <x2> <y2> <color> [<empty> <solid>]'" },
+  { "L",    1,  1,  0, cmd_backlight         , "Backlight"                      , "'L <0|1>'" },
   { "o",    0,  1,  0, cmd_orientation       , "LCD Orientation"                , "'o [<0|1>]'" },
   { "p",    3,  3,  0, cmd_pixel             , "Draw Pixel"                     , "'p <x> <y> <color>'" },
   { "P",    9,  9,  0, cmd_progress          , "Progress Bar"                   , "'P <x> <y> <w> <h> <%> <bclr> <bfillclr> <pbrdclr> <pfillclr>'" },
   { "r",    5,  7,  0, cmd_rectangle         , "Rectangle"                      , "'r <x1> <y1> <x2> <y2> <color> [<filled[0|1]> <bcolor>]'" },
-  { "R",    2,  2,  0, cmd_getpixel          , "Read Pixel"                     , "'R <x> <y>'" },
+  { "R",    7,  7,  0, cmd_rectangleround    , "Rounded Rectangle"              , "'R <x1> <y1> <x2> <y2> <color> <radius> <corners>'" },
   { "s",    2, 99,  0, cmd_textw             , "Text Width"                     , "'s <font#> <msg>'" },
   { "t",    5, 99,  0, cmd_text              , "Text"                           , "'t <x> <y> <color> <font#> <msg>'" },
   { "T",    0,  0,  0, cmd_gettext           , "Text Dialogue"                  , CMD_NOPARAMS },

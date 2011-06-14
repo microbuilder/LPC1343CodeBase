@@ -48,6 +48,12 @@
   #include "drivers/lcd/tft/drawing.h"  
   #include "drivers/lcd/tft/fonts/dejavusans9.h"
 
+  // Only include this w/UART since there isn't enough space otherwise!
+  #ifdef CFG_PRINTF_UART
+  #include "drivers/lcd/tft/fonts/dejavusansmono8.h"
+  #include "drivers/lcd/tft/fonts/dejavusansbold9.h"
+  #endif
+
 /**************************************************************************/
 /*! 
     Returns the width of the supplied text in pixels.
@@ -73,8 +79,25 @@ void cmd_textw(uint8_t argc, char **argv)
   }
   *data_ptr++ = '\0';
 
-  // User Vera Mono 9 by default for now
-  printf("%d %s", drawGetStringWidth(&dejaVuSans9ptFontInfo, data), CFG_PRINTF_NEWLINE);
+  // Only include this w/UART since there isn't enough space otherwise!
+  #ifdef CFG_PRINTF_UART
+    switch (font)
+    {
+      case 1:   // DejaVu Sans Mono 8
+        printf("%d %s", drawGetStringWidth(&dejaVuSansMono8ptFontInfo, data), CFG_PRINTF_NEWLINE);
+        break;
+      case 2:   // DejaVu Sans Bold 9
+        printf("%d %s", drawGetStringWidth(&dejaVuSansBold9ptFontInfo, data), CFG_PRINTF_NEWLINE);
+        break;
+      default:  // DejaVu Sans 9        
+        printf("%d %s", drawGetStringWidth(&dejaVuSans9ptFontInfo, data), CFG_PRINTF_NEWLINE);
+        break;
+    }
+  #else
+    // Always use DejaVu Sans 9 by default
+    printf("%d %s", drawGetStringWidth(&dejaVuSans9ptFontInfo, data), CFG_PRINTF_NEWLINE);
+  #endif
+
 
   return;
 }

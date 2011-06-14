@@ -80,12 +80,12 @@ void cmd_tswait(uint8_t argc, char **argv)
   if (error == TS_ERROR_NONE)
   {
     // A valid touch event occurred ... parse data
-    printf("%d, %d%s",(int)data.xlcd, (int)data.ylcd, CFG_PRINTF_NEWLINE);
+    printf("%d,%d%s",(int)data.xlcd, (int)data.ylcd, CFG_PRINTF_NEWLINE);
   }
   else
   {
     // Display error code
-    printf("%d %s", (int)error, CFG_PRINTF_NEWLINE);
+    printf("%d%s", (int)error, CFG_PRINTF_NEWLINE);
   }
 
   return;

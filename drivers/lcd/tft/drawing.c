@@ -1073,16 +1073,6 @@ void drawProgressBar ( uint16_t x, uint16_t y, uint16_t width, uint16_t height, 
 /**************************************************************************/
 void drawButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const FONT_INFO *fontInfo, uint16_t fontHeight, uint16_t borderclr, uint16_t fillclr, uint16_t fontclr, char* text)
 {
-  uint16_t border, fill, font, activeborder, activefill, activefont;
-
-  // Set colors
-  border            = COLOR_GRAY_30;
-  fill              = COLOR_GRAY_30;
-  font              = COLOR_WHITE;
-  activeborder      = COLOR_THEME_DEFAULT_DARKER;
-  activefill        = COLOR_THEME_DEFAULT_BASE;
-  activefont        = COLOR_BLACK;
-
   // Border
   drawRectangleRounded(x, y, x + width, y + height, borderclr, 5, DRAW_ROUNDEDCORNERS_ALL);
   // Fill

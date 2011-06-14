@@ -79,6 +79,7 @@
 #define SSD1306_COMSCANDEC                0xC8
 #define SSD1306_SEGREMAP                  0xA0
 #define SSD1306_CHARGEPUMP                0x8D
+#define SSD1306_INTERNALVCC               0x1
 #define SSD1306_EXTERNALVCC               0x1
 #define SSD1306_SWITCHCAPVCC              0x2
 

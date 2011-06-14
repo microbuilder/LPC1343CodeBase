@@ -469,16 +469,21 @@ void lcdDrawHLine(uint16_t x0, uint16_t x1, uint16_t y, uint16_t color)
 /**************************************************************************/
 void lcdDrawVLine(uint16_t x, uint16_t y0, uint16_t y1, uint16_t color)
 {
-  lcdOrientation_t orientation = lcdOrientation;
+  lcdOrientation_t oldOrientation = lcdOrientation;
 
-  // Switch orientation
-  lcdSetOrientation(orientation == LCD_ORIENTATION_PORTRAIT ? LCD_ORIENTATION_LANDSCAPE : LCD_ORIENTATION_PORTRAIT);
-
-  // Draw horizontal line like usual
-  lcdDrawHLine(y0, y1, lcdGetHeight() - (x + 1), color);
+  if (oldOrientation == LCD_ORIENTATION_PORTRAIT)
+  {
+    lcdSetOrientation(LCD_ORIENTATION_LANDSCAPE);
+    lcdDrawHLine(y0, y1, lcdGetHeight() - (x + 1), color);
+  }
+  else
+  {
+    lcdSetOrientation(LCD_ORIENTATION_PORTRAIT);
+    lcdDrawHLine(lcdGetWidth() - (y0 + 1), lcdGetWidth() - (y1 + 1), x, color);
+  }
 
   // Switch orientation back
-  lcdSetOrientation(orientation);
+  lcdSetOrientation(oldOrientation);
 }
 
 /**************************************************************************/
@@ -488,11 +493,10 @@ void lcdDrawVLine(uint16_t x, uint16_t y0, uint16_t y1, uint16_t color)
 /**************************************************************************/
 uint16_t lcdGetPixel(uint16_t x, uint16_t y)
 {
-  uint16_t preFetch = 0;
-
   ili9328SetCursor(x, y);
   ili9328WriteCmd(ILI9328_COMMANDS_WRITEDATATOGRAM);
-  preFetch = ili9328ReadData();
+  // prefetch
+  ili9328ReadData();
 
   // Eeek ... why does this need to be done twice for a proper value?!?
   ili9328SetCursor(x, y);

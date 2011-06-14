@@ -26,7 +26,7 @@ VPATH += project/commands
 OBJS += cmd_chibi_addr.o cmd_chibi_tx.o cmd_uart.o
 OBJS += cmd_i2ceeprom_read.o cmd_i2ceeprom_write.o cmd_lm75b_gettemp.o
 OBJS += cmd_sysinfo.o cmd_sd_dir.o cmd_tswait.o cmd_orientation.o
-OBJS += cmd_tsthreshhold.o
+OBJS += cmd_tsthreshhold.o cmd_backlight.o
 
 VPATH += project/commands/drawing
 OBJS += cmd_button.o cmd_circle.o cmd_clear.o cmd_line.o cmd_pixel.o
@@ -48,6 +48,10 @@ OBJS += eeprom.o mcp24aa.o
 # LM75B temperature sensor
 VPATH += drivers/sensors/lm75b
 OBJS += lm75b.o
+
+# ISL12022M RTC
+VPATH += drivers/rtc/isl12022m
+OBJS += isl12022m.o
 
 # TFT LCD support
 VPATH += drivers/lcd/tft drivers/lcd/tft/hw drivers/lcd/tft/fonts

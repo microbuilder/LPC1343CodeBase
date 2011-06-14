@@ -311,7 +311,7 @@ void ssd1306Refresh(void)
     #include "drivers/lcd/smallfonts.h"
     
     // Configure the pins and initialise the LCD screen
-    ssd1306Init();
+    ssd1306Init(SSD1306_INTERNALVCC);
 
     // Render some text on the screen
     ssd1306DrawString(1, 10, "5x8 System", Font_System5x8);

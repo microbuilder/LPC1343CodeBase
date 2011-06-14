@@ -178,7 +178,7 @@ U16 chb_reg_read16(U8 addr)
 /**************************************************************************/
 void chb_reg_write(U8 addr, U8 val)
 {
-    U8 dummy; 
+    // U8 dummy; 
 
     /* Add the Register Write command to the address. */
     addr |= 0xC0;
@@ -187,8 +187,10 @@ void chb_reg_write(U8 addr, U8 val)
     CHB_SPI_ENABLE();
 
     /*Send Register address and write register content.*/
-    dummy = chb_xfer_byte(addr);
-    dummy = chb_xfer_byte(val);
+    // dummy = chb_xfer_byte(addr);
+    // dummy = chb_xfer_byte(val);
+    chb_xfer_byte(addr);
+    chb_xfer_byte(val);
 
     CHB_SPI_DISABLE();
     CHB_LEAVE_CRIT();
@@ -247,7 +249,8 @@ void chb_reg_read_mod_write(U8 addr, U8 val, U8 mask)
 /**************************************************************************/
 void chb_frame_write(U8 *hdr, U8 hdr_len, U8 *data, U8 data_len)
 {
-    U8 i, dummy;
+    //U8 i, dummy;
+    U8 i;
 
     // dont allow transmission longer than max frame size
     if ((hdr_len + data_len) > 127)
@@ -260,18 +263,21 @@ void chb_frame_write(U8 *hdr, U8 hdr_len, U8 *data, U8 data_len)
     CHB_SPI_ENABLE(); 
 
     // send fifo write command
-    dummy = chb_xfer_byte(CHB_SPI_CMD_FW);
+    // dummy = chb_xfer_byte(CHB_SPI_CMD_FW);
+    chb_xfer_byte(CHB_SPI_CMD_FW);
 
     // write hdr contents to fifo
     for (i=0; i<hdr_len; i++)
     {
-        dummy = chb_xfer_byte(*hdr++);
+        // dummy = chb_xfer_byte(*hdr++);
+        chb_xfer_byte(*hdr++);
     }
 
     // write data contents to fifo
     for (i=0; i<data_len; i++)
     {
-        dummy = chb_xfer_byte(*data++);
+        // dummy = chb_xfer_byte(*data++);
+        chb_xfer_byte(*data++);
     }
 
     // terminate spi transaction
@@ -842,7 +848,8 @@ void chb_sleep(U8 enb)
 /**************************************************************************/
 void chb_ISR_Handler (void)
 {
-    U8 dummy, state, intp_src = 0;
+    // U8 dummy, state, intp_src = 0;
+    U8 state, intp_src = 0;
     chb_pcb_t *pcb = chb_get_pcb();
 
     CHB_ENTER_CRIT();
@@ -851,7 +858,8 @@ void chb_ISR_Handler (void)
     CHB_SPI_ENABLE();   
 
     /*Send Register address and read register content.*/
-    dummy = chb_xfer_byte(IRQ_STATUS | CHB_SPI_CMD_RR);
+    // dummy = chb_xfer_byte(IRQ_STATUS | CHB_SPI_CMD_RR);
+    chb_xfer_byte(IRQ_STATUS | CHB_SPI_CMD_RR);
     intp_src = chb_xfer_byte(0);
 
     CHB_SPI_DISABLE();

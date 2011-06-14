@@ -104,7 +104,8 @@ static U8 chb_gen_hdr(U8 *hdr, U16 addr, U8 len)
 /**************************************************************************/
 U8 chb_write(U16 addr, U8 *data, U8 len)
 {
-    U8 status, frm_len, hdr_len, hdr[CHB_HDR_SZ + 1];
+    // U8 status, frm_len, hdr_len, hdr[CHB_HDR_SZ + 1];
+    U8 status, frm_len, hdr[CHB_HDR_SZ + 1];
     
     while (len > 0)
     {
@@ -113,7 +114,8 @@ U8 chb_write(U16 addr, U8 *data, U8 len)
         frm_len = (len > CHB_MAX_PAYLOAD) ? CHB_MAX_PAYLOAD : len;
 
         // gen frame header
-        hdr_len = chb_gen_hdr(hdr, addr, frm_len);
+        // hdr_len = chb_gen_hdr(hdr, addr, frm_len);
+        chb_gen_hdr(hdr, addr, frm_len);
 
         // send data to chip
         status = chb_tx(hdr, data, frm_len);

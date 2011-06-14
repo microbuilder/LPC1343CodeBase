@@ -94,4 +94,39 @@ void cmd_rectangle(uint8_t argc, char **argv)
   }
 }
 
+/**************************************************************************/
+/*! 
+    Displays a rectangle with rounded corners on the LCD.
+*/
+/**************************************************************************/
+void cmd_rectangleround(uint8_t argc, char **argv)
+{
+  int32_t x1, y1, x2, y2, c, radius, corners;
+
+  // Convert supplied parameters
+  getNumber (argv[0], &x1);
+  getNumber (argv[1], &y1);
+  getNumber (argv[2], &x2);
+  getNumber (argv[3], &y2);
+  getNumber (argv[4], &c);
+  getNumber (argv[5], &radius);
+  getNumber (argv[6], &corners);
+
+  // ToDo: Validate data!
+  if (c < 0 || c > 0xFFFF)
+  {
+    printf("Invalid Color%s", CFG_PRINTF_NEWLINE);
+    return;
+  }
+
+  if ((radius == 0) || (corners == 0) || (corners > 5))
+  {
+    drawRectangleFilled(x1, y1, x2, y2, (uint16_t)c);
+  }
+  else
+  {
+    drawRectangleRounded(x1, y1, x2, y2, (uint16_t)c, radius, corners);
+  }
+}
+
 #endif  

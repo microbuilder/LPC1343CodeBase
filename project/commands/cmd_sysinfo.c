@@ -91,7 +91,7 @@ void cmd_sysinfo(uint8_t argc, char **argv)
 
   #ifdef CFG_PRINTF_UART
     uart_pcb_t *pcb = uartGetPCB();
-    printf("%-25s : %d %s", "UART Baud Rate", pcb->baudrate, CFG_PRINTF_NEWLINE);
+    printf("%-25s : %u %s", "UART Baud Rate", (unsigned int)(pcb->baudrate), CFG_PRINTF_NEWLINE);
   #endif
 
   // TFT LCD Settings (if CFG_TFTLCD enabled)

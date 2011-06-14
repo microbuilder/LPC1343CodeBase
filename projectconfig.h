@@ -102,6 +102,28 @@
  **************************************************************************/
 
 
+/**************************************************************************
+    I2C Addresses
+    -----------------------------------------------------------------------
+    The following addresses are used by the different I2C sensors included
+    in the code base [1]
+
+                                HEX       BINARY  
+                                ====      ========
+    ISL12022M (RTC)             0xDE      1101111x
+    ISL12022M (SRAM)            0xAE      1010111x
+    LM75B                       0x90      1001000x
+    MCP24AA                     0xA0      1010000x
+    MCP4725                     0xC0      1100000x
+    TSL2561                     0x72      0111001x
+    TCS3414                     0x72      0111001x
+
+    [1]  Alternative addresses may exists, but the addresses listed in this
+         table are the values used in the code base
+
+ **************************************************************************/
+
+
 /*=========================================================================
     FIRMWARE VERSION SETTINGS
     -----------------------------------------------------------------------*/
@@ -162,7 +184,7 @@
     #endif
 
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
-      #define CFG_UART_BAUDRATE           (9600)
+      #define CFG_UART_BAUDRATE           (57600)
       #define CFG_UART_BUFSIZE            (512)
     #endif
 
@@ -355,13 +377,13 @@
     #ifdef CFG_BRD_LPC1343_REFDESIGN
       // #define CFG_PRINTF_UART
       #define CFG_PRINTF_USBCDC
-      #define CFG_PRINTF_NEWLINE          "\n"
+      #define CFG_PRINTF_NEWLINE          "\r\n"
     #endif
 
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
       // #define CFG_PRINTF_UART
       #define CFG_PRINTF_USBCDC
-      #define CFG_PRINTF_NEWLINE          "\n"
+      #define CFG_PRINTF_NEWLINE          "\r\n"
     #endif
 
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
@@ -373,7 +395,7 @@
     #ifdef CFG_BRD_LPC1343_802154USBSTICK
       // #define CFG_PRINTF_UART
       #define CFG_PRINTF_USBCDC
-      #define CFG_PRINTF_NEWLINE          "\n"
+      #define CFG_PRINTF_NEWLINE          "\r\n"
     #endif
 /*=========================================================================*/
 
@@ -429,10 +451,10 @@
       #define CFG_INTERFACE_MAXMSGSIZE    (256)
       #define CFG_INTERFACE_PROMPT        "LPC1343 >> "
       #define CFG_INTERFACE_SILENTMODE    (0)
-      #define CFG_INTERFACE_DROPCR        (1)
+      #define CFG_INTERFACE_DROPCR        (0)
       #define CFG_INTERFACE_ENABLEIRQ     (0)
-      #define CFG_INTERFACE_IRQPORT       (2)
-      #define CFG_INTERFACE_IRQPIN        (0)
+      #define CFG_INTERFACE_IRQPORT       (0)
+      #define CFG_INTERFACE_IRQPIN        (7)
       #define CFG_INTERFACE_SHORTERRORS   (0)
       #define CFG_INTERFACE_CONFIRMREADY  (0)
     #endif
@@ -442,10 +464,10 @@
       #define CFG_INTERFACE_MAXMSGSIZE    (256)
       #define CFG_INTERFACE_PROMPT        "LCD >> "
       #define CFG_INTERFACE_SILENTMODE    (0)
-      #define CFG_INTERFACE_DROPCR        (1)
+      #define CFG_INTERFACE_DROPCR        (0)
       #define CFG_INTERFACE_ENABLEIRQ     (0)
-      #define CFG_INTERFACE_IRQPORT       (2)
-      #define CFG_INTERFACE_IRQPIN        (0)
+      #define CFG_INTERFACE_IRQPORT       (0)
+      #define CFG_INTERFACE_IRQPIN        (7)
       #define CFG_INTERFACE_SHORTERRORS   (0)
       #define CFG_INTERFACE_CONFIRMREADY  (0)
       #define CFG_INTERFACE_SHORTERRORS_UNKNOWNCOMMAND    "?"
@@ -461,10 +483,10 @@
       #define CFG_INTERFACE_SILENTMODE    (1)
       #define CFG_INTERFACE_DROPCR        (1)
       #define CFG_INTERFACE_ENABLEIRQ     (1)
-      #define CFG_INTERFACE_IRQPORT       (2)
-      #define CFG_INTERFACE_IRQPIN        (0)
+      #define CFG_INTERFACE_IRQPORT       (0)
+      #define CFG_INTERFACE_IRQPIN        (7)
       #define CFG_INTERFACE_SHORTERRORS   (1)
-      #define CFG_INTERFACE_CONFIRMREADY  (1)
+      #define CFG_INTERFACE_CONFIRMREADY  (0)
       #define CFG_INTERFACE_SHORTERRORS_UNKNOWNCOMMAND    "?"
       #define CFG_INTERFACE_SHORTERRORS_TOOMANYARGS       ">"
       #define CFG_INTERFACE_SHORTERRORS_TOOFEWARGS        "<"
@@ -476,10 +498,10 @@
       #define CFG_INTERFACE_MAXMSGSIZE    (256)
       #define CFG_INTERFACE_PROMPT        "CMD >> "
       #define CFG_INTERFACE_SILENTMODE    (0)
-      #define CFG_INTERFACE_DROPCR        (1)
+      #define CFG_INTERFACE_DROPCR        (0)
       #define CFG_INTERFACE_ENABLEIRQ     (0)
-      #define CFG_INTERFACE_IRQPORT       (2)
-      #define CFG_INTERFACE_IRQPIN        (0)
+      #define CFG_INTERFACE_IRQPORT       (0)
+      #define CFG_INTERFACE_IRQPIN        (7)
       #define CFG_INTERFACE_SHORTERRORS   (0)
       #define CFG_INTERFACE_CONFIRMREADY  (0)
     #endif
@@ -541,7 +563,7 @@
 
     #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       #define CFG_I2CEEPROM
-      #define CFG_I2CEEPROM_SIZE          (4096)
+      #define CFG_I2CEEPROM_SIZE          (3072)
     #endif
 
     #ifdef CFG_BRD_LPC1343_802154USBSTICK
@@ -586,6 +608,7 @@
     #define CFG_EEPROM_RESERVED                 (0x00FF)              // Protect first 256 bytes of memory
     #define CFG_EEPROM_CHIBI_IEEEADDR           (uint16_t)(0x0000)    // 8
     #define CFG_EEPROM_CHIBI_SHORTADDR          (uint16_t)(0x0009)    // 2
+    #define CFG_EEPROM_UART_SPEED               (uint16_t)(0x0020)    // 4
     #define CFG_EEPROM_TOUCHSCREEN_CALIBRATED   (uint16_t)(0x0030)    // 1
     #define CFG_EEPROM_TOUCHSCREEN_CAL_AN       (uint16_t)(0x0031)    // 4
     #define CFG_EEPROM_TOUCHSCREEN_CAL_BN       (uint16_t)(0x0035)    // 4
@@ -595,7 +618,6 @@
     #define CFG_EEPROM_TOUCHSCREEN_CAL_FN       (uint16_t)(0x0045)    // 4
     #define CFG_EEPROM_TOUCHSCREEN_CAL_DIVIDER  (uint16_t)(0x0049)    // 4
     #define CFG_EEPROM_TOUCHSCREEN_THRESHHOLD   (uint16_t)(0x004D)    // 1
-    #define CFG_EEPROM_UART_SPEED               (uint16_t)(0x0020)    // 4
 /*=========================================================================*/
 
 

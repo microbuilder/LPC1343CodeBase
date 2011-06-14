@@ -226,6 +226,12 @@
         <File Name="../../drivers/dac/mcp4725/mcp4725.h"/>
       </VirtualDirectory>
     </VirtualDirectory>
+    <VirtualDirectory Name="rtc">
+      <VirtualDirectory Name="isl12022m">
+        <File Name="../../drivers/rtc/isl12022m/isl12022m.c"/>
+        <File Name="../../drivers/rtc/isl12022m/isl12022m.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="lpc1xxx">
     <File Name="../../lpc1xxx/linkscript.ld"/>
@@ -269,6 +275,7 @@
         <File Name="../../project/commands/drawing/cmd_orientation.c"/>
         <File Name="../../project/commands/drawing/cmd_rectangle.c"/>
         <File Name="../../project/commands/drawing/cmd_tsthreshhold.c"/>
+        <File Name="../../project/commands/drawing/cmd_backlight.c"/>
       </VirtualDirectory>
       <File Name="../../project/commands/cmd_uart.c"/>
     </VirtualDirectory>
