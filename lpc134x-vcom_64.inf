@@ -1,0 +1,127 @@
+;---------------------------------------------------------------------------------------
+; Windows USB CDC Driver Setup File for ATMEL AT91SAM products
+; Improved by Pavel K, pasha_nik@mail.ru
+;---------------------------------------------------------------------------------------
+
+[Version]
+Signature=        "$Windows NT$"; Windows 200 and later versions
+Class=            Ports; This is a serial port driver
+ClassGuid=        {4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=        %Keil%
+DriverVer=        09/25/2009,1.0.0.0; Driver version 1.0.0.0 published on 25 September 2009
+
+[Manufacturer]
+%DriverProvider%=    DeviceList, NT, NTia64, NTamd64
+
+[DestinationDirs]
+DefaultDestDir=        12; Default install directory is \drivers or \IOSubSys
+
+[DeviceList.NT]
+%Description%=    DriverInstall,USB\VID_03EB&PID_6124
+%Description%=    LPC134xUSB, USB\VID_239A&PID_1002	
+
+[DeviceList.NTia64]
+%Description%=    DriverInstall,USB\VID_03EB&PID_6124
+%Description%= LPC134xUSB, USB\VID_239A&PID_1002
+
+[DeviceList.NTamd64]
+%Description%=    DriverInstall,USB\VID_03EB&PID_6124
+%Description%= LPC134xUSB, USB\VID_239A&PID_1002
+
+
+;---------------------------------------------------------------------------------------
+; 32 bit section for Windows 2000/2003/XP/Vista/7
+;---------------------------------------------------------------------------------------
+
+[LPC134xUSB.nt] 
+include=mdmcpq.inf
+CopyFiles=DriverCopyFiles
+AddReg=LPC134xUSB.nt.AddReg 
+
+[DriverCopyFiles]
+usbser.sys,,,0x20
+
+[LPC134xUSB.nt.AddReg] 
+HKR,,DevLoader,,*ntkern 
+HKR,,NTMPDriver,,usbser.sys 
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider" 
+
+[LPC134xUSB.nt.Services] 
+include=mdmcpq.inf
+AddService=usbser, 0x00000002, DriverService
+
+[LPC134xUSB.nt.HW]
+include=mdmcpq.inf
+
+[DriverService] 
+DisplayName=%DESCRIPTION% 
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\usbser.sys 
+
+
+
+;---------------------------------------------------------------------------------------
+; 64 bit section for Intel Itanium based systems
+;---------------------------------------------------------------------------------------
+
+[DriverInstall.NTia64]
+include=        mdmcpq.inf
+CopyFiles=        DriverInstall.NTia64.Files
+AddReg=            DriverInstall.NTia64.AddReg
+
+[DriverInstall.NTia64.Files]
+usbser.sys,,,0x20
+
+[DriverInstall.NTia64.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[DriverInstall.NTia64.Services]
+AddService=usbser,0x00000002,usbser_sys_service
+
+
+;---------------------------------------------------------------------------------------
+; 64 bit section for AMD64 and Intel EM64T based systems
+;---------------------------------------------------------------------------------------
+
+[DriverInstall.NTamd64]
+include=        mdmcpq.inf
+CopyFiles=        DriverInstall.NTamd64.Files
+AddReg=            DriverInstall.NTamd64.AddReg
+
+[DriverInstall.NTamd64.Files]
+usbser.sys,,,0x20
+
+[DriverInstall.NTamd64.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[DriverInstall.NTamd64.Services]
+AddService=        usbser,0x00000002,usbser_sys_service
+
+;---------------------------------------------------------------------------------------
+; usbser.sys service
+;---------------------------------------------------------------------------------------
+
+[usbser_sys_service]
+DisplayName=        %ServiceDescription%
+ServiceType=        1; SERVICE_KERNEL_DRIVER, Service kernel driver
+StartType=        3; SERVICE_DEMAND_START, Driver is started by the PnP manager
+ErrorControl=        1; SERVICE_ERROR_NORMAL, Warn about errors
+ServiceBinary=        %12%\usbser.sys
+LoadOrderGroup =    Base
+
+;---------------------------------------------------------------------------------------
+; strings
+;---------------------------------------------------------------------------------------
+
+[Strings] 
+DriverProvider=        "Microsoft"
+NXP="NXP - Founded by Philips"
+DESCRIPTION="LPC134x USB VCom Port" 
+
+;---------------------------------------------------------------------------------------
