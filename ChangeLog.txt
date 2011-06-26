@@ -1,5 +1,15 @@
-v0.9.2 - Ongoing
+v0.9.3 - Ongoing
 ================
+
+- Add drawTriangle() and drawTriangleFilled() to
+  drawing.c
+- Added cpuReset() to reset the board via AIRCR
+- Removed text input dialogue from LCD CLI ('T') to
+  save a few KB.  Command file still exists, just no
+  longer included in cmd_tbl.h by default.
+
+v0.9.2 - 14 June 2011
+=====================
 
 - Added ISL12022M RTC Driver (/drivers/rtc/isl12022m)
 - Fixed a bug drawing filled circles with lcdDrawVLine

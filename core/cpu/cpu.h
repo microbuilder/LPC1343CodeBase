@@ -72,5 +72,6 @@ cpuMultiplier_t;
 
 void cpuPllSetup (cpuMultiplier_t multiplier);
 void cpuInit (void);
+void cpuReset (void);
 
 #endif

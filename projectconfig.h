@@ -48,8 +48,8 @@
     are using by enabling one of the following definitions. The code base
     will then try to configure itself accordingly for that board.
     -----------------------------------------------------------------------*/
-    #define CFG_BRD_LPC1343_REFDESIGN
-    // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
+    // #define CFG_BRD_LPC1343_REFDESIGN
+    #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
     // #define CFG_BRD_LPC1343_802154USBSTICK
 /*=========================================================================*/
@@ -129,7 +129,7 @@
     -----------------------------------------------------------------------*/
     #define CFG_FIRMWARE_VERSION_MAJOR            (0)
     #define CFG_FIRMWARE_VERSION_MINOR            (9)
-    #define CFG_FIRMWARE_VERSION_REVISION         (2)
+    #define CFG_FIRMWARE_VERSION_REVISION         (3)
 /*=========================================================================*/
 
 
@@ -343,7 +343,7 @@
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       // #define CFG_USBHID
       // #define CFG_USBCDC
-      #define CFG_USBCDC_BAUDRATE         (115200)
+      #define CFG_USBCDC_BAUDRATE         (57600)
       #define CFG_USBCDC_INITTIMEOUT      (5000)
       #define CFG_USBCDC_BUFFERSIZE       (256)
     #endif

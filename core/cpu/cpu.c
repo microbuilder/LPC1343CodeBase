@@ -167,3 +167,24 @@ void cpuInit (void)
   // Setup PLL (etc.)
   cpuPllSetup(CPU_MULTIPLIER_6);
 }
+
+/**************************************************************************/
+/*! 
+    @brief Resets the device using the AIRCR register
+*/
+/**************************************************************************/
+void cpuReset (void)
+{
+  // Reset device
+  SCB_AIRCR = SCB_AIRCR_VECTKEY_VALUE | SCB_AIRCR_SYSRESETREQ; // 0x05FA0004
+
+  // Ensure completion of memory access
+  // DSB acts as a special data synchronization memory barrier. Instructions
+  // that come after the DSB, in program order, do not execute until the DSB
+  // instruction completes. The DSB instruction completes when all explicit
+  // memory accesses before it complete.
+  __asm volatile("DSB");
+
+  // Wait for reset
+  while(1);
+}

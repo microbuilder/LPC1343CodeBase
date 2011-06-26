@@ -892,6 +892,113 @@ void drawRectangleRounded ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, 
 
 /**************************************************************************/
 /*!
+    @brief  Draws a triangle
+
+    @param[in]  x0
+                x co-ordinate for point 0
+    @param[in]  y0
+                y co-ordinate for point 0
+    @param[in]  x1
+                x co-ordinate for point 1
+    @param[in]  y1
+                y co-ordinate for point 1
+    @param[in]  x2
+                x co-ordinate for point 2
+    @param[in]  y2
+                y co-ordinate for point 2
+    @param[in]  color
+                Color used when drawing
+*/
+/**************************************************************************/
+void drawTriangle ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color)
+{
+  drawLine(x0, y0, x1, y1, color);
+  drawLine(x1, y1, x2, y2, color);
+  drawLine(x2, y2, x0, y0, color);  
+}
+
+/**************************************************************************/
+/*!
+    @brief  Draws a triangle
+
+    @param[in]  x0
+                x co-ordinate for point 0
+    @param[in]  y0
+                y co-ordinate for point 0
+    @param[in]  x1
+                x co-ordinate for point 1
+    @param[in]  y1
+                y co-ordinate for point 1
+    @param[in]  x2
+                x co-ordinate for point 2
+    @param[in]  y2
+                y co-ordinate for point 2
+    @param[in]  color
+                Fill color
+
+    @section Example
+
+    @code
+
+    // Draw a white triangle
+    drawTriangleFilled ( 100, 10, 20, 120, 230, 290, COLOR_WHITE);
+    // Draw black circles at each point of the triangle
+    drawCircleFilled(100, 10, 2, COLOR_BLACK);
+    drawCircleFilled(20, 120, 2, COLOR_BLACK);
+    drawCircleFilled(230, 290, 2, COLOR_BLACK);
+
+    @endcode
+*/
+/**************************************************************************/
+void drawTriangleFilled ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color)
+{
+  // ToDo: re-order vertices by ascending Y values (smallest first)
+
+  int32_t dx1, dx2, dx3;    // Interpolation deltas
+  int32_t sx1, sx2, sy;     // Scanline co-ordinates
+
+  sx1=sx2=x0 * 1000;        // Use fixed point math for x axis values
+  sy=y0;
+
+  // Calculate interpolation deltas
+  if (y1-y0 > 0) dx1=((x1-x0)*1000)/(y1-y0);
+    else dx1=0;
+  if (y2-y0 > 0) dx2=((x2-x0)*1000)/(y2-y0);
+    else dx2=0;
+  if (y2-y1 > 0) dx3=((x2-x1)*1000)/(y2-y1);
+    else dx3=0;
+
+  // Render scanlines (horizontal lines are the fastest rendering method)
+  if (dx1 > dx2) 
+  {
+    for(; sy<=y1; sy++, sx1+=dx2, sx2+=dx1)
+    {
+      drawLine(sx1/1000, sy, sx2/1000, sy, color);
+    }
+    sx2 = x1*1000;
+    sy = y1;
+    for(; sy<=y2; sy++, sx1+=dx2, sx2+=dx3)
+    {
+      drawLine(sx1/1000, sy, sx2/1000, sy, color);
+    }
+  } 
+  else 
+  {
+    for(; sy<=y1; sy++, sx1+=dx1, sx2+=dx2)
+    {
+      drawLine(sx1/1000, sy, sx2/1000, sy, color);
+    }
+    sx1 = x1*1000;
+    sy = y1;
+    for(; sy<=y2; sy++, sx1+=dx3, sx2+=dx2)
+    {
+      drawLine(sx1/1000, sy, sx2/1000, sy, color);
+    }
+  }
+}
+
+/**************************************************************************/
+/*!
     @brief  Converts a 24-bit RGB color to an equivalent 16-bit RGB565 value
 
     @param[in]  r

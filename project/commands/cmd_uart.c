@@ -88,7 +88,7 @@ void cmd_uart(uint8_t argc, char **argv)
       }
       else
       {
-        printf("%u%s", uartEEPROM, CFG_PRINTF_NEWLINE);
+        printf("%u%s", (unsigned int)uartEEPROM, CFG_PRINTF_NEWLINE);
       }
     #endif
   }

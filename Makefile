@@ -23,15 +23,15 @@ VPATH += project
 OBJS += commands.o
 
 VPATH += project/commands
-OBJS += cmd_chibi_addr.o cmd_chibi_tx.o cmd_uart.o
+OBJS += cmd_chibi_addr.o cmd_chibi_tx.o
 OBJS += cmd_i2ceeprom_read.o cmd_i2ceeprom_write.o cmd_lm75b_gettemp.o
-OBJS += cmd_sysinfo.o cmd_sd_dir.o cmd_tswait.o cmd_orientation.o
-OBJS += cmd_tsthreshhold.o cmd_backlight.o
+OBJS += cmd_reset.o cmd_sd_dir.o cmd_sysinfo.o cmd_uart.o 
 
 VPATH += project/commands/drawing
-OBJS += cmd_button.o cmd_circle.o cmd_clear.o cmd_line.o cmd_pixel.o
-OBJS += cmd_progress.o cmd_bmp.o cmd_gettext.o cmd_calibrate.o
-OBJS += cmd_text.o cmd_textw.o cmd_rectangle.o
+OBJS += cmd_backlight.o cmd_bmp.o cmd_button.o cmd_calibrate.o
+OBJS += cmd_circle.o cmd_clear.o cmd_line.o cmd_orientation.o
+OBJS += cmd_pixel.o cmd_progress.o cmd_rectangle.o cmd_text.o
+OBJS += cmd_textw.o cmd_tsthreshhold.o cmd_tswait.o
 
 ##########################################################################
 # Optional driver files 
@@ -60,9 +60,11 @@ OBJS += drawing.o touchscreen.o bmp.o alphanumeric.o
 OBJS += dejavusans9.o dejavusansbold9.o dejavusanscondensed9.o
 OBJS += dejavusansmono8.o dejavusansmonobold8.o
 OBJS += veramono9.o veramonobold9.o veramono11.o veramonobold11.o 
+
 # LCD Driver (Only one can be included at a time!)
 OBJS += ILI9328.o
 # OBJS += ILI9325.o
+# OBJS += ssd1331.o
 # OBJS += st7735.o
 # OBJS += st7783.o
 

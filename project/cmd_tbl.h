@@ -48,6 +48,7 @@
 // Function prototypes for the command table
 void cmd_help(uint8_t argc, char **argv);         // handled by core/cmd/cmd.c
 void cmd_sysinfo(uint8_t argc, char **argv);
+void cmd_reset(uint8_t argc, char **argv);
 
 #ifdef CFG_TFTLCD
 void cmd_backlight(uint8_t argc, char **argv);
@@ -60,7 +61,6 @@ void cmd_rectangleround(uint8_t argc, char **argv);
 void cmd_pixel(uint8_t argc, char **argv);
 void cmd_progress(uint8_t argc, char **argv);
 void cmd_getpixel(uint8_t argc, char **argv);
-void cmd_gettext(uint8_t argc, char **argv);
 void cmd_calibrate(uint8_t argc, char **argv);
 void cmd_orientation(uint8_t argc, char **argv);
 void cmd_text(uint8_t argc, char **argv);
@@ -107,6 +107,7 @@ cmd_t cmd_tbl[] =
   // command name, min args, max args, hidden, function name, command description, syntax
   { "?",    0,  0,  0, cmd_help              , "Help"                           , CMD_NOPARAMS },
   { "V",    0,  0,  0, cmd_sysinfo           , "System Info"                    , CMD_NOPARAMS },
+  { "Z",    0,  0,  0, cmd_reset             , "Reset"                          , CMD_NOPARAMS },
 
   #ifdef CFG_I2CEEPROM
   { "e",    1,  1,  0, cmd_i2ceeprom_read    , "EEPROM Read"                    , "'e <addr>'" },
@@ -132,7 +133,6 @@ cmd_t cmd_tbl[] =
   { "R",    7,  7,  0, cmd_rectangleround    , "Rounded Rectangle"              , "'R <x1> <y1> <x2> <y2> <color> <radius> <corners>'" },
   { "s",    2, 99,  0, cmd_textw             , "Text Width"                     , "'s <font#> <msg>'" },
   { "t",    5, 99,  0, cmd_text              , "Text"                           , "'t <x> <y> <color> <font#> <msg>'" },
-  { "T",    0,  0,  0, cmd_gettext           , "Text Dialogue"                  , CMD_NOPARAMS },
   { "W",    0,  1,  0, cmd_tswait            , "Wait for Touch"                 , "'W [<ms>]'" },
   { "x",    0,  1,  0, cmd_tsthreshhold      , "Touch Threshold"                , "'x [<0..254>]'" },
   #endif
