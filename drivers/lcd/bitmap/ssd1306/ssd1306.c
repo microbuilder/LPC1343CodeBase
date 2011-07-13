@@ -64,7 +64,7 @@ void ssd1306SendByte(uint8_t byte);
                          } while (0);
 #define DELAY(mS)     do { systickDelay( mS / CFG_SYSTICK_DELAY_IN_MS ); } while(0);
 
-uint8_t buffer[SSD1306_LCDWIDTH * SSD1306_LCDHEIGHT / 8];
+uint8_t _ssd1306buffer[SSD1306_LCDWIDTH * SSD1306_LCDHEIGHT / 8];
 
 /**************************************************************************/
 /* Private Methods                                                        */
@@ -223,7 +223,7 @@ void ssd1306DrawPixel(uint8_t x, uint8_t y)
   if ((x >= SSD1306_LCDWIDTH) || (y >= SSD1306_LCDHEIGHT))
     return;
 
-  buffer[x+ (y/8)*SSD1306_LCDWIDTH] |= (1 << y%8);
+  _ssd1306buffer[x+ (y/8)*SSD1306_LCDWIDTH] |= (1 << y%8);
 }
 
 /**************************************************************************/
@@ -241,7 +241,7 @@ void ssd1306ClearPixel(uint8_t x, uint8_t y)
   if ((x >= SSD1306_LCDWIDTH) || (y >= SSD1306_LCDHEIGHT))
     return;
 
-  buffer[x+ (y/8)*SSD1306_LCDWIDTH] &= ~(1 << y%8); 
+  _ssd1306buffer[x+ (y/8)*SSD1306_LCDWIDTH] &= ~(1 << y%8); 
 }
 
 /**************************************************************************/
@@ -259,7 +259,7 @@ void ssd1306ClearPixel(uint8_t x, uint8_t y)
 uint8_t ssd1306GetPixel(uint8_t x, uint8_t y)
 {
   if ((x >= SSD1306_LCDWIDTH) || (y >=SSD1306_LCDHEIGHT)) return 0;
-  return buffer[x+ (y/8)*SSD1306_LCDWIDTH] & (1 << y%8) ? 1 : 0;
+  return _ssd1306buffer[x+ (y/8)*SSD1306_LCDWIDTH] & (1 << y%8) ? 1 : 0;
 }
 
 /**************************************************************************/
@@ -269,7 +269,7 @@ uint8_t ssd1306GetPixel(uint8_t x, uint8_t y)
 /**************************************************************************/
 void ssd1306ClearScreen() 
 {
-  memset(buffer, 0, 1024);
+  memset(_ssd1306buffer, 0, 1024);
 }
 
 /**************************************************************************/
@@ -286,7 +286,7 @@ void ssd1306Refresh(void)
   uint16_t i;
   for (i=0; i<1024; i++) 
   {
-    DATA(buffer[i]);
+    DATA(_ssd1306buffer[i]);
   }
 }
 

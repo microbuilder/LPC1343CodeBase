@@ -1,9 +1,10 @@
 /**************************************************************************/
 /*! 
-    @file     sysdefs.h
+    @file     cmd_reset.c
     @author   K. Townsend (microBuilder.eu)
-    @date     22 March 2010
-    @version  0.10
+
+    @brief    Code to execute for cmd_reset in the 'core/cmd'
+              command-line interpretter.
 
     @section LICENSE
 
@@ -35,36 +36,25 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
-
-#ifndef _SYSDEFS_H_
-#define _SYSDEFS_H_
-
 #include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h>
 
-// Stay compatible with ugly "windows" style
-#define BOOL bool
+#include "projectconfig.h"
+#include "core/cmd/cmd.h"
+#include "core/cpu/cpu.h"
+#include "project/commands.h"       // Generic helper functions
 
-#ifndef TRUE
-#define TRUE true
-#endif
-#ifndef FALSE
-#define FALSE false
-#endif
+#ifdef CFG_I2CEEPROM
+  #include "drivers/eeprom/eeprom.h"
+  #include "core/uart/uart.h"
 
-typedef volatile uint8_t REG8;
-typedef volatile uint16_t REG16;
-typedef volatile uint32_t REG32;
-typedef unsigned char byte_t;
-
-#define pREG8  (REG8 *)
-#define pREG16 (REG16 *)
-#define pREG32 (REG32 *)
-
-#ifndef NULL
-#define NULL ((void *) 0)
-#endif
+/**************************************************************************/
+/*! 
+    Resets the board using the AIRCR register
+*/
+/**************************************************************************/
+void cmd_reset(uint8_t argc, char **argv)
+{
+  cpuReset();
+}
 
 #endif
-

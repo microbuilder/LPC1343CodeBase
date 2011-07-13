@@ -71,8 +71,6 @@ extern volatile uint8_t   I2CMasterBuffer[I2C_BUFSIZE];
 extern volatile uint8_t   I2CSlaveBuffer[I2C_BUFSIZE];
 extern volatile uint32_t  I2CReadLength, I2CWriteLength;
 
-uint32_t i;
-
 static bool _tsl2561Initialised = false;
 static tsl2561IntegrationTime_t _tsl2561IntegrationTime = TSL2561_INTEGRATIONTIME_402MS;
 static tsl2561Gain_t _tsl2561Gain = TSL2561_GAIN_0X;
@@ -85,6 +83,7 @@ static tsl2561Gain_t _tsl2561Gain = TSL2561_GAIN_0X;
 tsl2561Error_t tsl2561WriteCmd (uint8_t cmd)
 {
   // Clear write buffers
+  uint32_t i;
   for ( i = 0; i < I2C_BUFSIZE; i++ )
   {
     I2CMasterBuffer[i] = 0x00;
@@ -106,6 +105,7 @@ tsl2561Error_t tsl2561WriteCmd (uint8_t cmd)
 tsl2561Error_t tsl2561Write8 (uint8_t reg, uint32_t value)
 {
   // Clear write buffers
+  uint32_t i;
   for ( i = 0; i < I2C_BUFSIZE; i++ )
   {
     I2CMasterBuffer[i] = 0x00;
@@ -128,6 +128,7 @@ tsl2561Error_t tsl2561Write8 (uint8_t reg, uint32_t value)
 tsl2561Error_t tsl2561Read16(uint8_t reg, uint16_t *value)
 {
   // Clear write buffers
+  uint32_t i;
   for ( i = 0; i < I2C_BUFSIZE; i++ )
   {
     I2CMasterBuffer[i] = 0x00;

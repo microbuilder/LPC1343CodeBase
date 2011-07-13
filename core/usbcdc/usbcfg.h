@@ -101,7 +101,7 @@
 #define USB_SUSPEND_EVENT   1
 #define USB_RESUME_EVENT    1
 #define USB_WAKEUP_EVENT    0
-#define USB_SOF_EVENT       1
+#define USB_SOF_EVENT       0
 #define USB_ERROR_EVENT     0
 #define USB_EP_EVENT        0x000B
 #define USB_CONFIGURE_EVENT 1
@@ -141,7 +141,7 @@
 #define USB_ADC_CIF_NUM     0
 #define USB_ADC_SIF1_NUM    1
 #define USB_ADC_SIF2_NUM    2
-#define USB_CDC             1
+#define USB_CDC  	        1
 #define USB_CDC_CIF_NUM     0
 #define USB_CDC_DIF_NUM     1
 #define USB_CDC_BUFSIZE     CFG_USBCDC_BUFSIZE

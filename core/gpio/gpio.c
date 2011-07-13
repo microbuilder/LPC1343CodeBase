@@ -47,6 +47,10 @@
 volatile uint32_t chibi_counter  = 0;
 #endif
 
+#ifdef CFG_ALTRESET
+#include "core/cpu/cpu.h"
+#endif
+
 static bool _gpioInitialised = false;
 
 /**************************************************************************/
@@ -74,6 +78,15 @@ void PIOINT0_IRQHandler(void)
 void PIOINT1_IRQHandler(void)
 {
   uint32_t regVal;
+
+#if defined CFG_ALTRESET && CFG_ALTRESET_PORT == 1
+  regVal = gpioIntStatus(CFG_ALTRESET_PORT, CFG_ALTRESET_PIN);
+  if (regVal)
+  {
+    // Cause a reset and wait
+    cpuReset();
+  }
+#endif
 
 #ifdef CFG_CHIBI
   // Check for interrupt on 1.8
@@ -312,9 +325,9 @@ void gpioSetInterrupt (uint32_t portNum, uint32_t bitPos, gpioInterruptSense_t s
   if (!_gpioInitialised) gpioInit();
 
   // Get the appropriate register (handled this way to optimise code size)
-  REG32 *gpiois  = &GPIO_GPIO0IS;
-  REG32 *gpioibe = &GPIO_GPIO0IBE;
-  REG32 *gpioiev = &GPIO_GPIO0IEV;
+  REG32 *gpiois  = &GPIO_GPIO0IS;   // Interrupt sense (edge or level sensitive)
+  REG32 *gpioibe = &GPIO_GPIO0IBE;  // Interrupt both edges (0 = int controlled by GPIOIEV, 1 = both edges trigger interrupt)
+  REG32 *gpioiev = &GPIO_GPIO0IEV;  // 0 = falling edge or low, 1 = rising edge or high (depending on GPIOIS)
   switch (portNum)
   {
     case 0:
@@ -339,18 +352,18 @@ void gpioSetInterrupt (uint32_t portNum, uint32_t bitPos, gpioInterruptSense_t s
       break;
   }
 
-  if (gpioInterruptSense_Edge)
+
+  if (sense == gpioInterruptSense_Edge)
   {
     *gpiois &= ~(0x1<<bitPos);
-    /* single or double only applies when sense is 0(edge trigger). */
-    gpioInterruptEdge_Single ? (*gpioibe &= ~(0x1<<bitPos)) : (*gpioibe |= (0x1<<bitPos));
+    edge == gpioInterruptEdge_Single ? (*gpioibe &= ~(0x1<<bitPos)) : (*gpioibe |= (0x1<<bitPos));
   }
   else
   {
     *gpiois |= (0x1<<bitPos);
   }
 
-  gpioInterruptEvent_ActiveHigh ? (*gpioiev &= ~(0x1<<bitPos)) : (*gpioiev |= (0x1<<bitPos));
+  event == gpioInterruptEvent_ActiveHigh ? (*gpioiev &= ~(0x1<<bitPos)) : (*gpioiev |= (0x1<<bitPos));
 
   return;
 }

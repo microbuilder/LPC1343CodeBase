@@ -1,5 +1,5 @@
 <!DOCTYPE CrossStudio_Project_File>
-<solution Name="LPC1343_CodeBase" version="2">
+<solution Name="LPC1343_CodeBase" target="8" version="2">
   <project Name="LPC1343_CodeBase">
     <configuration Name="Common" Target="LPC1343" arm_architecture="v7M" arm_core_type="Cortex-M3" arm_linker_heap_size="512" arm_linker_process_stack_size="0" arm_linker_stack_size="1024" arm_simulator_memory_simulation_filename="$(TargetsDir)/LPC1000/LPC1000SimulatorMemory.dll" arm_simulator_memory_simulation_parameter="LPC13;0x8000;0x2000;0x0" arm_target_debug_interface_type="ADIv5" arm_target_loader_parameter="12000000" c_additional_options="" c_preprocessor_definitions="USE_PROCESS_STACK" c_user_include_directories="$(TargetsDir)/LPC1000/include;" link_include_standard_libraries="No" link_include_startup_code="No" linker_additional_files="$(TargetsDir)/LPC1000/lib/liblpc1000$(LibExt)$(LIB);$(TargetsDir)/LPC1000/lib/cmsis$(LibExt)$(LIB)" linker_memory_map_file="$(TargetsDir)/LPC1000/LPC1343_MemoryMap.xml" linker_output_format="bin" oscillator_frequency="12MHz" project_directory="" project_type="Executable" property_groups_file_path="$(TargetsDir)/LPC1000/propertyGroups13xx.xml"/>
     <configuration Name="Flash" Placement="Flash" arm_target_flash_loader_file_path="$(TargetsDir)/LPC1000/Release/Loader_lpc1300.elf" arm_target_flash_loader_type="LIBMEM RPC Loader" linker_patch_build_command="$(StudioDir)/bin/crossscript &quot;load(\&quot;$(TargetsDir)/LPC1000/LPC1000_LinkPatch.js\&quot;);patch(\&quot;$(TargetPath)\&quot;);&quot;" linker_section_placement_file="$(StudioDir)/targets/Cortex_M/flash_placement.xml" target_reset_script="FLASHReset()"/>
@@ -81,17 +81,24 @@
           </file>
           <file file_name="../../core/usbcdc/usbcore.c">
             <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
+            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
           </file>
           <file file_name="../../core/usbcdc/usbdesc.c">
             <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
+            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
           </file>
           <file file_name="../../core/usbcdc/usbhw.c">
             <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
+            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
           </file>
           <file file_name="../../core/usbcdc/usbuser.c">
             <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
+            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
           </file>
-          <file file_name="../../core/usbcdc/cdc_buf.c"/>
+          <file file_name="../../core/usbcdc/cdc_buf.c">
+            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
+            <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
+          </file>
         </folder>
         <folder Name="pwm">
           <file file_name="../../core/pwm/pwm.c"/>
@@ -99,11 +106,15 @@
         <folder Name="libc">
           <file file_name="../../core/libc/stdio.c">
             <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
+            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
           </file>
           <file file_name="../../core/libc/string.c">
             <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
+            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
           </file>
-          <file file_name="../../core/libc/ctype.c"/>
+          <file file_name="../../core/libc/ctype.c">
+            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
+          </file>
         </folder>
       </folder>
       <file file_name="../../lpc134x.h"/>
@@ -337,13 +348,18 @@
             <file file_name="../../project/commands/drawing/cmd_rectangle.c"/>
             <file file_name="../../project/commands/drawing/cmd_tsthreshhold.c"/>
             <file file_name="../../project/commands/drawing/cmd_backlight.c"/>
+            <file file_name="../../project/commands/drawing/cmd_triangle.c"/>
+            <file file_name="../../project/commands/drawing/cmd_roundedcorner.c"/>
           </folder>
           <file file_name="../../project/commands/cmd_uart.c"/>
           <file file_name="../../project/commands/cmd_reset.c"/>
         </folder>
         <file file_name="../../project/cmd_tbl.h"/>
       </folder>
-      <file file_name="../../main.c"/>
+      <file file_name="../../main.c">
+        <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
+        <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
+      </file>
     </folder>
     <folder Name="System Files">
       <file file_name="$(TargetsDir)/LPC1000/include/CMSIS/system_LPC13xx.c"/>

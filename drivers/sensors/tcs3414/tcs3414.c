@@ -53,8 +53,6 @@ extern volatile uint8_t   I2CMasterBuffer[I2C_BUFSIZE];
 extern volatile uint8_t   I2CSlaveBuffer[I2C_BUFSIZE];
 extern volatile uint32_t  I2CReadLength, I2CWriteLength;
 
-uint32_t i;
-
 static bool _tcs3414Initialised = false;
 
 /**************************************************************************/
@@ -65,6 +63,7 @@ static bool _tcs3414Initialised = false;
 tcs3414Error_e tcs3414WriteCmd (uint8_t cmd)
 {
   // Clear write buffers
+  uint32_t i;
   for ( i = 0; i < I2C_BUFSIZE; i++ )
   {
     I2CMasterBuffer[i] = 0x00;
@@ -86,6 +85,7 @@ tcs3414Error_e tcs3414WriteCmd (uint8_t cmd)
 tcs3414Error_e tcs3414Write8 (uint8_t reg, uint32_t value)
 {
   // Clear write buffers
+  uint32_t i;
   for ( i = 0; i < I2C_BUFSIZE; i++ )
   {
     I2CMasterBuffer[i] = 0x00;
@@ -108,6 +108,7 @@ tcs3414Error_e tcs3414Write8 (uint8_t reg, uint32_t value)
 tcs3414Error_e tcs3414Read16(uint8_t reg, uint16_t *value)
 {
   // Clear write buffers
+  uint32_t i;
   for ( i = 0; i < I2C_BUFSIZE; i++ )
   {
     I2CMasterBuffer[i] = 0x00;

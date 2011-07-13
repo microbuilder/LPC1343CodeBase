@@ -69,8 +69,7 @@ gpioInterruptEdge_t;
 
 /**************************************************************************/
 /*! 
-    Indicates whether the interrupt should be triggered in the rising
-    or falling edge.  ActiveHigh means that a HIGH level on the pin will
+    ActiveHigh means that a HIGH level on the pin will
     trigger an interrupt, ActiveLow means that a LOW level on the pin
     will trigger an interrupt.
 */

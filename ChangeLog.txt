@@ -1,8 +1,11 @@
 v0.9.3 - Ongoing
 ================
 
+- Added drawCornerFilled() to drawing.c and LCD CLI
+- Fixed a nasty bug with 'gpioInterruptEvent' in the 
+  gpioSetInterrupt function (core/gpio/gpio.c)
 - Add drawTriangle() and drawTriangleFilled() to
-  drawing.c
+  drawing.c and LCD CLI
 - Added cpuReset() to reset the board via AIRCR
 - Removed text input dialogue from LCD CLI ('T') to
   save a few KB.  Command file still exists, just no

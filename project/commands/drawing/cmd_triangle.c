@@ -1,9 +1,10 @@
 /**************************************************************************/
 /*! 
-    @file     sysdefs.h
+    @file     cmd_triangle.c
     @author   K. Townsend (microBuilder.eu)
-    @date     22 March 2010
-    @version  0.10
+
+    @brief    Code to execute for cmd_triangle in the 'core/cmd'
+              command-line interpretter.
 
     @section LICENSE
 
@@ -35,36 +36,50 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
-
-#ifndef _SYSDEFS_H_
-#define _SYSDEFS_H_
-
 #include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h>
 
-// Stay compatible with ugly "windows" style
-#define BOOL bool
+#include "projectconfig.h"
+#include "core/cmd/cmd.h"
+#include "project/commands.h"       // Generic helper functions
 
-#ifndef TRUE
-#define TRUE true
-#endif
-#ifndef FALSE
-#define FALSE false
-#endif
+#ifdef CFG_TFTLCD    
+  #include "drivers/lcd/tft/lcd.h"    
+  #include "drivers/lcd/tft/drawing.h"  
 
-typedef volatile uint8_t REG8;
-typedef volatile uint16_t REG16;
-typedef volatile uint32_t REG32;
-typedef unsigned char byte_t;
+/**************************************************************************/
+/*! 
+    Displays a triangle on the LCD.
+*/
+/**************************************************************************/
+void cmd_triangle(uint8_t argc, char **argv)
+{
+  int32_t x1, y1, x2, y2, x3, y3, c, filled;
+  filled = 0;
 
-#define pREG8  (REG8 *)
-#define pREG16 (REG16 *)
-#define pREG32 (REG32 *)
+  // Convert supplied parameters
+  getNumber (argv[0], &x1);
+  getNumber (argv[1], &y1);
+  getNumber (argv[2], &x2);
+  getNumber (argv[3], &y2);
+  getNumber (argv[4], &x3);
+  getNumber (argv[5], &y3);
+  getNumber (argv[6], &c);
+  if (argc == 8)
+  {
+    getNumber (argv[7], &filled);
+  }
 
-#ifndef NULL
-#define NULL ((void *) 0)
-#endif
+  // ToDo: Validate data!
+  if (c < 0 || c > 0xFFFF)
+  {
+    printf("Invalid Color%s", CFG_PRINTF_NEWLINE);
+    return;
+  }
 
-#endif
+  if (filled)
+    drawTriangleFilled(x1, y1, x2, y2, x3, y3, (uint16_t)c);
+  else
+    drawTriangle(x1, y1, x2, y2, x3, y3, (uint16_t)c);
+}
 
+#endif  

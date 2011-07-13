@@ -182,8 +182,7 @@ void USB_EndPoint1 (uint32_t event) {
  *    Parameter:       event
  */
 
-void USB_EndPoint2 (uint32_t event) 
-{
+void USB_EndPoint2 (uint32_t event) {
   event = event;
 }
 

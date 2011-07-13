@@ -36,7 +36,6 @@ extern uint32_t USB_EndPointHalt;
 extern uint32_t USB_EndPointStall;
 extern uint8_t  USB_AltSetting[USB_IF_NUM];
 
-
 /* USB Endpoint 0 Buffer */
 extern uint8_t  EP0Buf[USB_MAX_PACKET0];
 
@@ -78,11 +77,6 @@ static inline void UsbAddPtr(void **vpptr, uint32_t n)
   /* Add 'n' bytes to our pointer value */
   (*bpptr) += n;
 }
-
-
-
-
-
 
 
 #endif  /* __USBCORE_H__ */

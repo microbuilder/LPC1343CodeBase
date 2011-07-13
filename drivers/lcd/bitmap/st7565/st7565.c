@@ -54,7 +54,7 @@ void sendByte(uint8_t byte);
 #define DATA(d)       do { gpioSetValue( ST7565_A0_PORT, ST7565_A0_PIN, 1 ); sendByte( d ); } while (0);
 #define DELAY(mS)     do { systickDelay( mS / CFG_SYSTICK_DELAY_IN_MS ); } while(0);
 
-uint8_t buffer[128*64/8];
+uint8_t _st7565buffer[128*64/8];
 
 /**************************************************************************/
 /* Private Methods                                                        */
@@ -257,7 +257,7 @@ void st7565SetBrightness(uint8_t val)
 /**************************************************************************/
 void st7565ClearScreen(void) 
 {
-  memset(&buffer, 0x00, 128*64/8);
+  memset(&_st7565buffer, 0x00, 128*64/8);
 }
 
 /**************************************************************************/
@@ -267,7 +267,7 @@ void st7565ClearScreen(void)
 /**************************************************************************/
 void st7565Refresh(void)
 {
-  writeBuffer(buffer);
+  writeBuffer(_st7565buffer);
 }
 
 /**************************************************************************/
@@ -286,7 +286,7 @@ void st7565DrawPixel(uint8_t x, uint8_t y)
     return;
 
   // x is which column
-  buffer[x+ (y/8)*128] |= (1 << (7-(y%8)));
+  _st7565buffer[x+ (y/8)*128] |= (1 << (7-(y%8)));
 }
 
 /**************************************************************************/
@@ -305,7 +305,7 @@ void st7565ClearPixel(uint8_t x, uint8_t y)
     return;
 
   // x is which column
-  buffer[x+ (y/8)*128] &= ~(1 << (7-(y%8)));
+  _st7565buffer[x+ (y/8)*128] &= ~(1 << (7-(y%8)));
 }
 
 /**************************************************************************/
@@ -323,7 +323,7 @@ void st7565ClearPixel(uint8_t x, uint8_t y)
 uint8_t st7565GetPixel(uint8_t x, uint8_t y)
 {
   if ((x >= 128) || (y >= 64)) return 0;
-  return buffer[x+ (y/8)*128] & (1 << (7-(y%8)));
+  return _st7565buffer[x+ (y/8)*128] & (1 << (7-(y%8)));
 }
 
 /**************************************************************************/

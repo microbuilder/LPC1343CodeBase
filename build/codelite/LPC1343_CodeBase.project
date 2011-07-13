@@ -276,6 +276,8 @@
         <File Name="../../project/commands/drawing/cmd_rectangle.c"/>
         <File Name="../../project/commands/drawing/cmd_tsthreshhold.c"/>
         <File Name="../../project/commands/drawing/cmd_backlight.c"/>
+        <File Name="../../project/commands/drawing/cmd_triangle.c"/>
+        <File Name="../../project/commands/drawing/cmd_roundedcorner.c"/>
       </VirtualDirectory>
       <File Name="../../project/commands/cmd_uart.c"/>
     </VirtualDirectory>

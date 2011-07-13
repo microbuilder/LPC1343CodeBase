@@ -26,7 +26,7 @@
 #include "cdcuser.h"
 #include "cdc_buf.h"
 
-// unsigned char BulkBufIn  [64];            // Buffer to store USB IN  packet
+unsigned char BulkBufIn  [64];            // Buffer to store USB IN  packet
 unsigned char BulkBufOut [64];            // Buffer to store USB OUT packet
 unsigned char NotificationBuf [10];
 
@@ -35,11 +35,11 @@ unsigned short  CDC_SerialState = 0x0000;
 unsigned short  CDC_DepInEmpty  = 1;                   // Data IN EP is empty
 
 /*----------------------------------------------------------------------------
-  We need a buffer for incoming data on USB port because USB receives
+  We need a buffer for incomming data on USB port because USB receives
   much faster than  UART transmits
  *---------------------------------------------------------------------------*/
 /* Buffer masks */
-#define CDC_BUF_SIZE               (64)   // Output buffer in bytes (power 2)
+#define CDC_BUF_SIZE               (64)               // Output buffer in bytes (power 2)
                                                        // large enough for file transfer
 #define CDC_BUF_MASK               (CDC_BUF_SIZE-1ul)
 
@@ -53,8 +53,7 @@ unsigned short  CDC_DepInEmpty  = 1;                   // Data IN EP is empty
 
 
 // CDC output buffer
-typedef struct __CDC_BUF_T 
-{
+typedef struct __CDC_BUF_T {
   unsigned char data[CDC_BUF_SIZE];
   volatile unsigned int wrIdx;
   volatile unsigned int rdIdx;
@@ -65,8 +64,7 @@ CDC_BUF_T  CDC_OutBuf;                                 // buffer for all CDC Out
 /*----------------------------------------------------------------------------
   read data from CDC_OutBuf
  *---------------------------------------------------------------------------*/
-int CDC_RdOutBuf (char *buffer, const int *length) 
-{
+int CDC_RdOutBuf (char *buffer, const int *length) {
   int bytesToRead, bytesRead;
   
   /* Read *length bytes, block if *bytes are not avaialable	*/
@@ -86,8 +84,7 @@ int CDC_RdOutBuf (char *buffer, const int *length)
 /*----------------------------------------------------------------------------
   write data to CDC_OutBuf
  *---------------------------------------------------------------------------*/
-int CDC_WrOutBuf (const char *buffer, int *length) 
-{
+int CDC_WrOutBuf (const char *buffer, int *length) {
   int bytesToWrite, bytesWritten;
 
   // Write *length bytes
@@ -108,8 +105,8 @@ int CDC_WrOutBuf (const char *buffer, int *length)
 /*----------------------------------------------------------------------------
   check if character(s) are available at CDC_OutBuf
  *---------------------------------------------------------------------------*/
-int CDC_OutBufAvailChar (int *availChar) 
-{
+int CDC_OutBufAvailChar (int *availChar) {
+
   *availChar = CDC_BUF_COUNT(CDC_OutBuf);
 
   return (0);
@@ -123,8 +120,14 @@ int CDC_OutBufAvailChar (int *availChar)
   Parameters:   None 
   Return Value: None
  *---------------------------------------------------------------------------*/
-void CDC_Init (void) 
-{
+void CDC_Init (void) {
+
+//  ser_OpenPort ();
+//  ser_InitPort (CDC_LineCoding.dwDTERate,
+//                CDC_LineCoding.bDataBits, 
+//                CDC_LineCoding.bParityType,
+//                CDC_LineCoding.bCharFormat);
+
   CDC_DepInEmpty  = 1;
   CDC_SerialState = CDC_GetSerialState();
 
@@ -144,8 +147,8 @@ void CDC_Init (void)
   Parameters:   None                          (global SetupPacket and EP0Buf)
   Return Value: TRUE - Success, FALSE - Error
  *---------------------------------------------------------------------------*/
-uint32_t CDC_SendEncapsulatedCommand (void) 
-{
+uint32_t CDC_SendEncapsulatedCommand (void) {
+
   return (TRUE);
 }
 
@@ -156,8 +159,8 @@ uint32_t CDC_SendEncapsulatedCommand (void)
   Parameters:   None                          (global SetupPacket and EP0Buf)
   Return Value: TRUE - Success, FALSE - Error
  *---------------------------------------------------------------------------*/
-uint32_t CDC_GetEncapsulatedResponse (void) 
-{
+uint32_t CDC_GetEncapsulatedResponse (void) {
+
   /* ... add code to handle request */
   return (TRUE);
 }
@@ -169,8 +172,8 @@ uint32_t CDC_GetEncapsulatedResponse (void)
   Parameters:   FeatureSelector
   Return Value: TRUE - Success, FALSE - Error
  *---------------------------------------------------------------------------*/
-uint32_t CDC_SetCommFeature (unsigned short wFeatureSelector) 
-{
+uint32_t CDC_SetCommFeature (unsigned short wFeatureSelector) {
+
   /* ... add code to handle request */
   return (TRUE);
 }
@@ -182,8 +185,8 @@ uint32_t CDC_SetCommFeature (unsigned short wFeatureSelector)
   Parameters:   FeatureSelector
   Return Value: TRUE - Success, FALSE - Error
  *---------------------------------------------------------------------------*/
-uint32_t CDC_GetCommFeature (unsigned short wFeatureSelector) 
-{
+uint32_t CDC_GetCommFeature (unsigned short wFeatureSelector) {
+
   /* ... add code to handle request */
   return (TRUE);
 }
@@ -195,8 +198,8 @@ uint32_t CDC_GetCommFeature (unsigned short wFeatureSelector)
   Parameters:   FeatureSelector
   Return Value: TRUE - Success, FALSE - Error
  *---------------------------------------------------------------------------*/
-uint32_t CDC_ClearCommFeature (unsigned short wFeatureSelector) 
-{
+uint32_t CDC_ClearCommFeature (unsigned short wFeatureSelector) {
+
   /* ... add code to handle request */
   return (TRUE);
 }
@@ -208,8 +211,8 @@ uint32_t CDC_ClearCommFeature (unsigned short wFeatureSelector)
   Parameters:   none                    (global SetupPacket and EP0Buf)
   Return Value: TRUE - Success, FALSE - Error
  *---------------------------------------------------------------------------*/
-uint32_t CDC_SetLineCoding (void) 
-{
+uint32_t CDC_SetLineCoding (void) {
+
   CDC_LineCoding.dwDTERate   =   (EP0Buf[0] <<  0)
                                | (EP0Buf[1] <<  8)
                                | (EP0Buf[2] << 16)
@@ -218,6 +221,12 @@ uint32_t CDC_SetLineCoding (void)
   CDC_LineCoding.bParityType =  EP0Buf[5];
   CDC_LineCoding.bDataBits   =  EP0Buf[6];
 
+//  ser_ClosePort();
+//  ser_OpenPort ();
+//  ser_InitPort (CDC_LineCoding.dwDTERate,
+//                CDC_LineCoding.bDataBits, 
+//                CDC_LineCoding.bParityType,
+//                CDC_LineCoding.bCharFormat);    
   return (TRUE);
 }
 
@@ -228,8 +237,8 @@ uint32_t CDC_SetLineCoding (void)
   Parameters:   None                         (global SetupPacket and EP0Buf)
   Return Value: TRUE - Success, FALSE - Error
  *---------------------------------------------------------------------------*/
-uint32_t CDC_GetLineCoding (void) 
-{
+uint32_t CDC_GetLineCoding (void) {
+
   EP0Buf[0] = (CDC_LineCoding.dwDTERate >>  0) & 0xFF;
   EP0Buf[1] = (CDC_LineCoding.dwDTERate >>  8) & 0xFF;
   EP0Buf[2] = (CDC_LineCoding.dwDTERate >> 16) & 0xFF;
@@ -275,12 +284,22 @@ uint32_t CDC_SendBreak (unsigned short wDurationOfBreak) {
   Parameters:   none
   Return Value: none
  *---------------------------------------------------------------------------*/
-void CDC_BulkIn(void) 
-{
-//  int numBytesRead, numBytesAvail;
-//
-//  // ToDo: Modify BulkIn to send incoming data to USB
-//        
+void CDC_BulkIn(void) {
+  //int numBytesRead, numBytesAvail;
+
+//  uint8_t frame[64];
+//  uint32_t bytesRead = 0;
+//  if (cdcBufferDataPending())
+//  {
+//    // Read up to 64 bytes
+//    bytesRead = cdcBufferReadLen(frame, 64);
+//    if (bytesRead > 0)
+//    {
+//      USB_WriteEP (CDC_DEP_IN, frame, bytesRead);
+//    }
+//  }
+
+
 //  ser_AvailChar (&numBytesAvail);
 //
 //  // ... add code to check for overwrite
@@ -294,8 +313,6 @@ void CDC_BulkIn(void)
 //  else {
 //    CDC_DepInEmpty = 1;
 //  }
-//
-//
 } 
 
 
@@ -304,8 +321,7 @@ void CDC_BulkIn(void)
   Parameters:   none
   Return Value: none
  *---------------------------------------------------------------------------*/
-void CDC_BulkOut(void) 
-{
+void CDC_BulkOut(void) {
   int numBytesRead;
 
   // get data from USB into intermediate buffer
@@ -315,6 +331,7 @@ void CDC_BulkOut(void)
 
   // store data in a buffer to transmit it over serial interface
   CDC_WrOutBuf ((char *)&BulkBufOut[0], &numBytesRead);
+
 }
 
 
@@ -323,9 +340,19 @@ void CDC_BulkOut(void)
   Parameters:   none
   Return Value: SerialState as defined in usbcdc11.pdf
  *---------------------------------------------------------------------------*/
-unsigned short CDC_GetSerialState (void) 
-{
+unsigned short CDC_GetSerialState (void) {
+//  unsigned short temp;
+
   CDC_SerialState = 0;
+//  ser_LineState (&temp);
+//
+//  if (temp & 0x8000)  CDC_SerialState |= CDC_SERIAL_STATE_RX_CARRIER;
+//  if (temp & 0x2000)  CDC_SerialState |= CDC_SERIAL_STATE_TX_CARRIER;
+//  if (temp & 0x0010)  CDC_SerialState |= CDC_SERIAL_STATE_BREAK;
+//  if (temp & 0x4000)  CDC_SerialState |= CDC_SERIAL_STATE_RING;
+//  if (temp & 0x0008)  CDC_SerialState |= CDC_SERIAL_STATE_FRAMING;
+//  if (temp & 0x0004)  CDC_SerialState |= CDC_SERIAL_STATE_PARITY;
+//  if (temp & 0x0002)  CDC_SerialState |= CDC_SERIAL_STATE_OVERRUN;
 
   return (CDC_SerialState);
 }
@@ -334,8 +361,8 @@ unsigned short CDC_GetSerialState (void)
 /*----------------------------------------------------------------------------
   Send the SERIAL_STATE notification as defined in usbcdc11.pdf, 6.3.5.
  *---------------------------------------------------------------------------*/
-void CDC_NotificationIn (void) 
-{
+void CDC_NotificationIn (void) {
+
   NotificationBuf[0] = 0xA1;                           // bmRequestType
   NotificationBuf[1] = CDC_NOTIFICATION_SERIAL_STATE;  // bNotification (SERIAL_STATE)
   NotificationBuf[2] = 0x00;                           // wValue

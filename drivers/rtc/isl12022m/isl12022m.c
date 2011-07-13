@@ -46,7 +46,6 @@ extern volatile uint8_t   I2CMasterBuffer[I2C_BUFSIZE];
 extern volatile uint8_t   I2CSlaveBuffer[I2C_BUFSIZE];
 extern volatile uint32_t  I2CReadLength, I2CWriteLength;
 
-uint32_t i;
 uint8_t monthday[12]={31,28,31,30,31,30,31,31,30,31,30,31};
 
 static bool _isl12022mInitialised = false;
@@ -79,6 +78,7 @@ uint8_t isl12022mBCDToDec(uint8_t val)
 isl12022mError_t isl12022mWrite8 (uint8_t address, uint8_t reg, uint32_t value)
 {
   // Clear write buffers
+  uint32_t i;
   for ( i = 0; i < I2C_BUFSIZE; i++ )
   {
     I2CMasterBuffer[i] = 0x00;
@@ -104,6 +104,7 @@ isl12022mError_t isl12022mReadBuffer(uint8_t address, uint8_t reg, uint8_t *buff
     return ISL12022M_ERROR_I2C_BUFFEROVERFLOW;
 
   // Clear write buffers
+  uint32_t i;
   for ( i = 0; i < I2C_BUFSIZE; i++ )
   {
     I2CMasterBuffer[i] = 0x00;

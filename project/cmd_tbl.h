@@ -63,8 +63,10 @@ void cmd_progress(uint8_t argc, char **argv);
 void cmd_getpixel(uint8_t argc, char **argv);
 void cmd_calibrate(uint8_t argc, char **argv);
 void cmd_orientation(uint8_t argc, char **argv);
+void cmd_roundedcorner(uint8_t argc, char **argv);
 void cmd_text(uint8_t argc, char **argv);
 void cmd_textw(uint8_t argc, char **argv);
+void cmd_triangle(uint8_t argc, char **argv);
 void cmd_tsthreshhold(uint8_t argc, char **argv);
 void cmd_tswait(uint8_t argc, char **argv);
 #ifdef CFG_SDCARD
@@ -126,6 +128,7 @@ cmd_t cmd_tbl[] =
   { "g",    2,  2,  0, cmd_getpixel          , "Get Pixel"                      , "'g <x> <y>'" },
   { "l",    5,  7,  0, cmd_line              , "Line"                           , "'l <x1> <y1> <x2> <y2> <color> [<empty> <solid>]'" },
   { "L",    1,  1,  0, cmd_backlight         , "Backlight"                      , "'L <0|1>'" },
+  { "n",    5,  5,  0, cmd_roundedcorner     , "Rounded Corner"                 , "'n <x> <y> <radius> <corner> <color>'" },
   { "o",    0,  1,  0, cmd_orientation       , "LCD Orientation"                , "'o [<0|1>]'" },
   { "p",    3,  3,  0, cmd_pixel             , "Draw Pixel"                     , "'p <x> <y> <color>'" },
   { "P",    9,  9,  0, cmd_progress          , "Progress Bar"                   , "'P <x> <y> <w> <h> <%> <bclr> <bfillclr> <pbrdclr> <pfillclr>'" },
@@ -133,6 +136,7 @@ cmd_t cmd_tbl[] =
   { "R",    7,  7,  0, cmd_rectangleround    , "Rounded Rectangle"              , "'R <x1> <y1> <x2> <y2> <color> <radius> <corners>'" },
   { "s",    2, 99,  0, cmd_textw             , "Text Width"                     , "'s <font#> <msg>'" },
   { "t",    5, 99,  0, cmd_text              , "Text"                           , "'t <x> <y> <color> <font#> <msg>'" },
+  { "v",    7,  8,  0, cmd_triangle          , "Triangle"                       , "'v <x1> <y1> <x2> <y2> <x3> <y3> <color> [<filled[0|1]>]'" },
   { "W",    0,  1,  0, cmd_tswait            , "Wait for Touch"                 , "'W [<ms>]'" },
   { "x",    0,  1,  0, cmd_tsthreshhold      , "Touch Threshold"                , "'x [<0..254>]'" },
   #endif

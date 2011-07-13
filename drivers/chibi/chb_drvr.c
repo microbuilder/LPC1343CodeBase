@@ -766,7 +766,7 @@ static void chb_radio_init()
                       CHB_EINTPIN,
                       gpioInterruptSense_Edge,        // Edge-sensitive
                       gpioInterruptEdge_Single,       // Single edge
-                      gpioInterruptEvent_ActiveHigh); // High triggers interrupt
+                      gpioInterruptEvent_ActiveLow);  // High triggers interrupt
 
     // enable interrupt
     gpioIntEnable (CHB_EINTPORT,

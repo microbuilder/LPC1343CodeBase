@@ -48,8 +48,8 @@
     are using by enabling one of the following definitions. The code base
     will then try to configure itself accordingly for that board.
     -----------------------------------------------------------------------*/
-    // #define CFG_BRD_LPC1343_REFDESIGN
-    #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
+    #define CFG_BRD_LPC1343_REFDESIGN
+    // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
     // #define CFG_BRD_LPC1343_802154USBSTICK
 /*=========================================================================*/
@@ -156,6 +156,25 @@
 
     -----------------------------------------------------------------------*/
     #define CFG_SYSTICK_DELAY_IN_MS     (1)
+/*=========================================================================*/
+
+
+/*=========================================================================
+    ALTERNATE RESET PIN
+    -----------------------------------------------------------------------
+
+    CFG_ALTRESET        If defined, indicates that a GPIO pin should be
+                        configured as an alternate reset pin in addition
+                        to the dedicated reset pin.
+    CFG_ALTRESET_PORT   The GPIO port where the alt reset pin is located
+    CFG_ALTRESET_PIN    The GPIO pin where the alt reset pin is located
+
+    -----------------------------------------------------------------------*/
+    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
+      #define CFG_ALTRESET
+      #define CFG_ALTRESET_PORT         (1)
+      #define CFG_ALTRESET_PIN          (5)   // P1.5 = RTS
+    #endif
 /*=========================================================================*/
 
 
@@ -462,7 +481,7 @@
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
       #define CFG_INTERFACE
       #define CFG_INTERFACE_MAXMSGSIZE    (256)
-      #define CFG_INTERFACE_PROMPT        "LCD >> "
+      #define CFG_INTERFACE_PROMPT        "CMD >> "
       #define CFG_INTERFACE_SILENTMODE    (0)
       #define CFG_INTERFACE_DROPCR        (0)
       #define CFG_INTERFACE_ENABLEIRQ     (0)
@@ -479,7 +498,7 @@
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       #define CFG_INTERFACE
       #define CFG_INTERFACE_MAXMSGSIZE    (256)
-      #define CFG_INTERFACE_PROMPT        "LCD >> "
+      #define CFG_INTERFACE_PROMPT        ">>"
       #define CFG_INTERFACE_SILENTMODE    (1)
       #define CFG_INTERFACE_DROPCR        (1)
       #define CFG_INTERFACE_ENABLEIRQ     (1)

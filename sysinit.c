@@ -130,6 +130,13 @@ void systemInit()
   gpioSetDir(CFG_LED_PORT, CFG_LED_PIN, 1);
   gpioSetValue(CFG_LED_PORT, CFG_LED_PIN, CFG_LED_OFF);
 
+  // Config alt reset pin if requested (really only relevant to LPC1343 LCD Board)
+  #ifdef CFG_ALTRESET
+    gpioSetDir (CFG_ALTRESET_PORT, CFG_ALTRESET_PIN, gpioDirection_Input);
+    gpioSetInterrupt (CFG_ALTRESET_PORT, CFG_ALTRESET_PIN, gpioInterruptSense_Level, gpioInterruptEdge_Single, gpioInterruptEvent_ActiveHigh);
+    gpioIntEnable (CFG_ALTRESET_PORT, CFG_ALTRESET_PIN); 
+  #endif
+
   // Initialise EEPROM
   #ifdef CFG_I2CEEPROM
     mcp24aaInit();

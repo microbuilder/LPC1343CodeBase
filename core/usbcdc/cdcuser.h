@@ -50,7 +50,7 @@ extern void CDC_BulkOut                  (void);
 /* CDC Notification Callback Function */
 extern void CDC_NotificationIn           (void);
 
-/* CDC Initialization Function */
+/* CDC Initializtion Function */
 extern void CDC_Init (void);
 
 /* CDC prepare the SERAIAL_STATE */

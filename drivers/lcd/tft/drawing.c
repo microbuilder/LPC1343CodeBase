@@ -651,6 +651,86 @@ void drawCircleFilled (uint16_t xCenter, uint16_t yCenter, uint16_t radius, uint
 
 /**************************************************************************/
 /*!
+    @brief  Draws a filled rounded corner
+
+    @param[in]  xCenter
+                The horizontal center of the circle
+    @param[in]  yCenter
+                The vertical center of the circle
+    @param[in]  radius
+                The circle's radius in pixels
+    @param[in]  position
+                The position of the corner, which affects how it will
+                be rendered
+    @param[in]  color
+                Color used when drawing
+*/
+/**************************************************************************/
+void drawCornerFilled (uint16_t xCenter, uint16_t yCenter, uint16_t radius, drawCornerPosition_t position, uint16_t color)
+{
+  int16_t f = 1 - radius;
+  int16_t ddF_x = 1;
+  int16_t ddF_y = -2 * radius;
+  int16_t x = 0;
+  int16_t y = radius;
+  int16_t xc_px, yc_my, xc_mx, xc_py, yc_mx, xc_my;
+  int16_t lcdWidth = lcdGetWidth();
+
+  switch (position)
+  {
+    case DRAW_CORNERPOSITION_TOPRIGHT:
+    case DRAW_CORNERPOSITION_TOPLEFT:
+      if (xCenter < lcdWidth) drawLine(xCenter, yCenter-radius < 0 ? 0 : yCenter-radius, xCenter, yCenter, color);
+      break;
+    case DRAW_CORNERPOSITION_BOTTOMRIGHT:
+    case DRAW_CORNERPOSITION_BOTTOMLEFT:
+      if (xCenter < lcdWidth) drawLine(xCenter, yCenter-radius < 0 ? 0 : yCenter, xCenter, (yCenter-radius) + (2*radius), color);
+      break;
+  }
+  
+  while (x<y) 
+  {
+    if (f >= 0) 
+    {
+      y--;
+      ddF_y += 2;
+      f += ddF_y;
+    }
+    x++;
+    ddF_x += 2;
+    f += ddF_x;
+
+    xc_px = xCenter+x;
+    xc_mx = xCenter-x;
+    xc_py = xCenter+y;
+    xc_my = xCenter-y;
+    yc_mx = yCenter-x;
+    yc_my = yCenter-y;
+
+    switch (position)
+    {
+      case DRAW_CORNERPOSITION_TOPRIGHT:
+        if ((xc_px < lcdWidth) && (xc_px >= 0)) drawLine(xc_px, yc_my, xc_px, yCenter, color);
+        if ((xc_py < lcdWidth) && (xc_py >= 0)) drawLine(xc_py, yc_mx, xc_py, yCenter, color);
+        break;
+      case DRAW_CORNERPOSITION_BOTTOMRIGHT:
+        if ((xc_px < lcdWidth) && (xc_px >= 0)) drawLine(xc_px, yCenter, xc_px, yc_my + 2*y, color);
+        if ((xc_py < lcdWidth) && (xc_py >= 0)) drawLine(xc_py, yCenter, xc_py, yc_mx + 2*x, color);
+        break;
+      case DRAW_CORNERPOSITION_TOPLEFT:
+        if ((xc_mx < lcdWidth) && (xc_mx >= 0)) drawLine(xc_mx, yc_my, xc_mx, yCenter, color);
+        if ((xc_my < lcdWidth) && (xc_my >= 0)) drawLine(xc_my, yc_mx, xc_my, yCenter, color);
+        break;
+      case DRAW_CORNERPOSITION_BOTTOMLEFT:
+        if ((xc_mx < lcdWidth) && (xc_mx >= 0)) drawLine(xc_mx, yCenter, xc_mx, yc_my + 2*y, color);
+        if ((xc_my < lcdWidth) && (xc_my >= 0)) drawLine(xc_my, yCenter, xc_my, yc_mx + 2*x, color);
+        break;
+    }
+  }
+}
+
+/**************************************************************************/
+/*!
     @brief  Draws a simple arrow of the specified width
 
     @param[in]  x

@@ -108,8 +108,6 @@ extern volatile uint8_t   I2CMasterBuffer[I2C_BUFSIZE];
 extern volatile uint8_t   I2CSlaveBuffer[I2C_BUFSIZE];
 extern volatile uint32_t  I2CReadLength, I2CWriteLength;
 
-uint32_t i, timeout;
-
 static bool _mcp24aaInitialised = false;
 
 /**************************************************************************/
@@ -164,6 +162,7 @@ mcp24aaError_e mcp24aaReadBuffer (uint16_t address, uint8_t *buffer, uint32_t bu
   // ToDo: Check if I2C is ready
 
   // Clear buffers
+  uint32_t i;
   for ( i = 0; i < I2C_BUFSIZE; i++ )
   {
     I2CMasterBuffer[i] = 0x00;
@@ -227,6 +226,7 @@ mcp24aaError_e mcp24aaWriteBuffer (uint16_t address, uint8_t *buffer, uint32_t b
   // ToDo: Check if I2C is ready
 
   // Clear write buffer
+  uint32_t i;
   for ( i = 0; i < I2C_BUFSIZE; i++ )
   {
     I2CMasterBuffer[i] = 0x00;
