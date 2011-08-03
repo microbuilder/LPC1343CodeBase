@@ -55,40 +55,60 @@
 
 /**************************************************************************/
 /*!
+    @brief  Swaps values a and b
+*/
+/**************************************************************************/
+void drawSwap(uint32_t a, uint32_t b)
+{
+  uint32_t t;
+  t = a;
+  a = b;
+  b = t;
+}
+
+/**************************************************************************/
+/*!
     @brief  Draws a single bitmap character
 */
 /**************************************************************************/
-void drawCharBitmap(const uint16_t xPixel, const uint16_t yPixel, uint16_t color, const uint8_t *glyph, uint8_t glyphHeightPages, uint8_t glyphWidthBits)
+void drawCharBitmap(const uint16_t xPixel, const uint16_t yPixel, uint16_t color, const uint8_t *glyph, uint8_t cols, uint8_t rows)
 {
   uint16_t verticalPage, horizBit, currentY, currentX;
   uint16_t indexIntoGlyph;
+
+  uint16_t _row, _col, _colPages;
 
   // set initial current y
   currentY = yPixel;
   currentX = xPixel;
 
-  // for each page of the glyph
-  for (verticalPage = glyphHeightPages; verticalPage > 0; --verticalPage)
+  // Figure out how many columns worth of data we have
+  if (cols % 8)
+    _colPages = cols / 8 + 1;
+  else
+    _colPages = cols / 8;
+
+  for (_row = 0; _row < rows; _row++)
   {
-    // for each horizontol bit
-    for (horizBit = 0; horizBit < glyphWidthBits; ++horizBit)
+    for (_col = 0; _col < _colPages; _col++)
     {
-      // next byte
-      indexIntoGlyph = (glyphHeightPages * horizBit) + verticalPage - 1;
-      
-      currentX = xPixel + (horizBit);
+      if (_row == 0)
+        indexIntoGlyph = _col;
+      else
+        indexIntoGlyph = (_row * _colPages) + _col;
+
+      currentY = yPixel + _row;
+      currentX = xPixel + (_col*8);
       // send the data byte
       if (glyph[indexIntoGlyph] & (0X80)) drawPixel(currentX, currentY, color);
-      if (glyph[indexIntoGlyph] & (0X40)) drawPixel(currentX, currentY - 1, color);
-      if (glyph[indexIntoGlyph] & (0X20)) drawPixel(currentX, currentY - 2, color);
-      if (glyph[indexIntoGlyph] & (0X10)) drawPixel(currentX, currentY - 3, color);
-      if (glyph[indexIntoGlyph] & (0X08)) drawPixel(currentX, currentY - 4, color);
-      if (glyph[indexIntoGlyph] & (0X04)) drawPixel(currentX, currentY - 5, color);
-      if (glyph[indexIntoGlyph] & (0X02)) drawPixel(currentX, currentY - 6, color);
-      if (glyph[indexIntoGlyph] & (0X01)) drawPixel(currentX, currentY - 7, color);
+      if (glyph[indexIntoGlyph] & (0X40)) drawPixel(currentX+1, currentY, color);
+      if (glyph[indexIntoGlyph] & (0X20)) drawPixel(currentX+2, currentY, color);
+      if (glyph[indexIntoGlyph] & (0X10)) drawPixel(currentX+3, currentY, color);
+      if (glyph[indexIntoGlyph] & (0X08)) drawPixel(currentX+4, currentY, color);
+      if (glyph[indexIntoGlyph] & (0X04)) drawPixel(currentX+5, currentY, color);
+      if (glyph[indexIntoGlyph] & (0X02)) drawPixel(currentX+6, currentY, color);
+      if (glyph[indexIntoGlyph] & (0X01)) drawPixel(currentX+7, currentY, color);
     }
-    // next line of pages
-    currentY += 8;
   }
 }
 
@@ -330,7 +350,9 @@ void drawString(uint16_t x, uint16_t y, uint16_t color, const FONT_INFO *fontInf
     }        
     
     // Send individual characters
-    drawCharBitmap(currentX, y, color, &fontInfo->data[charOffset], fontInfo->heightPages, charWidth);
+    // We need to manually calculate width in pages since this is screwy with variable width fonts
+    //uint8_t heightPages = charWidth % 8 ? charWidth / 8 : charWidth / 8 + 1;
+    drawCharBitmap(currentX, y, color, &fontInfo->data[charOffset], charWidth, fontInfo->height);
 
     // next char X
     currentX += charWidth + 1;
@@ -450,9 +472,6 @@ void drawLineDotted ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16
   // Check if we can use the optimised vertical line method.
   // This can make a huge difference in performance, but may
   // not work properly on every LCD controller:
-  // ex.: drawCircleFilled(120, 160, 50, COLOR_RED);
-  //      = 678834 cycles using lcdDrawVLine w/ILI9328   =  9.43mS @ 72MHz
-  //      = 7546261 w/o lcdDrawVLine, setting each pixel = 104.8mS @ 72MHz
   if ((x0 == x1) && (empty == 0))
   {
     // Warning: This may actually be slower than drawing individual pixels on 
@@ -999,7 +1018,7 @@ void drawTriangle ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t
 
 /**************************************************************************/
 /*!
-    @brief  Draws a triangle
+    @brief  Draws a filled triangle
 
     @param[in]  x0
                 x co-ordinate for point 0
@@ -1032,7 +1051,16 @@ void drawTriangle ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t
 /**************************************************************************/
 void drawTriangleFilled ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color)
 {
-  // ToDo: re-order vertices by ascending Y values (smallest first)
+  // Re-order vertices by ascending Y values (smallest first)
+  if (y0 > y1) {
+    drawSwap(y0, y1); drawSwap(x0, x1);
+  }
+  if (y1 > y2) {
+    drawSwap(y2, y1); drawSwap(x2, x1);
+  }
+  if (y0 > y1) {
+    drawSwap(y0, y1); drawSwap(x0, x1);
+  }
 
   int32_t dx1, dx2, dx3;    // Interpolation deltas
   int32_t sx1, sx2, sy;     // Scanline co-ordinates
@@ -1249,11 +1277,11 @@ void drawProgressBar ( uint16_t x, uint16_t y, uint16_t width, uint16_t height, 
     @code 
 
     #include "drivers/lcd/tft/drawing.h"  
-    #include "drivers/lcd/tft/fonts/dejavusansbold9.h"
+    #include "drivers/lcd/tft/fonts/dejavusans9.h"
 
     // Draw two buttons using Vera Sans Bold 9
-    drawButton(20, 195, 200, 35, &dejaVuSansBold9ptFontInfo, 7, COLOR_DARKERGRAY, COLOR_DARKERGRAY, COLOR_WHITE, "System Settings");
-    drawButton(20, 235, 200, 35, &dejaVuSansBold9ptFontInfo, 7, COLOR_LIMEGREENDIM, COLOR_LIMEGREEN, COLOR_BLACK, "System Settings");
+    drawButton(20, 195, 200, 35, &dejaVuSans9ptFontInfo, 7, COLOR_GRAY_80, COLOR_GRAY_80, COLOR_WHITE, "System Settings");
+    drawButton(20, 235, 200, 35, &dejaVuSans9ptFontInfo, 7, COLOR_THEME_LIMEGREEN_DARKER, COLOR_THEME_LIMEGREEN_BASE, COLOR_BLACK, "System Settings");
 
     @endcode
 */
