@@ -60,7 +60,7 @@ VPATH += drivers/lcd/tft/dialogues
 OBJS += drawing.o touchscreen.o bmp.o alphanumeric.o
 OBJS += dejavusans9.o dejavusansbold9.o dejavusanscondensed9.o
 OBJS += dejavusansmono8.o dejavusansmonobold8.o
-OBJS += veramono9.o veramonobold9.o veramono11.o veramonobold11.o 
+OBJS += verdana9.o verdana14.o verdanabold14.o 
 
 # LCD Driver (Only one can be included at a time!)
 OBJS += ILI9328.o

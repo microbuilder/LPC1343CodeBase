@@ -169,6 +169,7 @@ void USB_StatusOutStage (void) {
 
 static inline uint32_t USB_ReqGetStatus (void) {
   uint32_t n, m;
+  uint16_t* ep0 = (uint16_t __attribute__((packed)) *)EP0Buf;
 
   switch (SetupPacket.bmRequestType.BM.Recipient) {
     case REQUEST_TO_DEVICE:
@@ -176,7 +177,8 @@ static inline uint32_t USB_ReqGetStatus (void) {
       break;
     case REQUEST_TO_INTERFACE:
       if ((USB_Configuration != 0) && (SetupPacket.wIndex.WB.L < USB_NumInterfaces)) {
-        *((uint16_t __attribute__((packed)) *)EP0Buf) = 0;
+        //*((uint16_t __attribute__((packed)) *)EP0Buf) = 0;
+        *ep0 = 0;
         EP0Data.pData = EP0Buf;
       } else {
         return (FALSE);
@@ -186,7 +188,8 @@ static inline uint32_t USB_ReqGetStatus (void) {
       n = SetupPacket.wIndex.WB.L & 0x8F;
       m = (n & 0x80) ? ((1 << 16) << (n & 0x0F)) : (1 << n);
       if (((USB_Configuration != 0) || ((n & 0x0F) == 0)) && (USB_EndPointMask & m)) {
-        *((uint16_t __attribute__((packed)) *)EP0Buf) = (USB_EndPointHalt & m) ? 1 : 0;
+        // *((uint16_t __attribute__((packed)) *)EP0Buf) = (USB_EndPointHalt & m) ? 1 : 0;
+        *ep0 = (USB_EndPointHalt & m) ? 1 : 0;
         EP0Data.pData = EP0Buf;
       } else {
         return (FALSE);

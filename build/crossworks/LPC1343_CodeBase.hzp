@@ -219,23 +219,29 @@
               </file>
             </folder>
             <folder Name="fonts">
-              <file file_name="../../drivers/lcd/tft/fonts/veramono11.c">
+              <file file_name="../../drivers/lcd/tft/fonts/dejavusansmono8.c">
+                <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
                 <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
               </file>
-              <file file_name="../../drivers/lcd/tft/fonts/veramonobold11.c">
+              <file file_name="../../drivers/lcd/tft/fonts/dejavusansmonobold8.c">
+                <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
                 <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
               </file>
-              <file file_name="../../drivers/lcd/tft/fonts/veramono9.c">
+              <file file_name="../../drivers/lcd/tft/fonts/dejavusanscondensed9.c">
+                <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
                 <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
               </file>
-              <file file_name="../../drivers/lcd/tft/fonts/veramonobold9.c">
+              <file file_name="../../drivers/lcd/tft/fonts/dejavusans9.c">
+                <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
                 <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
               </file>
-              <file file_name="../../drivers/lcd/tft/fonts/dejavusansmono8.c"/>
-              <file file_name="../../drivers/lcd/tft/fonts/dejavusansmonobold8.c"/>
-              <file file_name="../../drivers/lcd/tft/fonts/dejavusanscondensed9.c"/>
-              <file file_name="../../drivers/lcd/tft/fonts/dejavusans9.c"/>
-              <file file_name="../../drivers/lcd/tft/fonts/dejavusansbold9.c"/>
+              <file file_name="../../drivers/lcd/tft/fonts/dejavusansbold9.c">
+                <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
+                <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
+              </file>
+              <file file_name="../../drivers/lcd/tft/fonts/verdana9.c"/>
+              <file file_name="../../drivers/lcd/tft/fonts/verdanabold14.c"/>
+              <file file_name="../../drivers/lcd/tft/fonts/verdana14.c"/>
             </folder>
             <file file_name="../../drivers/lcd/tft/drawing.c">
               <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
@@ -379,5 +385,5 @@
   <configuration Name="Debug" build_debug_information="Yes" c_preprocessor_definitions="DEBUG" gcc_optimization_level="None" hidden="Yes" link_include_startup_code="No"/>
   <configuration Name="THUMB Flash Release" inherited_configurations="THUMB;Flash;Release"/>
   <configuration Name="Release" build_debug_information="No" build_remove_unused_symbols="Yes" c_additional_options="-g1" c_preprocessor_definitions="NDEBUG;STARTUP_FROM_RESET" gcc_optimization_level="Optimize For Size" hidden="Yes" link_include_startup_code="No"/>
-  <configuration Name="Common" c_user_include_directories="$(ProjectDir)/../../;$(ProjectDir)/../../Project/;$(ProjectDir)/../../core/freakusb/usb/;$(ProjectDir)/../../core/freakusb/class/CDC/;$(ProjectDir)/../../core/freakusb/hw/lpc1343/"/>
+  <configuration Name="Common" arm_linker_allow_multiple_definition="Yes" c_user_include_directories="$(ProjectDir)/../../;$(ProjectDir)/../../Project/;$(ProjectDir)/../../core/freakusb/usb/;$(ProjectDir)/../../core/freakusb/class/CDC/;$(ProjectDir)/../../core/freakusb/hw/lpc1343/"/>
 </solution>

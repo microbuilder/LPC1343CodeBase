@@ -102,24 +102,39 @@ void cpuPllSetup (cpuMultiplier_t multiplier)
   // Set clock speed
   switch (multiplier)
   {
+    // Fclkout = M * Fclkin = FCCO / (2 * P)
+    // FCCO should be in the range of 156-320MHz 
+    // (see Table 58 of the LPC1343 usermanual for examples)
     case CPU_MULTIPLIER_2:
-      SCB_PLLCTRL = (SCB_PLLCTRL_MULT_2 | (1 << SCB_PLLCTRL_DIV_BIT));
+      // Fclkout = 24.0MHz
+      // FCCO = 2 * 4 * 24 = 192MHz
+      SCB_PLLCTRL = (SCB_PLLCTRL_MSEL_2 | SCB_PLLCTRL_PSEL_4);
       break;
     case CPU_MULTIPLIER_3:
-      SCB_PLLCTRL = (SCB_PLLCTRL_MULT_3 | (1 << SCB_PLLCTRL_DIV_BIT));
+      // Fclkout = 36.0MHz
+      // FCCO = 2 * 4 * 36 = 288MHz
+      SCB_PLLCTRL = (SCB_PLLCTRL_MSEL_3 | SCB_PLLCTRL_PSEL_4);
       break;
     case CPU_MULTIPLIER_4:
-      SCB_PLLCTRL = (SCB_PLLCTRL_MULT_4 | (1 << SCB_PLLCTRL_DIV_BIT));
+      // Fclkout = 48.0MHz
+      // FCCO = 2 * 2 * 48 = 192MHz
+      SCB_PLLCTRL = (SCB_PLLCTRL_MSEL_4 | SCB_PLLCTRL_PSEL_2);
       break;
     case CPU_MULTIPLIER_5:
-      SCB_PLLCTRL = (SCB_PLLCTRL_MULT_5 | (1 << SCB_PLLCTRL_DIV_BIT));
+      // Fclkout = 60.0MHz
+      // FCCO = 2 * 2 * 60 = 240MHz
+      SCB_PLLCTRL = (SCB_PLLCTRL_MSEL_5 | SCB_PLLCTRL_PSEL_2);
       break;
     case CPU_MULTIPLIER_6:
-      SCB_PLLCTRL = (SCB_PLLCTRL_MULT_6 | (1 << SCB_PLLCTRL_DIV_BIT));
+      // Fclkout = 72.0MHz
+      // FCCO = 2 * 2 * 72 = 288MHz
+      SCB_PLLCTRL = (SCB_PLLCTRL_MSEL_6 | SCB_PLLCTRL_PSEL_2);
       break;
     case CPU_MULTIPLIER_1:
     default:
-      SCB_PLLCTRL = (SCB_PLLCTRL_MULT_1 | (1 << SCB_PLLCTRL_DIV_BIT));
+      // Fclkout = 12.0MHz
+      // FCCO = 2 * 8 * 12 = 192MHz
+      SCB_PLLCTRL = (SCB_PLLCTRL_MSEL_1 | SCB_PLLCTRL_PSEL_8);
       break;
   }
 

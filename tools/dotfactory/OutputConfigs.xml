@@ -24,7 +24,7 @@
     <descImgWidth>DisplayInBytes</descImgWidth>
     <descImgHeight>DisplayInBits</descImgHeight>
     <generateSpaceCharacterBitmap>true</generateSpaceCharacterBitmap>
-    <spaceGenerationPixels>8</spaceGenerationPixels>
+    <spaceGenerationPixels>5</spaceGenerationPixels>
     <varNfBitmaps>const uint8_t {0}Bitmaps</varNfBitmaps>
     <varNfCharInfo>const FONT_CHAR_INFO {0}Descriptors</varNfCharInfo>
     <varNfFontInfo>const FONT_INFO {0}FontInfo</varNfFontInfo>

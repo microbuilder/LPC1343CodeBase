@@ -1,6 +1,23 @@
-v0.9.3 - Ongoing
-================
+v0.9.5 - 3 August 2011
+======================
 
+- Redid the font rendering code to use DotFactory
+  generated fonts, and update to the latest binary
+  in the /tools folder.  All fonts have been
+  re-rendered to accomodate the updated code.
+- Updated clock values in cpu.c for PLL to match FCCO 
+  range of 156-320MHz
+- Changed SCB_PLLCTRL_MULT_* to SCB_PLLCTRL_MSEL_* in
+  lpc111x.h to match usermanual
+- Changed SCB_PLLCTRL_DIV_* SCB_PLLCTRL_PSEL_* in
+  lpc111x.h to match usermanual
+- Added inline version of key functions in ili9328.c,
+  which increases the code size ~1.3KB but more than
+  doubles the drawing speed for most drawing functions
+  by avoiding branch operations and pushing and popping
+  the stack multiple times.  Inline methods can be
+  toggled with 'ILI9238_USE_INLINE_METHODS'.
+- Fixed IOCON_SWDIO_PIO1_3_FUNC_CT32B1_MAT2 in lpc134x.h
 - Added drawCornerFilled() to drawing.c and LCD CLI
 - Fixed a nasty bug with 'gpioInterruptEvent' in the 
   gpioSetInterrupt function (core/gpio/gpio.c)

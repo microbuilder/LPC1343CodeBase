@@ -50,6 +50,9 @@
 #include "core/systick/systick.h"
 #include "drivers/lcd/tft/touchscreen.h"
 
+// Uncomment this to use faster inline methods, but requires more flash
+// #define ILI9235_USE_INLINE_METHODS (1)
+
 static lcdOrientation_t lcdOrientation = LCD_ORIENTATION_PORTRAIT;
 static lcdProperties_t ili9325Properties = { 240, 320, TRUE, TRUE, TRUE };
 
@@ -62,6 +65,7 @@ static lcdProperties_t ili9325Properties = { 240, 320, TRUE, TRUE, TRUE };
     @brief  Causes a brief delay (10 ticks per unit)
 */
 /**************************************************************************/
+#if !defined ILI9235_USE_INLINE_METHODS
 void ili9325Delay(unsigned int t)
 {
   unsigned char t1;
@@ -71,12 +75,16 @@ void ili9325Delay(unsigned int t)
     __asm("nop");
   }
 }
+#else
+static inline uint32_t ili9325Delay(unsigned int t)     { unsigned char t1; while(t--) for ( t1=10; t1 > 0; t1-- ) { __asm("nop"); } }
+#endif
 
 /**************************************************************************/
 /*! 
     @brief  Writes the supplied 16-bit command using an 8-bit interface
 */
 /**************************************************************************/
+#if !defined ILI9238_USE_INLINE_METHODS
 void ili9325WriteCmd(uint16_t command) 
 {
   // Compiled with -Os on GCC 4.4 this works out to 25 cycles
@@ -94,12 +102,16 @@ void ili9325WriteCmd(uint16_t command)
   CLR_WR;
   SET_WR_CS;            // Saves 7 commands compared to "SET_WR; SET_CS;"
 }
+#else
+static inline void ili9325WriteCmd(uint16_t command) { CLR_CS_CD_SET_RD_WR; ILI9325_GPIO2DATA_DATA = (command >> (8 - ILI9325_DATA_OFFSET)); CLR_WR; SET_WR; ILI9325_GPIO2DATA_DATA = command << ILI9325_DATA_OFFSET; CLR_WR; SET_WR_CS; }
+#endif
 
 /**************************************************************************/
 /*! 
     @brief  Writes the supplied 16-bit data using an 8-bit interface
 */
 /**************************************************************************/
+#if !defined ILI9238_USE_INLINE_METHODS
 void ili9325WriteData(uint16_t data)
 {
   CLR_CS_SET_CD_RD_WR;  // Saves 18 commands compared to SET_CD; SET_RD; SET_WR; CLR_CS"
@@ -110,6 +122,9 @@ void ili9325WriteData(uint16_t data)
   CLR_WR;
   SET_WR_CS;            // Saves 7 commands compared to "SET_WR, SET_CS;"
 }
+#else
+static inline void ili9325WriteData(uint16_t data) {   CLR_CS_SET_CD_RD_WR; ILI9325_GPIO2DATA_DATA = (data >> (8 - ILI9325_DATA_OFFSET)); CLR_WR; SET_WR; ILI9325_GPIO2DATA_DATA = data << ILI9325_DATA_OFFSET; CLR_WR; SET_WR_CS; }
+#endif
 
 /**************************************************************************/
 /*! 
@@ -191,6 +206,7 @@ uint16_t ili9325Type(void)
     @brief  Sets the cursor to the specified X/Y position
 */
 /**************************************************************************/
+#if !defined ILI9238_USE_INLINE_METHODS
 void ili9325SetCursor(uint16_t x, uint16_t y)
 {
   uint16_t al, ah;
@@ -209,6 +225,9 @@ void ili9325SetCursor(uint16_t x, uint16_t y)
   ili9325Command(ILI9325_COMMANDS_HORIZONTALGRAMADDRESSSET, al);
   ili9325Command(ILI9325_COMMANDS_VERTICALGRAMADDRESSSET, ah);
 }
+#else
+static inline void ili9325SetCursor(uint16_t x, uint16_t y) { uint16_t al, ah; if (lcdOrientation == LCD_ORIENTATION_LANDSCAPE) { al = y; ah = x; } else { al = x; ah = y; }; ili9325WriteCmd(ILI9325_COMMANDS_HORIZONTALGRAMADDRESSSET); ili9325WriteData(al); ili9325WriteCmd(ILI9325_COMMANDS_VERTICALGRAMADDRESSSET); ili9325WriteData(ah); }
+#endif
 
 /**************************************************************************/
 /*! 

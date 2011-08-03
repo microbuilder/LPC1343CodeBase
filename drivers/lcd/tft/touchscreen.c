@@ -213,7 +213,7 @@ tsTouchData_t tsRenderCalibrationScreen(uint16_t x, uint16_t y, uint16_t radius)
     @note  This is based on the public domain touch screen calibration code
            written by Carlos E. Vidales (copyright (c) 2001).
 
-           For more inforormation, see the following app notes:
+           For more information, see the following app notes:
 
            - AN2173 - Touch Screen Control and Calibration
              Svyatoslav Paliy, Cypress Microsystems
@@ -261,7 +261,6 @@ int setCalibrationMatrix( tsPoint_t * displayPtr, tsPoint_t * screenPtr, tsMatri
     eepromWriteS32(CFG_EEPROM_TOUCHSCREEN_CAL_CN, matrixPtr->Cn);
     eepromWriteS32(CFG_EEPROM_TOUCHSCREEN_CAL_DN, matrixPtr->Dn);
     eepromWriteS32(CFG_EEPROM_TOUCHSCREEN_CAL_EN, matrixPtr->En);
-    eepromWriteS32(CFG_EEPROM_TOUCHSCREEN_CAL_FN, matrixPtr->Fn);
     eepromWriteS32(CFG_EEPROM_TOUCHSCREEN_CAL_FN, matrixPtr->Fn);
     eepromWriteS32(CFG_EEPROM_TOUCHSCREEN_CAL_DIVIDER, matrixPtr->Divider);
     eepromWriteU8(CFG_EEPROM_TOUCHSCREEN_CALIBRATED, 1);

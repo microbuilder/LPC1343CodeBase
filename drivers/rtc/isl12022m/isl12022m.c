@@ -46,8 +46,6 @@ extern volatile uint8_t   I2CMasterBuffer[I2C_BUFSIZE];
 extern volatile uint8_t   I2CSlaveBuffer[I2C_BUFSIZE];
 extern volatile uint32_t  I2CReadLength, I2CWriteLength;
 
-uint8_t monthday[12]={31,28,31,30,31,30,31,31,30,31,30,31};
-
 static bool _isl12022mInitialised = false;
 
 /**************************************************************************/

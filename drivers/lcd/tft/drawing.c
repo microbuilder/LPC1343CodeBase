@@ -73,9 +73,7 @@ void drawSwap(uint32_t a, uint32_t b)
 /**************************************************************************/
 void drawCharBitmap(const uint16_t xPixel, const uint16_t yPixel, uint16_t color, const uint8_t *glyph, uint8_t cols, uint8_t rows)
 {
-  uint16_t verticalPage, horizBit, currentY, currentX;
-  uint16_t indexIntoGlyph;
-
+  uint16_t currentY, currentX, indexIntoGlyph;
   uint16_t _row, _col, _colPages;
 
   // set initial current y
