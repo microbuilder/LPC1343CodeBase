@@ -6,7 +6,7 @@
     <commentCharDescriptor>true</commentCharDescriptor>
     <commentStyle>C</commentStyle>
     <bmpVisualizerChar>#</bmpVisualizerChar>
-    <rotation>RotateNinety</rotation>
+    <rotation>RotateZero</rotation>
     <flipHorizontal>false</flipHorizontal>
     <flipVertical>false</flipVertical>
     <paddingRemovalHorizontal>Fixed</paddingRemovalHorizontal>
@@ -18,10 +18,19 @@
     <generateLookupArray>true</generateLookupArray>
     <descCharWidth>DisplayInBits</descCharWidth>
     <descCharHeight>DontDisplay</descCharHeight>
-    <descFontHeight>DisplayInBytes</descFontHeight>
+    <descFontHeight>DisplayInBits</descFontHeight>
+    <generateLookupBlocks>false</generateLookupBlocks>
+    <lookupBlocksNewAfterCharCount>80</lookupBlocksNewAfterCharCount>
+    <descImgWidth>DisplayInBytes</descImgWidth>
+    <descImgHeight>DisplayInBits</descImgHeight>
     <generateSpaceCharacterBitmap>true</generateSpaceCharacterBitmap>
-    <spaceGenerationPixels>5</spaceGenerationPixels>
-    <displayName>VariableWidth</displayName>
+    <spaceGenerationPixels>8</spaceGenerationPixels>
+    <varNfBitmaps>const uint8_t {0}Bitmaps</varNfBitmaps>
+    <varNfCharInfo>const FONT_CHAR_INFO {0}Descriptors</varNfCharInfo>
+    <varNfFontInfo>const FONT_INFO {0}FontInfo</varNfFontInfo>
+    <varNfWidth>const uint8_t {0}Width</varNfWidth>
+    <varNfHeight>const uint8_t {0}Height</varNfHeight>
+    <displayName>Variable Width</displayName>
   </OutputConfiguration>
   <OutputConfiguration>
     <commentVariableName>true</commentVariableName>
@@ -29,7 +38,7 @@
     <commentCharDescriptor>true</commentCharDescriptor>
     <commentStyle>C</commentStyle>
     <bmpVisualizerChar>#</bmpVisualizerChar>
-    <rotation>RotateNinety</rotation>
+    <rotation>RotateZero</rotation>
     <flipHorizontal>false</flipHorizontal>
     <flipVertical>false</flipVertical>
     <paddingRemovalHorizontal>Fixed</paddingRemovalHorizontal>
@@ -41,9 +50,18 @@
     <generateLookupArray>true</generateLookupArray>
     <descCharWidth>DisplayInBits</descCharWidth>
     <descCharHeight>DontDisplay</descCharHeight>
-    <descFontHeight>DisplayInBytes</descFontHeight>
+    <descFontHeight>DisplayInBits</descFontHeight>
+    <generateLookupBlocks>false</generateLookupBlocks>
+    <lookupBlocksNewAfterCharCount>80</lookupBlocksNewAfterCharCount>
+    <descImgWidth>DisplayInBytes</descImgWidth>
+    <descImgHeight>DisplayInBits</descImgHeight>
     <generateSpaceCharacterBitmap>true</generateSpaceCharacterBitmap>
     <spaceGenerationPixels>8</spaceGenerationPixels>
-    <displayName>FixedWidth</displayName>
+    <varNfBitmaps>const uint8_t {0}Bitmaps</varNfBitmaps>
+    <varNfCharInfo>const FONT_CHAR_INFO {0}Descriptors</varNfCharInfo>
+    <varNfFontInfo>const FONT_INFO {0}FontInfo</varNfFontInfo>
+    <varNfWidth>const uint8_t {0}Width</varNfWidth>
+    <varNfHeight>const uint8_t {0}Height</varNfHeight>
+    <displayName>Fixed Width</displayName>
   </OutputConfiguration>
 </ArrayOfOutputConfiguration>
