@@ -41,7 +41,7 @@ void pn532PrintHex(const byte_t * pbtData, const size_t szBytes)
     @param  szBytes   Data length in bytes
 */
 /**************************************************************************/
-void pn532PrintHexVerbose(const byte_t * pbtData, const size_t szBytes)
+void pn532PrintHexChar(const byte_t * pbtData, const size_t szBytes)
 {
   size_t szPos;
   for (szPos=0; szPos < szBytes; szPos++) 
@@ -51,7 +51,7 @@ void pn532PrintHexVerbose(const byte_t * pbtData, const size_t szBytes)
   printf("  ");
   for (szPos=0; szPos < szBytes; szPos++) 
   {
-    printf("%c", pbtData[szPos] == 0 ? '.' : pbtData[szPos]);
+    printf("%c", pbtData[szPos] <= 0x1F ? '.' : pbtData[szPos]);
   }
   printf(CFG_PRINTF_NEWLINE);
 }
