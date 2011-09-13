@@ -259,7 +259,7 @@ pn532_error_t pn532_mifareultralight_ReadPage (uint8_t page, byte_t * pbtBuffer)
   if (szLen == 26)
   {
     /* Copy the 4 data bytes to the output buffer         */
-    /* Block content starts at byte 8 of a valid response */
+    /* Block content starts at byte 9 of a valid response */
     /* Note that the command actually reads 16 byte or 4  */
     /* pages at a time ... we simply discard the last 12  */
     /* bytes                                              */

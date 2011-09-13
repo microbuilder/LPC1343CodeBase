@@ -1,3 +1,8 @@
+v0.9.8 - Ongoing
+================
+- Added driver for Sharp Memory Display
+  /drivers/lcd/bitmap/sharpmem
+
 v0.9.5 - 3 August 2011
 ======================
 

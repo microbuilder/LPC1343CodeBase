@@ -71,7 +71,7 @@ void drawSwap(uint32_t a, uint32_t b)
     @brief  Draws a single bitmap character
 */
 /**************************************************************************/
-void drawCharBitmap(const uint16_t xPixel, const uint16_t yPixel, uint16_t color, const uint8_t *glyph, uint8_t cols, uint8_t rows)
+void drawCharBitmap(const uint16_t xPixel, const uint16_t yPixel, uint16_t color, const char *glyph, uint8_t cols, uint8_t rows)
 {
   uint16_t currentY, currentX, indexIntoGlyph;
   uint16_t _row, _col, _colPages;
@@ -399,8 +399,8 @@ uint16_t drawGetStringWidth(const FONT_INFO *fontInfo, char *str)
     }
   }
 
-  /* return the wdith */
-  return width;
+  /* return the width */
+  return width > 0 ? width - 1 : width;
 }
 
 /**************************************************************************/

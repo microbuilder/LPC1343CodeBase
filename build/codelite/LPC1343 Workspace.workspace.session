@@ -5,7 +5,7 @@
   <TabInfoArray Name="TabInfoArray">
     <TabInfo>
       <wxString Value="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" Name="FileName"/>
-      <int Value="50" Name="FirstVisibleLine"/>
+      <int Value="40" Name="FirstVisibleLine"/>
       <int Value="41" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
     </TabInfo>

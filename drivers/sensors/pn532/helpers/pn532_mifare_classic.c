@@ -345,7 +345,7 @@ pn532_error_t pn532_mifareclassic_AuthenticateBlock (byte_t * pbtCUID, size_t sz
     return error;
   }
 
-  /* Read the authentification response */
+  /* Read the authentication response */
   memset(abtResponse, 0, PN532_RESPONSELEN_INDATAEXCHANGE);
   do
   {
@@ -435,8 +435,8 @@ pn532_error_t pn532_mifareclassic_ReadDataBlock (uint8_t uiBlockNumber, byte_t *
   if (szLen == 26)
   {
     /* Copy the 16 data bytes to the output buffer        */
-    /* Block content starts at byte 8 of a valid response */
-    memcpy (pbtData, abtResponse+7, 16);    
+    /* Block content starts at byte 9 of a valid response */
+    memcpy (pbtData, abtResponse+8, 16);
   }
   else
   {

@@ -75,6 +75,7 @@
     ILI9325/8   X X  X  X     X X X X X X X X X     . . . X
     ST7565      X X  X  X     X X X X X X X X X     . . . X
     ST7735      . .  .  .     X X X X X X . . .     . . . .
+    SHARPMEM    . .  .  .     X X X X . . . . .     . . . .
     SSD1306     . .  .  .     X X X . X X . . .     . . . .
     MCP121      . .  .  .     . . . . . . . . .     . X . .
 
@@ -91,6 +92,7 @@
     ILI9325/8   .     .     .     .       .       X X X X     .
     ST7565      .     .     .     .       .       X X X X     .
     ST7535      .     .     .     .       .       . . . .     .
+    SHARPMEM    .     .     .     .       .       . . . .     .
     SSD1306     .     .     .     .       .       . . . .     .
     INTERFACE   .     .     .     .       .       . . . .     X[2]
 
@@ -129,7 +131,7 @@
     -----------------------------------------------------------------------*/
     #define CFG_FIRMWARE_VERSION_MAJOR            (0)
     #define CFG_FIRMWARE_VERSION_MINOR            (9)
-    #define CFG_FIRMWARE_VERSION_REVISION         (5)
+    #define CFG_FIRMWARE_VERSION_REVISION         (8)
 /*=========================================================================*/
 
 
@@ -389,9 +391,7 @@
                               "\n" for *nix
 
     Note: If no printf redirection definitions are present, all printf
-    output will be ignored, though this will also save ~350 bytes flash.
-
-    NOTE: PRINTF Support =    ~350 bytes Flash (-Os)
+    output will be ignored.
     -----------------------------------------------------------------------*/
     #ifdef CFG_BRD_LPC1343_REFDESIGN
       // #define CFG_PRINTF_UART
@@ -768,7 +768,7 @@
 
 
 /*=========================================================================
-    128x64 Graphic LCDs
+    Monochrome/Bitmap Graphic LCDs
     -----------------------------------------------------------------------
 
     CFG_ST7565                If defined, this will cause drivers for
@@ -776,15 +776,16 @@
     CFG_SSD1306               If defined, this will cause drivers for
                               the 128x64 pixel SSD1306 OLED display to be
                               included
-
-    Note:                     LPC1114 @ 36MHz and the ST7565 with the
-                              backlight enabled consumes ~35mA
+    CFG_SHARPMEM              If defined, this will cause drivers for
+                              Sharp Memory Displays to be included
 
     DEPENDENCIES:             ST7565 requires the use of pins 2.1-6.
     DEPENDENCIES:             SSD1306 requires the use of pins 2.1-6.
+    DEPENDENCIES:             SHARPMEM requires the use of pins 2.1-4.
     -----------------------------------------------------------------------*/
     // #define CFG_ST7565
     // #define CFG_SSD1306
+    // #define CFG_SHARPMEM
 /*=========================================================================*/
 
 

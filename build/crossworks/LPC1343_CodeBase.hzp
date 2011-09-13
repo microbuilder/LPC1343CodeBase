@@ -171,10 +171,11 @@
             <file file_name="../../drivers/sensors/pn532/pn532.c">
               <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
             </file>
-            <file file_name="../../drivers/sensors/pn532/pn532_drvr_uart.c">
-              <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
-            </file>
-            <file file_name="../../drivers/sensors/pn532/pn532_drvr_spi.c"/>
+            <file file_name="../../drivers/sensors/pn532/pn532_bus_uart.c"/>
+            <folder Name="helpers">
+              <file file_name="../../drivers/sensors/pn532/helpers/pn532_mifare_classic.c"/>
+              <file file_name="../../drivers/sensors/pn532/helpers/pn532_mifare_ultralight.c"/>
+            </folder>
           </folder>
           <folder Name="tsl2561">
             <file file_name="../../drivers/sensors/tsl2561/tsl2561.c">
@@ -193,6 +194,9 @@
             <folder Name="ssd1306">
               <file file_name="../../drivers/lcd/bitmap/ssd1306/ssd1306.c"/>
             </folder>
+            <folder Name="sharpmem">
+              <file file_name="../../drivers/lcd/bitmap/sharpmem/sharpmem.c"/>
+            </folder>
           </folder>
           <folder Name="tft">
             <folder Name="hw">
@@ -209,14 +213,15 @@
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
               </file>
               <file file_name="../../drivers/lcd/tft/hw/ILI9328.c">
-                <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
-                <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
+                <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
+                <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
                 <configuration Name="Release" gcc_optimization_level="Level 1"/>
               </file>
               <file file_name="../../drivers/lcd/tft/hw/ssd1331.c">
                 <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
               </file>
+              <file file_name="../../drivers/lcd/tft/hw/ssd1351.c"/>
             </folder>
             <folder Name="fonts">
               <file file_name="../../drivers/lcd/tft/fonts/dejavusansmono8.c">
@@ -290,6 +295,12 @@
           <folder Name="isl12022m">
             <file file_name="../../drivers/rtc/isl12022m/isl12022m.c"/>
           </folder>
+        </folder>
+        <folder Name="spiflash">
+          <folder Name="w25q16bv">
+            <file file_name="../../drivers/spiflash/w25q16bv/w25q16bv.c"/>
+          </folder>
+          <file file_name="../../drivers/spiflash/spiflash.h"/>
         </folder>
       </folder>
       <file file_name="../../sysinit.c"/>
