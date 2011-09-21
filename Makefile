@@ -92,7 +92,7 @@ OBJS += mcp4725.o
 
 # RFID/NFC
 VPATH += drivers/sensors/pn532
-OBJS += pn532.o pn532_drvr_uart.o
+OBJS += pn532.o 
 
 # TAOS Light Sensors
 VPATH += drivers/sensors/tcs3414 drivers/sensors/tsl2561
@@ -105,7 +105,7 @@ OBJS += tcs3414.o tsl2561.o
 VPATH += core core/adc core/cmd core/cpu core/gpio core/i2c core/pmu
 VPATH += core/ssp core/systick core/timer16 core/timer32 core/uart
 VPATH += core/usbhid-rom core/libc core/wdt core/usbcdc core/pwm
-VPATH += core/IAP
+VPATH += core/iap
 OBJS += adc.o cpu.o cmd.o gpio.o i2c.o pmu.o ssp.o systick.o timer16.o
 OBJS += timer32.o uart.o uart_buf.o usbconfig.o usbhid.o stdio.o string.o
 OBJS += wdt.o cdcuser.o cdc_buf.o usbcore.o usbdesc.o usbhw.o usbuser.o 
@@ -124,6 +124,8 @@ OBJCOPY = $(CROSS_COMPILE)objcopy
 OBJDUMP = $(CROSS_COMPILE)objdump
 OUTFILE = firmware
 LPCRC = ./lpcrc
+LPCRC_DIR = ./tools/lpcrc
+CP = cp
 
 ##########################################################################
 # GNU GCC compiler flags
@@ -167,7 +169,10 @@ all: firmware
 %.o : %.s
 	$(AS) $(ASFLAGS) -o $@ $<
 
-firmware: $(OBJS) $(SYS_OBJS)
+$(LPCRC) :
+	$(MAKE) -C $(LPCRC_DIR) && $(CP) $(LPCRC_DIR)/lpcrc .
+	
+firmware: $(OBJS) $(SYS_OBJS) $(LPCRC)
 	-@echo "MEMORY" > $(LD_TEMP)
 	-@echo "{" >> $(LD_TEMP)
 	-@echo "  flash(rx): ORIGIN = 0x00000000, LENGTH = $(FLASH)" >> $(LD_TEMP)
