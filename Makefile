@@ -124,7 +124,6 @@ OBJCOPY = $(CROSS_COMPILE)objcopy
 OBJDUMP = $(CROSS_COMPILE)objdump
 OUTFILE = firmware
 LPCRC = ./lpcrc
-LPCRC_DIR = ./tools/lpcrc
 CP = cp
 
 ##########################################################################
@@ -169,10 +168,7 @@ all: firmware
 %.o : %.s
 	$(AS) $(ASFLAGS) -o $@ $<
 
-$(LPCRC) :
-	$(MAKE) -C $(LPCRC_DIR) && $(CP) $(LPCRC_DIR)/lpcrc .
-	
-firmware: $(OBJS) $(SYS_OBJS) $(LPCRC)
+firmware: $(OBJS) $(SYS_OBJS)
 	-@echo "MEMORY" > $(LD_TEMP)
 	-@echo "{" >> $(LD_TEMP)
 	-@echo "  flash(rx): ORIGIN = 0x00000000, LENGTH = $(FLASH)" >> $(LD_TEMP)
