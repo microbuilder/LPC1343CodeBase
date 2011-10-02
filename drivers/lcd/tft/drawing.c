@@ -350,7 +350,7 @@ void drawString(uint16_t x, uint16_t y, uint16_t color, const FONT_INFO *fontInf
     // Send individual characters
     // We need to manually calculate width in pages since this is screwy with variable width fonts
     //uint8_t heightPages = charWidth % 8 ? charWidth / 8 : charWidth / 8 + 1;
-    drawCharBitmap(currentX, y, color, &fontInfo->data[charOffset], charWidth, fontInfo->height);
+    drawCharBitmap(currentX, y, color, (const char *)(&fontInfo->data[charOffset]), charWidth, fontInfo->height);
 
     // next char X
     currentX += charWidth + 1;

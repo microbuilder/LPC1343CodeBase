@@ -2,6 +2,10 @@ v0.9.8 - Ongoing
 ================
 - Added driver for Sharp Memory Display
   /drivers/lcd/bitmap/sharpmem
+- Added SPI Flash example
+  /tools/examples/spiflash/*
+- Added write function to SPI Flash driver
+  /drivers/spiflash/*
 
 v0.9.5 - 3 August 2011
 ======================

@@ -98,6 +98,10 @@ OBJS += pn532.o
 VPATH += drivers/sensors/tcs3414 drivers/sensors/tsl2561
 OBJS += tcs3414.o tsl2561.o
 
+# SPI Flash
+VPATH += drivers/spiflash/w25q16bv
+OBJS += w25q16bv.o
+
 ##########################################################################
 # Library files 
 ##########################################################################

@@ -241,8 +241,6 @@ void spiflashWriteEnable (bool enable)
 {
   if (!_w25q16bvInitialised) spiflashInit();
 
-  uint32_t i;
-  
   // ToDo: Put the WP pin in an appropriate state if required
 
   W25Q16BV_SELECT();
@@ -519,9 +517,7 @@ spiflashError_e spiflashEraseChip (void)
 spiflashError_e spiflashWritePage (uint32_t address, uint8_t *buffer, uint32_t len)
 {
   uint8_t status;
-  uint32_t currentpage, totalpages;
-  uint32_t a, i, timeout;
-  a = i = 0;
+  uint32_t i;
 
   if (!_w25q16bvInitialised) spiflashInit();
 

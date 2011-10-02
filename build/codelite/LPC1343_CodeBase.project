@@ -234,6 +234,13 @@
         <File Name="../../drivers/rtc/isl12022m/isl12022m.h"/>
       </VirtualDirectory>
     </VirtualDirectory>
+    <VirtualDirectory Name="spiflash">
+      <File Name="../../drivers/spiflash/spiflash.h"/>
+      <VirtualDirectory Name="w25q16bv">
+        <File Name="../../drivers/spiflash/w25q16bv/w25q16bv.c"/>
+        <File Name="../../drivers/spiflash/w25q16bv/w25q16bv.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="lpc1xxx">
     <File Name="../../lpc1xxx/linkscript.ld"/>
