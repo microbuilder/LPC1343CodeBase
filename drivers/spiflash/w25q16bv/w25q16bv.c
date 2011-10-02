@@ -42,6 +42,7 @@
 #include "../spiflash.h"
 #include "core/ssp/ssp.h"
 #include "core/gpio/gpio.h"
+#include "core/systick/systick.h"
 
 // Macros to toggle the CS/SSEL line on the SPI bus
 #define W25Q16BV_SELECT()       gpioSetValue(0, 2, 0)
@@ -263,7 +264,7 @@ void spiflashWriteEnable (bool enable)
     @param[out] *buffer
                 Pointer to the buffer that will store the read results
     @param[in]  len
-                Length of the buffer (zero-based).
+                Length of the buffer.
 
     @section EXAMPLE
 
@@ -395,7 +396,7 @@ spiflashError_e spiflashEraseSector (uint32_t sectorNumber)
   W25Q16BV_DESELECT();
 
   // Wait until the busy bit is cleared before exiting
-  // This can take up to 10 seconds according to the datasheet!
+  // This can take up to 400ms according to the datasheet
   while (w25q16bvGetStatus() & W25Q16BV_STAT1_BUSY);
 
   return SPIFLASH_ERROR_OK;
@@ -458,91 +459,137 @@ spiflashError_e spiflashEraseChip (void)
   return SPIFLASH_ERROR_OK;
 }
 
-///**************************************************************************/
-///*! 
-//    @brief Writes the supplied bytes at a specified address.
-//
-//    This function will write one or more bytes starting at the supplied
-//    address.
-//
-//    @param[in]  address
-//                The 16-bit address where the write will start.  The
-//                maximum value for the address depends on the size of the
-//                EEPROM
-//    @param[in]  *buffer
-//                Pointer to the buffer that contains the values to write.
-//    @param[in]  bufferLength
-//                Length of the buffer
-//*/
-///**************************************************************************/
-//at25Error_e at25Write (uint16_t address, uint8_t *buffer, uint32_t bufferLength)
-//{
-//  if (address >= AT25_MAXADDRESS)
-//  {
-//    return AT25_ERROR_ADDRERR;
-//  }
-//
-//  if (bufferLength > 6)
-//  {
-//    return AT25_ERROR_BUFFEROVERFLOW;
-//  }
-//
-//  // Set write enable latch
-//  at25WriteEnable();
-//
-//  timeout = 0;
-//  while ( timeout < SSP_MAX_TIMEOUT )
-//  {
-//    // Wait until the device is write enabled
-//    if (at25GetRSR() == AT25_RDSR_WEN)
-//    {
-//      break;
-//    }
-//    timeout++;
-//  }
-//  if ( timeout == SSP_MAX_TIMEOUT )
-//  {
-//    return AT25_ERROR_TIMEOUT_WE;
-//  }
-//
-//  for (i = 0; i < bufferLength; i++)        // Init RD and WR buffer
-//  {
-//    src_addr[i+2] = buffer[i];              // leave two bytes for cmd and offset(8 bits)
-//    dest_addr[i] = 0;
-//  }
-//
-//  W25Q16BV_SELECT();
-//  // Write command (0x02), append A8 if addr > 256 bytes
-//  src_addr[0] = address > 0xFF ? AT25_WRITE | AT25_A8 : AT25_WRITE;
-//  src_addr[1] = (address);
-//  sspSend(0, (uint8_t *)src_addr, bufferLength + 2);
-//  W25Q16BV_DESELECT();
-//
-//  // Wait at least 3ms
-//  for (i = 0; i < ((CFG_CPU_CCLK / 1000) * 3); i++);
-//  
-//  timeout = 0;
-//  while ( timeout < SSP_MAX_TIMEOUT )
-//  {
-//    // Check status to see if write cycle is done or not
-//    W25Q16BV_SELECT();
-//    src_addr[0] = AT25_RDSR;
-//    sspSend(0, (uint8_t *)src_addr, 1);
-//    sspReceive(0, (uint8_t *)dest_addr, 1);
-//    W25Q16BV_DESELECT();
-//    // Wait until device is ready
-//    if ((dest_addr[0] & AT25_RDSR_RDY) == 0x00)
-//    {
-//      break;
-//    }
-//    timeout++;
-//  }
-//  if ( timeout == SSP_MAX_TIMEOUT )
-//  {
-//    return AT25_ERROR_TIMEOUT_WFINISH;
-//  }
-//
-//  for (i = 0; i < 300; i++);                // Wait at least 250ns
-//
-//  return AT25_ERROR_OK;
-//}
+/**************************************************************************/
+/*! 
+    @brief      Writes up to 256 bytes of data to the specified page.
+                
+    @note       Before writing data to a page, make sure that the 4K sector
+                containing the specific page has been erased, otherwise the
+                data will be meaningless.
+
+    @param[in]  address
+                The 24-bit address where the write will start.
+    @param[out] *buffer
+                Pointer to the buffer that will store the read results
+    @param[in]  len
+                Length of the buffer.  Valid values are from 1 to 256,
+                within the limits of the starting address and page length.
+
+    @section  EXAMPLE
+
+    @code
+    spiflashError_e error;
+    uint8_t buffer[256];
+
+    buffer[0] = 0x12;
+    buffer[1] = 0x34;
+    buffer[2] = 0x56;
+    buffer[3] = 0x78;
+    buffer[4] = 0xDE;
+    buffer[5] = 0xAD;
+    buffer[6] = 0xC0;
+    buffer[7] = 0xDE;
+
+    error = spiflashWritePage (0, buffer, 8);
+    if (error)
+    {
+      // Check what went wrong
+      switch (error)
+      {
+        case SPIFLASH_ERROR_ADDROUTOFRANGE:
+          // Specified starting address is out of range
+          break;
+        case SPIFLASH_ERROR_DATAEXCEEDSPAGESIZE:
+          // Supplied data exceeds max page size
+          break;
+        case SPIFLASH_ERROR_PAGEWRITEOVERFLOW:
+          // The data length plus the start address offset exceeeds page limits
+          break;
+        case SPIFLASH_ERROR_TIMEOUT_READY:
+          // Timeout waiting for ready status (can be pre or post write)
+          break;
+        case SPIFLASH_ERROR_PROTECTIONERR:
+          // Unable to set write latch
+          break;
+      }
+    }
+    @endcode
+*/
+/**************************************************************************/
+spiflashError_e spiflashWritePage (uint32_t address, uint8_t *buffer, uint32_t len)
+{
+  uint8_t status;
+  uint32_t currentpage, totalpages;
+  uint32_t a, i, timeout;
+  a = i = 0;
+
+  if (!_w25q16bvInitialised) spiflashInit();
+
+  // Make sure the address is valid
+  if (address >= W25Q16BV_MAXADDRESS)
+  {
+    return SPIFLASH_ERROR_ADDROUTOFRANGE;
+  }
+
+  // Make sure that the supplied data is no larger than the page size
+  if (len > W25Q16BV_PAGESIZE)
+  {
+    return SPIFLASH_ERROR_DATAEXCEEDSPAGESIZE;
+  }
+
+  // Make sure that the data won't wrap around to the beginning of the sector
+  if ((address % W25Q16BV_PAGESIZE) + len > W25Q16BV_PAGESIZE)
+  {
+    // If you try to write to a page beyond the last byte, it will
+    // wrap around to the start of the page, almost certainly
+    // messing up your data
+    return SPIFLASH_ERROR_PAGEWRITEOVERFLOW;
+  }
+
+  // Wait until the device is ready or a timeout occurs
+  if (w25q16bvWaitForReady())
+    return SPIFLASH_ERROR_TIMEOUT_READY;
+
+  // Make sure the chip is write enabled
+  spiflashWriteEnable (TRUE);
+
+  // Make sure the write enable latch is actually set
+  status = w25q16bvGetStatus();
+  if (!(status & W25Q16BV_STAT1_WRTEN))
+  {
+    // Throw a write protection error (write enable latch not set)
+    return SPIFLASH_ERROR_PROTECTIONERR;
+  }
+
+  // Send page write command (0x02) plus 24-bit address
+  W25Q16BV_SELECT();
+  w25q16bv_TransferByte(W25Q16BV_CMD_PAGEPROG);      // 0x02
+  w25q16bv_TransferByte((address >> 16) & 0xFF);     // address upper 8
+  w25q16bv_TransferByte((address >> 8) & 0xFF);      // address mid 8
+  if (len == 256)
+  {
+    // If len = 256 bytes, lower 8 bits must be 0 (see datasheet 11.2.17)
+    w25q16bv_TransferByte(0);
+  }
+  else
+  {
+    w25q16bv_TransferByte(address & 0xFF);           // address lower 8
+  }
+  // Transfer data
+  for (i = 0; i < len; i++)
+  {
+    w25q16bv_TransferByte(buffer[i]);
+  }
+  // Write only occurs after the CS line is de-asserted
+  W25Q16BV_DESELECT();
+
+  // Wait at least 3ms (max page program time according to datasheet)
+  systickDelay(3);
+  
+  // Wait until the device is ready or a timeout occurs
+  if (w25q16bvWaitForReady())
+    return SPIFLASH_ERROR_TIMEOUT_READY;
+
+  return SPIFLASH_ERROR_OK;
+}
+

@@ -46,13 +46,16 @@
 /**************************************************************************/
 typedef enum
 {
-  SPIFLASH_ERROR_OK = 0,                // Everything executed normally
-  SPIFLASH_ERROR_ADDROUTOFRANGE = 1,    // Address out of range
-  SPIFLASH_ERROR_TIMEOUT_READY = 2,     // Timeout waiting for ready status
-  SPIFLASH_ERROR_WRITEERR = 3,          // Write Error
-  SPIFLASH_ERROR_PROTECTIONERR = 4,     // Write Protection Error
-  SPIFLASH_ERROR_ADDROVERFLOW = 5,      // Address overflow during read/write
-  SPIFLASH_ERROR_UNEXPECTEDID = 6,      // The manufacturer and/or device ID are different than expected
+  SPIFLASH_ERROR_OK = 0,                    // Everything executed normally
+  SPIFLASH_ERROR_ADDROUTOFRANGE = 1,        // Address out of range
+  SPIFLASH_ERROR_TIMEOUT_READY = 2,         // Timeout waiting for ready status
+  SPIFLASH_ERROR_WRITEERR = 3,              // Write Error
+  SPIFLASH_ERROR_PROTECTIONERR = 4,         // Write Protection Error
+  SPIFLASH_ERROR_ADDROVERFLOW = 5,          // Address overflow during read/write
+  SPIFLASH_ERROR_UNEXPECTEDID = 6,          // The manufacturer and/or device ID are different than expected
+  SPIFLASH_ERROR_NOTSTARTOFPAGE = 7,        // The supplied address is not the start of a new page
+  SPIFLASH_ERROR_DATAEXCEEDSPAGESIZE = 9,   // When writing page data, you can't exceed page size
+  SPIFLASH_ERROR_PAGEWRITEOVERFLOW = 10,    // Page data will overflow beause (start address + len) > page size
   SPIFLASH_ERROR_LAST
 }
 spiflashError_e;
@@ -126,7 +129,7 @@ void spiflashWriteEnable (bool enable);
     @param[out] *buffer
                 Pointer to the buffer that will store the read results
     @param[in]  len
-                Length of the buffer (zero-based).
+                Length of the buffer.
 
     @section EXAMPLE
 
@@ -154,20 +157,6 @@ void spiflashWriteEnable (bool enable);
 */
 /**************************************************************************/
 spiflashError_e spiflashReadBuffer (uint32_t address, uint8_t *buffer, uint32_t len);
-
-/**************************************************************************/
-/*! 
-    @brief Writes a single byte to the SPI flash
-
-    @param[in]  address
-                The 24-bit address where the read will start.
-    @param[out] *buffer
-                Pointer to the buffer that will store the read results
-    @param[in]  len
-                Length of the buffer (zero-based).
-*/
-/**************************************************************************/
-spiflashError_e spiflashWriteBuffer (uint32_t address, uint8_t *buffer, uint32_t len);
 
 /**************************************************************************/
 /*! 
@@ -228,5 +217,24 @@ spiflashError_e spiflashEraseSector (uint32_t sectorNumber);
 */
 /**************************************************************************/
 spiflashError_e spiflashEraseChip (void);
+
+/**************************************************************************/
+/*! 
+    @brief      Writes up to 256 bytes of data to the specified page.
+                
+    @note       Before writing data to a page, make sure that the 4K sector
+                containing the specific page has been erased, otherwise the
+                data will be meaningless.
+
+    @param[in]  address
+                The 24-bit address where the write will start.
+    @param[out] *buffer
+                Pointer to the buffer that will store the read results
+    @param[in]  len
+                Length of the buffer.  Valid values are from 1 to 256,
+                within the limits of the starting address and page length.
+*/
+/**************************************************************************/
+spiflashError_e spiflashWritePage (uint32_t address, uint8_t *buffer, uint32_t len);
 
 #endif
