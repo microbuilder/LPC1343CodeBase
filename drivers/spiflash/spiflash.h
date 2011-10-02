@@ -233,6 +233,46 @@ spiflashError_e spiflashEraseChip (void);
     @param[in]  len
                 Length of the buffer.  Valid values are from 1 to 256,
                 within the limits of the starting address and page length.
+
+    @section  EXAMPLE
+
+    @code
+    spiflashError_e error;
+    uint8_t buffer[256];
+
+    buffer[0] = 0x12;
+    buffer[1] = 0x34;
+    buffer[2] = 0x56;
+    buffer[3] = 0x78;
+    buffer[4] = 0xDE;
+    buffer[5] = 0xAD;
+    buffer[6] = 0xC0;
+    buffer[7] = 0xDE;
+
+    error = spiflashWritePage (0, buffer, 8);
+    if (error)
+    {
+      // Check what went wrong
+      switch (error)
+      {
+        case SPIFLASH_ERROR_ADDROUTOFRANGE:
+          // Specified starting address is out of range
+          break;
+        case SPIFLASH_ERROR_DATAEXCEEDSPAGESIZE:
+          // Supplied data exceeds max page size
+          break;
+        case SPIFLASH_ERROR_PAGEWRITEOVERFLOW:
+          // The data length plus the start address offset exceeeds page limits
+          break;
+        case SPIFLASH_ERROR_TIMEOUT_READY:
+          // Timeout waiting for ready status (can be pre or post write)
+          break;
+        case SPIFLASH_ERROR_PROTECTIONERR:
+          // Unable to set write latch
+          break;
+      }
+    }
+    @endcode
 */
 /**************************************************************************/
 spiflashError_e spiflashWritePage (uint32_t address, uint8_t *buffer, uint32_t len);
