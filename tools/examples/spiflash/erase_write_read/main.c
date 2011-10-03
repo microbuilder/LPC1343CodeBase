@@ -88,7 +88,7 @@ int main(void)
     }
   }
 
-  printf("Writing 8 bytes to page 0 (bytes 0..7)\r\n");
+  printf("Writing 8 bytes to page 0 starting at address 0x04 (byte 5)\r\n");
   buffer[0] = 0x12;
   buffer[1] = 0x34;
   buffer[2] = 0x56;
@@ -97,7 +97,7 @@ int main(void)
   buffer[5] = 0xCD;
   buffer[6] = 0xEF;
   buffer[7] = 0xAA;
-  error = spiflashWritePage (0, buffer, 8);
+  error = spiflashWritePage (0x04, buffer, 8);
   if (error)
   {
     // Check what went wrong
@@ -131,6 +131,14 @@ int main(void)
   buffer[5] = 0;
   buffer[6] = 0;
   buffer[7] = 0;
+  buffer[8] = 0;
+  buffer[9] = 0;
+  buffer[10] = 0;
+  buffer[11] = 0;
+  buffer[12] = 0;
+  buffer[13] = 0;
+  buffer[14] = 0;
+  buffer[15] = 0;
   error = spiflashReadBuffer (0, buffer, 16);
   if (error)
   {
