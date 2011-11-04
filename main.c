@@ -49,28 +49,6 @@
 
 /**************************************************************************/
 /*! 
-    Approximates a 1 millisecond delay using "nop".  This is less
-    accurate than a dedicated timer, but is useful in certain situations.
-
-    The number of ticks to delay depends on the optimisation level set
-    when compiling (-O).  Depending on the compiler settings, one of the
-    two defined values for 'delay' should be used.
-*/
-/**************************************************************************/
-void delayms(uint32_t ms)
-{
-  uint32_t delay = ms * ((CFG_CPU_CCLK / 100) / 45);      // Release Mode (-Os)
-  // uint32_t delay = ms * ((CFG_CPU_CCLK / 100) / 120);  // Debug Mode (No optimisations)
-
-  while (delay > 0)
-  {
-    __asm volatile ("nop");
-    delay--;
-  }
-}
-
-/**************************************************************************/
-/*! 
     Main program entry point.  After reset, normal code execution will
     begin here.
 */
@@ -82,22 +60,15 @@ int main(void)
 
   uint32_t currentSecond, lastSecond;
   currentSecond = lastSecond = 0;
-
+  
   while (1)
   {
-    // Toggle LED once per second ... rollover = 136 years :)
+    // Toggle LED once per second
     currentSecond = systickGetSecondsActive();
     if (currentSecond != lastSecond)
     {
       lastSecond = currentSecond;
-      if (gpioGetValue(CFG_LED_PORT, CFG_LED_PIN) == CFG_LED_OFF)
-      {
-        gpioSetValue (CFG_LED_PORT, CFG_LED_PIN, CFG_LED_ON); 
-      }
-      else
-      {
-        gpioSetValue (CFG_LED_PORT, CFG_LED_PIN, CFG_LED_OFF); 
-      }
+	  gpioSetValue(CFG_LED_PORT, CFG_LED_PIN, ~(gpioGetValue(CFG_LED_PORT, CFG_LED_PIN)));
     }
 
     // Poll for CLI input if CFG_INTERFACE is enabled in projectconfig.h

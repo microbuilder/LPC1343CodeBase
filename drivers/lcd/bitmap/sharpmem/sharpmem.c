@@ -328,7 +328,7 @@ void sharpmemRefresh(void)
     {
       // Send end of line and address bytes
       sharpmemSendByte(0x00);
-      if (currentline < SHARPMEM_LCDHEIGHT)
+      if (currentline <= SHARPMEM_LCDHEIGHT)
       {
         sharpmemSendByte(sharpmemSwap(currentline));
       }

@@ -6,6 +6,12 @@ v0.9.8 - Ongoing
   /tools/examples/spiflash/*
 - Added write function to SPI Flash driver
   /drivers/spiflash/*
+- Added CFG_BRD_LPC1343_REFDESIGN_MINIMAL as a board
+  option in projectconfig.h.  Tries to keep the flash
+  use as small as possible by initialising less
+  peripherals in systemInit().
+- Changed CodeLite project files to support real
+  debugging with a Segger J-Link and GDB Server.
 
 v0.9.5 - 3 August 2011
 ======================

@@ -124,7 +124,6 @@ void systemInit()
   systickInit(CFG_SYSTICK_DELAY_IN_MS);     // Start systick timer
   gpioInit();                               // Enable GPIO
   pmuInit();                                // Configure power management
-  adcInit();                                // Config adc pins to save power
 
   // Set LED pin as output and turn LED off
   gpioSetDir(CFG_LED_PORT, CFG_LED_PIN, 1);
@@ -144,15 +143,19 @@ void systemInit()
 
   // Initialise UART with the default baud rate
   #ifdef CFG_PRINTF_UART
-    uint32_t uart = eepromReadU32(CFG_EEPROM_UART_SPEED);
-    if ((uart == 0xFFFFFFFF) || (uart > 115200))
-    {
-      uartInit(CFG_UART_BAUDRATE);  // Use default baud rate
-    }
-    else
-    {
-      uartInit(uart);               // Use baud rate from EEPROM
-    }
+    #ifdef CFG_I2CEEPROM
+      uint32_t uart = eepromReadU32(CFG_EEPROM_UART_SPEED);
+      if ((uart == 0xFFFFFFFF) || (uart > 115200))
+      {
+        uartInit(CFG_UART_BAUDRATE);  // Use default baud rate
+      }
+      else
+      {
+        uartInit(uart);               // Use baud rate from EEPROM
+      }
+    #else
+      uartInit(CFG_UART_BAUDRATE);
+    #endif
   #endif
 
   // Initialise PWM (requires 16-bit Timer 1 and P1.9)

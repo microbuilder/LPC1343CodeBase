@@ -589,3 +589,109 @@ spiflashError_e spiflashWritePage (uint32_t address, uint8_t *buffer, uint32_t l
   return SPIFLASH_ERROR_OK;
 }
 
+/**************************************************************************/
+/*! 
+    @brief      Writes a continuous stream of data that will automatically
+                cross page boundaries.
+                
+    @note       Before writing data, make sure that the appropriate sectors
+                have been erased, otherwise the data will be meaningless.
+
+    @param[in]  address
+                The 24-bit address where the write will start.
+    @param[out] *buffer
+                Pointer to the buffer that will store the read results
+    @param[in]  len
+                Length of the buffer, within the limits of the starting
+                address and size of the flash device.
+
+    @section  EXAMPLE
+
+    @code
+    spiflashError_e error;
+    uint8_t buffer[256];
+
+    buffer[0] = 0x12;
+    buffer[1] = 0x34;
+    buffer[2] = 0x56;
+    buffer[3] = 0x78;
+    buffer[4] = 0xDE;
+    buffer[5] = 0xAD;
+    buffer[6] = 0xC0;
+    buffer[7] = 0xDE;
+
+    error = spiflashWrite (0, buffer, 8);
+    if (error)
+    {
+      // Check what went wrong
+      switch (error)
+      {
+        case SPIFLASH_ERROR_ADDROUTOFRANGE:
+          // Specified starting address is out of range
+          break;
+        case SPIFLASH_ERROR_DATAEXCEEDSPAGESIZE:
+          // Supplied data exceeds max page size
+          break;
+        case SPIFLASH_ERROR_PAGEWRITEOVERFLOW:
+          // The data length plus the start address offset exceeeds page limits
+          break;
+        case SPIFLASH_ERROR_TIMEOUT_READY:
+          // Timeout waiting for ready status (can be pre or post write)
+          break;
+        case SPIFLASH_ERROR_PROTECTIONERR:
+          // Unable to set write latch
+          break;
+      }
+    }
+    @endcode
+*/
+/**************************************************************************/
+spiflashError_e spiflashWrite (uint32_t address, uint8_t *buffer, uint32_t len)
+{
+  uint32_t bytestowrite;
+  uint32_t bufferoffset;
+  spiflashError_e error;
+
+  // There's no point duplicating most error checks here since they will all be
+  // done in the underlying call to spiflashWritePage
+
+  // If the data is only on one page we can take a shortcut
+  if ((address % W25Q16BV_PAGESIZE) + len <= W25Q16BV_PAGESIZE)
+  {
+    // Only one page ... write and be done with it
+    return spiflashWritePage(address, buffer, len);
+  }
+
+  // Block spans multiple pages
+  bufferoffset = 0;
+  while(len)
+  {
+    // Figure out how many bytes need to be written to this page
+    bytestowrite = W25Q16BV_PAGESIZE - (address % W25Q16BV_PAGESIZE);
+    // Write the current page
+    error = spiflashWritePage(address, buffer+bufferoffset, bytestowrite);
+    // Abort if we returned an error
+    if (error) 
+      return error;
+    // Adjust address and len, and buffer offset
+    address += bytestowrite;
+    len -= bytestowrite;
+    bufferoffset+=bytestowrite;
+    // If the next page is the last one, write it and exit
+    // otherwise stay in the the loop and keep writing
+    if (len <= W25Q16BV_PAGESIZE)
+    {
+      // Write the last frame and then quit
+      error = spiflashWritePage(address, buffer+bufferoffset, len);
+      // Abort if we returned an error
+      if (error) 
+        return error;
+      // set len to zero to gracefully exit loop
+      len = 0;
+    }
+  }
+
+  return SPIFLASH_ERROR_OK;
+}
+
+

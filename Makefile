@@ -16,6 +16,14 @@ VPATH =
 OBJS = main.o
 
 ##########################################################################
+# Debug settings
+##########################################################################
+
+# Set DEBUGBUILD to 'TRUE' for full debugging (larger, slower binaries), 
+# or to 'FALSE' for release builds (smallest, fastest binaries)
+DEBUGBUILD = FALSE
+
+##########################################################################
 # Project-specific files 
 ##########################################################################
 
@@ -157,9 +165,14 @@ OBJS += $(TARGET)_handlers.o LPC1xxx_startup.o
 ##########################################################################
 # Compiler settings, parameters and flags
 ##########################################################################
+ifeq (TRUE,$(DEBUGBUILD))
+  CFLAGS  = -c -g -O0 $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -DTARGET=$(TARGET) -fno-builtin
+  ASFLAGS = -c -g -O0 $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -D__ASSEMBLY__ -x assembler-with-cpp
+else
+  CFLAGS  = -c -g -Os $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -DTARGET=$(TARGET) -fno-builtin
+  ASFLAGS = -c -g -Os $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -D__ASSEMBLY__ -x assembler-with-cpp
+endif
 
-CFLAGS  = -c -g -Os $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -DTARGET=$(TARGET) -fno-builtin
-ASFLAGS = -c -g -Os $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -D__ASSEMBLY__ -x assembler-with-cpp
 LDFLAGS = -nostartfiles -mthumb -mcpu=$(CPU_TYPE) -Wl,--gc-sections
 LDLIBS  = -lm
 OCFLAGS = --strip-unneeded

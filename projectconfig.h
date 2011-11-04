@@ -47,8 +47,72 @@
     different pin configuration, you will need to specify which board you
     are using by enabling one of the following definitions. The code base
     will then try to configure itself accordingly for that board.
+
+    CFG_BRD_LPC1343_REFDESIGN   
+    =========================
+
+        microBuilder.eu LPC1343 Reference Design base board with
+        on-board peripherals initialised (EEPROM, USB or UART CLI, etc.)
+		
+		This is the recommended starting point for new development
+		since it makes it easy to send printf output to USB CDC, access
+		the on-board EEPROM, etc.
+
+    CFG_BRD_LPC1343_REFDESIGN_MINIMAL
+    =================================
+
+        microBuilder.eu LPC1343 Reference Design base board with 
+        only the most common peripherals initialised by default.  
+        
+        Results in smallest code since EEPROM, USB, etc., are not
+        initialised on startup.  By default, only the following
+        peripherals are initialised by systemInit():
+        
+              - CPU (Configures the PLL, etc.)
+              - GPIO
+              - SysTick Timer
+              - UART (with printf support) *
+    
+        * Can be removed to save 0.8kb in debug and 0.3 kb in
+        release. Comment out 'CFG_PRINTF_UART' to disable it.
+  
+        The code size can be further reduced by several KB by removing
+        any IRQ Handlers that are not used.  The I2C IRQHandler, for
+        example, uses ~1KB of flash in debug and ~400KB in release mode,
+        but because it is referenced in the startup code it is always
+        included even if I2C is never used in the project.
+
+        Other IRQ Handlers that you might be able to comment out
+        to save some space are:
+
+        IRQ Handler               Debug   Release
+        ------------------------- ------  -------
+        I2C_IRQHandler            1160 b    400 b
+        SSP_IRQHandler             160 b     76 b
+        UART_IRQHandler            246 b    116 b
+        WAKEUP_IRQHandler          160 b    100 b
+        WDT_IRQHandler              50 b     28 b
+
+    CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
+    ====================================
+
+        microBuilder.eu/Adafruit Stand-Alone "Smart LCD" with USB enabled
+        for the CLI interface.
+
+    CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
+    =====================================
+
+        microBuilder.eu/Adafruit Stand-Alone "Smart LCD" with UART enabled
+        for the CLI interface.
+
+    CFG_BRD_LPC1343_802154USBSTICK
+    ==============================
+
+        microBuilder.eu USB stick 802.15.4 868/915MHz RF transceiver
+
     -----------------------------------------------------------------------*/
     #define CFG_BRD_LPC1343_REFDESIGN
+    // #define CFG_BRD_LPC1343_REFDESIGN_MINIMAL
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
     // #define CFG_BRD_LPC1343_802154USBSTICK
@@ -199,6 +263,11 @@
       #define CFG_UART_BUFSIZE            (512)
     #endif
 
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
+      #define CFG_UART_BAUDRATE           (115200)
+      #define CFG_UART_BUFSIZE            (512)
+    #endif
+
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
       #define CFG_UART_BAUDRATE           (115200)
       #define CFG_UART_BUFSIZE            (512)
@@ -229,6 +298,11 @@
       // #define CFG_SSP0_SCKPIN_0_6
     #endif
 
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
+      #define CFG_SSP0_SCKPIN_2_11
+      // #define CFG_SSP0_SCKPIN_0_6
+    #endif
+
     #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       #define CFG_SSP0_SCKPIN_2_11
       // #define CFG_SSP0_SCKPIN_0_6
@@ -252,6 +326,13 @@
 
     -----------------------------------------------------------------------*/
     #ifdef CFG_BRD_LPC1343_REFDESIGN
+      #define CFG_LED_PORT                (2)
+      #define CFG_LED_PIN                 (10)
+      #define CFG_LED_ON                  (0)
+      #define CFG_LED_OFF                 (1)
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
       #define CFG_LED_PORT                (2)
       #define CFG_LED_PIN                 (10)
       #define CFG_LED_ON                  (0)
@@ -299,6 +380,13 @@
     DEPENDENCIES:             SDCARD requires the use of SSP0.
     -----------------------------------------------------------------------*/
     #ifdef CFG_BRD_LPC1343_REFDESIGN
+      // #define CFG_SDCARD
+      #define CFG_SDCARD_READONLY         (1)   // Must be 0 or 1
+      #define CFG_SDCARD_CDPORT           (3)
+      #define CFG_SDCARD_CDPIN            (0)
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
       // #define CFG_SDCARD
       #define CFG_SDCARD_READONLY         (1)   // Must be 0 or 1
       #define CFG_SDCARD_CDPORT           (3)
@@ -353,6 +441,14 @@
       #define CFG_USBCDC_BUFFERSIZE       (256)
     #endif
 
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
+      // #define CFG_USBHID
+      // #define CFG_USBCDC
+      #define CFG_USBCDC_BAUDRATE         (115200)
+      #define CFG_USBCDC_INITTIMEOUT      (5000)
+      #define CFG_USBCDC_BUFFERSIZE       (256)
+    #endif
+
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
       // #define CFG_USBHID
       #define CFG_USBCDC
@@ -396,6 +492,12 @@
     #ifdef CFG_BRD_LPC1343_REFDESIGN
       // #define CFG_PRINTF_UART
       #define CFG_PRINTF_USBCDC
+      #define CFG_PRINTF_NEWLINE          "\r\n"
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
+      #define CFG_PRINTF_UART
+      // #define CFG_PRINTF_USBCDC
       #define CFG_PRINTF_NEWLINE          "\r\n"
     #endif
 
@@ -467,6 +569,19 @@
     -----------------------------------------------------------------------*/
     #ifdef CFG_BRD_LPC1343_REFDESIGN
       #define CFG_INTERFACE
+      #define CFG_INTERFACE_MAXMSGSIZE    (256)
+      #define CFG_INTERFACE_PROMPT        "LPC1343 >> "
+      #define CFG_INTERFACE_SILENTMODE    (0)
+      #define CFG_INTERFACE_DROPCR        (0)
+      #define CFG_INTERFACE_ENABLEIRQ     (0)
+      #define CFG_INTERFACE_IRQPORT       (0)
+      #define CFG_INTERFACE_IRQPIN        (7)
+      #define CFG_INTERFACE_SHORTERRORS   (0)
+      #define CFG_INTERFACE_CONFIRMREADY  (0)
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
+      // #define CFG_INTERFACE
       #define CFG_INTERFACE_MAXMSGSIZE    (256)
       #define CFG_INTERFACE_PROMPT        "LPC1343 >> "
       #define CFG_INTERFACE_SILENTMODE    (0)
@@ -580,6 +695,11 @@
       #define CFG_I2CEEPROM_SIZE          (3072)
     #endif
 
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
+      // #define CFG_I2CEEPROM
+      #define CFG_I2CEEPROM_SIZE          (3072)
+    #endif
+
     #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       #define CFG_I2CEEPROM
       #define CFG_I2CEEPROM_SIZE          (3072)
@@ -689,6 +809,16 @@
       #define CFG_CHIBI_BUFFERSIZE        (128)
     #endif
 
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
+      // #define CFG_CHIBI
+      #define CFG_CHIBI_MODE              (0)                 // OQPSK_868MHZ
+      #define CFG_CHIBI_POWER             (0xE9)              // CHB_PWR_EU2_3DBM
+      #define CFG_CHIBI_CHANNEL           (0)                 // 868-868.6 MHz
+      #define CFG_CHIBI_PANID             (0x1234)
+      #define CFG_CHIBI_PROMISCUOUS       (0)
+      #define CFG_CHIBI_BUFFERSIZE        (128)
+    #endif
+
     #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       // #define CFG_CHIBI
       #define CFG_CHIBI_MODE              (0)                 // OQPSK_868MHZ
@@ -745,6 +875,13 @@
                                 1.10, 1.11, 3.3 and 2.1-9.
     -----------------------------------------------------------------------*/
     #ifdef CFG_BRD_LPC1343_REFDESIGN
+      // #define CFG_TFTLCD
+      #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
+      #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
+      #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
       // #define CFG_TFTLCD
       #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
@@ -821,8 +958,8 @@
 
   =========================================================================*/
 
-#if !defined CFG_BRD_LPC1343_REFDESIGN && !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB && !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART && !defined CFG_BRD_LPC1343_802154USBSTICK
-  #error "You must defined a target board (CFG_BRD_LPC1343_REFDESIGN or CFG_BRD_LPC1343_TFTLCDSTANDALONE or CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART or CFG_BRD_LPC1343_802154USBSTICK)"
+#if !defined CFG_BRD_LPC1343_REFDESIGN && !defined CFG_BRD_LPC1343_REFDESIGN_MINIMAL && !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB && !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART && !defined CFG_BRD_LPC1343_802154USBSTICK
+  #error "You must defined a target board (CFG_BRD_LPC1343_REFDESIGN or CFG_BRD_LPC1343_REFDESIGN_MINIMAL or CFG_BRD_LPC1343_TFTLCDSTANDALONE or CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART or CFG_BRD_LPC1343_802154USBSTICK)"
 #endif
 
 #if defined CFG_PRINTF_USBCDC && defined CFG_PRINTF_UART
