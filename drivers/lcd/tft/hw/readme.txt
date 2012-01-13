@@ -4,7 +4,8 @@ HW-Specific LCD Drivers
 ILI9325   - 240x320 16-bit display  (8-bit interface)
 ILI9328   - 240x320 16-bit display  (8-bit interface)
 st7735    - 128x160 16-bit display  (Bit-banged SPI interface)
-st7783    - 240x320 16-bit displays (8-bit interface)
+st7783    - 240x320 16-bit display  (8-bit interface)
+SSD1351   - 128x128 16-bit OLED display (Bit-banged SPI interface)
 
 NOTE: Only the ILI9325 and ILI9328 drivers have been fully tested.
 The others are incomplete or have only been partially tested. (The
