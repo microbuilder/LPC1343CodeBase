@@ -74,8 +74,8 @@ const uint8_t USB_ConfigDescriptor[] = {
   0x01,                              /* bNumEndpoints: One endpoint used */
   CDC_COMMUNICATION_INTERFACE_CLASS, /* bInterfaceClass: Communication Interface Class */
   CDC_ABSTRACT_CONTROL_MODEL,        /* bInterfaceSubClass: Abstract Control Model */
-  0x00,                              /* bInterfaceProtocol: no protocol used */
-  0x5E,                              /* iInterface: */
+  0x01,                              /* bInterfaceProtocol: no protocol used */
+  0x00,                              /* iInterface: */
 /*Header Functional Descriptor*/
   0x05,                              /* bLength: Endpoint Descriptor size */
   CDC_CS_INTERFACE,                  /* bDescriptorType: CS_INTERFACE */
@@ -85,7 +85,7 @@ const uint8_t USB_ConfigDescriptor[] = {
   0x05,                              /* bFunctionLength */
   CDC_CS_INTERFACE,                  /* bDescriptorType: CS_INTERFACE */
   CDC_CALL_MANAGEMENT,               /* bDescriptorSubtype: Call Management Func Desc */
-  0x01,                              /* bmCapabilities: device handles call management */
+  0x03,                              /* bmCapabilities: device handles call management */
   0x01,                              /* bDataInterface: CDC data IF ID */
 /*Abstract Control Management Functional Descriptor*/
   0x04,                              /* bFunctionLength */
@@ -114,7 +114,7 @@ const uint8_t USB_ConfigDescriptor[] = {
   CDC_DATA_INTERFACE_CLASS,          /* bInterfaceClass: Data Interface Class */
   0x00,                              /* bInterfaceSubClass: no subclass available */
   0x00,                              /* bInterfaceProtocol: no protocol used */
-  0x5E,                              /* iInterface: */
+  0x00,                              /* iInterface: */
 /* Endpoint, EP3 Bulk Out */
   USB_ENDPOINT_DESC_SIZE,            /* bLength */
   USB_ENDPOINT_DESCRIPTOR_TYPE,      /* bDescriptorType */
