@@ -1,13 +1,13 @@
 /**************************************************************************/
 /*! 
     @file     ssd1351.h
-    @author   K. Townsend (microBuilder.eu)
+    @author   K. Townsend (www.adafruit.com)
 
     @section LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, Adafruit Industries
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
