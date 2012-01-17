@@ -77,7 +77,7 @@ spiflashSizeInfo_t;
 
 /**************************************************************************/
 /*! 
-    @brief Tries to initialise the flash device, and setups any HW
+    @brief Tries to initialise the flash device, and sets up any HW
            required by the SPI flash
 */
 /**************************************************************************/
