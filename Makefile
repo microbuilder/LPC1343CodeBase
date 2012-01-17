@@ -74,6 +74,7 @@ OBJS += verdana9.o verdana14.o verdanabold14.o
 OBJS += ILI9328.o
 # OBJS += ILI9325.o
 # OBJS += ssd1331.o
+# OBJS += ssd1351.o
 # OBJS += st7735.o
 # OBJS += st7783.o
 

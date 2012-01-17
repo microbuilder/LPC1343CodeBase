@@ -64,22 +64,22 @@
 
 // Control pins
 #define SSD1351_SCK_PORT                (2) // SCK (D0)
-#define SSD1351_SCK_PIN                 (4)
+#define SSD1351_SCK_PIN                 (1)
 #define SSD1351_SID_PORT                (2) // DAT/MOSI (D1)
-#define SSD1351_SID_PIN                 (5)
+#define SSD1351_SID_PIN                 (2)
 #define SSD1351_CS_PORT                 (2) // OLEDCS
-#define SSD1351_CS_PIN                  (6)
+#define SSD1351_CS_PIN                  (3)
 #define SSD1351_RST_PORT                (2) // RST
-#define SSD1351_RST_PIN                 (7)
+#define SSD1351_RST_PIN                 (4)
 #define SSD1351_DC_PORT                 (2) // D/C (only required for 4-pin SPI)
-#define SSD1351_DC_PIN                  (8)
+#define SSD1351_DC_PIN                  (5)
 
 // Placed here to try to keep all pin specific values in the header file
-#define SSD1351_DISABLEPULLUPS()  do {  gpioSetPullup(&IOCON_PIO2_4, gpioPullupMode_Inactive); \
-                                        gpioSetPullup(&IOCON_PIO2_5, gpioPullupMode_Inactive); \
-                                        gpioSetPullup(&IOCON_PIO2_6, gpioPullupMode_Inactive); \
-                                        gpioSetPullup(&IOCON_PIO2_7, gpioPullupMode_Inactive); \
-                                        gpioSetPullup(&IOCON_PIO2_8, gpioPullupMode_Inactive); } while (0)
+#define SSD1351_DISABLEPULLUPS()  do {  gpioSetPullup(&IOCON_PIO2_1, gpioPullupMode_Inactive); \
+                                        gpioSetPullup(&IOCON_PIO2_2, gpioPullupMode_Inactive); \
+                                        gpioSetPullup(&IOCON_PIO2_3, gpioPullupMode_Inactive); \
+                                        gpioSetPullup(&IOCON_PIO2_4, gpioPullupMode_Inactive); \
+                                        gpioSetPullup(&IOCON_PIO2_5, gpioPullupMode_Inactive); } while (0)
 
 // These registers allow fast single cycle clear+set of bits (see section 8.5.1 of LPC1343 UM)
 #define SSD1351_GPIO2DATA_SCK           (*(pREG32 (GPIO_GPIO2_BASE + ((1 << SSD1351_SCK_PIN) << 2))))

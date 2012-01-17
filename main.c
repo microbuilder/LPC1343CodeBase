@@ -43,6 +43,9 @@
 #include "core/gpio/gpio.h"
 #include "core/systick/systick.h"
 
+#include "drivers/lcd/tft/hw/ssd1351.h"
+#include "drivers/lcd/tft/drawing.h"
+
 #ifdef CFG_INTERFACE
   #include "core/cmd/cmd.h"
 #endif
@@ -61,6 +64,9 @@ int main(void)
   uint32_t currentSecond, lastSecond;
   currentSecond = lastSecond = 0;
   
+  lcdInit();
+  lcdTest();
+
   while (1)
   {
     // Toggle LED once per second

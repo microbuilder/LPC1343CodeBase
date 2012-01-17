@@ -1,16 +1,7 @@
 <!DOCTYPE CrossStudio_for_ARM_Session_File>
 <session>
  <Bookmarks/>
- <Breakpoints>
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="BusFault" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="ExceptionEntryReturnFault" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="HardFault" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="MemManage" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="3" counter="0" expression="Reset" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="UsageFault_CheckingError" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="UsageFault_Coprocessor" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="UsageFault_StateError" />
- </Breakpoints>
+ <Breakpoints/>
  <ETMWindow>
   <ETMRegister number="0" value="800" />
   <ETMRegister number="8" value="6f" />
@@ -33,13 +24,6 @@
   <ProjectSessionItem path="LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;core" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;core;systick" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;core;usbcdc" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;lcd" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;lcd;tft" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;lcd;tft;hw" name="unnamed" />
  </Project>
  <Register1>
   <RegisterWindow openNodes="USB;USB/USBRxPLen;USB/USBTxPLen;USB/USBCtrl" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU;USB" decimalNodes="" octalNodes="" asciiNodes="" />
@@ -59,10 +43,10 @@
  </TraceWindow>
  <Watch1>
   <Watches active="1" update="Each Second" >
-   <Watchpoint linenumber="66" radix="10" name="msTicks" expression="msTicks" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/core/systick/systick.c" />
-   <Watchpoint linenumber="138" radix="16" name="timer32_0_counter" expression="timer32_0_counter" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/core/timer32/timer32.c" />
-   <Watchpoint linenumber="155" radix="-1" name="xTickCount" expression="xTickCount" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/freertos/tasks.c" />
    <Watchpoint linenumber="155" radix="16" name="Tick" expression="Tick" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/freertos/tasks.c" />
+   <Watchpoint linenumber="155" radix="-1" name="xTickCount" expression="xTickCount" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/freertos/tasks.c" />
+   <Watchpoint linenumber="138" radix="16" name="timer32_0_counter" expression="timer32_0_counter" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/core/timer32/timer32.c" />
+   <Watchpoint linenumber="66" radix="10" name="msTicks" expression="msTicks" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/core/systick/systick.c" />
   </Watches>
  </Watch1>
  <Watch2>
@@ -75,7 +59,12 @@
   <Watches active="0" update="Never" />
  </Watch4>
  <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="33" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" y="69" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" left="0" selected="1" name="unnamed" top="58" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" y="59" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" left="0" selected="1" name="unnamed" top="46" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\lcd\tft\hw\ssd1351.c" y="190" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\lcd\tft\hw\ssd1351.c" left="0" selected="0" name="unnamed" top="160" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\lcd\tft\hw\ssd1351.h" y="78" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\lcd\tft\hw\ssd1351.h" left="0" selected="0" name="unnamed" top="49" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\projectconfig.h" y="86" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\projectconfig.h" left="0" selected="0" name="unnamed" top="86" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\lcd\tft\hw\ssd1331.c" y="41" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\lcd\tft\hw\ssd1331.c" left="0" selected="0" name="unnamed" top="15" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\lcd\tft\hw\ssd1331.h" y="0" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\lcd\tft\hw\ssd1331.h" left="0" selected="0" name="unnamed" top="21" />
  </Files>
- <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="Segger J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\lcd\tft\hw" fileDialogDefaultFilter="*.c" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Release" />
+ <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="Segger J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\lcd\tft\hw" fileDialogDefaultFilter="*.c" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Debug" />
 </session>

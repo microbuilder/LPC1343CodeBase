@@ -188,7 +188,8 @@ void lcdInit(void)
   CMD(SSD1351_CMD_SETGPIO);
   DATA(0x00);                               // Disable GPIO pins
   CMD(SSD1351_CMD_FUNCTIONSELECTION);
-  DATA(0x00);                               // External VDD
+  DATA(0x00);                               // External VDD (0 = Internal, 1 = External???)*
+                                            // Which is it ... DS is contradictory here!
   CMD(SSD1351_CMD_SETPHASELENGTH);
   DATA(0x32);
   CMD(SSD1351_CMD_SETSEGMENTLOWVOLTAGE);

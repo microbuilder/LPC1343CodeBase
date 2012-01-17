@@ -166,6 +166,8 @@
           <File Name="../../drivers/lcd/tft/hw/ILI9328.h"/>
           <File Name="../../drivers/lcd/tft/hw/ssd1331.c"/>
           <File Name="../../drivers/lcd/tft/hw/ssd1331.h"/>
+          <File Name="../../drivers/lcd/tft/hw/ssd1351.c"/>
+          <File Name="../../drivers/lcd/tft/hw/ssd1351.h"/>
         </VirtualDirectory>
         <VirtualDirectory Name="fonts">
           <File Name="../../drivers/lcd/tft/fonts/bitmapfonts.h"/>

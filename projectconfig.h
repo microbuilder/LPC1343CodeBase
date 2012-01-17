@@ -141,6 +141,7 @@
     ST7735      . .  .  .     X X X X X X . . .     . . . .
     SHARPMEM    . .  .  .     X X X X . . . . .     . . . .
     SSD1306     . .  .  .     X X X . X X . . .     . . . .
+    SSD1351     . .  .  .     X X X X X . . . .     . . . .
     MCP121      . .  .  .     . . . . . . . . .     . X . .
 
                 TIMERS                    SSP     ADC         UART
