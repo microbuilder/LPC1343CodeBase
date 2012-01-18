@@ -14,7 +14,7 @@
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, microBuilder SARL
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -106,6 +106,12 @@ static void ssd1306DrawChar(uint16_t x, uint16_t y, uint8_t c, struct FONT_DEF f
 {
   uint8_t col, column[font.u8Width];
 
+  // Make sure we are exceeding the display limits
+  // This also gets checked in ssd1306DrawPixel, but if we start
+  // outside the limits we can avoid some unecessary work at the outset
+  if ((x > SSD1306_LCDWIDTH) || (y > SSD1306_LCDHEIGHT))
+    return;
+
   // Check if the requested character is available
   if ((c >= font.u8FirstChar) && (c <= font.u8LastChar))
   {
@@ -166,43 +172,75 @@ void ssd1306Init(uint8_t vccstate)
   DELAY(10);
   gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 1);
 
-  // Initialisation sequence
-  CMD(SSD1306_DISPLAYOFF);                    // 0xAE
-  CMD(SSD1306_SETLOWCOLUMN | 0x0);            // low col = 0
-  CMD(SSD1306_SETHIGHCOLUMN | 0x0);           // hi col = 0
-  CMD(SSD1306_SETSTARTLINE | 0x0);            // line #0
-  CMD(SSD1306_SETCONTRAST);                   // 0x81
-  if (vccstate == SSD1306_EXTERNALVCC) 
-    { CMD(0x9F) }
-  else 
-    { CMD(0xCF) }
-  CMD(0xa1);                                  // setment remap 95 to 0 (?)
-  CMD(SSD1306_NORMALDISPLAY);                 // 0xA6
-  CMD(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
-  CMD(SSD1306_SETMULTIPLEX);                  // 0xA8
-  CMD(0x3F);                                  // 0x3F 1/64 duty
-  CMD(SSD1306_SETDISPLAYOFFSET);              // 0xD3
-  CMD(0x0);                                   // no offset
-  CMD(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
-  CMD(0x80);                                  // the suggested ratio 0x80
-  CMD(SSD1306_SETPRECHARGE);                  // 0xd9
-  if (vccstate == SSD1306_EXTERNALVCC) 
-    { CMD(0x22) }
-  else 
-    { CMD(0xF1) }
-  CMD(SSD1306_SETCOMPINS);                    // 0xDA
-  CMD(0x12);                                  // disable COM left/right remap
-  CMD(SSD1306_SETVCOMDETECT);                 // 0xDB
-  CMD(0x40);                                  // 0x20 is default?
-  CMD(SSD1306_MEMORYMODE);                    // 0x20
-  CMD(0x00);                                  // 0x0 act like ks0108
-  CMD(SSD1306_SEGREMAP | 0x1);
-  CMD(SSD1306_COMSCANDEC);
-  CMD(SSD1306_CHARGEPUMP);                    //0x8D
-  if (vccstate == SSD1306_EXTERNALVCC) 
-    { CMD(0x10) }
-  else 
-    { CMD(0x14) }
+  #if defined SSD1306_128_32
+    // Init sequence taken from datasheet for UG-2832HSWEG04 (128x32 OLED module)
+    CMD(SSD1306_DISPLAYOFF);                    // 0xAE
+    CMD(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
+    CMD(0x80);                                  // the suggested ratio 0x80
+    CMD(SSD1306_SETMULTIPLEX);                  // 0xA8
+    CMD(0x1F);
+    CMD(SSD1306_SETDISPLAYOFFSET);              // 0xD3
+    CMD(0x0);                                   // no offset
+    CMD(SSD1306_SETSTARTLINE | 0x0);            // line #0
+    CMD(SSD1306_CHARGEPUMP);                    // 0x8D
+    if (vccstate == SSD1306_EXTERNALVCC) 
+      { CMD(0x10) }
+    else 
+      { CMD(0x14) }
+    CMD(SSD1306_SEGREMAP | 0x1);
+    CMD(SSD1306_COMSCANDEC);
+    CMD(SSD1306_SETCOMPINS);                    // 0xDA
+    CMD(0x02);
+    CMD(SSD1306_SETCONTRAST);                   // 0x81
+    if (vccstate == SSD1306_EXTERNALVCC) 
+      { CMD(0x9F) }
+    else 
+      { CMD(0xCF) }
+    CMD(SSD1306_SETPRECHARGE);                  // 0xd9
+    if (vccstate == SSD1306_EXTERNALVCC) 
+      { CMD(0x22) }
+    else 
+      { CMD(0xF1) }
+    CMD(SSD1306_SETVCOMDETECT);                 // 0xDB
+    CMD(0x40);                                  // 0x20 is default?
+    CMD(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
+    CMD(SSD1306_NORMALDISPLAY);                 // 0xA6
+  #endif
+
+  #if defined SSD1306_128_64
+    // Init sequence taken from datasheet for UG-2864HSWEG01 (128x64 OLED module)
+    CMD(SSD1306_DISPLAYOFF);                    // 0xAE
+    CMD(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
+    CMD(0x80);                                  // the suggested ratio 0x80
+    CMD(SSD1306_SETMULTIPLEX);                  // 0xA8
+    CMD(0x3F);
+    CMD(SSD1306_SETDISPLAYOFFSET);              // 0xD3
+    CMD(0x0);                                   // no offset
+    CMD(SSD1306_SETSTARTLINE | 0x0);            // line #0
+    CMD(SSD1306_CHARGEPUMP);                    // 0x8D
+    if (vccstate == SSD1306_EXTERNALVCC) 
+      { CMD(0x10) }
+    else 
+      { CMD(0x14) }
+    CMD(SSD1306_SEGREMAP | 0x1);
+    CMD(SSD1306_COMSCANDEC);
+    CMD(SSD1306_SETCOMPINS);                    // 0xDA
+    CMD(0x12);
+    CMD(SSD1306_SETCONTRAST);                   // 0x81
+    if (vccstate == SSD1306_EXTERNALVCC) 
+      { CMD(0x9F) }
+    else 
+      { CMD(0xCF) }
+    CMD(SSD1306_SETPRECHARGE);                  // 0xd9
+    if (vccstate == SSD1306_EXTERNALVCC) 
+      { CMD(0x22) }
+    else 
+      { CMD(0xF1) }
+    CMD(SSD1306_SETVCOMDETECT);                 // 0xDB
+    CMD(0x40);                                  // 0x20 is default?
+    CMD(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
+    CMD(SSD1306_NORMALDISPLAY);                 // 0xA6
+  #endif
 
   // Enabled the OLED panel
   CMD(SSD1306_DISPLAYON);

@@ -2,14 +2,14 @@
 /*! 
     @file     ssd1306.h
     @author   K. Townsend (microBuilder.eu)
-    @date     22 March 2010
+    @date     18 January 2012
     @version  0.10
 
     @section LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, microBuilder SARL
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,41 @@
 
 #include "drivers/lcd/smallfonts.h"
 
+/*=========================================================================
+    SSD1306 Displays
+    -----------------------------------------------------------------------
+    The driver is used in multiple displays (128x64, 128x32, etc.).
+    Select the appropriate display below to create an appropriately
+    sized framebuffer, etc.
+
+    SSD1306_128_64  128x64 pixel display
+
+    SSD1306_128_32  128x32 pixel display
+
+    You also need to set the LCDWIDTH and LCDHEIGHT defines to an 
+    appropriate size
+
+    -----------------------------------------------------------------------*/
+    // #define SSD1306_128_64
+    #define SSD1306_128_32
+/*=========================================================================*/
+
+#if defined SSD1306_128_64 && defined SSD1306_128_32
+  #error "Only one SSD1306 display can be specified at once in ssd1306.h"
+#endif
+#if !defined SSD1306_128_64 && !defined SSD1306_128_32
+  #error "At least one SSD1306 display must be specified in ssd1306.h"
+#endif
+
+#if defined SSD1306_128_64
+  #define SSD1306_LCDWIDTH                  128
+  #define SSD1306_LCDHEIGHT                 64
+#endif
+#if defined SSD1306_128_32
+  #define SSD1306_LCDWIDTH                  128
+  #define SSD1306_LCDHEIGHT                 32
+#endif
+
 // Pin Definitions
 #define SSD1306_DC_PORT                    (2)     // Data/Command
 #define SSD1306_DC_PIN                     (1)
@@ -54,8 +89,6 @@
 #define SSD1306_SDAT_PORT                  (2)     // Serial Data
 #define SSD1306_SDAT_PIN                   (6)
 
-#define SSD1306_LCDWIDTH                  128
-#define SSD1306_LCDHEIGHT                 64
 
 // Commands
 #define SSD1306_SETCONTRAST               0x81
