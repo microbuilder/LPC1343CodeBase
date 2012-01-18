@@ -74,6 +74,10 @@
 #define SET_RST         SSD1331_GPIO2DATA_RST = (1 << SSD1331_RST_PIN)
 #define CLR_CS          SSD1331_GPIO2DATA_CS = (0)
 #define SET_CS          SSD1331_GPIO2DATA_CS = (1 << SSD1331_CS_PIN)
+#define CLR_SCK         SSD1331_GPIO2DATA_SCK = (0)
+#define SET_SCK         SSD1331_GPIO2DATA_SCK = (1 << SSD1331_SCK_PIN)
+#define CLR_SID         SSD1331_GPIO2DATA_SID = (0)
+#define SET_SID         SSD1331_GPIO2DATA_SID = (1 << SSD1331_SID_PIN)
 
 enum
 {

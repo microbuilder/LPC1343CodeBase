@@ -49,20 +49,8 @@ static lcdProperties_t ssd1331Properties = { 96, 64, false, false, false };
 /* Private Methods                               */
 /*************************************************/
 
-// You can speed all of these slow GPIO calls up by using the SET/CLR macros!
-
-#define CMD(c)        do { gpioSetValue( SSD1331_CS_PORT, SSD1331_CS_PIN, 1 ); \
-                           gpioSetValue( SSD1331_DC_PORT, SSD1331_DC_PIN, 0 ); \
-                           gpioSetValue( SSD1331_CS_PORT, SSD1331_CS_PIN, 0 ); \
-                           ssd1331SendByte( c ); \
-                           gpioSetValue( SSD1331_CS_PORT, SSD1331_CS_PIN, 1 ); \
-                         } while (0);
-#define DATA(c)       do { gpioSetValue( SSD1331_CS_PORT, SSD1331_CS_PIN, 1 ); \
-                           gpioSetValue( SSD1331_DC_PORT, SSD1331_DC_PIN, 1 ); \
-                           gpioSetValue( SSD1331_CS_PORT, SSD1331_CS_PIN, 0 ); \
-                           ssd1331SendByte( c ); \
-                           gpioSetValue( SSD1331_CS_PORT, SSD1331_CS_PIN, 1 ); \
-                         } while (0);
+#define CMD(c)        do { SET_CS; CLR_DC; CLR_CS; ssd1331SendByte( c ); SET_CS; } while (0)
+#define DATA(c)       do { SET_CS; SET_DC; CLR_CS; ssd1331SendByte( c ); SET_CS; } while (0);
 #define DELAY(mS)     do { systickDelay( mS / CFG_SYSTICK_DELAY_IN_MS ); } while(0);
 
 /**************************************************************************/
@@ -78,17 +66,24 @@ void ssd1331SendByte(uint8_t byte)
   int8_t i;
 
   // Make sure clock pin starts high
-  gpioSetValue(SSD1331_SCK_PORT, SSD1331_SCK_PIN, 1);
+  SET_SCK;
 
   // Write from MSB to LSB
   for (i=7; i>=0; i--) 
   {
     // Set clock pin low
-    gpioSetValue(SSD1331_SCK_PORT, SSD1331_SCK_PIN, 0);
+    CLR_SCK;
     // Set data pin high or low depending on the value of the current bit
-    gpioSetValue(SSD1331_SID_PORT, SSD1331_SID_PIN, byte & (1 << i) ? 1 : 0);
+    if (byte & (1 << i))
+    {
+      SET_SID;
+    }
+    else
+    {
+      CLR_SID;
+    }
     // Set clock pin high
-    gpioSetValue(SSD1331_SCK_PORT, SSD1331_SCK_PIN, 1);
+    SET_SCK;
   }
 }
 
@@ -121,8 +116,7 @@ uint16_t ssd1331Read(uint16_t addr)
 /**************************************************************************/
 uint16_t ssd1331Type(void)
 {
-  // ToDo
-  return 0;
+  return 0x1331;
 }
 
 /**************************************************************************/
