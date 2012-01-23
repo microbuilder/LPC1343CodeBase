@@ -306,14 +306,14 @@ void lcdTest(void)
   {
     for(j=0;j<96;j++)
     {
-      if(i>55){DATA(invert565Color(COLOR_WHITE)>>8);DATA(invert565Color(COLOR_WHITE));}
-      else if(i>47){DATA(invert565Color(COLOR_BLUE)>>8);DATA(invert565Color(COLOR_BLUE));}
-      else if(i>39){DATA(invert565Color(COLOR_GREEN)>>8);DATA(invert565Color(COLOR_GREEN));}
-      else if(i>31){DATA(invert565Color(COLOR_CYAN)>>8);DATA(invert565Color(COLOR_CYAN));}
-      else if(i>23){DATA(invert565Color(COLOR_RED)>>8);DATA(invert565Color(COLOR_RED));}
-      else if(i>15){DATA(invert565Color(COLOR_MAGENTA)>>8);DATA(invert565Color(COLOR_MAGENTA));}
-      else if(i>7){DATA(invert565Color(COLOR_YELLOW)>>8);DATA(invert565Color(COLOR_YELLOW));}
-      else {DATA(invert565Color(COLOR_BLACK)>>8);DATA(invert565Color(COLOR_BLACK));}
+      if(i>55){DATA(COLOR_WHITE>>8);DATA(COLOR_WHITE);}
+      else if(i>47){DATA(COLOR_BLUE>>8);DATA(COLOR_BLUE);}
+      else if(i>39){DATA(COLOR_GREEN>>8);DATA(COLOR_GREEN);}
+      else if(i>31){DATA(COLOR_CYAN>>8);DATA(COLOR_CYAN);}
+      else if(i>23){DATA(COLOR_RED>>8);DATA(COLOR_RED);}
+      else if(i>15){DATA(COLOR_MAGENTA>>8);DATA(COLOR_MAGENTA);}
+      else if(i>7){DATA(COLOR_YELLOW>>8);DATA(COLOR_YELLOW);}
+      else {DATA(COLOR_BLACK>>8);DATA(COLOR_BLACK);}
     }
   }
 }
@@ -325,7 +325,6 @@ void lcdTest(void)
 /**************************************************************************/
 void lcdFillRGB(uint16_t data)
 {
-  data = invert565Color(data);
   ssd1331FillRect(0,0,ssd1331Properties.width-1,ssd1331Properties.height-1, data, data);
 }
 
@@ -340,7 +339,6 @@ void lcdDrawPixel(uint16_t x, uint16_t y, uint16_t color)
     return;
 
   ssd1331SetCursor((uint8_t)x, (uint8_t)y);
-  color = invert565Color(color);
   DATA(color >> 8);
   DATA(color);
 }
@@ -364,7 +362,6 @@ void lcdDrawPixels(uint16_t x, uint16_t y, uint16_t *data, uint32_t len)
 /**************************************************************************/
 void lcdDrawHLine(uint16_t x0, uint16_t x1, uint16_t y, uint16_t color)
 {
-  color = invert565Color(color);
   ssd1331DrawLine((uint8_t)x0, (uint8_t)y, (uint8_t)x1, (uint8_t)y, color); 
 }
 
@@ -376,7 +373,6 @@ void lcdDrawHLine(uint16_t x0, uint16_t x1, uint16_t y, uint16_t color)
 /**************************************************************************/
 void lcdDrawVLine(uint16_t x, uint16_t y0, uint16_t y1, uint16_t color)
 {
-  color = invert565Color(color);
   ssd1331DrawLine((uint8_t)x, (uint8_t)y0, (uint8_t)x, (uint8_t)y1, color); 
 }
 
