@@ -236,7 +236,13 @@ void lcdInit(void)
   
   CMD(SSD1331_CMD_DISPLAYOFF);  // 0xAE
   CMD(SSD1331_CMD_SETREMAP); // 0xA0
-  CMD(0x76);  // 0x74
+  // A[2] = 1 = color order (0 = RGB, 1 = BGR)
+  // A[7:6] = 01 = 65K color
+  #if defined SSD1331_COLORORDER_BGR
+  CMD(0x76);
+  #else
+  CMD(0x72);
+  #endif
   CMD(SSD1331_CMD_STARTLINE); // 0xA1
   CMD(0x0);
   CMD(SSD1331_CMD_DISPLAYOFFSET); // 0xA2

@@ -41,6 +41,14 @@
 #include "drivers/lcd/tft/lcd.h"
 #include "core/gpio/gpio.h"
 
+// Select one of these defines to set the pixel color order
+// #define SSD1331_COLORORDER_RGB
+#define SSD1331_COLORORDER_BGR
+
+#if defined SSD1331_COLORORDER_RGB && defined SSD1331_COLORORDER_BGR
+  #error "RGB and BGR can not both be defined for SSD1331_COLORODER."
+#endif
+
 // Control pins
 #define SSD1331_SID_PORT          2     // DAT
 #define SSD1331_SID_PIN           1
