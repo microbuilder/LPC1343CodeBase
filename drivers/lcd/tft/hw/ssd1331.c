@@ -145,9 +145,27 @@ void ssd1331SetCursor(uint8_t x, uint8_t y)
 /**************************************************************************/
 void ssd1331DrawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint16_t color) 
 {  
+  uint16_t x, pixels;
+
   if ((x1 >= ssd1331Properties.width) || (x2 >= ssd1331Properties.width) ||
       (y1 >= ssd1331Properties.height) || (y2 >= ssd1331Properties.height)) {
       return;
+  }
+
+  // Switch x2 and x1 if required
+  if (x2 < x1)
+  {
+    x = x2;
+    x2 = x1;
+    x1 = x;
+  }
+
+  // Switch y2 and y1 if required
+  if (y2 < y1)
+  {
+    x = y2;
+    y2 = y1;
+    y1 = x;
   }
 
   CMD(SSD1331_CMD_DRAWLINE);
@@ -155,9 +173,10 @@ void ssd1331DrawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint16_t co
   CMD(y1);
   CMD(x2);
   CMD(y2);
-  CMD((color >> 11) << 1);
-  CMD((color >> 5) & 0x3F);
-  CMD((color << 1)& 0x3F);
+  CMD((uint8_t)((color >> 11) & 0x1F));
+  CMD((uint8_t)((color >> 5) & 0x3F));
+  CMD((uint8_t)(color & 0x1F));
+
 }
 
 /**************************************************************************/
