@@ -43,9 +43,6 @@
 #include "core/gpio/gpio.h"
 #include "core/systick/systick.h"
 
-#include "drivers/lcd/tft/hw/ssd1351.h"
-#include "drivers/lcd/tft/drawing.h"
-
 #ifdef CFG_INTERFACE
   #include "core/cmd/cmd.h"
 #endif
@@ -63,9 +60,6 @@ int main(void)
 
   uint32_t currentSecond, lastSecond;
   currentSecond = lastSecond = 0;
-  
-  lcdInit();
-  lcdTest();
 
   while (1)
   {
@@ -74,7 +68,7 @@ int main(void)
     if (currentSecond != lastSecond)
     {
       lastSecond = currentSecond;
-      gpioSetValue(CFG_LED_PORT, CFG_LED_PIN, ~(gpioGetValue(CFG_LED_PORT, CFG_LED_PIN)));
+      gpioSetValue(CFG_LED_PORT, CFG_LED_PIN, !(gpioGetValue(CFG_LED_PORT, CFG_LED_PIN)));
     }
 
     // Poll for CLI input if CFG_INTERFACE is enabled in projectconfig.h

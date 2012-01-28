@@ -116,6 +116,7 @@
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
     // #define CFG_BRD_LPC1343_802154USBSTICK
+    // #define CFG_BRD_LPC1343_OLIMEX_P
 /*=========================================================================*/
 
 
@@ -283,6 +284,11 @@
       #define CFG_UART_BAUDRATE           (115200)
       #define CFG_UART_BUFSIZE            (512)
     #endif
+	
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      #define CFG_UART_BAUDRATE           (115200)
+      #define CFG_UART_BUFSIZE            (512)
+    #endif
 /*=========================================================================*/
 
 
@@ -312,6 +318,11 @@
     #ifdef CFG_BRD_LPC1343_802154USBSTICK
       // #define CFG_SSP0_SCKPIN_2_11
       #define CFG_SSP0_SCKPIN_0_6
+    #endif
+	
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      #define CFG_SSP0_SCKPIN_2_11
+      // #define CFG_SSP0_SCKPIN_0_6
     #endif
 /*=========================================================================*/
 
@@ -348,6 +359,13 @@
     #endif
 
     #ifdef CFG_BRD_LPC1343_802154USBSTICK
+      #define CFG_LED_PORT                (3)
+      #define CFG_LED_PIN                 (2)
+      #define CFG_LED_ON                  (0)
+      #define CFG_LED_OFF                 (1)
+    #endif
+	
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
       #define CFG_LED_PORT                (3)
       #define CFG_LED_PIN                 (2)
       #define CFG_LED_ON                  (0)
@@ -404,6 +422,13 @@
     #ifdef CFG_BRD_LPC1343_802154USBSTICK
       // #define CFG_SDCARD
       #define CFG_SDCARD_READONLY         (1)   // Must be 0 or 1
+      #define CFG_SDCARD_CDPORT           (3)
+      #define CFG_SDCARD_CDPIN            (0)
+    #endif
+	
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      // #define CFG_SDCARD
+      #define CFG_SDCARD_READONLY         (1) // Must be 0 or 1
       #define CFG_SDCARD_CDPORT           (3)
       #define CFG_SDCARD_CDPIN            (0)
     #endif
@@ -473,6 +498,14 @@
       #define CFG_USBCDC_INITTIMEOUT      (5000)
       #define CFG_USBCDC_BUFFERSIZE       (256)
     #endif
+	
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      // #define CFG_USBHID
+      #define CFG_USBCDC
+      #define CFG_USBCDC_BAUDRATE         (115200)
+      #define CFG_USBCDC_INITTIMEOUT      (5000)
+      #define CFG_USBCDC_BUFFERSIZE       (256)
+    #endif	
 /*=========================================================================*/
 
 
@@ -519,6 +552,12 @@
       #define CFG_PRINTF_USBCDC
       #define CFG_PRINTF_NEWLINE          "\r\n"
     #endif
+	
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      // #define CFG_PRINTF_UART
+      #define CFG_PRINTF_USBCDC
+      #define CFG_PRINTF_NEWLINE          "\r\n"
+    #endif	
 /*=========================================================================*/
 
 
@@ -640,6 +679,19 @@
       #define CFG_INTERFACE_SHORTERRORS   (0)
       #define CFG_INTERFACE_CONFIRMREADY  (0)
     #endif
+	
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      #define CFG_INTERFACE
+      #define CFG_INTERFACE_MAXMSGSIZE    (256)
+      #define CFG_INTERFACE_PROMPT        "LPC-P1343 >> "
+      #define CFG_INTERFACE_SILENTMODE    (0)
+      #define CFG_INTERFACE_DROPCR        (0)
+      #define CFG_INTERFACE_ENABLEIRQ     (0)
+      #define CFG_INTERFACE_IRQPORT       (0)
+      #define CFG_INTERFACE_IRQPIN        (7)
+      #define CFG_INTERFACE_SHORTERRORS   (0)
+      #define CFG_INTERFACE_CONFIRMREADY  (0)
+    #endif
 /*=========================================================================*/
 
 
@@ -710,6 +762,11 @@
       #define CFG_I2CEEPROM
       #define CFG_I2CEEPROM_SIZE          (3072)
     #endif
+
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      // #define CFG_I2CEEPROM
+      #define CFG_I2CEEPROM_SIZE          (3072)
+    #endif	
 /*=========================================================================*/
 
 
@@ -839,6 +896,16 @@
       #define CFG_CHIBI_PROMISCUOUS       (0)
       #define CFG_CHIBI_BUFFERSIZE        (1024)
     #endif
+	
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      // #define CFG_CHIBI
+      #define CFG_CHIBI_MODE              (0)                 // OQPSK_868MHZ
+      #define CFG_CHIBI_POWER             (0xE9)              // CHB_PWR_EU2_3DBM
+      #define CFG_CHIBI_CHANNEL           (0)                 // 868-868.6 MHz
+      #define CFG_CHIBI_PANID             (0x1234)
+      #define CFG_CHIBI_PROMISCUOUS       (0)
+      #define CFG_CHIBI_BUFFERSIZE        (128)
+    #endif	
 /*=========================================================================*/
 
 
@@ -902,6 +969,13 @@
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
       #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
     #endif
+	
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      // #define CFG_TFTLCD
+      #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
+      #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
+      #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
+    #endif	
 /*=========================================================================*/
 
 
@@ -959,7 +1033,12 @@
 
   =========================================================================*/
 
-#if !defined CFG_BRD_LPC1343_REFDESIGN && !defined CFG_BRD_LPC1343_REFDESIGN_MINIMAL && !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB && !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART && !defined CFG_BRD_LPC1343_802154USBSTICK
+#if !defined CFG_BRD_LPC1343_REFDESIGN && \
+  !defined CFG_BRD_LPC1343_REFDESIGN_MINIMAL && \
+  !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB && \
+  !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART && \
+  !defined CFG_BRD_LPC1343_802154USBSTICK && \
+  !defined CFG_BRD_LPC1343_OLIMEX_P    
   #error "You must defined a target board (CFG_BRD_LPC1343_REFDESIGN or CFG_BRD_LPC1343_REFDESIGN_MINIMAL or CFG_BRD_LPC1343_TFTLCDSTANDALONE or CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART or CFG_BRD_LPC1343_802154USBSTICK)"
 #endif
 
@@ -1016,6 +1095,9 @@
   #endif
   #ifdef CFG_SSD1306
     #error "CFG_TFTLCD and CFG_SSD1306 can not be defined at the same time."
+  #endif
+  #ifdef CFG_SHARPMEM
+    #error "CFG_TFTLCD and CFG_SHARPMEM can not be defined at the same time."
   #endif
   #ifdef CFG_PWM
     #error "CFG_TFTLCD and CFG_PWM can not be defined at the same time since they both use pin 1.9."

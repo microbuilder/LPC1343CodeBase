@@ -178,7 +178,7 @@ void ssd1306Init(uint8_t vccstate)
     CMD(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
     CMD(0x80);                                  // the suggested ratio 0x80
     CMD(SSD1306_SETMULTIPLEX);                  // 0xA8
-    CMD(0x1F);
+    CMD(0x1F);                                  // 31
     CMD(SSD1306_SETDISPLAYOFFSET);              // 0xD3
     CMD(0x0);                                   // no offset
     CMD(SSD1306_SETSTARTLINE | 0x0);            // line #0
@@ -187,6 +187,8 @@ void ssd1306Init(uint8_t vccstate)
       { CMD(0x10) }
     else 
       { CMD(0x14) }
+    CMD(SSD1306_MEMORYMODE);                    // 0x20
+    CMD(0x00);                                  // 0x0 act like ks0108
     CMD(SSD1306_SEGREMAP | 0x1);
     CMD(SSD1306_COMSCANDEC);
     CMD(SSD1306_SETCOMPINS);                    // 0xDA
@@ -202,7 +204,7 @@ void ssd1306Init(uint8_t vccstate)
     else 
       { CMD(0xF1) }
     CMD(SSD1306_SETVCOMDETECT);                 // 0xDB
-    CMD(0x40);                                  // 0x20 is default?
+    CMD(0x40);
     CMD(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
     CMD(SSD1306_NORMALDISPLAY);                 // 0xA6
   #endif
@@ -213,7 +215,7 @@ void ssd1306Init(uint8_t vccstate)
     CMD(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
     CMD(0x80);                                  // the suggested ratio 0x80
     CMD(SSD1306_SETMULTIPLEX);                  // 0xA8
-    CMD(0x3F);
+    CMD(0x3F);                                  // 63
     CMD(SSD1306_SETDISPLAYOFFSET);              // 0xD3
     CMD(0x0);                                   // no offset
     CMD(SSD1306_SETSTARTLINE | 0x0);            // line #0
@@ -222,6 +224,8 @@ void ssd1306Init(uint8_t vccstate)
       { CMD(0x10) }
     else 
       { CMD(0x14) }
+    CMD(SSD1306_MEMORYMODE);                    // 0x20
+    CMD(0x00);                                  // 0x0 act like ks0108
     CMD(SSD1306_SEGREMAP | 0x1);
     CMD(SSD1306_COMSCANDEC);
     CMD(SSD1306_SETCOMPINS);                    // 0xDA
@@ -237,7 +241,7 @@ void ssd1306Init(uint8_t vccstate)
     else 
       { CMD(0xF1) }
     CMD(SSD1306_SETVCOMDETECT);                 // 0xDB
-    CMD(0x40);                                  // 0x20 is default?
+    CMD(0x40);
     CMD(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
     CMD(SSD1306_NORMALDISPLAY);                 // 0xA6
   #endif
@@ -388,10 +392,7 @@ void ssd1306DrawString(uint16_t x, uint16_t y, char* text, struct FONT_DEF font)
     #include "drivers/lcd/smallfonts.h"
     
     // Configure the pins and initialise the LCD screen
-    ssd1306Init();
-
-    // Enable the backlight
-    ssd1306BLEnable();
+    ssd1306Init(SSD1306_INTERNALVCC);
 
     // Continually write some text, scrolling upward one line each time
     while (1)

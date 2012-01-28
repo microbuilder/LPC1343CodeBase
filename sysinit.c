@@ -195,7 +195,7 @@ void systemInit()
 
   // Initialise the SSD1306 OLED display
   #ifdef CFG_SSD1306
-    ssd1306Init(SSD1306_SWITCHCAPVCC);
+    ssd1306Init(SSD1306_INTERNALVCC);
     ssd1306ClearScreen();   // Clear the screen  
   #endif
 
