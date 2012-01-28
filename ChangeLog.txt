@@ -1,5 +1,7 @@
 v0.9.8 - Ongoing
 ================
+- Added CFG_BRD_LPC1343_OLIMEX_P to board selection
+  in projectconfig.h (courtesy PHK)
 - Added SSD1331_COLORORDER_RGB flasg to SSD1331.h to
   select between RGB and BGR color order
 - Added 128x32 support to ssd1306.c and rewrote
