@@ -68,7 +68,7 @@ int main(void)
     if (currentSecond != lastSecond)
     {
       lastSecond = currentSecond;
-      gpioSetValue(CFG_LED_PORT, CFG_LED_PIN, ~(gpioGetValue(CFG_LED_PORT, CFG_LED_PIN)));
+      gpioSetValue(CFG_LED_PORT, CFG_LED_PIN, !(gpioGetValue(CFG_LED_PORT, CFG_LED_PIN)));
     }
 
     // Poll for CLI input if CFG_INTERFACE is enabled in projectconfig.h
