@@ -325,14 +325,14 @@ void lcdTest(void)
   {
     for(j=0;j<96;j++)
     {
-      if(i>55){DATA(COLOR_WHITE>>8);DATA(COLOR_WHITE);}
-      else if(i>47){DATA(COLOR_BLUE>>8);DATA(COLOR_BLUE);}
-      else if(i>39){DATA(COLOR_GREEN>>8);DATA(COLOR_GREEN);}
-      else if(i>31){DATA(COLOR_CYAN>>8);DATA(COLOR_CYAN);}
-      else if(i>23){DATA(COLOR_RED>>8);DATA(COLOR_RED);}
-      else if(i>15){DATA(COLOR_MAGENTA>>8);DATA(COLOR_MAGENTA);}
-      else if(i>7){DATA(COLOR_YELLOW>>8);DATA(COLOR_YELLOW);}
-      else {DATA(COLOR_BLACK>>8);DATA(COLOR_BLACK);}
+      if(i>55){DATA((uint8_t)COLOR_WHITE>>8);DATA((uint8_t)COLOR_WHITE);}
+      else if(i>47){DATA((uint8_t)COLOR_BLUE>>8);DATA((uint8_t)COLOR_BLUE);}
+      else if(i>39){DATA((uint8_t)COLOR_GREEN>>8);DATA((uint8_t)COLOR_GREEN);}
+      else if(i>31){DATA((uint8_t)COLOR_CYAN>>8);DATA((uint8_t)COLOR_CYAN);}
+      else if(i>23){DATA((uint8_t)COLOR_RED>>8);DATA((uint8_t)COLOR_RED);}
+      else if(i>15){DATA((uint8_t)COLOR_MAGENTA>>8);DATA((uint8_t)COLOR_MAGENTA);}
+      else if(i>7){DATA((uint8_t)COLOR_YELLOW>>8);DATA((uint8_t)COLOR_YELLOW);}
+      else {DATA((uint8_t)COLOR_BLACK>>8);DATA((uint8_t)COLOR_BLACK);}
     }
   }
 }
