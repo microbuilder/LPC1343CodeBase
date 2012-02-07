@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Session Name="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\build\codelite\LPC1343 Workspace.workspace">
-  <int Value="0" Name="m_selectedTab"/>
+  <int Value="1" Name="m_selectedTab"/>
   <wxString Value="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\build\codelite\LPC1343 Workspace.workspace" Name="m_workspaceName"/>
   <TabInfoArray Name="TabInfoArray">
     <TabInfo>
       <wxString Value="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" Name="FileName"/>
-      <int Value="1" Name="FirstVisibleLine"/>
-      <int Value="2" Name="CurrentLine"/>
+      <int Value="46" Name="FirstVisibleLine"/>
+      <int Value="19" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\projectconfig.h" Name="FileName"/>
+      <int Value="18" Name="FirstVisibleLine"/>
+      <int Value="36" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
     </TabInfo>
   </TabInfoArray>
   <SerializedObject Name="m_breakpoints">
-    <long Value="2" Name="Count"/>
+    <long Value="1" Name="Count"/>
     <SerializedObject Name="Breakpoint0">
-      <wxString Value="C:\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" Name="file"/>
-      <int Value="60" Name="lineno"/>
-      <wxString Value="" Name="function_name"/>
-      <wxString Value="" Name="memory_address"/>
-      <int Value="1" Name="bp_type"/>
-      <int Value="0" Name="watchpoint_type"/>
-      <wxString Value="" Name="watchpt_data"/>
-      <CData Name="commandlist"/>
-      <bool Value="0" Name="regex"/>
-      <bool Value="0" Name="is_temp"/>
-      <bool Value="1" Name="is_enabled"/>
-      <int Value="0" Name="ignore_number"/>
-      <wxString Value="" Name="conditions"/>
-      <int Value="1" Name="origin"/>
-    </SerializedObject>
-    <SerializedObject Name="Breakpoint1">
       <wxString Value="C:\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" Name="file"/>
       <int Value="60" Name="lineno"/>
       <wxString Value="" Name="function_name"/>

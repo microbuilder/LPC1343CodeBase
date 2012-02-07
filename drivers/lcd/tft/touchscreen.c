@@ -194,7 +194,8 @@ tsTouchData_t tsRenderCalibrationScreen(uint16_t x, uint16_t y, uint16_t radius)
   bool valid = false;
   while (!valid)
   {    
-    error = tsRead(&data);
+    // Set calibration flag for ts read
+    error = tsRead(&data, true);
     if (!error && data.valid)
     {
       valid = true;
@@ -283,7 +284,7 @@ int setCalibrationMatrix( tsPoint_t * displayPtr, tsPoint_t * screenPtr, tsMatri
 /**************************************************************************/
 int getDisplayPoint( tsPoint_t * displayPtr, tsPoint_t * screenPtr, tsMatrix_t * matrixPtr )
 {
-  int  retValue = 0 ;
+  int  retValue = TS_ERROR_NONE ;
   
   if( matrixPtr->Divider != 0 )
   {
@@ -299,7 +300,9 @@ int getDisplayPoint( tsPoint_t * displayPtr, tsPoint_t * screenPtr, tsMatrix_t *
   }
   else
   {
-    retValue = -1 ;
+    // ToDo: Default values required or you can never read LCD position!
+    // return TS_ERROR_NOTCALIBRATED;
+    return -1;
   }
 
   // Adjust value if the screen is in landscape mode
@@ -350,14 +353,25 @@ void tsInit(void)
     _tsMatrix.Fn = eepromReadS32(CFG_EEPROM_TOUCHSCREEN_CAL_FN);
     _tsMatrix.Divider = eepromReadS32(CFG_EEPROM_TOUCHSCREEN_CAL_DIVIDER);
   }
+  else
+  {
+    // You may want to run the touch screen calibration sequence
+    // here since the ts has apparently never been calibrated!
+    // tsCalibrate();
+  }
 }
 
 /**************************************************************************/
 /*!
     @brief  Reads the current X, Y and Z co-ordinates of the touch screen
+
+    @param[in]    calibrating
+                  Set to 1 if the read attempt is for calibration data.
+                  No attempt will be made to correlate the touch screen
+                  and LCD co-ordinates.
 */
 /**************************************************************************/
-tsTouchError_t tsRead(tsTouchData_t* data)
+tsTouchError_t tsRead(tsTouchData_t* data, uint8_t calibrating)
 {
   uint32_t x1, x2, y1, y2, z1, z2;
 
@@ -400,9 +414,20 @@ tsTouchError_t tsRead(tsTouchData_t* data)
   tsPoint_t location, touch;
   touch.x = x1;
   touch.y = y1;
-  getDisplayPoint( &location, &touch, &_tsMatrix) ;
-  data->xlcd = location.x;
-  data->ylcd = location.y;
+  // Only calculate the relative LCD value if this isn't for calibration
+  if (!calibrating)
+  {
+    getDisplayPoint( &location, &touch, &_tsMatrix) ;
+    data->xlcd = location.x;
+    data->ylcd = location.y;
+  }
+  else
+  {
+    // Assign some false values, but only xraw and yraw are
+    // used for calibration
+    data->xlcd = 0;
+    data->ylcd = 0;
+  }
   data->valid = true;
 
   return TS_ERROR_NONE;
@@ -508,7 +533,7 @@ tsTouchError_t tsWaitForEvent(tsTouchData_t* data, uint32_t timeoutMS)
 {
   if (!_tsInitialised) tsInit();
 
-  tsRead(data);
+  tsRead(data, false);
 
   // Return the results right away if reading is valid
   if (data->valid)
@@ -530,7 +555,7 @@ tsTouchError_t tsWaitForEvent(tsTouchData_t* data, uint32_t timeoutMS)
         {
           return TS_ERROR_TIMEOUT;
         }      
-        tsRead(data);
+        tsRead(data, false);
       }
     }
     // No systick rollover will occur ... calculate timeout the simple way
@@ -544,7 +569,7 @@ tsTouchError_t tsWaitForEvent(tsTouchData_t* data, uint32_t timeoutMS)
         {
           return TS_ERROR_TIMEOUT;
         }
-        tsRead(data);
+        tsRead(data, false);
       }
     }
   }
@@ -553,7 +578,7 @@ tsTouchError_t tsWaitForEvent(tsTouchData_t* data, uint32_t timeoutMS)
   {
     while (data->valid == false)
     {
-      tsRead(data);
+      tsRead(data, false);
     }
   }
 

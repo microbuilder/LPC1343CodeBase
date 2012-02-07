@@ -39,7 +39,7 @@
 
 #define FAST_MODE_PLUS    0
 
-#define I2C_BUFSIZE       32
+#define I2C_BUFSIZE       64
 #define MAX_TIMEOUT       0x00FFFFFF
 
 #define I2CMASTER         0x01
@@ -49,6 +49,8 @@
 #define READ_WRITE        0x01
 
 #define RD_BIT            0x01
+
+#define I2C_GENERALCALL   0x00        /* General Call Address (to 'ping' I2C bus for devices) */
 
 #define I2CONSET_I2EN     0x00000040  /* I2C Control Set Register */
 #define I2CONSET_AA       0x00000004
@@ -63,11 +65,20 @@
 
 #define I2DAT_I2C         0x00000000  /* I2C Data Reg */
 #define I2ADR_I2C         0x00000000  /* I2C Slave Address Reg */
-#define I2SCLH_SCLH       120         /* I2C SCL Duty Cycle High Reg */
-#define I2SCLL_SCLL       120         /* I2C SCL Duty Cycle Low Reg */
-#define I2SCLH_HS_SCLH    0x00000020  /* Fast Plus I2C SCL Duty Cycle High Reg */
-#define I2SCLL_HS_SCLL    0x00000020  /* Fast Plus I2C SCL Duty Cycle Low Reg */
 
+/* SCLH and SCLL = I2C PCLK High/Low cycles for I2C clock and
+  determine the data rate/duty cycle for I2C:
+   
+   I2CBitFrequency = I2CPCLK / (I2CSCLH + I2CSCLL)
+  
+   Standard Mode   (100KHz) = CFG_CPU_CCLK / 200000
+   Fast Mode       (400KHz) = CFG_CPU_CCLK / 800000
+   Fast- Mode Plus (1MHz)   = CFG_CPU_CCLK / 2000000       */
+
+#define I2SCLH_SCLH       CFG_CPU_CCLK / 800000  /* Standard Mode I2C SCL Duty Cycle High (400KHz) */
+#define I2SCLL_SCLL       CFG_CPU_CCLK / 800000  /* Fast Mode I2C SCL Duty Cycle Low (400KHz) */
+#define I2SCLH_HS_SCLH    CFG_CPU_CCLK / 2000000  /* Fast Plus I2C SCL Duty Cycle High Reg */
+#define I2SCLL_HS_SCLL    CFG_CPU_CCLK / 2000000  /* Fast Plus I2C SCL Duty Cycle Low Reg */
 
 extern volatile uint8_t I2CMasterBuffer[I2C_BUFSIZE];
 extern volatile uint8_t I2CSlaveBuffer[I2C_BUFSIZE];
@@ -76,6 +87,7 @@ extern volatile uint32_t I2CReadLength, I2CWriteLength;
 extern void I2C_IRQHandler( void );
 extern uint32_t i2cInit( uint32_t I2cMode );
 extern uint32_t i2cEngine( void );
+uint32_t i2cSendGeneralCall( void );
 
 #endif /* end __I2C_H */
 /****************************************************************************

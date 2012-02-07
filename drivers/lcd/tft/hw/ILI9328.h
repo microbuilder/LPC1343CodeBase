@@ -108,25 +108,26 @@
 #define ILI9328_GPIO2DATA_SETOUTPUT GPIO_GPIO2DIR |= ILI9328_DATA_MASK
 
 // Macros for control line state
-#define CLR_CD          ILI9328_GPIO1DATA_CD = (0)
-#define SET_CD          ILI9328_GPIO1DATA_CD = (1 << ILI9328_CD_PIN)
-#define CLR_CS          ILI9328_GPIO1DATA_CS = (0)
-#define SET_CS          ILI9328_GPIO1DATA_CS = (1 << ILI9328_CS_PIN)
-#define CLR_WR          ILI9328_GPIO1DATA_WR = (0)
-#define SET_WR          ILI9328_GPIO1DATA_WR = (1 << ILI9328_WR_PIN)
-#define CLR_RD          ILI9328_GPIO1DATA_RD = (0)
-#define SET_RD          ILI9328_GPIO1DATA_RD = (1 << ILI9328_RD_PIN)
-#define CLR_RESET       ILI9328_GPIO3DATA_RES = (0)
-#define SET_RESET       ILI9328_GPIO3DATA_RES = (1 << ILI9328_RES_PIN)
+// NOPs required since the bit-banding is too fast for some ILI9328s to handle :(
+#define CLR_CD          ILI9328_GPIO1DATA_CD = (0); __asm volatile("nop");
+#define SET_CD          ILI9328_GPIO1DATA_CD = (1 << ILI9328_CD_PIN); __asm volatile("nop");
+#define CLR_CS          ILI9328_GPIO1DATA_CS = (0); __asm volatile("nop");
+#define SET_CS          ILI9328_GPIO1DATA_CS = (1 << ILI9328_CS_PIN); __asm volatile("nop");
+#define CLR_WR          ILI9328_GPIO1DATA_WR = (0); __asm volatile("nop");
+#define SET_WR          ILI9328_GPIO1DATA_WR = (1 << ILI9328_WR_PIN); __asm volatile("nop");
+#define CLR_RD          ILI9328_GPIO1DATA_RD = (0); __asm volatile("nop");
+#define SET_RD          ILI9328_GPIO1DATA_RD = (1 << ILI9328_RD_PIN); __asm volatile("nop");
+#define CLR_RESET       ILI9328_GPIO3DATA_RES = (0); __asm volatile("nop");
+#define SET_RESET       ILI9328_GPIO3DATA_RES = (1 << ILI9328_RES_PIN); __asm volatile("nop");
 
 // These 'combined' macros are defined to improve code performance by
 // reducing the number of instructions in heavily used functions
-#define CLR_CS_CD           ILI9328_GPIO1DATA_CS_CD = (0);
-#define SET_RD_WR           ILI9328_GPIO1DATA_RD_WR = (ILI9328_RD_WR_PINS);
-#define SET_WR_CS           ILI9328_GPIO1DATA_WR_CS = (ILI9328_WR_CS_PINS);
-#define SET_CD_RD_WR        ILI9328_GPIO1DATA_CD_RD_WR = (ILI9328_CD_RD_WR_PINS);
-#define CLR_CS_CD_SET_RD_WR ILI9328_GPIO1DATA_CS_CD_RD_WR = (ILI9328_RD_WR_PINS);
-#define CLR_CS_SET_CD_RD_WR ILI9328_GPIO1DATA_CS_CD_RD_WR = (ILI9328_CD_RD_WR_PINS);
+#define CLR_CS_CD           ILI9328_GPIO1DATA_CS_CD = (0); __asm volatile("nop");
+#define SET_RD_WR           ILI9328_GPIO1DATA_RD_WR = (ILI9328_RD_WR_PINS); __asm volatile("nop");
+#define SET_WR_CS           ILI9328_GPIO1DATA_WR_CS = (ILI9328_WR_CS_PINS); __asm volatile("nop");
+#define SET_CD_RD_WR        ILI9328_GPIO1DATA_CD_RD_WR = (ILI9328_CD_RD_WR_PINS); __asm volatile("nop");
+#define CLR_CS_CD_SET_RD_WR ILI9328_GPIO1DATA_CS_CD_RD_WR = (ILI9328_RD_WR_PINS); __asm volatile("nop");
+#define CLR_CS_SET_CD_RD_WR ILI9328_GPIO1DATA_CS_CD_RD_WR = (ILI9328_CD_RD_WR_PINS); __asm volatile("nop");
 
 enum
 {

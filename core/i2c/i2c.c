@@ -274,7 +274,7 @@ static uint32_t I2CStop( void )
 *****************************************************************************/
 uint32_t i2cInit( uint32_t I2cMode ) 
 {
-	SCB_PRESETCTRL |= (0x1<<1);
+  SCB_PRESETCTRL |= (0x1<<1);
 
   // Enable I2C clock
   SCB_SYSAHBCLKCTRL |= (SCB_SYSAHBCLKCTRL_I2C);
@@ -345,6 +345,38 @@ uint32_t i2cEngine( void )
   while (I2CMasterState < 0x100);
 
   return ( I2CMasterState );
+}
+
+/*****************************************************************************
+** Function name:	i2cSendGeneralCall
+**
+** Descriptions:	Sends a request to the general call address (0x00)
+**                      which should detect if there are any devices on the
+**                      i2c bus. For more information see:
+**                      http://www.i2c-bus.org/addressing/general-call-address/
+**
+** parameters:		None
+** Returned value:	Any of the I2CSTATE_... values. See i2c.h
+** 
+*****************************************************************************/
+uint32_t i2cSendGeneralCall(void)
+{
+  uint32_t i2cState;
+
+    // Clear write buffers
+  uint32_t i;
+  for ( i = 0; i < I2C_BUFSIZE; i++ )
+  {
+    I2CMasterBuffer[i] = 0x00;
+  }
+
+  // Send the specified bytes
+  I2CWriteLength = 1;
+  I2CReadLength = 0;
+  I2CMasterBuffer[0] = I2C_GENERALCALL;
+  i2cState = i2cEngine();
+
+  return i2cState;
 }
 
 /******************************************************************************

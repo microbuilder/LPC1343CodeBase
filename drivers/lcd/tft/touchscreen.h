@@ -93,14 +93,15 @@ typedef struct
 
 typedef enum
 {
-  TS_ERROR_NONE         = 0,
-  TS_ERROR_TIMEOUT      = -1,   // Timeout occured before a valid reading
-  TS_ERROR_XYMISMATCH   = -2    // Unable to get a stable X/Y value
+  TS_ERROR_NONE          = 0,
+  TS_ERROR_TIMEOUT       = -1,   // Timeout occured before a valid reading
+  TS_ERROR_XYMISMATCH    = -2,   // Unable to get a stable X/Y value
+  TS_ERROR_NOTCALIBRATED = -3    // Can't calculate X/Y until tsCalibrate() is run!
 } tsTouchError_t;
 
 // Method Prototypes
 void           tsInit ( void );
-tsTouchError_t tsRead(tsTouchData_t* data);
+tsTouchError_t tsRead(tsTouchData_t* data, uint8_t calibrating);
 void           tsCalibrate ( void );
 tsTouchError_t tsWaitForEvent(tsTouchData_t* data, uint32_t timeoutMS);
 int            tsSetThreshhold(uint8_t value);

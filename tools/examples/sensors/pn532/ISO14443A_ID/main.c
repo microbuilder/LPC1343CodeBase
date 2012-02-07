@@ -80,59 +80,79 @@ int main (void)
   while (1)
   {
     printf("%s", CFG_PRINTF_NEWLINE);
-    printf("Wait for an ISO14443A card (Mifare Classic, etc.)%s", CFG_PRINTF_NEWLINE);
+    printf("Waiting for an ISO14443A card (Mifare Classic, etc.)%s", CFG_PRINTF_NEWLINE);
 
-    // Send the command
+    // Send the command (and handle the most common errors)
     error = pn532Write(abtCommand, sizeof(abtCommand));
-
-    // Wait until we get a response or an unexpected error message
-    do
+    if (error)
     {
-      error = pn532Read(response, &responseLen);
-      systickDelay(25);
-    }
-    #ifdef PN532_UART
-    while (error == PN532_ERROR_RESPONSEBUFFEREMPTY);
-    #endif
-    #ifdef PN532_SPI
-    while ((error == PN532_ERROR_RESPONSEBUFFEREMPTY) || (error = PN532_ERROR_SPIREADYSTATUSTIMEOUT));
-    #endif
-
-    // Print the card details if possible
-    if (!error)
-    {
-      /* Response for ISO14443A 106KBPS (Mifare Classic, etc.)
-         See UM0701-02 section 7.3.5 for more information
-
-         byte            Description
-         -------------   ------------------------------------------
-         b7              Tags Found
-         b8              Tag Number (only one used in this example)
-         b9..10          SENS_RES
-         b11             SEL_RES
-         b12             NFCID Length
-         b13..NFCIDLen   NFCID                                      
-         
-         SENS_RES   SEL_RES     Manufacturer/Card Type    NFCID Len
-         --------   -------     -----------------------   ---------
-         00 04      08          NXP Mifare Classic 1K     4 bytes   */
-
-      printf("%s", CFG_PRINTF_NEWLINE);
-      printf("%-12s: %d %s", "Tags Found", response[7], CFG_PRINTF_NEWLINE);
-      printf("%-12s: %02X %02X %s", "SENS_RES", response[9], response[10], CFG_PRINTF_NEWLINE);
-      printf("%-12s: %02X %s", "SEL_RES", response[11], CFG_PRINTF_NEWLINE);
-      printf("%-12s: ", "NFCID");
-      size_t pos;
-      for (pos=0; pos < response[12]; pos++) 
+      // Something went wrong sending the command (probably the bus selection or wiring)
+      switch(error)
       {
-        printf("%02x ", response[13 + pos]);
+        case (PN532_ERROR_NOACK):
+          // No ACK frame received in UART mode (bus pins not set correctly?)
+          printf("Ooops ... No ACK frame was received! Are the bus pins sets to UART?%s", CFG_PRINTF_NEWLINE);
+          break;
+        case (PN532_ERROR_I2C_NACK):
+          // No ACK bit received to I2C start (bus pins not set correctly?)
+          printf("Ooops ... No ACK bit received for I2C start! Are the bus pins sets to I2C?%s", CFG_PRINTF_NEWLINE);
+          break;
+        default:
+          printf("Ooops ... something went wrong! [PN532 Error Code: 0x%02X]%s", error, CFG_PRINTF_NEWLINE);
+          break;
       }
-      printf(CFG_PRINTF_NEWLINE);
     }
     else
     {
-      // Oops .... something bad happened.  Check 'error'
-      printf("Ooops! Error %02X %s", error, CFG_PRINTF_NEWLINE);
+      // Commmand seems to have gone through ... 
+      do
+      {
+        // Keep reading until we get a response or an unexpected error condition
+        error = pn532Read(response, &responseLen);
+        systickDelay(25);
+      }
+      while (error == PN532_ERROR_RESPONSEBUFFEREMPTY);
+  
+      // Print the card details if possible
+      if (!error)
+      {
+        /* Response for ISO14443A 106KBPS (Mifare Classic, etc.)
+           See UM0701-02 section 7.3.5 for more information
+  
+           byte            Description
+           -------------   ------------------------------------------
+           b7              Tags Found
+           b8              Tag Number (only one used in this example)
+           b9..10          SENS_RES
+           b11             SEL_RES
+           b12             NFCID Length
+           b13..NFCIDLen   NFCID
+           
+           SENS_RES   SEL_RES     Manufacturer/Card Type    NFCID Len
+           --------   -------     -----------------------   ---------
+           00 04      08          NXP Mifare Classic 1K     4 bytes   */
+  
+        printf("%s", CFG_PRINTF_NEWLINE);
+        printf("%-12s: %d %s", "Tags Found", response[7], CFG_PRINTF_NEWLINE);
+        printf("%-12s: %02X %02X %s", "SENS_RES", response[9], response[10], CFG_PRINTF_NEWLINE);
+        printf("%-12s: %02X %s", "SEL_RES", response[11], CFG_PRINTF_NEWLINE);
+        printf("%-12s: ", "NFCID");
+        size_t pos;
+        for (pos=0; pos < response[12]; pos++) 
+        {
+          printf("%02x ", response[13 + pos]);
+        }
+        printf(CFG_PRINTF_NEWLINE);
+        if ((response[9] == 0x00) && (response[10] == 0x04) && (response[11] == 0x08))
+        {
+          printf("Seems to be a Mifare Classic 1K Card%s", CFG_PRINTF_NEWLINE);
+        }
+      }
+      else
+      {
+        // Oops .... something bad happened.  Check 'error'
+        printf("Ooops! Error %02X %s", error, CFG_PRINTF_NEWLINE);
+      }
     }
 
     // Wait at least one second before trying again

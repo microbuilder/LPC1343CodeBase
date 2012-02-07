@@ -202,6 +202,19 @@ void systemInit()
   // Initialise TFT LCD Display
   #ifdef CFG_TFTLCD
     lcdInit();
+    // You may need to call the tsCalibrate() function to calibrate 
+    // the touch screen is this has never been done.  This only needs
+    // to be done once and the values are saved to EEPROM.  This 
+    // function can also be called from tsInit if it's more
+    // convenient
+    /*
+    #ifdef CFG_I2CEEPROM
+    if (eepromReadU8(CFG_EEPROM_TOUCHSCREEN_CALIBRATED) != 1)
+    {
+      tsCalibrate();
+    }
+    #endif
+    */
   #endif
 
   // Initialise Chibi

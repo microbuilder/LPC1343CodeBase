@@ -1,8 +1,16 @@
 v0.9.8 - Ongoing
 ================
+- updated touchscreen.h to be a bit clearer during
+  calibration, though it can still be much better
+  organised
+- Had to add "__asm volatile("nop");" after pin writes
+  in the ILI9328 driver since some LCDs couldn't
+  keep up with the high-speed writes with bit-banding
+- Fixed I2C clock duty cycle registers
+- Changed I2C buffer size from 32 to 64 bytes (i2c.h)
 - Added CFG_BRD_LPC1343_OLIMEX_P to board selection
   in projectconfig.h (courtesy PHK)
-- Added SSD1331_COLORORDER_RGB flasg to SSD1331.h to
+- Added SSD1331_COLORORDER_RGB flag to SSD1331.h to
   select between RGB and BGR color order
 - Added 128x32 support to ssd1306.c and rewrote
   initialize sequence for 128x32 and 128x64 displays
@@ -19,7 +27,7 @@ v0.9.8 - Ongoing
 - Changed CodeLite project files to support real
   debugging with a Segger J-Link and GDB Server.
 - Fixed issue with USB CDC instantiation for
-  FreeBSD
+  FreeBSD (courtesy PHK)
 - Added experimental SSD1351 OLED driver to
   /drivers/lcd/tft/hw
 

@@ -32,7 +32,8 @@ typedef enum pn532_error_e
   PN532_ERROR_TIMEOUTWAITINGFORCARD   = 0x0B,   // No card detected in field with the specified timeout
   PN532_ERROR_BLOCKREADFAILED         = 0x0C,   // Unexpected response to block read request
   PN532_ERROR_WRONGCARDTYPE           = 0x0D,   // Card is not the expected format (based on SENS_RES/ATQA value)
-  PN532_ERROR_ADDRESSOUTOFRANGE       = 0x0E    // Specified block and page is out of range
+  PN532_ERROR_ADDRESSOUTOFRANGE       = 0x0E,   // Specified block and page is out of range
+  PN532_ERROR_I2C_NACK                = 0x0F    // I2C Bus - No ACK was received for master to slave data transfer
 } pn532_error_t;
 
 typedef enum pn532_modulation_e
