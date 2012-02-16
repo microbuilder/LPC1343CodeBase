@@ -187,6 +187,7 @@
     MCP4725                     0xC0      1100000x
     TSL2561                     0x72      0111001x
     TCS3414                     0x72      0111001x
+	PN532                       0x48      0100100x
 
     [1]  Alternative addresses may exists, but the addresses listed in this
          table are the values used in the code base
