@@ -253,7 +253,8 @@ pn532_error_t pn532_mifareclassic_WaitForPassiveTarget (byte_t * pbtCUID, size_t
   {
     /* Card appears to be Mifare Classic */
     *szCUIDLen = abtResponse[12];
-    for (uint8_t i=0; i < *szCUIDLen; i++) 
+    uint8_t i;
+    for (i=0; i < *szCUIDLen; i++) 
     {
       pbtCUID[i] = abtResponse[13+i];
     }

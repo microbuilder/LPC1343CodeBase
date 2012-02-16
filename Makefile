@@ -100,8 +100,9 @@ VPATH += drivers/dac/mcp4725
 OBJS += mcp4725.o
 
 # RFID/NFC
-VPATH += drivers/sensors/pn532
-OBJS += pn532.o 
+VPATH += drivers/sensors/pn532 drivers/sensors/pn532/helpers
+OBJS += pn532.o pn532_bus_i2c.o pn532_bus_uart.o
+OBJS += pn532_mifare_classic.o pn532_mifare_ultralight.o
 
 # TAOS Light Sensors
 VPATH += drivers/sensors/tcs3414 drivers/sensors/tsl2561

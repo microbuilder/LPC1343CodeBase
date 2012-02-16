@@ -144,6 +144,7 @@
     SSD1306     . .  .  .     X X X . X X . . .     . . . .
     SSD1351     . .  .  .     X X X X X . . . .     . . . .
     MCP121      . .  .  .     . . . . . . . . .     . X . .
+    PN532 [3]   . .  .  .     . . . . . . . . .     . X X . 
 
                 TIMERS                    SSP     ADC         UART
                 ======================    ===     =======     ====
@@ -166,6 +167,7 @@
          can safely be used by other peripherals, but may need to be
          reconfigured when you wakeup from deep-sleep.
     [2]  INTERFACE can be configured to use either USBCDC or UART
+    [3]  3.2 only used when with the I2C bus (for IRQ)
 
  **************************************************************************/
 

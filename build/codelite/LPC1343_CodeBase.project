@@ -132,8 +132,16 @@
       <VirtualDirectory Name="pn532">
         <File Name="../../drivers/sensors/pn532/pn532.c"/>
         <File Name="../../drivers/sensors/pn532/pn532.h"/>
-        <File Name="../../drivers/sensors/pn532/pn532_drvr.h"/>
-        <File Name="../../drivers/sensors/pn532/pn532_drvr_uart.c"/>
+        <VirtualDirectory Name="helpers">
+          <File Name="../../drivers/sensors/pn532/helpers/pn532_mifare.h"/>
+          <File Name="../../drivers/sensors/pn532/helpers/pn532_mifare_classic.c"/>
+          <File Name="../../drivers/sensors/pn532/helpers/pn532_mifare_classic.h"/>
+          <File Name="../../drivers/sensors/pn532/helpers/pn532_mifare_ultralight.c"/>
+          <File Name="../../drivers/sensors/pn532/helpers/pn532_mifare_ultralight.h"/>
+        </VirtualDirectory>
+        <File Name="../../drivers/sensors/pn532/pn532_bus.h"/>
+        <File Name="../../drivers/sensors/pn532/pn532_bus_i2c.c"/>
+        <File Name="../../drivers/sensors/pn532/pn532_bus_uart.c"/>
       </VirtualDirectory>
       <VirtualDirectory Name="tcs3414">
         <File Name="../../drivers/sensors/tcs3414/tcs3414.c"/>

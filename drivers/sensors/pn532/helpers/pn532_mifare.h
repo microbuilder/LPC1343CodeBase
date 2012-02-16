@@ -10,8 +10,8 @@
 #include "projectconfig.h"
 
 // These may need to be enlarged for multi card support
-#define PN532_RESPONSELEN_INLISTPASSIVETARGET (32)
-#define PN532_RESPONSELEN_INDATAEXCHANGE      (32)  
+#define PN532_RESPONSELEN_INLISTPASSIVETARGET (64)
+#define PN532_RESPONSELEN_INDATAEXCHANGE      (64)  
 
 typedef enum pn532_mifare_cmd_e
 {

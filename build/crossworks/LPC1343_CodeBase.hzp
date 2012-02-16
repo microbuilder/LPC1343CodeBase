@@ -171,7 +171,9 @@
             <file file_name="../../drivers/sensors/pn532/pn532.c">
               <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
             </file>
-            <file file_name="../../drivers/sensors/pn532/pn532_bus_uart.c"/>
+            <file file_name="../../drivers/sensors/pn532/pn532_bus_uart.c">
+              <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
+            </file>
             <folder Name="helpers">
               <file file_name="../../drivers/sensors/pn532/helpers/pn532_mifare_classic.c"/>
               <file file_name="../../drivers/sensors/pn532/helpers/pn532_mifare_ultralight.c"/>

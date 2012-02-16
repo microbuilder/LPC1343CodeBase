@@ -153,7 +153,8 @@ pn532_error_t pn532_mifareultralight_WaitForPassiveTarget (byte_t * pbtCUID, siz
   {
     /* Card appears to be Mifare Ultralight */
     *szCUIDLen = abtResponse[12];
-    for (uint8_t i=0; i < *szCUIDLen; i++) 
+    uint8_t i;
+    for (i=0; i < *szCUIDLen; i++) 
     {
       pbtCUID[i] = abtResponse[13+i];
     }
@@ -283,32 +284,3 @@ pn532_error_t pn532_mifareultralight_ReadPage (uint8_t page, byte_t * pbtBuffer)
   return PN532_ERROR_NONE;
 }
 
-//static  bool
-//read_card (void)
-//{
-//  uint32_t page;
-//  bool    bFailure = false;
-//  uint32_t uiReadedPages = 0;
-//
-//  printf ("Reading %d pages |", uiBlocks + 1);
-//
-//  for (page = 0; page <= uiBlocks; page += 4) {
-//    // Try to read out the data block
-//    if (nfc_initiator_mifare_cmd (pnd, MC_READ, page, &mp)) {
-//      memcpy (mtDump.amb[page / 4].mbd.abtData, mp.mpd.abtData, 16);
-//    } else {
-//      bFailure = true;
-//      break;
-//    }
-//
-//    print_success_or_failure (bFailure, &uiReadedPages);
-//    print_success_or_failure (bFailure, &uiReadedPages);
-//    print_success_or_failure (bFailure, &uiReadedPages);
-//    print_success_or_failure (bFailure, &uiReadedPages);
-//  }
-//  printf ("|\n");
-//  printf ("Done, %d of %d pages readed.\n", uiReadedPages, uiBlocks + 1);
-//  fflush (stdout);
-//
-//  return (!bFailure);
-//}

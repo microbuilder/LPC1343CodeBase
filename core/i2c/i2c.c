@@ -216,8 +216,8 @@ void I2C_IRQHandler(void)
 ** Function name:	I2CStart
 **
 ** Descriptions:	Create I2C start condition, a timeout
-**					value is set if the I2C never gets started,
-**					and timed out. It's a fatal error.
+**			value is set if the I2C never gets started,
+**			and timed out. It's a fatal error.
 **
 ** parameters:		None
 ** Returned value:	true or false, return false if timed out
@@ -269,7 +269,7 @@ static uint32_t I2CStop( void )
 **
 ** parameters:		I2c mode is either MASTER or SLAVE
 ** Returned value:	true or false, return false if the I2C
-**					interrupt handler was not installed correctly
+**			interrupt handler was not installed correctly
 ** 
 *****************************************************************************/
 uint32_t i2cInit( uint32_t I2cMode ) 
@@ -320,11 +320,11 @@ uint32_t i2cInit( uint32_t I2cMode )
 ** Function name:	I2CEngine
 **
 ** Descriptions:	The routine to complete a I2C transaction
-**					from start to stop. All the intermitten
-**					steps are handled in the interrupt handler.
-**					Before this routine is called, the read
-**					length, write length and I2C master buffer
-**					need to be filled.
+**			from start to stop. All the intermitten
+**			steps are handled in the interrupt handler.
+**			Before this routine is called, the read
+**			length, write length and I2C master buffer
+**			need to be filled.
 **
 ** parameters:		None
 ** Returned value:	Any of the I2CSTATE_... values. See i2c.h

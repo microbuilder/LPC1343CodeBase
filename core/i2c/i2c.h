@@ -75,8 +75,8 @@
    Fast Mode       (400KHz) = CFG_CPU_CCLK / 800000
    Fast- Mode Plus (1MHz)   = CFG_CPU_CCLK / 2000000       */
 
-#define I2SCLH_SCLH       CFG_CPU_CCLK / 800000  /* Standard Mode I2C SCL Duty Cycle High (400KHz) */
-#define I2SCLL_SCLL       CFG_CPU_CCLK / 800000  /* Fast Mode I2C SCL Duty Cycle Low (400KHz) */
+#define I2SCLH_SCLH       CFG_CPU_CCLK / 200000  /* Standard Mode I2C SCL Duty Cycle High (400KHz) */
+#define I2SCLL_SCLL       CFG_CPU_CCLK / 200000  /* Fast Mode I2C SCL Duty Cycle Low (400KHz) */
 #define I2SCLH_HS_SCLH    CFG_CPU_CCLK / 2000000  /* Fast Plus I2C SCL Duty Cycle High Reg */
 #define I2SCLL_HS_SCLL    CFG_CPU_CCLK / 2000000  /* Fast Plus I2C SCL Duty Cycle Low Reg */
 

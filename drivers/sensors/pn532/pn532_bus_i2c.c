@@ -197,7 +197,6 @@ pn532_error_t pn532_bus_SendCommand(const byte_t * pbtData, const size_t szData)
 {
   pn532_error_t error = PN532_ERROR_NONE;
   pn532_pcb_t *pn532 = pn532GetPCB();
-  uint32_t ready_timeout = 0;
     
   // Check if we're busy
   if (pn532->state == PN532_STATE_BUSY)
@@ -405,7 +404,6 @@ pn532_error_t pn532_bus_ReadResponse(byte_t * pbtResponse, size_t * pszRxLen)
 /**************************************************************************/
 pn532_error_t pn532_bus_Wakeup(void)
 {
-  size_t szLen;
   pn532_error_t error = PN532_ERROR_NONE;
   byte_t abtWakeUp[] = { 0x55,0x55,0x00,0x00,0x00,0x00,0x00,0xff,0x03,0xfd,0xd4,0x14,0x01,0x17,0x00,0x00,0xff,0x03,0xfd,0xd4,0x14,0x01,0x17,0x00 };
   uint32_t i;
