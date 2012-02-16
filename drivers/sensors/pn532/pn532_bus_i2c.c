@@ -1,8 +1,36 @@
 /**************************************************************************/
 /*! 
-    @file      pn532_bus_i2c.c
-    @author    Kevin Townsend
-    @copyright Kevin Townsend 2012
+    @file     pn532_bus_i2c.c
+    @author   K. Townsend (microBuilder.eu)
+
+    @section LICENSE
+
+    Software License Agreement (BSD License)
+
+    Copyright (c) 2012, microBuilder SARL
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are met:
+    1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+    2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+    3. Neither the name of the copyright holders nor the
+    names of its contributors may be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
+    EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY
+    DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
 #include <string.h>
@@ -19,6 +47,10 @@
 extern volatile uint8_t   I2CMasterBuffer[I2C_BUFSIZE];
 extern volatile uint8_t   I2CSlaveBuffer[I2C_BUFSIZE];
 extern volatile uint32_t  I2CReadLength, I2CWriteLength;
+
+/* ======================================================================
+   PRIVATE FUNCTIONS                                                      
+   ====================================================================== */
 
 /**************************************************************************/
 /*! 
@@ -114,7 +146,7 @@ uint8_t pn532_bus_i2c_WaitForReady(void)
             - PN532_ERROR_EXTENDEDFRAME
 */
 /**************************************************************************/
-pn532_error_t pn532_bus_BuildFrame(byte_t * pbtFrame, size_t * pszFrame, const byte_t * pbtData, const size_t szData)
+pn532_error_t pn532_bus_i2c_BuildFrame(byte_t * pbtFrame, size_t * pszFrame, const byte_t * pbtData, const size_t szData)
 {
   if (szData > PN532_NORMAL_FRAME__DATA_MAX_LEN) 
   {
@@ -147,6 +179,10 @@ pn532_error_t pn532_bus_BuildFrame(byte_t * pbtFrame, size_t * pszFrame, const b
 
   return PN532_ERROR_NONE;
 }
+
+/* ======================================================================
+   PUBLIC FUNCTIONS                                                      
+   ====================================================================== */
 
 /**************************************************************************/
 /*! 
@@ -214,7 +250,7 @@ pn532_error_t pn532_bus_SendCommand(const byte_t * pbtData, const size_t szData)
   size_t szFrame = 0;
 
   // Build the frame
-  pn532_bus_BuildFrame (abtFrame, &szFrame, pbtData, szData);
+  pn532_bus_i2c_BuildFrame (abtFrame, &szFrame, pbtData, szData);
 
   // Keep track of the last command that was sent
   pn532->lastCommand = pbtData[0];
@@ -268,7 +304,11 @@ pn532_error_t pn532_bus_SendCommand(const byte_t * pbtData, const size_t szData)
   // Make sure the received ACK matches the prototype
   const byte_t abtAck[6] = { 0x00, 0x00, 0xff, 0x00, 0xff, 0x00 };
   byte_t abtRxBuf[6];
-  memcpy(abtRxBuf, I2CSlaveBuffer+1, 6);
+  // memcpy(abtRxBuf, I2CSlaveBuffer+1, 6);
+  for ( i = 0; i < 6; i++ )
+  {
+    abtRxBuf[i] = I2CSlaveBuffer[i+1];
+  }
   if (0 != (memcmp (abtRxBuf, abtAck, 6))) 
   {
     #ifdef PN532_DEBUGMODE
@@ -346,7 +386,11 @@ pn532_error_t pn532_bus_ReadResponse(byte_t * pbtResponse, size_t * pszRxLen)
   *pszRxLen = I2C_BUFSIZE - 1;
 
   // Fill the response buffer from I2C (skipping the leading 'ready' bit when using I2C)
-  memcpy(pbtResponse, I2CSlaveBuffer+1, I2C_BUFSIZE-1);
+  // memcpy(pbtResponse, I2CSlaveBuffer+1, I2C_BUFSIZE-1);
+  for ( i = 0; i < I2C_BUFSIZE-1; i++ )
+  {
+    pbtResponse[i] = I2CSlaveBuffer[i+1];
+  }
 
   // Check the frame type
   if ((0x01 == pbtResponse[3]) && (0xff == pbtResponse[4])) 

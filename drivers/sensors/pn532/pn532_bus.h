@@ -34,7 +34,6 @@
 void          pn532_bus_HWInit(void);
 pn532_error_t pn532_bus_SendCommand(const byte_t * pbtData, const size_t szData);
 pn532_error_t pn532_bus_ReadResponse(byte_t * pbtResponse, size_t * pszRxLen);
-bool          pn532_bus_TransceiveBytes(const byte_t * pbtTx, const size_t szTx, byte_t * pbtRx, size_t * pszRx);
 pn532_error_t pn532_bus_Wakeup(void);
 
 #endif

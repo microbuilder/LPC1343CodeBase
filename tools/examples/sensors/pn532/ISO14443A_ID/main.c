@@ -139,6 +139,9 @@ int main (void)
         case (PN532_ERROR_LENCHECKSUMMISMATCH):          
           printf("Frame length check/checksum mismatch%s", CFG_PRINTF_NEWLINE);
           break;
+        default:
+          // Other errors handled below
+          break;
       }
   
       // Print the card details if possible

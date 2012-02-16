@@ -181,6 +181,7 @@
             <file file_name="../../drivers/sensors/pn532/pn532_bus_i2c.c">
               <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
             </file>
+            <file file_name="../../drivers/sensors/pn532/pn532_bus.h"/>
           </folder>
           <folder Name="tsl2561">
             <file file_name="../../drivers/sensors/tsl2561/tsl2561.c">
