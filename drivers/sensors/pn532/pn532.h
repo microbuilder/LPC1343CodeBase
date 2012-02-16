@@ -28,7 +28,7 @@ typedef enum pn532_error_e
   PN532_ERROR_EXTENDEDFRAME           = 0x07,   // Extended frames currently unsupported
   PN532_ERROR_LENCHECKSUMMISMATCH     = 0x08,
   PN532_ERROR_RESPONSEBUFFEREMPTY     = 0x09,   // No response data received
-  PN532_ERROR_SPIREADYSTATUSTIMEOUT   = 0x0A,   // Timeout waiting for 'ready' status (SPI only)
+  PN532_ERROR_READYSTATUSTIMEOUT      = 0x0A,   // Timeout waiting for 'ready' status (SPI/I2C only)
   PN532_ERROR_TIMEOUTWAITINGFORCARD   = 0x0B,   // No card detected in field with the specified timeout
   PN532_ERROR_BLOCKREADFAILED         = 0x0C,   // Unexpected response to block read request
   PN532_ERROR_WRONGCARDTYPE           = 0x0D,   // Card is not the expected format (based on SENS_RES/ATQA value)
