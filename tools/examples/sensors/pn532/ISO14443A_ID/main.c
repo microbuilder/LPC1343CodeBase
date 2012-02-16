@@ -39,7 +39,7 @@
 #include "sysinit.h"
 
 #include "drivers/sensors/pn532/pn532.h"
-#include "drivers/sensors/pn532/pn532_drvr.h"
+#include "drivers/sensors/pn532/pn532_bus.h"
 
 /**************************************************************************/
 /*! 
@@ -55,7 +55,7 @@
 int main (void)
 {
   #ifdef CFG_INTERFACE
-    #error "CFG_INTERFACE must be disabled in projectconfig.h for this demo"
+    //#error "CFG_INTERFACE must be disabled in projectconfig.h for this demo"
   #endif
   #if !defined CFG_PRINTF_USBCDC
     #error "CFG_PRINTF_USBCDC must be enabled in projectconfig.h for this demo"
@@ -64,17 +64,17 @@ int main (void)
   // Configure cpu and mandatory peripherals
   systemInit();
   
-  // Wait 5 second for someone to open the USB connection for printf
+  // Wait a bit for someone to open the USB connection for printf
   systickDelay(5000);
 
   // Initialise the PN532
   pn532Init();
 
-  byte_t response[256];
-  size_t responseLen;
   pn532_error_t error;
+  byte_t response[64];
+  size_t responseLen;
 
-  // Setup command to initialise a single ISO14443A target at 106kbps 
+  // Setup command to initialise a single ISO14443A target at 106kbps (Mifare Classic, Ultralight, etc.)
   byte_t abtCommand[] = { PN532_COMMAND_INLISTPASSIVETARGET, 0x01, PN532_MODULATION_ISO14443A_106KBPS };
 
   while (1)
@@ -90,12 +90,20 @@ int main (void)
       switch(error)
       {
         case (PN532_ERROR_NOACK):
-          // No ACK frame received in UART mode (bus pins not set correctly?)
-          printf("Ooops ... No ACK frame was received! Are the bus pins sets to UART?%s", CFG_PRINTF_NEWLINE);
+        case (PN532_ERROR_INVALIDACK):
+          // No ACK response frame received from the PN532
+          printf("Ooops ... No valid ACK frame received!%s", CFG_PRINTF_NEWLINE);
           break;
         case (PN532_ERROR_I2C_NACK):
-          // No ACK bit received to I2C start (bus pins not set correctly?)
-          printf("Ooops ... No ACK bit received for I2C start! Are the bus pins sets to I2C?%s", CFG_PRINTF_NEWLINE);
+          // No ACK bit received to I2C start ... not same as PN532 ACK frame (bus pins not set correctly?)
+          printf("Ooops ... No I2C ACK received! Are the bus select pins sets to I2C?%s", CFG_PRINTF_NEWLINE);
+          break;
+        case (PN532_ERROR_READYSTATUSTIMEOUT):
+          // Timed out waiting for the ready bit to clear ... this can be intentional, though, in the
+          // case of PN532_COMMAND_INLISTPASSIVETARGET since it will only clear when a card
+          // enters the magnetic field!  Handle with caution because it isn't always an error
+          // Note: Only valid for I2C and SPI
+          printf("Timed out waiting for Ready/IRQ%s", CFG_PRINTF_NEWLINE);
           break;
         default:
           printf("Ooops ... something went wrong! [PN532 Error Code: 0x%02X]%s", error, CFG_PRINTF_NEWLINE);
@@ -112,6 +120,26 @@ int main (void)
         systickDelay(25);
       }
       while (error == PN532_ERROR_RESPONSEBUFFEREMPTY);
+
+      printf("%s", CFG_PRINTF_NEWLINE);
+      printf("%-12s: ", "Received");
+      pn532PrintHex(response, responseLen);
+
+      // Try to handle some potential frame errors
+      // Unhandled errors are caught further down
+      switch (error)
+      {
+        case (PN532_ERROR_PREAMBLEMISMATCH):
+          // Frame should start with 0x00 0x00 0xFF!
+          printf("Response frame doesn't start with expected preamble (00 00 FF)%s", CFG_PRINTF_NEWLINE);
+          break;
+        case (PN532_ERROR_APPLEVELERROR):
+          printf("Application level error reported by PN532%s", CFG_PRINTF_NEWLINE);
+          break;
+        case (PN532_ERROR_LENCHECKSUMMISMATCH):          
+          printf("Frame length check/checksum mismatch%s", CFG_PRINTF_NEWLINE);
+          break;
+      }
   
       // Print the card details if possible
       if (!error)
@@ -132,7 +160,6 @@ int main (void)
            --------   -------     -----------------------   ---------
            00 04      08          NXP Mifare Classic 1K     4 bytes   */
   
-        printf("%s", CFG_PRINTF_NEWLINE);
         printf("%-12s: %d %s", "Tags Found", response[7], CFG_PRINTF_NEWLINE);
         printf("%-12s: %02X %02X %s", "SENS_RES", response[9], response[10], CFG_PRINTF_NEWLINE);
         printf("%-12s: %02X %s", "SEL_RES", response[11], CFG_PRINTF_NEWLINE);
