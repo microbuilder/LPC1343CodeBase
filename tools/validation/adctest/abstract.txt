@@ -1,0 +1,22 @@
+This test program will read 1K samples from the ADC,
+and send the results in CSV format out via USB CDC.
+
+The test results can be pasted into Excel and analyzed
+to better understand the ADC performance.
+
+There appears to be a couple LSB of variation on the ADC
+of the LPC1343 Reference Design, including some fairly
+large one-off peaks and valleys.
+
+As a result of these tests, and additional flag was added
+to the code base to enable the ADC code to optionally take
+a number of readings and return an average result, which
+helps reduce the effect of individual peaks or dips in the
+ADC.
+
+Results of the tests with and without averaging can be
+seen in the included excel spreadsheets, showing min, max
+and stddev for the range of data captured.
+
+As was expected, the ADC seems to perform better towards the
+middle of the range than on the lower end.

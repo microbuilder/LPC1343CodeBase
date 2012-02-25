@@ -44,7 +44,6 @@
 
 #include "core/cpu/cpu.h"
 #include "core/pmu/pmu.h"
-#include "core/adc/adc.h"
 
 #ifdef CFG_PRINTF_UART
   #include "core/uart/uart.h"

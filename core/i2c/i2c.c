@@ -11,6 +11,9 @@
  *                           Major cleaning and a rewrite of some functions
  *                           - adding ACK/NACK handling to the state machine
  *                           - adding a return result to the I2CEngine()
+ *   2011.02.19  ver 1.20    KTownsend - microBuilder.eu
+ *                           - Added slave mode status values to 
+ *                             I2C_IRQHandler
  *
 *****************************************************************************/
 #include "i2c.h"
@@ -18,14 +21,19 @@
 volatile uint32_t I2CMasterState = I2CSTATE_IDLE;
 volatile uint32_t I2CSlaveState = I2CSTATE_IDLE;
 
-volatile uint8_t I2CMasterBuffer[I2C_BUFSIZE];
-volatile uint8_t I2CSlaveBuffer[I2C_BUFSIZE];
+volatile uint8_t I2CMasterBuffer[I2C_BUFSIZE];    // Master Mode
+volatile uint8_t I2CSlaveBuffer[I2C_BUFSIZE];     // Master Mode
+
+//volatile uint8_t I2CWrBuffer[I2C_BUFSIZE];        // Slave Mode
+//volatile uint8_t I2CRdBuffer[I2C_BUFSIZE];        // Slave Mode
+
 volatile uint32_t I2CReadLength;
 volatile uint32_t I2CWriteLength;
 
-volatile uint32_t RdIndex = 0;
-volatile uint32_t WrIndex = 0;
+volatile uint32_t RdIndex;
+volatile uint32_t WrIndex;
 
+volatile uint32_t _I2cMode;                       // I2CMASTER or I2CSLAVE
 
 /*****************************************************************************
 ** Function name:		I2C_IRQHandler
@@ -204,10 +212,77 @@ void I2C_IRQHandler(void)
 		I2C_I2CCONCLR = I2CONCLR_SIC;	/* Clear SI flag */
 		break;
 
-	
+        
+        /* Slave Mode */
+
+//      case 0x60:					/* An own SLA_W has been received. */
+//	case 0x70:
+//                RdIndex = 0;
+//                I2C_I2CCONSET = I2CONSET_AA;            /* assert ACK after SLV_W is received */
+//                I2C_I2CCONCLR = I2CONCLR_SIC;
+//                I2CSlaveState = I2C_WR_STARTED;
+//                break;
+//	
+//	case 0x80:					/*  data receive */
+//	case 0x90:
+//                if ( I2CSlaveState == I2C_WR_STARTED )
+//                {
+//                  I2CRdBuffer[RdIndex++] = I2C_I2CDAT;
+//                  I2C_I2CCONSET = I2CONSET_AA;          /* assert ACK after data is received */
+//                }
+//                else
+//                {
+//                  I2C_I2CCONCLR = I2CONCLR_AAC;         /* assert NACK */
+//                }
+//                // ToDo: Set a flag to indicate data is ready and process it somewhere
+//                I2C_I2CCONCLR = I2CONCLR_SIC;
+//                break;
+//		
+//	case 0xA8:					/* An own SLA_R has been received. */
+//	case 0xB0:
+//                // RdIndex = 0;
+//                WrIndex = I2CRdBuffer[0];               /* The 1st byte is the index. */
+//                I2C_I2CDAT = I2CRdBuffer[WrIndex+1];    /* write the same data back to master */
+//                WrIndex++;				/* Need to skip the index byte in RdBuffer */
+//                I2C_I2CCONSET = I2CONSET_AA;            /* assert ACK after SLV_R is received */
+//                I2C_I2CCONCLR = I2CONCLR_SIC;
+//                I2CSlaveState = I2C_RD_STARTED;
+//                break;
+//	
+//	case 0xB8:					/* Data byte has been transmitted */
+//	case 0xC8:
+//                if ( I2CSlaveState == I2C_RD_STARTED )
+//                {
+//                  I2C_I2CDAT = I2CRdBuffer[WrIndex+1];  /* write the same data back to master */
+//                  WrIndex++;                            /* Need to skip the index byte in RdBuffer */
+//                  I2C_I2CCONSET = I2CONSET_AA;          /* assert ACK  */
+//                }
+//                else
+//                {
+//                  I2C_I2CCONCLR = I2CONCLR_AAC;         /* assert NACK  */
+//                }	
+//                I2C_I2CCONCLR = I2CONCLR_SIC;
+//                break;
+//
+//	case 0xC0:					/* Data byte has been transmitted, NACK */
+//                I2C_I2CCONCLR = I2CONCLR_AAC;		/* assert NACK  */
+//                I2C_I2CCONCLR = I2CONCLR_SIC;
+//                I2CSlaveState = DATA_NACK;
+//                break;
+//
+//	case 0xA0:					/* Stop condition or repeated start has */
+//                I2C_I2CCONSET = I2CONSET_AA;            /* been received, assert ACK.  */
+//                I2C_I2CCONCLR = I2CONCLR_SIC;
+//                I2CSlaveState = I2C_IDLE;
+//                break;
+
 	default:
-		I2C_I2CCONCLR = I2CONCLR_SIC;
-	break;
+                I2C_I2CCONCLR = I2CONCLR_SIC;
+//                if (_I2cMode = I2CSLAVE)
+//                {
+//                  I2C_I2CCONSET = I2CONSET_I2EN | I2CONSET_SI;
+//                }
+                break;
   }
   return;
 }
@@ -225,17 +300,17 @@ void I2C_IRQHandler(void)
 *****************************************************************************/
 static uint32_t I2CStart( void )
 {
-	uint32_t timeout = 0;
-
-	/*--- Issue a start condition ---*/
-	I2C_I2CCONSET = I2CONSET_STA;	/* Set Start flag */
-    
-	while((I2CMasterState != I2CSTATE_PENDING) && (timeout < MAX_TIMEOUT))
-	{
-		timeout++;
-	}
-
-	return (timeout < MAX_TIMEOUT);
+  uint32_t timeout = 0;
+  
+  /*--- Issue a start condition ---*/
+  I2C_I2CCONSET = I2CONSET_STA;	/* Set Start flag */
+  
+  while((I2CMasterState != I2CSTATE_PENDING) && (timeout < MAX_TIMEOUT))
+  {
+    timeout++;
+  }
+  
+  return (timeout < MAX_TIMEOUT);
 }
 
 /*****************************************************************************
@@ -249,17 +324,17 @@ static uint32_t I2CStart( void )
 *****************************************************************************/
 static uint32_t I2CStop( void )
 {
-	uint32_t timeout = 0;
-
-	I2C_I2CCONSET = I2CONSET_STO;      /* Set Stop flag */
-	I2C_I2CCONCLR = I2CONCLR_SIC;  /* Clear SI flag */
-
-	/*--- Wait for STOP detected ---*/
-	while((I2C_I2CCONSET & I2CONSET_STO) && (timeout < MAX_TIMEOUT))
-	{
-		timeout++;
-	}
-	return (timeout >= MAX_TIMEOUT);
+  uint32_t timeout = 0;
+  
+  I2C_I2CCONSET = I2CONSET_STO;      /* Set Stop flag */
+  I2C_I2CCONCLR = I2CONCLR_SIC;  /* Clear SI flag */
+  
+  /*--- Wait for STOP detected ---*/
+  while((I2C_I2CCONSET & I2CONSET_STO) && (timeout < MAX_TIMEOUT))
+  {
+    timeout++;
+  }
+  return (timeout >= MAX_TIMEOUT);
 }
 
 /*****************************************************************************
@@ -274,6 +349,8 @@ static uint32_t I2CStop( void )
 *****************************************************************************/
 uint32_t i2cInit( uint32_t I2cMode ) 
 {
+  _I2cMode = I2cMode;
+
   SCB_PRESETCTRL |= (0x1<<1);
 
   // Enable I2C clock
@@ -304,14 +381,22 @@ uint32_t i2cInit( uint32_t I2cMode )
   I2C_I2CSCLH   = I2SCLH_SCLH;
 #endif
 
-  if ( I2cMode == I2CSLAVE )
+  if ( _I2cMode == I2CSLAVE )
   {
     I2C_I2CADR0 = SLAVE_ADDR;
-  }    
+    I2CSlaveState = I2C_IDLE;
+  }
 
   /* Enable the I2C Interrupt */
   NVIC_EnableIRQ(I2C_IRQn);
-  I2C_I2CCONSET = I2C_I2CCONSET_I2EN;
+  if ( _I2cMode == I2CMASTER )
+  {
+    I2C_I2CCONSET = I2C_I2CCONSET_I2EN;
+  }
+//  else
+//  {
+//    I2C_I2CCONSET = I2C_I2CCONSET_I2EN | I2C_I2CCONSET_SI;
+//  }
 
   return( TRUE );
 }
@@ -345,38 +430,6 @@ uint32_t i2cEngine( void )
   while (I2CMasterState < 0x100);
 
   return ( I2CMasterState );
-}
-
-/*****************************************************************************
-** Function name:	i2cSendGeneralCall
-**
-** Descriptions:	Sends a request to the general call address (0x00)
-**                      which should detect if there are any devices on the
-**                      i2c bus. For more information see:
-**                      http://www.i2c-bus.org/addressing/general-call-address/
-**
-** parameters:		None
-** Returned value:	Any of the I2CSTATE_... values. See i2c.h
-** 
-*****************************************************************************/
-uint32_t i2cSendGeneralCall(void)
-{
-  uint32_t i2cState;
-
-    // Clear write buffers
-  uint32_t i;
-  for ( i = 0; i < I2C_BUFSIZE; i++ )
-  {
-    I2CMasterBuffer[i] = 0x00;
-  }
-
-  // Send the specified bytes
-  I2CWriteLength = 1;
-  I2CReadLength = 0;
-  I2CMasterBuffer[0] = I2C_GENERALCALL;
-  i2cState = i2cEngine();
-
-  return i2cState;
 }
 
 /******************************************************************************

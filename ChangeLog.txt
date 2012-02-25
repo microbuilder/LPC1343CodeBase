@@ -1,5 +1,12 @@
 v0.9.8 - Ongoing
 ================
+- Added driver for Samsung VFD displays from Adafruit
+- Added average sampling option to projectconfig.h.
+  This allows you to take several readings from the
+  ADC and return the average.  Helps reduces one-off
+  peaks and valleys in the ADC at the expense of
+  slower reads.
+  See: "tools/validation/adctest" for more info
 - Added I2C driver for PN532
 - Updated and added PN532 examples at
   /tools/examples/sensors/PN532

@@ -275,6 +275,11 @@
             <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
           </file>
           <file file_name="../../drivers/lcd/icons16.h"/>
+          <folder Name="character">
+            <folder Name="samsung_20T202DA2JA">
+              <file file_name="../../drivers/lcd/character/samsung_20T202DA2JA/samsung_20T202DA2JA.c"/>
+            </folder>
+          </folder>
         </folder>
         <folder Name="fatfs" file_name="">
           <file file_name="../../drivers/fatfs/ff.c">

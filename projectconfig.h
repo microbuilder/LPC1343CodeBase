@@ -331,6 +331,48 @@
 
 
 /*=========================================================================
+    ADC
+    -----------------------------------------------------------------------
+
+    ADC_AVERAGING_ENABLE      To get better results, the ADC code can take
+                              a number of samples and return the average
+                              value.  This is slower, but can give more
+                              accurate results caused of single-reading
+                              peaks and dips.
+                              To enable average, set ADC_AVERAGING_ENABLE
+                              to a non-zero value.
+    ADC_AVERAGING_SAMPLES     The number of ADC samples to read and
+                              average if ADC averaging is enabled.
+
+    -----------------------------------------------------------------------*/
+    #ifdef CFG_BRD_LPC1343_REFDESIGN
+      #define ADC_AVERAGING_ENABLE    (1)
+      #define ADC_AVERAGING_SAMPLES   (5)
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
+      #define ADC_AVERAGING_ENABLE    (1)
+      #define ADC_AVERAGING_SAMPLES   (5)
+    #endif
+
+    #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
+      #define ADC_AVERAGING_ENABLE    (0)
+      #define ADC_AVERAGING_SAMPLES   (5)
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_802154USBSTICK
+      #define ADC_AVERAGING_ENABLE    (0)
+      #define ADC_AVERAGING_SAMPLES   (5)
+    #endif
+	
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      #define ADC_AVERAGING_ENABLE    (0)
+      #define ADC_AVERAGING_SAMPLES   (5)
+    #endif
+/*=========================================================================*/
+
+
+/*=========================================================================
     ON-BOARD LED
     -----------------------------------------------------------------------
 
@@ -1126,6 +1168,10 @@
   #if CFG_RSA_BITS != 64 && CFG_RSA_BITS != 32
     #error "CFG_RSA_BITS must be equal to either 32 or 64."
   #endif
+#endif
+
+#if ADC_AVERAGING_ENABLE && ADC_AVERAGING_SAMPLES < 1
+  #error "ADC_AVERAGING_SAMPLES must be 1 or higher when ADC averaging is enabled"
 #endif
 
 #endif
