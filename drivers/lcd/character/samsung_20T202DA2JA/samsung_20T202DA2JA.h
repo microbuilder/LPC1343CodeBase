@@ -107,6 +107,6 @@ void samsungvfdAutoscroll ( void );
 void samsungvfdNoAutoscroll ( void );
 void samsungvfdClear ( void );
 void samsungvfdHome ( void );
-void samsungvfdSetCursor ( uint8_t col, uint8_t row );
+void samsungvfdSetCursor ( uint8_t row, uint8_t col );
 
 #endif

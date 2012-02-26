@@ -361,7 +361,7 @@ void samsungvfdHome(void)
     @brief Sets the cursor to the specified row and column position
 */
 /**************************************************************************/
-void samsungvfdSetCursor(uint8_t col, uint8_t row)
+void samsungvfdSetCursor(uint8_t row, uint8_t col)
 {
   int row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };
   if ( row > samsungvfd_numlines ) 
