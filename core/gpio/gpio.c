@@ -56,8 +56,14 @@ static bool _gpioInitialised = false;
 /**************************************************************************/
 /*! 
     @brief IRQ Handler for GPIO port 0 (currently checks pin 0.1)
+
+    @note  By default, this IRQ handler is probably disabled in
+           projectconfig.h (see GPIO_ENABLE_IRQ0), but you can use
+           the code below as a model to implement this interrupt
+           handler in an appropriate place in your project.
 */
 /**************************************************************************/
+#if defined GPIO_ENABLE_IRQ0
 void PIOINT0_IRQHandler(void)
 {
   uint32_t regVal;
@@ -69,12 +75,14 @@ void PIOINT0_IRQHandler(void)
   }		
   return;
 }
+#endif
 
 /**************************************************************************/
 /*! 
     @brief IRQ Handler for GPIO port 1 (currently checks pin 1.1)
 */
 /**************************************************************************/
+#if defined GPIO_ENABLE_IRQ1
 void PIOINT1_IRQHandler(void)
 {
   uint32_t regVal;
@@ -107,12 +115,19 @@ void PIOINT1_IRQHandler(void)
 
   return;
 }
+#endif
 
 /**************************************************************************/
 /*! 
     @brief IRQ Handler for GPIO port 2 (currently checks pin 2.1)
+
+    @note  By default, this IRQ handler is probably disabled in
+           projectconfig.h (see GPIO_ENABLE_IRQ2), but you can use
+           the code below as a model to implement this interrupt
+           handler in an appropriate place in your project.
 */
 /**************************************************************************/
+#if defined GPIO_ENABLE_IRQ2
 void PIOINT2_IRQHandler(void)
 {
   uint32_t regVal;
@@ -124,12 +139,19 @@ void PIOINT2_IRQHandler(void)
   }		
   return;
 }
+#endif
 
 /**************************************************************************/
 /*! 
     @brief IRQ Handler for GPIO port 3 (currently checks pin 3.1)
+
+    @note  By default, this IRQ handler is probably disabled in
+           projectconfig.h (see GPIO_ENABLE_IRQ3), but you can use
+           the code below as a model to implement this interrupt
+           handler in an appropriate place in your project.
 */
 /**************************************************************************/
+#if defined GPIO_ENABLE_IRQ3
 void PIOINT3_IRQHandler(void)
 {
   uint32_t regVal;
@@ -141,6 +163,7 @@ void PIOINT3_IRQHandler(void)
   }		
   return;
 }
+#endif
 
 /**************************************************************************/
 /*! 
@@ -351,7 +374,6 @@ void gpioSetInterrupt (uint32_t portNum, uint32_t bitPos, gpioInterruptSense_t s
       gpioiev = &GPIO_GPIO3IEV;
       break;
   }
-
 
   if (sense == gpioInterruptSense_Edge)
   {
