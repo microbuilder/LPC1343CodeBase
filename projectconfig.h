@@ -187,7 +187,7 @@
     MCP4725                     0xC0      1100000x
     TSL2561                     0x72      0111001x
     TCS3414                     0x72      0111001x
-	PN532                       0x48      0100100x
+    PN532                       0x48      0100100x
 
     [1]  Alternative addresses may exists, but the addresses listed in this
          table are the values used in the code base
@@ -227,6 +227,72 @@
 
     -----------------------------------------------------------------------*/
     #define CFG_SYSTICK_DELAY_IN_MS     (1)
+/*=========================================================================*/
+
+
+/*=========================================================================
+    GPIO INTERRUPTS
+    -----------------------------------------------------------------------
+
+    IF you wish to use the GPIO interrupt handlers elsewhere in your code,
+    you should probably define a seperate IRQHandler for the appropriate
+    GPIO bank rather than using the definitions in core/gpio/gpio.c (to
+    avoid causing problems in other projects, and to make updates easier,
+    etc.)  To disable the default IRQHandler, simply comment out the
+    define below for the appropriate GPIO bank and implement the handler
+    somewhere else.
+
+    GPIO_ENABLE_IRQ0    If defined, PIOINT0_IRQHandler will be declared and
+                        handled in core/gpio/gpio.c
+    GPIO_ENABLE_IRQ1    If defined, PIOINT1_IRQHandler will be declared and
+                        handled in core/gpio/gpio.c
+    GPIO_ENABLE_IRQ2    If defined, PIOINT2_IRQHandler will be declared and
+                        handled in core/gpio/gpio.c
+    GPIO_ENABLE_IRQ3    If defined, PIOINT3_IRQHandler will be declared and
+                        handled in core/gpio/gpio.c
+
+    -----------------------------------------------------------------------*/
+    #ifdef CFG_BRD_LPC1343_REFDESIGN
+      // #define GPIO_ENABLE_IRQ0
+      #define GPIO_ENABLE_IRQ1
+      // #define GPIO_ENABLE_IRQ2
+      // #define GPIO_ENABLE_IRQ3
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
+      // #define GPIO_ENABLE_IRQ0
+      #define GPIO_ENABLE_IRQ1
+      // #define GPIO_ENABLE_IRQ2
+      // #define GPIO_ENABLE_IRQ3
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
+      // #define GPIO_ENABLE_IRQ0
+      #define GPIO_ENABLE_IRQ1
+      // #define GPIO_ENABLE_IRQ2
+      // #define GPIO_ENABLE_IRQ3
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
+      // #define GPIO_ENABLE_IRQ0
+      #define GPIO_ENABLE_IRQ1
+      // #define GPIO_ENABLE_IRQ2
+      // #define GPIO_ENABLE_IRQ3
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_802154USBSTICK
+      // #define GPIO_ENABLE_IRQ0
+      #define GPIO_ENABLE_IRQ1
+      // #define GPIO_ENABLE_IRQ2
+      // #define GPIO_ENABLE_IRQ3
+    #endif
+	
+    #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      // #define GPIO_ENABLE_IRQ0
+      #define GPIO_ENABLE_IRQ1
+      // #define GPIO_ENABLE_IRQ2
+      // #define GPIO_ENABLE_IRQ3
+    #endif
 /*=========================================================================*/
 
 
@@ -1131,6 +1197,9 @@
   #endif
   #if CFG_CHIBI_PROMISCUOUS != 0 && CFG_CHIBI_PROMISCUOUS != 1
     #error "CFG_CHIBI_PROMISCUOUS must be equal to either 1 or 0"
+  #endif
+  #if !defined GPIO_ENABLE_IRQ1
+    #error "GPIO_ENABLE_IRQ1 must be enabled when using Chibi (Chibi IRQ is on GPIO1.8)"
   #endif
 #endif
 
