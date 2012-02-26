@@ -1,5 +1,7 @@
 v0.9.8 - Ongoing
 ================
+- Added flag to projectconfig.h to disable the default
+  GPIO IRQ Handler functions in code/gpio/gpio.c
 - Added driver for Samsung VFD displays from Adafruit
 - Added average sampling option to projectconfig.h.
   This allows you to take several readings from the
