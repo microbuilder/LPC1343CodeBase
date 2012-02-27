@@ -300,10 +300,10 @@ void drawStringSmall(uint16_t x, uint16_t y, uint16_t color, char* text, struct 
 
     @code 
 
-    #include "drivers/lcd/tft/fonts/veramono9.h"
+    #include "drivers/lcd/tft/fonts/dejavusans9.h"
     
-    drawString(0, 90,  COLOR_BLACK, &bitstreamVeraSansMono9ptFontInfo, "Vera Mono 9 (30 chars wide)");
-    drawString(0, 105, COLOR_BLACK, &bitstreamVeraSansMono9ptFontInfo, "123456789012345678901234567890");
+    drawString(0, 90,  COLOR_BLACK, &dejaVuSans9ptFontInfo, "DejaVu Sans 9");
+    drawString(0, 105, COLOR_BLACK, &dejaVuSans9ptFontInfo, "123456789012345678901234567890");
 
     @endcode
 */
