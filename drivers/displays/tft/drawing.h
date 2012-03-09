@@ -41,10 +41,10 @@
 #include "projectconfig.h"
 #include "lcd.h"
 #include "colors.h"
-#include "drivers/lcd/tft/fonts/bitmapfonts.h"
+#include "drivers/displays/tft/fonts/bitmapfonts.h"
 
 #if defined CFG_TFTLCD_INCLUDESMALLFONTS & CFG_TFTLCD_INCLUDESMALLFONTS == 1
-  #include "drivers/lcd/smallfonts.h"
+  #include "drivers/displays/smallfonts.h"
 #endif
 
 #ifdef CFG_SDCARD

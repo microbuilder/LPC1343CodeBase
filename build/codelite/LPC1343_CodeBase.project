@@ -161,66 +161,89 @@
       <File Name="../../drivers/fatfs/integer.h"/>
       <File Name="../../drivers/fatfs/mmc.c"/>
     </VirtualDirectory>
-    <VirtualDirectory Name="lcd">
+    <VirtualDirectory Name="displays">
       <VirtualDirectory Name="tft">
         <VirtualDirectory Name="hw">
-          <File Name="../../drivers/lcd/tft/hw/ILI9325.c"/>
-          <File Name="../../drivers/lcd/tft/hw/ILI9325.h"/>
-          <File Name="../../drivers/lcd/tft/hw/st7783.c"/>
-          <File Name="../../drivers/lcd/tft/hw/st7783.h"/>
-          <File Name="../../drivers/lcd/tft/hw/st7735.c"/>
-          <File Name="../../drivers/lcd/tft/hw/st7735.h"/>
-          <File Name="../../drivers/lcd/tft/hw/ILI9328.c"/>
-          <File Name="../../drivers/lcd/tft/hw/ILI9328.h"/>
-          <File Name="../../drivers/lcd/tft/hw/ssd1331.c"/>
-          <File Name="../../drivers/lcd/tft/hw/ssd1331.h"/>
-          <File Name="../../drivers/lcd/tft/hw/ssd1351.c"/>
-          <File Name="../../drivers/lcd/tft/hw/ssd1351.h"/>
+          <File Name="../../drivers/displays/tft/hw/hx8340b.c"/>
+          <File Name="../../drivers/displays/tft/hw/hx8340b.h"/>
+          <File Name="../../drivers/displays/tft/hw/ILI9325.c"/>
+          <File Name="../../drivers/displays/tft/hw/ILI9325.h"/>
+          <File Name="../../drivers/displays/tft/hw/ILI9328.c"/>
+          <File Name="../../drivers/displays/tft/hw/ILI9328.h"/>
+          <File Name="../../drivers/displays/tft/hw/readme.txt"/>
+          <File Name="../../drivers/displays/tft/hw/ssd1331.c"/>
+          <File Name="../../drivers/displays/tft/hw/ssd1331.h"/>
+          <File Name="../../drivers/displays/tft/hw/ssd1351.c"/>
+          <File Name="../../drivers/displays/tft/hw/ssd1351.h"/>
+          <File Name="../../drivers/displays/tft/hw/st7735.c"/>
+          <File Name="../../drivers/displays/tft/hw/st7735.h"/>
+          <File Name="../../drivers/displays/tft/hw/st7783.c"/>
+          <File Name="../../drivers/displays/tft/hw/st7783.h"/>
         </VirtualDirectory>
         <VirtualDirectory Name="fonts">
-          <File Name="../../drivers/lcd/tft/fonts/bitmapfonts.h"/>
-          <File Name="../../drivers/lcd/tft/fonts/dejavusans9.c"/>
-          <File Name="../../drivers/lcd/tft/fonts/dejavusans9.h"/>
-          <File Name="../../drivers/lcd/tft/fonts/dejavusansbold9.c"/>
-          <File Name="../../drivers/lcd/tft/fonts/dejavusansbold9.h"/>
-          <File Name="../../drivers/lcd/tft/fonts/dejavusanscondensed9.c"/>
-          <File Name="../../drivers/lcd/tft/fonts/dejavusanscondensed9.h"/>
-          <File Name="../../drivers/lcd/tft/fonts/dejavusansmono8.c"/>
-          <File Name="../../drivers/lcd/tft/fonts/dejavusansmono8.h"/>
-          <File Name="../../drivers/lcd/tft/fonts/dejavusansmonobold8.c"/>
-          <File Name="../../drivers/lcd/tft/fonts/dejavusansmonobold8.h"/>
-          <File Name="../../drivers/lcd/tft/fonts/verdana9.c"/>
-          <File Name="../../drivers/lcd/tft/fonts/verdana9.h"/>
-          <File Name="../../drivers/lcd/tft/fonts/verdana14.c"/>
-          <File Name="../../drivers/lcd/tft/fonts/verdana14.h"/>
-          <File Name="../../drivers/lcd/tft/fonts/verdanabold14.c"/>
-          <File Name="../../drivers/lcd/tft/fonts/verdanabold14.h"/>
+          <File Name="../../drivers/displays/tft/fonts/bitmapfonts.h"/>
+          <File Name="../../drivers/displays/tft/fonts/dejavusans9.c"/>
+          <File Name="../../drivers/displays/tft/fonts/dejavusans9.h"/>
+          <File Name="../../drivers/displays/tft/fonts/dejavusansbold9.c"/>
+          <File Name="../../drivers/displays/tft/fonts/dejavusansbold9.h"/>
+          <File Name="../../drivers/displays/tft/fonts/dejavusanscondensed9.c"/>
+          <File Name="../../drivers/displays/tft/fonts/dejavusanscondensed9.h"/>
+          <File Name="../../drivers/displays/tft/fonts/dejavusansmono8.c"/>
+          <File Name="../../drivers/displays/tft/fonts/dejavusansmono8.h"/>
+          <File Name="../../drivers/displays/tft/fonts/dejavusansmonobold8.c"/>
+          <File Name="../../drivers/displays/tft/fonts/dejavusansmonobold8.h"/>
+          <File Name="../../drivers/displays/tft/fonts/veramono9.c"/>
+          <File Name="../../drivers/displays/tft/fonts/veramono9.h"/>
+          <File Name="../../drivers/displays/tft/fonts/veramono11.c"/>
+          <File Name="../../drivers/displays/tft/fonts/veramono11.h"/>
+          <File Name="../../drivers/displays/tft/fonts/veramonobold9.c"/>
+          <File Name="../../drivers/displays/tft/fonts/veramonobold9.h"/>
+          <File Name="../../drivers/displays/tft/fonts/veramonobold11.c"/>
+          <File Name="../../drivers/displays/tft/fonts/veramonobold11.h"/>
+          <File Name="../../drivers/displays/tft/fonts/verdana9.c"/>
+          <File Name="../../drivers/displays/tft/fonts/verdana9.h"/>
+          <File Name="../../drivers/displays/tft/fonts/verdana14.c"/>
+          <File Name="../../drivers/displays/tft/fonts/verdana14.h"/>
+          <File Name="../../drivers/displays/tft/fonts/verdanabold14.c"/>
+          <File Name="../../drivers/displays/tft/fonts/verdanabold14.h"/>
         </VirtualDirectory>
-        <File Name="../../drivers/lcd/tft/drawing.c"/>
-        <File Name="../../drivers/lcd/tft/drawing.h"/>
-        <File Name="../../drivers/lcd/tft/lcd.h"/>
-        <File Name="../../drivers/lcd/tft/touchscreen.c"/>
-        <File Name="../../drivers/lcd/tft/touchscreen.h"/>
-        <File Name="../../drivers/lcd/tft/colors.h"/>
-        <File Name="../../drivers/lcd/tft/bmp.c"/>
-        <File Name="../../drivers/lcd/tft/bmp.h"/>
         <VirtualDirectory Name="dialogues">
-          <File Name="../../drivers/lcd/tft/dialogues/alphanumeric.c"/>
-          <File Name="../../drivers/lcd/tft/dialogues/alphanumeric.h"/>
+          <File Name="../../drivers/displays/tft/dialogues/alphanumeric.c"/>
+          <File Name="../../drivers/displays/tft/dialogues/alphanumeric.h"/>
         </VirtualDirectory>
+        <File Name="../../drivers/displays/tft/bmp.c"/>
+        <File Name="../../drivers/displays/tft/bmp.h"/>
+        <File Name="../../drivers/displays/tft/colors.h"/>
+        <File Name="../../drivers/displays/tft/drawing.c"/>
+        <File Name="../../drivers/displays/tft/drawing.h"/>
+        <File Name="../../drivers/displays/tft/lcd.h"/>
+        <File Name="../../drivers/displays/tft/readme.txt"/>
+        <File Name="../../drivers/displays/tft/touchscreen.c"/>
+        <File Name="../../drivers/displays/tft/touchscreen.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="bitmap">
         <VirtualDirectory Name="st7565">
-          <File Name="../../drivers/lcd/bitmap/ST7565/ST7565.c"/>
-          <File Name="../../drivers/lcd/bitmap/ST7565/ST7565.h"/>
+          <File Name="../../drivers/displays/bitmap/st7565/st7565.c"/>
+          <File Name="../../drivers/displays/bitmap/st7565/st7565.h"/>
         </VirtualDirectory>
         <VirtualDirectory Name="ssd1306">
-          <File Name="../../drivers/lcd/bitmap/ssd1306/ssd1306.c"/>
-          <File Name="../../drivers/lcd/bitmap/ssd1306/ssd1306.h"/>
+          <File Name="../../drivers/displays/bitmap/ssd1306/ssd1306.c"/>
+          <File Name="../../drivers/displays/bitmap/ssd1306/ssd1306.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="sharpmem">
+          <File Name="../../drivers/displays/bitmap/sharpmem/sharpmem.c"/>
+          <File Name="../../drivers/displays/bitmap/sharpmem/sharpmem.h"/>
         </VirtualDirectory>
       </VirtualDirectory>
-      <File Name="../../drivers/lcd/smallfonts.c"/>
-      <File Name="../../drivers/lcd/smallfonts.h"/>
+      <File Name="../../drivers/displays/icons16.h"/>
+      <File Name="../../drivers/displays/smallfonts.c"/>
+      <File Name="../../drivers/displays/smallfonts.h"/>
+      <VirtualDirectory Name="character">
+        <VirtualDirectory Name="samsung_20T202DA2JA">
+          <File Name="../../drivers/displays/character/samsung_20T202DA2JA/samsung_20T202DA2JA.c"/>
+          <File Name="../../drivers/displays/character/samsung_20T202DA2JA/samsung_20T202DA2JA.h"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="motor">
       <VirtualDirectory Name="stepper">

@@ -37,7 +37,7 @@
 #define __SHARPMEM_H__
 
 #include "projectconfig.h"
-#include "drivers/lcd/smallfonts.h"
+#include "drivers/displays/smallfonts.h"
 
 /**************************************************************************
     Sharp Memory Display Connector

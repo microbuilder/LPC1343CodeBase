@@ -40,7 +40,7 @@
 
 #include "projectconfig.h"
 
-#include "drivers/lcd/smallfonts.h"
+#include "drivers/displays/smallfonts.h"
 
 /*=========================================================================
     SSD1306 Displays

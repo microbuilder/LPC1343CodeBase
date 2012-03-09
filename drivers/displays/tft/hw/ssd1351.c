@@ -123,6 +123,7 @@ void ssd1351SetCursor(uint8_t x, uint8_t y)
   if ((x >= ssd1351Properties.width) || (y >= ssd1351Properties.height))
     return;
 
+  CMD(SSD1351_CMD_WRITERAM);
   CMD(SSD1351_CMD_SETCOLUMNADDRESS);
   DATA(x);                            // Start Address
   DATA(ssd1351Properties.width-1);    // End Address (0x7F)
@@ -130,6 +131,7 @@ void ssd1351SetCursor(uint8_t x, uint8_t y)
   CMD(SSD1351_CMD_SETROWADDRESS);
   DATA(y);                            // Start Address
   DATA(ssd1351Properties.height-1);   // End Address (0x7F)
+  CMD(SSD1351_CMD_WRITERAM);
 }
 
 /*************************************************/
@@ -174,7 +176,7 @@ void lcdInit(void)
   CMD(SSD1351_CMD_SETMUXRRATIO);
   DATA(0x7F);
   CMD(SSD1351_CMD_COLORDEPTH);
-  DATA(0x74);                               // 65,536 Colors
+  DATA(0x74);                               // Bit 7:6 = 65,536 Colors, Bit 3 = BGR or RGB
   CMD(SSD1351_CMD_SETCOLUMNADDRESS);
   DATA(0x00);
   DATA(0x7F);
@@ -188,8 +190,7 @@ void lcdInit(void)
   CMD(SSD1351_CMD_SETGPIO);
   DATA(0x00);                               // Disable GPIO pins
   CMD(SSD1351_CMD_FUNCTIONSELECTION);
-  DATA(0x00);                               // External VDD (0 = Internal, 1 = External???)*
-                                            // Which is it ... DS is contradictory here!
+  DATA(0x01);                               // External VDD (0 = External, 1 = Internal)
   CMD(SSD1351_CMD_SETPHASELENGTH);
   DATA(0x32);
   CMD(SSD1351_CMD_SETSEGMENTLOWVOLTAGE);
@@ -331,11 +332,10 @@ void lcdFillRGB(uint16_t data)
 {
   uint16_t i;
   ssd1351SetCursor(0, 0);
-  CMD(SSD1351_CMD_WRITERAM);
   for (i=1; i<=((ssd1351Properties.width)*(ssd1351Properties.height)) * 2;i++)
   {
+    DATA(data >> 8);
     DATA(data);
-    DATA((data >> 8));
   }
 }
 

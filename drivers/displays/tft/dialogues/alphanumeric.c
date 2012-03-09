@@ -8,7 +8,7 @@
     @section Example
 
     @code 
-    #include "drivers/lcd/tft/dialogues/alphanumeric.h"
+    #include "drivers/displays/tft/dialogues/alphanumeric.h"
 
     // Print results from an alpha-numeric dialogue
     char* results = alphaShowDialogue();
@@ -51,10 +51,10 @@
 #include "alphanumeric.h"
 
 #include "core/systick/systick.h"
-#include "drivers/lcd/tft/lcd.h"
-#include "drivers/lcd/tft/drawing.h"
-#include "drivers/lcd/tft/touchscreen.h"
-#include "drivers/lcd/tft/fonts/dejavusans9.h"
+#include "drivers/displays/tft/lcd.h"
+#include "drivers/displays/tft/drawing.h"
+#include "drivers/displays/tft/touchscreen.h"
+#include "drivers/displays/tft/fonts/dejavusans9.h"
 
 // Background and text input region colors
 #define ALPHA_COLOR_BACKGROUND    COLOR_GRAY_15
@@ -319,7 +319,7 @@ char alphaHandleTouchEvent(void)
     @section Example
 
     @code 
-    #include "drivers/lcd/tft/dialogues/alphanumeric.h"
+    #include "drivers/displays/tft/dialogues/alphanumeric.h"
 
     // Print results from an alpha-numeric dialogue
     char* results = alphaShowDialogue();

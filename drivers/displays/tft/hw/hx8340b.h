@@ -37,7 +37,7 @@
 #define __HX8340B_H__
 
 #include "projectconfig.h"
-#include "drivers/lcd/tft/lcd.h"
+#include "drivers/displays/tft/lcd.h"
 
 #define HX8340B_ICVERSION_N
 // #define HX8340B_ICVERSION_T

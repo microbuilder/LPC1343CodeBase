@@ -46,7 +46,7 @@
 
 #include "core/gpio/gpio.h"
 #include "core/systick/systick.h"
-#include "drivers/lcd/smallfonts.h"
+#include "drivers/displays/smallfonts.h"
 
 void ssd1306SendByte(uint8_t byte);
 
@@ -349,8 +349,8 @@ void ssd1306Refresh(void)
 
     @code 
 
-    #include "drivers/lcd/bitmap/ssd1306/ssd1306.h"
-    #include "drivers/lcd/smallfonts.h"
+    #include "drivers/displays/bitmap/ssd1306/ssd1306.h"
+    #include "drivers/displays/smallfonts.h"
     
     // Configure the pins and initialise the LCD screen
     ssd1306Init(SSD1306_INTERNALVCC);
@@ -388,8 +388,8 @@ void ssd1306DrawString(uint16_t x, uint16_t y, char* text, struct FONT_DEF font)
 
     @code 
 
-    #include "drivers/lcd/bitmap/ssd1306/ssd1306.h"
-    #include "drivers/lcd/smallfonts.h"
+    #include "drivers/displays/bitmap/ssd1306/ssd1306.h"
+    #include "drivers/displays/smallfonts.h"
     
     // Configure the pins and initialise the LCD screen
     ssd1306Init(SSD1306_INTERNALVCC);

@@ -43,14 +43,14 @@
 #include "core/gpio/gpio.h"
 #include "core/systick/systick.h"
 
-#include "drivers/lcd/tft/lcd.h"
-#include "drivers/lcd/tft/drawing.h"
-#include "drivers/lcd/tft/touchscreen.h"
-#include "drivers/lcd/tft/dialogues/alphanumeric.h"
+#include "drivers/displays/tft/lcd.h"
+#include "drivers/displays/tft/drawing.h"
+#include "drivers/displays/tft/touchscreen.h"
+#include "drivers/displays/tft/dialogues/alphanumeric.h"
 
-#include "drivers/lcd/tft/fonts/dejavusans9.h"
-#include "drivers/lcd/tft/fonts/dejavusansbold9.h"
-#include "drivers/lcd/tft/fonts/dejavusansmono8.h"
+#include "drivers/displays/tft/fonts/dejavusans9.h"
+#include "drivers/displays/tft/fonts/dejavusansbold9.h"
+#include "drivers/displays/tft/fonts/dejavusansmono8.h"
 
 /**************************************************************************/
 /*! 

@@ -71,19 +71,19 @@
 #endif
 
 #ifdef CFG_ST7565
-  #include "drivers/lcd/bitmap/st7565/st7565.h"
-  #include "drivers/lcd/smallfonts.h"
+  #include "drivers/displays/bitmap/st7565/st7565.h"
+  #include "drivers/displays/smallfonts.h"
 #endif
 
 #ifdef CFG_SSD1306
-  #include "drivers/lcd/bitmap/ssd1306/ssd1306.h"
-  #include "drivers/lcd/smallfonts.h"
+  #include "drivers/displays/bitmap/ssd1306/ssd1306.h"
+  #include "drivers/displays/smallfonts.h"
 #endif
 
 #ifdef CFG_TFTLCD
-  #include "drivers/lcd/tft/lcd.h"
-  #include "drivers/lcd/tft/touchscreen.h"
-  #include "drivers/lcd/tft/drawing.h"  
+  #include "drivers/displays/tft/lcd.h"
+  #include "drivers/displays/tft/touchscreen.h"
+  #include "drivers/displays/tft/drawing.h"  
 #endif
 
 #ifdef CFG_I2CEEPROM

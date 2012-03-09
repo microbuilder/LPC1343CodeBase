@@ -43,8 +43,8 @@
 
 #include "bmp.h"
 
-#include "drivers/lcd/tft/drawing.h"
-#include "drivers/lcd/tft/lcd.h"
+#include "drivers/displays/tft/drawing.h"
+#include "drivers/displays/tft/lcd.h"
 
 // Only include read support if CFG_SDCARD is defined
 #ifdef CFG_SDCARD
@@ -144,7 +144,7 @@ bmp_error_t bmpParseBitmap(uint16_t x, uint16_t y, FIL file)
 
     @code 
 
-    #include "drivers/lcd/tft/bmp.h"
+    #include "drivers/displays/tft/bmp.h"
 
     bmp_error_t error;
 
@@ -214,7 +214,7 @@ bmp_error_t bmpDrawBitmap(uint16_t x, uint16_t y, const char* filename)
 
     @code 
 
-    #include "drivers/lcd/tft/bmp.h"
+    #include "drivers/displays/tft/bmp.h"
 
     bmp_error_t error;
 

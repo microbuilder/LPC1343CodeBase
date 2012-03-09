@@ -44,10 +44,10 @@
 #include "project/commands.h"       // Generic helper functions
 
 #ifdef CFG_TFTLCD    
-  #include "drivers/lcd/tft/lcd.h"    
-  #include "drivers/lcd/tft/drawing.h"  
-  #include "drivers/lcd/tft/touchscreen.h"
-  #include "drivers/lcd/tft/fonts/dejavusans9.h"
+  #include "drivers/displays/tft/lcd.h"    
+  #include "drivers/displays/tft/drawing.h"  
+  #include "drivers/displays/tft/touchscreen.h"
+  #include "drivers/displays/tft/fonts/dejavusans9.h"
 
 /**************************************************************************/
 /*! 

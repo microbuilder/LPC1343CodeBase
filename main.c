@@ -61,6 +61,8 @@ int main(void)
   uint32_t currentSecond, lastSecond;
   currentSecond = lastSecond = 0;
 
+  lcdTest();
+
   while (1)
   {
     // Toggle LED once per second

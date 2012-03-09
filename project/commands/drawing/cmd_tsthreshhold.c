@@ -45,7 +45,7 @@
 
 #ifdef CFG_TFTLCD    
   #include "drivers/eeprom/eeprom.h"
-  #include "drivers/lcd/tft/touchscreen.h"
+  #include "drivers/displays/tft/touchscreen.h"
 
 /**************************************************************************/
 /*! 

@@ -58,7 +58,7 @@
 #endif
 
 #ifdef CFG_TFTLCD
-  #include "drivers/lcd/tft/lcd.h"
+  #include "drivers/displays/tft/lcd.h"
 #endif
 
 #ifdef CFG_SDCARD

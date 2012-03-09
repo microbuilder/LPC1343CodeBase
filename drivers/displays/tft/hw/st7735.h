@@ -37,7 +37,7 @@
 #define __ST7735_H__
 
 #include "projectconfig.h"
-#include "drivers/lcd/tft/lcd.h"
+#include "drivers/displays/tft/lcd.h"
 
 /**************************************************************************
     ST7735 CONNECTOR

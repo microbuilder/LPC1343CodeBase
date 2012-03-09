@@ -38,7 +38,7 @@
 
 #include "projectconfig.h"
 
-#include "drivers/lcd/tft/lcd.h"
+#include "drivers/displays/tft/lcd.h"
 #include "core/gpio/gpio.h"
 
 // Select one of these defines to set the pixel color order

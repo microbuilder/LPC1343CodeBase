@@ -9,7 +9,7 @@ the LPC1343 Reference Board:
   source files.  This application is included here for convenience sake and
   can be used to convert TTF fonts for use with the TFT LCD display with
   minor modifications to the generated source files.  See the existing fonts
-  in 'drivers/lcd/tft/fonts' for an example.
+  in 'drivers/displays/tft/fonts' for an example.
 ===============================================================================
 
 

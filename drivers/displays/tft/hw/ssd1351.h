@@ -37,7 +37,7 @@
 #define __SSD1351_H__
 
 #include "projectconfig.h"
-#include "drivers/lcd/tft/lcd.h"
+#include "drivers/displays/tft/lcd.h"
 #include "core/gpio/gpio.h"
 
 /*=========================================================================
@@ -113,7 +113,7 @@ enum
                                                 // A0[2] = Color Remap (0 = ABC, 1 = CBA) - HW RGB/BGR switch
                                                 // A0[4] = COM Scan Direction (0 = top to bottom, 1 = bottom to top)
                                                 // A0[5] = Odd/Even Paid Split
-                                                // A0[7:6] = Display Color Mode (Bits not documented !?!)
+                                                // A0[7:6] = Display Color Mode (00 = 8-bit, 01 = 65K, 10/11 = 262K, 8/16-bit interface only)
   SSD1351_CMD_SETDISPLAYSTARTLINE       = 0xA1,
   SSD1351_CMD_SETDISPLAYOFFSET          = 0xA2, 
   SSD1351_CMD_SETDISPLAYMODE_ALLOFF     = 0xA4, // Force entire display area to grayscale GS0

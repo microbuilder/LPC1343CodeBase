@@ -75,7 +75,7 @@
 
 #include "core/systick/systick.h"
 #include "core/gpio/gpio.h"
-#include "drivers/lcd/smallfonts.h"
+#include "drivers/displays/smallfonts.h"
 
 #define TOGGLE_VCOM   do { _sharpmem_vcom = _sharpmem_vcom ? 0x00 : SHARPMEM_BIT_VCOM; } while(0);
 
@@ -358,8 +358,8 @@ void sharpmemRefresh(void)
 
     @code 
 
-    #include "drivers/lcd/bitmap/sharpmem/sharpmem.h"
-    #include "drivers/lcd/smallfonts.h"
+    #include "drivers/displays/bitmap/sharpmem/sharpmem.h"
+    #include "drivers/displays/smallfonts.h"
     
     // Configure the pins and initialise the LCD screen
     sharpmemInit();

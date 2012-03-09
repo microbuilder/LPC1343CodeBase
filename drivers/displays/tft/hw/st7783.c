@@ -45,7 +45,7 @@
 /**************************************************************************/
 #include "st7783.h"
 #include "core/systick/systick.h"
-#include "drivers/lcd/tft/touchscreen.h"
+#include "drivers/displays/tft/touchscreen.h"
 
 static lcdOrientation_t lcdOrientation = LCD_ORIENTATION_PORTRAIT;
 static lcdProperties_t st7783Properties = { 240, 320, TRUE, TRUE, FALSE };

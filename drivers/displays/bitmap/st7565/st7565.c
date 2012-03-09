@@ -46,7 +46,7 @@
 
 #include "core/gpio/gpio.h"
 #include "core/systick/systick.h"
-#include "drivers/lcd/smallfonts.h"
+#include "drivers/displays/smallfonts.h"
 
 void sendByte(uint8_t byte);
 
@@ -343,8 +343,8 @@ uint8_t st7565GetPixel(uint8_t x, uint8_t y)
 
     @code 
 
-    #include "drivers/lcd/bitmap/st7565/st7565.h"
-    #include "drivers/lcd/smallfonts.h"
+    #include "drivers/displays/bitmap/st7565/st7565.h"
+    #include "drivers/displays/smallfonts.h"
     
     // Configure the pins and initialise the LCD screen
     st7565Init();
@@ -386,8 +386,8 @@ void st7565DrawString(uint16_t x, uint16_t y, char* text, struct FONT_DEF font)
 
     @code 
 
-    #include "drivers/lcd/bitmap/st7565/st7565.h"
-    #include "drivers/lcd/smallfonts.h"
+    #include "drivers/displays/bitmap/st7565/st7565.h"
+    #include "drivers/displays/smallfonts.h"
     
     // Configure the pins and initialise the LCD screen
     st7565Init();

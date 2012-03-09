@@ -33,14 +33,10 @@
   <ProjectSessionItem path="LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;core" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;core;gpio" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;lcd" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;lcd;bitmap" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;lcd;bitmap;ssd1306" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;lcd;character" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;lcd;character;samsung_20T202DA2JA" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays;tft" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays;tft;hw" name="unnamed" />
  </Project>
  <Register1>
   <RegisterWindow openNodes="USB;USB/USBRxPLen;USB/USBTxPLen;USB/USBCtrl" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU;USB" decimalNodes="" octalNodes="" asciiNodes="" />
@@ -75,8 +71,6 @@
  <Watch4>
   <Watches active="0" update="Never" />
  </Watch4>
- <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="28" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" y="45" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" left="0" selected="1" name="unnamed" top="39" />
- </Files>
- <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="SEGGER J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\lcd\character\samsung_20T202DA2JA" fileDialogDefaultFilter="" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Release" />
+ <Files/>
+ <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="SEGGER J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\displays\tft\hw" fileDialogDefaultFilter="" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Release" />
 </session>

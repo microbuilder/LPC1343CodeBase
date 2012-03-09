@@ -63,8 +63,8 @@ VPATH += drivers/rtc/isl12022m
 OBJS += isl12022m.o
 
 # TFT LCD support
-VPATH += drivers/lcd/tft drivers/lcd/tft/hw drivers/lcd/tft/fonts
-VPATH += drivers/lcd/tft/dialogues
+VPATH += drivers/displays/tft drivers/displays/tft/hw drivers/displays/tft/fonts
+VPATH += drivers/displays/tft/dialogues
 OBJS += drawing.o touchscreen.o bmp.o alphanumeric.o
 OBJS += dejavusans9.o dejavusansbold9.o dejavusanscondensed9.o
 OBJS += dejavusansmono8.o dejavusansmonobold8.o
@@ -79,9 +79,15 @@ OBJS += ILI9328.o
 # OBJS += st7783.o
 
 # Bitmap/Monochrome LCD support (ST7565, SSD1306, etc.)
-VPATH += drivers/lcd drivers/lcd/bitmap/st7565
-VPATH += drivers/lcd/bitmap/ssd1306
-OBJS += smallfonts.o st7565.o ssd1306.o
+VPATH += drivers/displays
+VPATH += drivers/displays/bitmap/sharpmem
+VPATH += drivers/displays/bitmap/st7565
+VPATH += drivers/displays/bitmap/ssd1306
+OBJS += smallfonts.o sharpmem.o st7565.o ssd1306.o
+
+#Character Displays (VFD text displays, etc.)
+VPATH += drivers/displays/character/samsung_20T202DA2JA
+OBJS += samsung_20T202DA2JA.o
 
 # ChaN FatFS and SD card support
 VPATH += drivers/fatfs

@@ -41,9 +41,9 @@
 #include "core/gpio/gpio.h"
 #include "core/systick/systick.h"
 #include "drivers/eeprom/eeprom.h"
-#include "drivers/lcd/tft/lcd.h"
-#include "drivers/lcd/tft/drawing.h"
-#include "drivers/lcd/tft/fonts/dejavusans9.h"
+#include "drivers/displays/tft/lcd.h"
+#include "drivers/displays/tft/drawing.h"
+#include "drivers/displays/tft/fonts/dejavusans9.h"
 
 #define TS_LINE1 "Touch the center of"
 #define TS_LINE2 "the red circle using"
@@ -495,7 +495,7 @@ void tsCalibrate(void)
     @section Example
 
     @code 
-    #include "drivers/lcd/tft/touchscreen.h"
+    #include "drivers/displays/tft/touchscreen.h"
     ...
     tsTouchData_t data;
     tsTouchError_t error;

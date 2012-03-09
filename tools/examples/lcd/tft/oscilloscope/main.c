@@ -42,11 +42,11 @@
 #include "core/adc/adc.h"
 #include "core/systick/systick.h"
 
-#include "drivers/lcd/tft/lcd.h"
-#include "drivers/lcd/tft/drawing.h"
-#include "drivers/lcd/tft/touchscreen.h"
-#include "drivers/lcd/tft/fonts/dejavusans9.h"
-#include "drivers/lcd/tft/fonts/dejavusansbold9.h"
+#include "drivers/displays/tft/lcd.h"
+#include "drivers/displays/tft/drawing.h"
+#include "drivers/displays/tft/touchscreen.h"
+#include "drivers/displays/tft/fonts/dejavusans9.h"
+#include "drivers/displays/tft/fonts/dejavusansbold9.h"
 
 static uint8_t adcBuffer[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static uint8_t digBuffer[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

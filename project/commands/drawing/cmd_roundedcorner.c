@@ -43,8 +43,8 @@
 #include "project/commands.h"       // Generic helper functions
 
 #ifdef CFG_TFTLCD    
-  #include "drivers/lcd/tft/lcd.h"    
-  #include "drivers/lcd/tft/drawing.h"  
+  #include "drivers/displays/tft/lcd.h"    
+  #include "drivers/displays/tft/drawing.h"  
 
 /**************************************************************************/
 /*! 

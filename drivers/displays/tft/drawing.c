@@ -263,7 +263,7 @@ void drawTestPattern(void)
 
     @code 
 
-    #include "drivers/lcd/fonts/smallfonts.h"
+    #include "drivers/displays/fonts/smallfonts.h"
     
     drawStringSmall(1, 210, COLOR_WHITE, "5x8 System (Max 40 Characters)", Font_System5x8);
     drawStringSmall(1, 220, COLOR_WHITE, "7x8 System (Max 30 Characters)", Font_System7x8);
@@ -300,7 +300,7 @@ void drawStringSmall(uint16_t x, uint16_t y, uint16_t color, char* text, struct 
 
     @code 
 
-    #include "drivers/lcd/tft/fonts/dejavusans9.h"
+    #include "drivers/displays/tft/fonts/dejavusans9.h"
     
     drawString(0, 90,  COLOR_BLACK, &dejaVuSans9ptFontInfo, "DejaVu Sans 9");
     drawString(0, 105, COLOR_BLACK, &dejaVuSans9ptFontInfo, "123456789012345678901234567890");
@@ -1215,7 +1215,7 @@ uint16_t drawBGR2RGB(uint16_t color)
     @section Example
 
     @code 
-    #include "drivers/lcd/tft/drawing.h"
+    #include "drivers/displays/tft/drawing.h"
 
     // Draw a the progress bar (150x15 pixels large, starting at X:10, Y:195
     // with rounded corners on the top and showing 72% progress)
@@ -1274,8 +1274,8 @@ void drawProgressBar ( uint16_t x, uint16_t y, uint16_t width, uint16_t height, 
 
     @code 
 
-    #include "drivers/lcd/tft/drawing.h"  
-    #include "drivers/lcd/tft/fonts/dejavusans9.h"
+    #include "drivers/displays/tft/drawing.h"  
+    #include "drivers/displays/tft/fonts/dejavusans9.h"
 
     // Draw two buttons using Vera Sans Bold 9
     drawButton(20, 195, 200, 35, &dejaVuSans9ptFontInfo, 7, COLOR_GRAY_80, COLOR_GRAY_80, COLOR_WHITE, "System Settings");
@@ -1319,8 +1319,8 @@ void drawButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const F
 
     @code 
 
-    #include "drivers/lcd/tft/drawing.h"  
-    #include "drivers/lcd/icons16.h"
+    #include "drivers/displays/tft/drawing.h"  
+    #include "drivers/displays/icons16.h"
 
     // Renders the info icon, which has two seperate parts ... the exterior
     // and a seperate interior mask if you want to fill the contents with a
@@ -1365,7 +1365,7 @@ void drawIcon16(uint16_t x, uint16_t y, uint16_t color, uint16_t icon[])
 
     @code 
 
-    #include "drivers/lcd/tft/drawing.h"
+    #include "drivers/displays/tft/drawing.h"
 
     // Draw image.bmp (from the root folder) starting at pixel 0,0
     bmp_error_t error = drawBitmapImage(0, 0, "/image.bmp");

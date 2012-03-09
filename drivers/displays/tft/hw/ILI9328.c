@@ -41,7 +41,7 @@
 /**************************************************************************/
 #include "ILI9328.h"
 #include "core/systick/systick.h"
-#include "drivers/lcd/tft/touchscreen.h"
+#include "drivers/displays/tft/touchscreen.h"
 
 // Uncomment this to use faster inline methods, but requires more flash
 #define ILI9238_USE_INLINE_METHODS (1)

@@ -42,15 +42,15 @@
 #include "core/adc/adc.h"
 #include "core/systick/systick.h"
 
-#include "drivers/lcd/tft/lcd.h"
-#include "drivers/lcd/tft/bmp.h"
-#include "drivers/lcd/tft/drawing.h"
-#include "drivers/lcd/tft/touchscreen.h"
-#include "drivers/lcd/tft/fonts/dejavusans9.h"
-#include "drivers/lcd/tft/fonts/dejavusansbold9.h"
-#include "drivers/lcd/tft/fonts/dejavusansmono8.h"
+#include "drivers/displays/tft/lcd.h"
+#include "drivers/displays/tft/bmp.h"
+#include "drivers/displays/tft/drawing.h"
+#include "drivers/displays/tft/touchscreen.h"
+#include "drivers/displays/tft/fonts/dejavusans9.h"
+#include "drivers/displays/tft/fonts/dejavusansbold9.h"
+#include "drivers/displays/tft/fonts/dejavusansmono8.h"
 
-#include "drivers/lcd/icons16.h"
+#include "drivers/displays/icons16.h"
 
 // Color scheme
 #define FONT_REGULAR              &dejaVuSans9ptFontInfo
@@ -94,7 +94,7 @@ void renderMenuItem(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uin
 
 /**************************************************************************/
 /*! 
-    Renders the 16x16 icons found in "/drivers/lcd/icons16.h"
+    Renders the 16x16 icons found in "/drivers/displays/icons16.h"
 */
 /**************************************************************************/
 void renderIcons(void)

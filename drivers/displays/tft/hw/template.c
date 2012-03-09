@@ -38,7 +38,7 @@
 */
 /**************************************************************************/
 #include "core/systick/systick.h"
-#include "drivers/lcd/tft/touchscreen.h"
+#include "drivers/displays/tft/touchscreen.h"
 
 // Screen width, height, has touchscreen, support orientation changes, support hw scrolling
 static lcdProperties_t templateProperties = { 240, 320, false, false, false };

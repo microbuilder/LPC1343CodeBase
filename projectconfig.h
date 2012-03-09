@@ -111,9 +111,9 @@
         microBuilder.eu USB stick 802.15.4 868/915MHz RF transceiver
 
     -----------------------------------------------------------------------*/
-    #define CFG_BRD_LPC1343_REFDESIGN
+    // #define CFG_BRD_LPC1343_REFDESIGN
     // #define CFG_BRD_LPC1343_REFDESIGN_MINIMAL
-    // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
+    #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
     // #define CFG_BRD_LPC1343_802154USBSTICK
     // #define CFG_BRD_LPC1343_OLIMEX_P
@@ -403,9 +403,9 @@
     ADC_AVERAGING_ENABLE      To get better results, the ADC code can take
                               a number of samples and return the average
                               value.  This is slower, but can give more
-                              accurate results caused of single-reading
-                              peaks and dips.
-                              To enable average, set ADC_AVERAGING_ENABLE
+                              accurate results compared to single-reading.
+                              
+                              To enable averaging, set ADC_AVERAGING_ENABLE
                               to a non-zero value.
     ADC_AVERAGING_SAMPLES     The number of ADC samples to read and
                               average if ADC averaging is enabled.
@@ -1028,7 +1028,7 @@
                                 a pre-determined LCD screen to be included
                                 during build.  Only one LCD driver can be 
                                 included during the build process (for ex.
-                                'drivers/lcd/hw/ILI9325.c')
+                                'drivers/displays/hw/ILI9325.c')
     CFG_TFTLCD_INCLUDESMALLFONTS If set to 1, smallfont support will be
                                 included for 3x6, 5x8, 7x8 and 8x8 fonts.
                                 This should only be enabled if these small
