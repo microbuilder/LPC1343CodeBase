@@ -39,7 +39,7 @@
 #include "eeprom.h"
 
 // Currently only the MCP24AA I2C EEPROM is used
-#include "drivers/eeprom/mcp24aa/mcp24aa.h"
+#include "drivers/storage/eeprom/mcp24aa/mcp24aa.h"
 
 static uint8_t buf[32];
 

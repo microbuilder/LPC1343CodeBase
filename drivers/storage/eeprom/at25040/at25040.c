@@ -20,7 +20,7 @@
 
     @code 
     #include "core/cpu/cpu.h"
-    #include "drivers/eeprom/at25040/at25040.h"
+    #include "drivers/storage/eeprom/at25040/at25040.h"
 
     int main(void)
     {

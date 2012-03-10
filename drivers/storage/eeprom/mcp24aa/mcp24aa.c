@@ -14,7 +14,7 @@
 
     @code 
     #include "core/cpu/cpu.h"
-    #include "drivers/eeprom/mcp24aa/mcp24aa.h"
+    #include "drivers/storage/eeprom/mcp24aa/mcp24aa.h"
 
     int main(void)
     {
@@ -266,7 +266,7 @@ mcp24aaError_e mcp24aaWriteBuffer (uint16_t address, uint8_t *buffer, uint32_t b
 
     @code
     #include "core/cpu/cpu/h"
-    #include "drivers/eeprom/mcp24aa/mcp24aa.h"
+    #include "drivers/storage/eeprom/mcp24aa/mcp24aa.h"
     ...
     cpuInit();
     mcp24aaInit();
@@ -306,7 +306,7 @@ mcp24aaError_e mcp24aaReadByte (uint16_t address, uint8_t *buffer)
 
     @code
     #include "core/cpu/cpu/h"
-    #include "drivers/eeprom/mcp24aa/mcp24aa.h"
+    #include "drivers/storage/eeprom/mcp24aa/mcp24aa.h"
     ...
     cpuInit();
     mcp24aaInit();
