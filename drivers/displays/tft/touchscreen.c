@@ -40,7 +40,7 @@
 #include "core/adc/adc.h"
 #include "core/gpio/gpio.h"
 #include "core/systick/systick.h"
-#include "drivers/eeprom/eeprom.h"
+#include "drivers/storage/eeprom/eeprom.h"
 #include "drivers/displays/tft/lcd.h"
 #include "drivers/displays/tft/drawing.h"
 #include "drivers/displays/tft/fonts/dejavusans9.h"

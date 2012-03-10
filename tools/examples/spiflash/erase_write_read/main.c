@@ -42,7 +42,7 @@
 
 #include "core/gpio/gpio.h"
 #include "core/systick/systick.h"
-#include "drivers/spiflash/spiflash.h"
+#include "drivers/storage/spiflash/spiflash.h"
 
 #ifdef CFG_INTERFACE
   #include "core/cmd/cmd.h"

@@ -44,7 +44,7 @@
 #include "project/commands.h"       // Generic helper functions
 
 #ifdef CFG_TFTLCD    
-  #include "drivers/eeprom/eeprom.h"
+  #include "drivers/storage/eeprom/eeprom.h"
   #include "drivers/displays/tft/touchscreen.h"
 
 /**************************************************************************/

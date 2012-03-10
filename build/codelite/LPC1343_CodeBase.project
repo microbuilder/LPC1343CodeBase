@@ -100,48 +100,10 @@
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="drivers">
-    <VirtualDirectory Name="chibi">
-      <File Name="../../drivers/chibi/chb.c"/>
-      <File Name="../../drivers/chibi/chb.h"/>
-      <File Name="../../drivers/chibi/chb_buf.c"/>
-      <File Name="../../drivers/chibi/chb_buf.h"/>
-      <File Name="../../drivers/chibi/chb_drvr_at86rf212.c"/>
-      <File Name="../../drivers/chibi/chb_drvr_at86rf212.h"/>
-      <File Name="../../drivers/chibi/chb_eeprom.c"/>
-      <File Name="../../drivers/chibi/chb_eeprom.h"/>
-      <File Name="../../drivers/chibi/chb_spi.c"/>
-      <File Name="../../drivers/chibi/chb_spi.h"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="eeprom">
-      <VirtualDirectory Name="mcp24aa">
-        <File Name="../../drivers/eeprom/mcp24aa/mcp24aa.c"/>
-        <File Name="../../drivers/eeprom/mcp24aa/mcp24aa.h"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="at25040">
-        <File Name="../../drivers/eeprom/at25040/at25040.c"/>
-        <File Name="../../drivers/eeprom/at25040/at25040.h"/>
-      </VirtualDirectory>
-      <File Name="../../drivers/eeprom/eeprom.c"/>
-      <File Name="../../drivers/eeprom/eeprom.h"/>
-    </VirtualDirectory>
     <VirtualDirectory Name="sensors">
       <VirtualDirectory Name="lm75b">
         <File Name="../../drivers/sensors/lm75b/lm75b.c"/>
         <File Name="../../drivers/sensors/lm75b/lm75b.h"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="pn532">
-        <File Name="../../drivers/sensors/pn532/pn532.c"/>
-        <File Name="../../drivers/sensors/pn532/pn532.h"/>
-        <VirtualDirectory Name="helpers">
-          <File Name="../../drivers/sensors/pn532/helpers/pn532_mifare.h"/>
-          <File Name="../../drivers/sensors/pn532/helpers/pn532_mifare_classic.c"/>
-          <File Name="../../drivers/sensors/pn532/helpers/pn532_mifare_classic.h"/>
-          <File Name="../../drivers/sensors/pn532/helpers/pn532_mifare_ultralight.c"/>
-          <File Name="../../drivers/sensors/pn532/helpers/pn532_mifare_ultralight.h"/>
-        </VirtualDirectory>
-        <File Name="../../drivers/sensors/pn532/pn532_bus.h"/>
-        <File Name="../../drivers/sensors/pn532/pn532_bus_i2c.c"/>
-        <File Name="../../drivers/sensors/pn532/pn532_bus_uart.c"/>
       </VirtualDirectory>
       <VirtualDirectory Name="tcs3414">
         <File Name="../../drivers/sensors/tcs3414/tcs3414.c"/>
@@ -267,11 +229,54 @@
         <File Name="../../drivers/rtc/isl12022m/isl12022m.h"/>
       </VirtualDirectory>
     </VirtualDirectory>
-    <VirtualDirectory Name="spiflash">
-      <File Name="../../drivers/spiflash/spiflash.h"/>
-      <VirtualDirectory Name="w25q16bv">
-        <File Name="../../drivers/spiflash/w25q16bv/w25q16bv.c"/>
-        <File Name="../../drivers/spiflash/w25q16bv/w25q16bv.h"/>
+    <VirtualDirectory Name="storage">
+      <VirtualDirectory Name="spiflash">
+        <VirtualDirectory Name="w25q16bv">
+          <File Name="../../drivers/storage/spiflash/w25q16bv/w25q16bv.c"/>
+          <File Name="../../drivers/storage/spiflash/w25q16bv/w25q16bv.h"/>
+        </VirtualDirectory>
+        <File Name="../../drivers/storage/spiflash/spiflash.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="eeprom">
+        <VirtualDirectory Name="at25040">
+          <File Name="../../drivers/storage/eeprom/at25040/at25040.c"/>
+          <File Name="../../drivers/storage/eeprom/at25040/at25040.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="mcp24aa">
+          <File Name="../../drivers/storage/eeprom/mcp24aa/mcp24aa.c"/>
+          <File Name="../../drivers/storage/eeprom/mcp24aa/mcp24aa.h"/>
+        </VirtualDirectory>
+        <File Name="../../drivers/storage/eeprom/eeprom.c"/>
+        <File Name="../../drivers/storage/eeprom/eeprom.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="rf">
+      <VirtualDirectory Name="chibi">
+        <File Name="../../drivers/rf/chibi/chb.c"/>
+        <File Name="../../drivers/rf/chibi/chb.h"/>
+        <File Name="../../drivers/rf/chibi/chb_buf.c"/>
+        <File Name="../../drivers/rf/chibi/chb_buf.h"/>
+        <File Name="../../drivers/rf/chibi/chb_drvr.c"/>
+        <File Name="../../drivers/rf/chibi/chb_drvr.h"/>
+        <File Name="../../drivers/rf/chibi/chb_eeprom.c"/>
+        <File Name="../../drivers/rf/chibi/chb_eeprom.h"/>
+        <File Name="../../drivers/rf/chibi/chb_spi.c"/>
+        <File Name="../../drivers/rf/chibi/chb_spi.h"/>
+        <File Name="../../drivers/rf/chibi/types.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="pn532">
+        <File Name="../../drivers/rf/pn532/pn532.c"/>
+        <File Name="../../drivers/rf/pn532/pn532.h"/>
+        <File Name="../../drivers/rf/pn532/pn532_bus.h"/>
+        <File Name="../../drivers/rf/pn532/pn532_bus_i2c.c"/>
+        <File Name="../../drivers/rf/pn532/pn532_bus_uart.c"/>
+        <VirtualDirectory Name="helpers">
+          <File Name="../../drivers/rf/pn532/helpers/pn532_mifare.h"/>
+          <File Name="../../drivers/rf/pn532/helpers/pn532_mifare_classic.c"/>
+          <File Name="../../drivers/rf/pn532/helpers/pn532_mifare_classic.h"/>
+          <File Name="../../drivers/rf/pn532/helpers/pn532_mifare_ultralight.c"/>
+          <File Name="../../drivers/rf/pn532/helpers/pn532_mifare_ultralight.h"/>
+        </VirtualDirectory>
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>

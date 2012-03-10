@@ -43,6 +43,8 @@
 #include "core/gpio/gpio.h"
 #include "core/systick/systick.h"
 
+#include "drivers/displays/segment/as1115/as1115.h"
+
 #ifdef CFG_INTERFACE
   #include "core/cmd/cmd.h"
 #endif
@@ -61,7 +63,23 @@ int main(void)
   uint32_t currentSecond, lastSecond;
   currentSecond = lastSecond = 0;
 
-  lcdTest();
+  // lcdTest();
+
+
+  // as1115Test();
+
+  uint8_t displaybuffer[8];
+
+  displaybuffer[0] = 0x01 | 0x80;
+  displaybuffer[1] = 0x02 | 0x40;
+  displaybuffer[2] = 0x04 | 0x20;
+  displaybuffer[3] = 0x08 | 0x10;
+  displaybuffer[4] = 0x10 | 0x08,
+  displaybuffer[5] = 0x20 | 0x04;
+  displaybuffer[6] = 0x40 | 0X02;
+  displaybuffer[7] = 0x80 | 0X01;
+
+  as1115WriteBuffer(displaybuffer); 
 
   while (1)
   {

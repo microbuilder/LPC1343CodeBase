@@ -7,7 +7,7 @@
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, microBuilder SARL
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -111,9 +111,9 @@
         microBuilder.eu USB stick 802.15.4 868/915MHz RF transceiver
 
     -----------------------------------------------------------------------*/
-    // #define CFG_BRD_LPC1343_REFDESIGN
+    #define CFG_BRD_LPC1343_REFDESIGN
     // #define CFG_BRD_LPC1343_REFDESIGN_MINIMAL
-    #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
+    // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
     // #define CFG_BRD_LPC1343_802154USBSTICK
     // #define CFG_BRD_LPC1343_OLIMEX_P
@@ -198,9 +198,9 @@
 /*=========================================================================
     FIRMWARE VERSION SETTINGS
     -----------------------------------------------------------------------*/
-    #define CFG_FIRMWARE_VERSION_MAJOR            (0)
-    #define CFG_FIRMWARE_VERSION_MINOR            (9)
-    #define CFG_FIRMWARE_VERSION_REVISION         (8)
+    #define CFG_FIRMWARE_VERSION_MAJOR            (1)
+    #define CFG_FIRMWARE_VERSION_MINOR            (0)
+    #define CFG_FIRMWARE_VERSION_REVISION         (0)
 /*=========================================================================*/
 
 

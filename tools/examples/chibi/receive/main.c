@@ -37,8 +37,8 @@
 #include "sysinit.h"
 
 #include "core/gpio/gpio.h"
-#include "drivers/chibi/chb.h"
-#include "drivers/chibi/chb_drvr.h"
+#include "drivers/rf/chibi/chb.h"
+#include "drivers/rf/chibi/chb_drvr.h"
 
 static chb_rx_data_t rx_data;
 

@@ -43,7 +43,7 @@
 #include "project/commands.h"       // Generic helper functions
 
 #ifdef CFG_I2CEEPROM
-  #include "drivers/eeprom/eeprom.h"
+  #include "drivers/storage/eeprom/eeprom.h"
   #include "core/uart/uart.h"
 
 /**************************************************************************/

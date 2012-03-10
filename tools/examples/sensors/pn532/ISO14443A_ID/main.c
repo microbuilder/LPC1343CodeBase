@@ -38,8 +38,8 @@
 #include "projectconfig.h"
 #include "sysinit.h"
 
-#include "drivers/sensors/pn532/pn532.h"
-#include "drivers/sensors/pn532/pn532_bus.h"
+#include "drivers/rf/pn532/pn532.h"
+#include "drivers/rf/pn532/pn532_bus.h"
 
 /**************************************************************************/
 /*! 

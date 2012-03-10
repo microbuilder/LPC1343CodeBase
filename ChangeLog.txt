@@ -1,6 +1,11 @@
-v0.9.8 - Ongoing
+v1.0.0 - Ongoing
 ================
+- *** Moved '/drivers/chibi' to '/drivers/rf/chibi' ***
+- *** Moved '/drivers/sensors/pn532' to '/drivers/rf/pn532' ***
+- *** Renamed '/drivers/spiflash' to '/drivers/storage/spiflash' ***
+- *** Renamed '/drivers/eeprom' to '/drivers/storage/eeprom' ***
 - *** Renamed '/drivers/lcd' to '/drivers/display' ***
+- Added basic AS1115 driver for segment displays
 - Added driver for HX8340-B based LCDs
 - Added flag to projectconfig.h to disable the default
   GPIO IRQ Handler functions in code/gpio/gpio.c

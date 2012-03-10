@@ -54,7 +54,7 @@
 #endif
 
 #ifdef CFG_CHIBI
-  #include "drivers/chibi/chb.h"
+  #include "drivers/rf/chibi/chb.h"
 #endif
 
 #ifdef CFG_USBHID
@@ -87,8 +87,8 @@
 #endif
 
 #ifdef CFG_I2CEEPROM
-  #include "drivers/eeprom/mcp24aa/mcp24aa.h"
-  #include "drivers/eeprom/eeprom.h"
+  #include "drivers/storage/eeprom/mcp24aa/mcp24aa.h"
+  #include "drivers/storage/eeprom/eeprom.h"
 #endif
 
 #ifdef CFG_PWM

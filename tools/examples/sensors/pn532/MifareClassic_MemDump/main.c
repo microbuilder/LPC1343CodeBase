@@ -39,10 +39,10 @@
 #include "sysinit.h"
 
 #include "core/i2c/i2c.h"
-#include "drivers/sensors/pn532/pn532.h"
-#include "drivers/sensors/pn532/pn532_bus.h"
-#include "drivers/sensors/pn532/helpers/pn532_mifare_classic.h"
-#include "drivers/sensors/pn532/helpers/pn532_mifare_ultralight.h"
+#include "drivers/rf/pn532/pn532.h"
+#include "drivers/rf/pn532/pn532_bus.h"
+#include "drivers/rf/pn532/helpers/pn532_mifare_classic.h"
+#include "drivers/rf/pn532/helpers/pn532_mifare_ultralight.h"
 
 /**************************************************************************/
 /*! 

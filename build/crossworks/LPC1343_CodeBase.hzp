@@ -121,41 +121,6 @@
       <file file_name="../../projectconfig.h"/>
       <file file_name="../../sysdefs.h"/>
       <folder Name="drivers">
-        <folder Name="eeprom">
-          <folder Name="at25040">
-            <file file_name="../../drivers/eeprom/at25040/at25040.c">
-              <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
-            </file>
-          </folder>
-          <folder Name="mcp24aa">
-            <file file_name="../../drivers/eeprom/mcp24aa/mcp24aa.c">
-              <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
-            </file>
-          </folder>
-          <file file_name="../../drivers/eeprom/eeprom.c"/>
-        </folder>
-        <folder Name="chibi" file_name="">
-          <file file_name="../../drivers/chibi/chb.c">
-            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
-            <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
-          </file>
-          <file file_name="../../drivers/chibi/chb_buf.c">
-            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
-            <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
-          </file>
-          <file file_name="../../drivers/chibi/chb_drvr.c">
-            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
-            <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
-          </file>
-          <file file_name="../../drivers/chibi/chb_eeprom.c">
-            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
-            <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
-          </file>
-          <file file_name="../../drivers/chibi/chb_spi.c">
-            <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
-            <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
-          </file>
-        </folder>
         <folder Name="sensors">
           <folder Name="lm75b">
             <file file_name="../../drivers/sensors/lm75b/lm75b.c">
@@ -166,22 +131,6 @@
             <file file_name="../../drivers/sensors/analogjoystick/analogjoystick.c">
               <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
             </file>
-          </folder>
-          <folder Name="pn532">
-            <file file_name="../../drivers/sensors/pn532/pn532.c">
-              <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
-            </file>
-            <file file_name="../../drivers/sensors/pn532/pn532_bus_uart.c">
-              <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
-            </file>
-            <folder Name="helpers">
-              <file file_name="../../drivers/sensors/pn532/helpers/pn532_mifare_classic.c"/>
-              <file file_name="../../drivers/sensors/pn532/helpers/pn532_mifare_ultralight.c"/>
-            </folder>
-            <file file_name="../../drivers/sensors/pn532/pn532_bus_i2c.c">
-              <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
-            </file>
-            <file file_name="../../drivers/sensors/pn532/pn532_bus.h"/>
           </folder>
           <folder Name="tsl2561">
             <file file_name="../../drivers/sensors/tsl2561/tsl2561.c">
@@ -264,6 +213,13 @@
           </folder>
           <file file_name="../../drivers/displays/icons16.h"/>
           <file file_name="../../drivers/displays/smallfonts.c"/>
+          <folder Name="segment">
+            <folder Name="as1115">
+              <file file_name="../../drivers/displays/segment/as1115/as1115.c">
+                <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
+              </file>
+            </folder>
+          </folder>
         </folder>
         <folder Name="fatfs" file_name="">
           <file file_name="../../drivers/fatfs/ff.c">
@@ -297,11 +253,40 @@
             <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
           </file>
         </folder>
-        <folder Name="spiflash">
-          <folder Name="w25q16bv">
-            <file file_name="../../drivers/spiflash/w25q16bv/w25q16bv.c"/>
+        <folder Name="rf">
+          <folder Name="chibi" file_name="">
+            <file file_name="../../drivers/rf/chibi/chb.c"/>
+            <file file_name="../../drivers/rf/chibi/chb_buf.c"/>
+            <file file_name="../../drivers/rf/chibi/chb_drvr.c"/>
+            <file file_name="../../drivers/rf/chibi/chb_eeprom.c"/>
+            <file file_name="../../drivers/rf/chibi/chb_spi.c"/>
           </folder>
-          <file file_name="../../drivers/spiflash/spiflash.h"/>
+          <folder Name="pn532">
+            <folder Name="helpers">
+              <file file_name="../../drivers/rf/pn532/helpers/pn532_mifare_classic.c"/>
+              <file file_name="../../drivers/rf/pn532/helpers/pn532_mifare_ultralight.c"/>
+            </folder>
+            <file file_name="../../drivers/rf/pn532/pn532.c"/>
+            <file file_name="../../drivers/rf/pn532/pn532_bus_i2c.c"/>
+            <file file_name="../../drivers/rf/pn532/pn532_bus_uart.c"/>
+          </folder>
+        </folder>
+        <folder Name="storage">
+          <folder Name="eeprom">
+            <folder Name="at25040">
+              <file file_name="../../drivers/storage/eeprom/at25040/at25040.c"/>
+            </folder>
+            <folder Name="mcp24aa">
+              <file file_name="../../drivers/storage/eeprom/mcp24aa/mcp24aa.c"/>
+            </folder>
+            <file file_name="../../drivers/storage/eeprom/eeprom.c"/>
+          </folder>
+          <folder Name="spiflash">
+            <folder Name="w25q16bv">
+              <file file_name="../../drivers/storage/spiflash/w25q16bv/w25q16bv.c"/>
+            </folder>
+            <file file_name="../../drivers/storage/spiflash/spiflash.h"/>
+          </folder>
         </folder>
       </folder>
       <file file_name="../../sysinit.c"/>

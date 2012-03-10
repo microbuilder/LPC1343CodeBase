@@ -47,11 +47,11 @@ OBJS += cmd_textw.o cmd_tsthreshhold.o cmd_tswait.o cmd_triangle.o
 ##########################################################################
 
 # Chibi Light-Weight Wireless Stack (AT86RF212)
-VPATH += drivers/chibi
+VPATH += drivers/rf/chibi
 OBJS += chb.o chb_buf.o chb_drvr.o chb_eeprom.o chb_spi.o
 
 # 4K EEPROM
-VPATH += drivers/eeprom drivers/eeprom/mcp24aa
+VPATH += drivers/storage/eeprom drivers/storage/eeprom/mcp24aa
 OBJS += eeprom.o mcp24aa.o
 
 # LM75B temperature sensor
@@ -106,7 +106,7 @@ VPATH += drivers/dac/mcp4725
 OBJS += mcp4725.o
 
 # RFID/NFC
-VPATH += drivers/sensors/pn532 drivers/sensors/pn532/helpers
+VPATH += drivers/rf/pn532 drivers/rf/pn532/helpers
 OBJS += pn532.o pn532_bus_i2c.o pn532_bus_uart.o
 OBJS += pn532_mifare_classic.o pn532_mifare_ultralight.o
 
@@ -115,7 +115,7 @@ VPATH += drivers/sensors/tcs3414 drivers/sensors/tsl2561
 OBJS += tcs3414.o tsl2561.o
 
 # SPI Flash
-VPATH += drivers/spiflash/w25q16bv
+VPATH += drivers/storage/spiflash/w25q16bv
 OBJS += w25q16bv.o
 
 ##########################################################################

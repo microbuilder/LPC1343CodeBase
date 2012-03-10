@@ -50,7 +50,7 @@
 #include "pmu.h"
 
 #ifdef CFG_CHIBI
-  #include "drivers/chibi/chb_drvr.h"
+  #include "drivers/rf/chibi/chb_drvr.h"
 #endif
 #define PMU_WDTCLOCKSPEED_HZ 7812
 
