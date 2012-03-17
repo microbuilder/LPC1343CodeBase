@@ -139,7 +139,12 @@ void cmdRx(uint8_t c)
         #if CFG_INTERFACE_SILENTMODE == 0
         printf("%c",c);
         #endif
-        if (msg_ptr > msg)
+        if (msg_ptr == msg)
+        {
+            // Send bell alert and space (to maintain position)
+            printf("\a ");
+        }
+        else if (msg_ptr > msg)
         {
             msg_ptr--;
         }

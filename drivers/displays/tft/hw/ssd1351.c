@@ -279,7 +279,7 @@ void lcdInit(void)
   //  DATA(0xBF);
 
   // Clear screen
-  lcdFillRGB(COLOR_RED);
+  lcdFillRGB(COLOR_BLACK);
 
   // Turn the display on
   CMD(SSD1351_CMD_SLEEPMODE_DISPLAYON);  

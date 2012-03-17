@@ -5,6 +5,13 @@ v1.0.0 - Ongoing
 - *** Renamed '/drivers/spiflash' to '/drivers/storage/spiflash' ***
 - *** Renamed '/drivers/eeprom' to '/drivers/storage/eeprom' ***
 - *** Renamed '/drivers/lcd' to '/drivers/display' ***
+- Removed height parameter from drawButton.  It's now
+  calculated based on the font height, and centered.
+- Added bell to CLI when backspace is pressed beyond
+  the starting position (cosmetic, but still useful)
+- Removed dependency on /core/libc files in Crossworks
+  when redirecting printf (added printf replacement
+  to sysinit.c)
 - Added basic AS1115 driver for segment displays
 - Added driver for HX8340-B based LCDs
 - Added flag to projectconfig.h to disable the default

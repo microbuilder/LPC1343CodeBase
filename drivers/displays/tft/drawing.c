@@ -1259,8 +1259,6 @@ void drawProgressBar ( uint16_t x, uint16_t y, uint16_t width, uint16_t height, 
                 Total height of the button in pixels
     @param[in]  fontInfo
                 Pointer to the FONT_INFO used to render the button text
-    @param[in]  fontHeight
-                The height in pixels of the font (used for centering)
     @param[in]  borderclr
                 The rgb565 border color
     @param[in]  fillclr
@@ -1278,13 +1276,13 @@ void drawProgressBar ( uint16_t x, uint16_t y, uint16_t width, uint16_t height, 
     #include "drivers/displays/tft/fonts/dejavusans9.h"
 
     // Draw two buttons using Vera Sans Bold 9
-    drawButton(20, 195, 200, 35, &dejaVuSans9ptFontInfo, 7, COLOR_GRAY_80, COLOR_GRAY_80, COLOR_WHITE, "System Settings");
-    drawButton(20, 235, 200, 35, &dejaVuSans9ptFontInfo, 7, COLOR_THEME_LIMEGREEN_DARKER, COLOR_THEME_LIMEGREEN_BASE, COLOR_BLACK, "System Settings");
+    drawButton(20, 195, 200, 35, &dejaVuSans9ptFontInfo, COLOR_GRAY_80, COLOR_GRAY_80, COLOR_WHITE, "System Settings");
+    drawButton(20, 235, 200, 35, &dejaVuSans9ptFontInfo, COLOR_THEME_LIMEGREEN_DARKER, COLOR_THEME_LIMEGREEN_BASE, COLOR_BLACK, "System Settings");
 
     @endcode
 */
 /**************************************************************************/
-void drawButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const FONT_INFO *fontInfo, uint16_t fontHeight, uint16_t borderclr, uint16_t fillclr, uint16_t fontclr, char* text)
+void drawButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const FONT_INFO *fontInfo, uint16_t borderclr, uint16_t fillclr, uint16_t fontclr, char* text)
 {
   // Border
   drawRectangleRounded(x, y, x + width, y + height, borderclr, 5, DRAW_ROUNDEDCORNERS_ALL);
@@ -1296,7 +1294,7 @@ void drawButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const F
   {
     uint16_t textWidth = drawGetStringWidth(&*fontInfo, text);
     uint16_t xStart = x + (width / 2) - (textWidth / 2);
-    uint16_t yStart = y + (height / 2) - (fontHeight / 2) + 1;
+    uint16_t yStart = y + (height / 2) - (fontInfo->height / 2) + 1;
     drawString(xStart, yStart, fontclr, &*fontInfo, text);
   }
 }

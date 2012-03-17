@@ -172,21 +172,21 @@ void alphaRenderButton(uint8_t alphaPage, uint8_t col, uint8_t row, bool selecte
   {
     case '<':
       // Backspace
-      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, ALPHA_BTN_HEIGHT, &dejaVuSans9ptFontInfo, 7, border, fill, font, NULL); 
+      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, &dejaVuSans9ptFontInfo, 7, border, fill, font, NULL); 
       drawArrow (alphaBtnX[col] + ALPHA_BTN_WIDTH / 2 - 3, alphaBtnY[row] + ALPHA_BTN_HEIGHT / 2, 7, DRAW_DIRECTION_LEFT, font);
       break;
     case '*':
       // Page Shift
-      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, ALPHA_BTN_HEIGHT, &dejaVuSans9ptFontInfo, 7, border, fill, font, NULL); 
+      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, &dejaVuSans9ptFontInfo, 7, border, fill, font, NULL); 
       drawArrow (alphaBtnX[col] + ALPHA_BTN_WIDTH / 2, (alphaBtnY[row] + ALPHA_BTN_HEIGHT / 2) - 3, 7, DRAW_DIRECTION_UP, font);
       break;
     case '>':
       // OK
-      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, ALPHA_BTN_HEIGHT, &dejaVuSans9ptFontInfo, 7, border, fill, font, "OK"); 
+      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, &dejaVuSans9ptFontInfo, 7, border, fill, font, "OK"); 
       break;
     default:
       // Standard character
-      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, ALPHA_BTN_HEIGHT, &dejaVuSans9ptFontInfo, 7, border, fill, font, key); 
+      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, &dejaVuSans9ptFontInfo, 7, border, fill, font, key); 
       break;
   }
 }

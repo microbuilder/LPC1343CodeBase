@@ -76,7 +76,7 @@ void cmd_button(uint8_t argc, char **argv)
   if (argc == 7)
   {
     // Render the button with no text
-    drawButton(x, y, w, h, &dejaVuSans9ptFontInfo, 7, (uint16_t)border, (uint16_t)fill, (uint16_t)font, NULL);
+    drawButton(x, y, w, h, &dejaVuSans9ptFontInfo, (uint16_t)border, (uint16_t)fill, (uint16_t)font, NULL);
   }
   else
   {
@@ -93,7 +93,7 @@ void cmd_button(uint8_t argc, char **argv)
     *data_ptr++ = '\0';
 
     // Render the button with text
-    drawButton(x, y, w, h, &dejaVuSans9ptFontInfo, 7, (uint16_t)border, (uint16_t)fill, (uint16_t)font, (char *)&data);
+    drawButton(x, y, w, h, &dejaVuSans9ptFontInfo, (uint16_t)border, (uint16_t)fill, (uint16_t)font, (char *)&data);
   }
 }
 

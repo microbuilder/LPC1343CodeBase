@@ -39,12 +39,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 
-//------------------------------------------------------------------------------
-//         Local Definitions
-//------------------------------------------------------------------------------
-
-// Maximum string size allowed (in bytes).
-#define MAX_STRING_SIZE         255
+#include "projectconfig.h" // For CFG_PRINTF_MAXSTRINGSIZE
 
 //------------------------------------------------------------------------------
 //         Global Variables
@@ -412,7 +407,7 @@ signed int snprintf(char *pString, size_t length, const char *pFormat, ...)
 //------------------------------------------------------------------------------
 signed int vsprintf(char *pString, const char *pFormat, va_list ap)
 {
-    return vsnprintf(pString, MAX_STRING_SIZE, pFormat, ap);
+    return vsnprintf(pString, CFG_PRINTF_MAXSTRINGSIZE, pFormat, ap);
 }
 
 //------------------------------------------------------------------------------
@@ -423,14 +418,14 @@ signed int vsprintf(char *pString, const char *pFormat, va_list ap)
 //------------------------------------------------------------------------------
 signed int vprintf(const char *pFormat, va_list ap)
 {
-  char pStr[MAX_STRING_SIZE];
-  char pError[] = "stdio.c: increase MAX_STRING_SIZE\r\n";
+  char pStr[CFG_PRINTF_MAXSTRINGSIZE];
+  char pError[] = "stdio.c: increase CFG_PRINTF_MAXSTRINGSIZE\r\n";
   
   // Write formatted string in buffer
-  if (vsprintf(pStr, pFormat, ap) >= MAX_STRING_SIZE) {
+  if (vsprintf(pStr, pFormat, ap) >= CFG_PRINTF_MAXSTRINGSIZE) {
     
     puts(pError);
-    while (1); // Increase MAX_STRING_SIZE
+    while (1); // Increase CFG_PRINTF_MAXSTRINGSIZE
   }
   
   // Display string

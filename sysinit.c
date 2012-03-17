@@ -39,6 +39,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "sysinit.h"
 
@@ -298,3 +299,61 @@ int puts(const char * str)
 
   return 0;
 }
+
+// Override printf here if we're using Crossworks for ARM
+// so that we can still use the custom libc libraries.
+// For Codelite and compiling from the makefile (Yagarto, etc.)
+// this is done in /core/libc
+
+#ifdef __CROSSWORKS_ARM
+
+/**************************************************************************/
+/*! 
+    @brief  Outputs a formatted string on the DBGU stream. Format arguments
+            are given in a va_list instance.
+
+    @param[in]  pFormat
+                Format string
+    @param[in]  ap
+                Argument list
+*/
+/**************************************************************************/
+signed int vprintf(const char *pFormat, va_list ap)
+{
+  char pStr[CFG_PRINTF_MAXSTRINGSIZE];
+  char pError[] = "stdio.c: increase CFG_PRINTF_MAXSTRINGSIZE\r\n";
+  
+  // Write formatted string in buffer
+  if (vsprintf(pStr, pFormat, ap) >= CFG_PRINTF_MAXSTRINGSIZE) {
+    
+    puts(pError);
+    while (1); // Increase CFG_PRINTF_MAXSTRINGSIZE
+  }
+  
+  // Display string
+  return puts(pStr);
+}
+
+/**************************************************************************/
+/*! 
+    @brief  Outputs a formatted string on the DBGU stream, using a 
+            variable number of arguments
+
+    @param[in]  pFormat
+                Format string
+*/
+/**************************************************************************/
+signed int printf(const char *pFormat, ...)
+{
+    va_list ap;
+    signed int result;
+
+    // Forward call to vprintf
+    va_start(ap, pFormat);
+    result = vprintf(pFormat, ap);
+    va_end(ap);
+
+    return result;
+}
+
+#endif
