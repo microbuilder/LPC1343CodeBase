@@ -1,5 +1,6 @@
 v1.0.0 - 23 March 2012
 ======================
+- Added support for LPCXpresso IDE
 - *** Moved '/drivers/chibi' to '/drivers/rf/chibi' ***
 - *** Moved '/drivers/sensors/pn532' to '/drivers/rf/pn532' ***
 - *** Renamed '/drivers/spiflash' to '/drivers/storage/spiflash' ***
