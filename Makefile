@@ -24,6 +24,12 @@ OBJS = main.o
 DEBUGBUILD = FALSE
 
 ##########################################################################
+# IDE Flags (Keeps various IDEs happy)
+##########################################################################
+
+OPTDEFINES = -D __NEWLIB__
+
+##########################################################################
 # Project-specific files 
 ##########################################################################
 
@@ -186,10 +192,10 @@ OBJS += $(TARGET)_handlers.o LPC1xxx_startup.o
 # Compiler settings, parameters and flags
 ##########################################################################
 ifeq (TRUE,$(DEBUGBUILD))
-  CFLAGS  = -c -g -O0 $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -DTARGET=$(TARGET) -fno-builtin
+  CFLAGS  = -c -g -O0 $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -DTARGET=$(TARGET) -fno-builtin $(OPTDEFINES)
   ASFLAGS = -c -g -O0 $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -D__ASSEMBLY__ -x assembler-with-cpp
 else
-  CFLAGS  = -c -g -Os $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -DTARGET=$(TARGET) -fno-builtin
+  CFLAGS  = -c -g -Os $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -DTARGET=$(TARGET) -fno-builtin $(OPTDEFINES)
   ASFLAGS = -c -g -Os $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -D__ASSEMBLY__ -x assembler-with-cpp
 endif
 
@@ -214,8 +220,12 @@ firmware: $(OBJS) $(SYS_OBJS)
 	-@echo "INCLUDE $(LD_SCRIPT)" >> $(LD_TEMP)
 	$(LD) $(LDFLAGS) -T $(LD_TEMP) -o $(OUTFILE).elf $(OBJS) $(LDLIBS)
 	-@echo ""
+	-@echo "Removing temporary files"
+	rm -f $(OBJS) $(LD_TEMP)
+	-@echo ""
 	$(SIZE) $(OUTFILE).elf
 	-@echo ""
+	$(OBJCOPY) $(OCFLAGS) -O binary $(OUTFILE).elf $(OUTFILE).bin
 	$(OBJCOPY) $(OCFLAGS) -O binary $(OUTFILE).elf $(OUTFILE).bin
 	$(OBJCOPY) $(OCFLAGS) -O ihex $(OUTFILE).elf $(OUTFILE).hex
 	-@echo ""
