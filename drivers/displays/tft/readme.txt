@@ -26,9 +26,16 @@ lcd.h              This file contains the prototypes of HW-specific functions
                    drawing.c will redirect all requests to these lower level
                    functions.
                    
-touchscreen.c      Contains a very simple example of how to use ADC to read
+touchscreen.c      Contains a very simple example of how to use the ADC to read
                    the current position on a touchscreen.  No signal debouncing
-                   takes places, and this code will need to be improved for us
+                   takes places, and this code will need to be improved for use
                    in a real-world situation.
+
+colors.c           Functions relating to color conversion, etc.
+
+fonts.c            1-bit font functions and definitions
+
+aafonts.c          Preliminary effort at adding 2-bit and 4-bit anti-
+                   aliased fonts, though this is still a work in progress.
 
 hw\*               HW-specific drivers based on lcd.h                   
