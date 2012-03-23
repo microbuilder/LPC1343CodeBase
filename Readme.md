@@ -28,6 +28,23 @@ me a salary to keep providing this stuff).  If you find this library
 useful, please consider ordering something from the people that
 make this financially possible:  http://www.adafruit.com
 
+## Toolchains
+
+The entire LPC1343 Code Base is based around GCC, and can be built
+from the command-line using only free tools like the Yagarto
+distribution for Windows or the Mac, etc.
+
+Nonetheless, it's often more productive to develop in an IDE with a
+full set of debugging tools at your disposal, and the code base also
+includes project files for Rowley Associate's Crossworks for ARM, as
+well as project files for the free and open source CodeLite, which can
+be used in combination with a Segger J-Link for ARM and GDB Server.
+
+Project files for the two IDEs are stored in the /build folder
+
+For information on configuring your system to build from the command-
+line, see the links below:
+
 ## Documentation
 
 Online documentation is available at the following URLs, though the
