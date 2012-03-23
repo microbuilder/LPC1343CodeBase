@@ -1,7 +1,7 @@
 #ifndef __VERDANA_BOLD_14__
 #define __VERDANA_BOLD_14__
 
-#include "bitmapfonts.h"
+#include "../fonts.h"
 
 /* Font data for Verdana Bold 14pt */
 extern const uint8_t verdanabold14ptBitmaps[];

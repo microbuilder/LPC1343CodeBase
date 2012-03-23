@@ -6,9 +6,6 @@
     drawLine and drawCircle adapted from a tutorial by Leonard McMillan:
     http://www.cs.unc.edu/~mcmillan/
 
-    drawString based on an example from Eran Duchan:
-    http://www.pavius.net/downloads/tools/53-the-dot-factory
-
     @section LICENSE
 
     Software License Agreement (BSD License)
@@ -64,50 +61,6 @@ void drawSwap(uint32_t a, uint32_t b)
   t = a;
   a = b;
   b = t;
-}
-
-/**************************************************************************/
-/*!
-    @brief  Draws a single bitmap character
-*/
-/**************************************************************************/
-void drawCharBitmap(const uint16_t xPixel, const uint16_t yPixel, uint16_t color, const char *glyph, uint8_t cols, uint8_t rows)
-{
-  uint16_t currentY, currentX, indexIntoGlyph;
-  uint16_t _row, _col, _colPages;
-
-  // set initial current y
-  currentY = yPixel;
-  currentX = xPixel;
-
-  // Figure out how many columns worth of data we have
-  if (cols % 8)
-    _colPages = cols / 8 + 1;
-  else
-    _colPages = cols / 8;
-
-  for (_row = 0; _row < rows; _row++)
-  {
-    for (_col = 0; _col < _colPages; _col++)
-    {
-      if (_row == 0)
-        indexIntoGlyph = _col;
-      else
-        indexIntoGlyph = (_row * _colPages) + _col;
-
-      currentY = yPixel + _row;
-      currentX = xPixel + (_col*8);
-      // send the data byte
-      if (glyph[indexIntoGlyph] & (0X80)) drawPixel(currentX, currentY, color);
-      if (glyph[indexIntoGlyph] & (0X40)) drawPixel(currentX+1, currentY, color);
-      if (glyph[indexIntoGlyph] & (0X20)) drawPixel(currentX+2, currentY, color);
-      if (glyph[indexIntoGlyph] & (0X10)) drawPixel(currentX+3, currentY, color);
-      if (glyph[indexIntoGlyph] & (0X08)) drawPixel(currentX+4, currentY, color);
-      if (glyph[indexIntoGlyph] & (0X04)) drawPixel(currentX+5, currentY, color);
-      if (glyph[indexIntoGlyph] & (0X02)) drawPixel(currentX+6, currentY, color);
-      if (glyph[indexIntoGlyph] & (0X01)) drawPixel(currentX+7, currentY, color);
-    }
-  }
 }
 
 #if defined CFG_TFTLCD_INCLUDESMALLFONTS & CFG_TFTLCD_INCLUDESMALLFONTS == 1
@@ -280,128 +233,6 @@ void drawStringSmall(uint16_t x, uint16_t y, uint16_t color, char* text, struct 
   }
 }
 #endif
-
-/**************************************************************************/
-/*!
-    @brief  Draws a string using the supplied font
-
-    @param[in]  x
-                Starting x co-ordinate
-    @param[in]  y
-                Starting y co-ordinate
-    @param[in]  color
-                Color to use when rendering the font
-    @param[in]  fontInfo
-                Pointer to the FONT_INFO to use when drawing the string
-    @param[in]  str
-                The string to render
-
-    @section Example
-
-    @code 
-
-    #include "drivers/displays/tft/fonts/dejavusans9.h"
-    
-    drawString(0, 90,  COLOR_BLACK, &dejaVuSans9ptFontInfo, "DejaVu Sans 9");
-    drawString(0, 105, COLOR_BLACK, &dejaVuSans9ptFontInfo, "123456789012345678901234567890");
-
-    @endcode
-*/
-/**************************************************************************/
-void drawString(uint16_t x, uint16_t y, uint16_t color, const FONT_INFO *fontInfo, char *str)
-{
-  uint16_t currentX, charWidth, characterToOutput;
-  const FONT_CHAR_INFO *charInfo;
-  uint16_t charOffset;
-
-  // set current x, y to that of requested
-  currentX = x;
-
-  // while not NULL
-  while (*str != '\0')
-  {
-    // get character to output
-    characterToOutput = *str;
-    
-    // get char info
-    charInfo = fontInfo->charInfo;
-    
-    // some fonts have character descriptors, some don't
-    if (charInfo != NULL)
-    {
-      // get correct char offset
-      charInfo += (characterToOutput - fontInfo->startChar);
-      
-      // get width from char info
-      charWidth = charInfo->widthBits;
-      
-      // get offset from char info
-      charOffset = charInfo->offset;
-    }        
-    else
-    {
-      // if no char info, char width is always 5
-      charWidth = 5;
-      
-      // char offset - assume 5 * letter offset
-      charOffset = (characterToOutput - fontInfo->startChar) * 5;
-    }        
-    
-    // Send individual characters
-    // We need to manually calculate width in pages since this is screwy with variable width fonts
-    //uint8_t heightPages = charWidth % 8 ? charWidth / 8 : charWidth / 8 + 1;
-    drawCharBitmap(currentX, y, color, (const char *)(&fontInfo->data[charOffset]), charWidth, fontInfo->height);
-
-    // next char X
-    currentX += charWidth + 1;
-    
-    // next char
-    str++;
-  }
-}
-
-/**************************************************************************/
-/*!
-    @brief  Returns the width in pixels of a string when it is rendered
-
-    This method can be used to determine whether a string will fit
-    inside a specific area, or if it needs to be broken up into multiple
-    lines to be properly rendered on the screen.
-
-    This function only applied to bitmap fonts (which can have variable
-    widths).  All smallfonts (if available) are fixed width and can
-    easily have their width calculated without costly functions like
-    this one.
-
-    @param[in]  fontInfo
-                Pointer to the FONT_INFO for the font that will be used
-    @param[in]  str
-                The string that will be rendered
-*/
-/**************************************************************************/
-uint16_t drawGetStringWidth(const FONT_INFO *fontInfo, char *str)
-{
-  uint16_t width = 0;
-  uint32_t currChar;
-  uint32_t startChar = fontInfo->startChar;
-
-  // until termination
-  for (currChar = *str; currChar; currChar = *(++str))
-  {
-    // if char info exists for the font, use width from there
-    if (fontInfo->charInfo != NULL)
-    {
-      width += fontInfo->charInfo[currChar - startChar].widthBits + 1;
-    }
-    else
-    {
-      width += 5 + 1;
-    }
-  }
-
-  /* return the width */
-  return width > 0 ? width - 1 : width;
-}
 
 /**************************************************************************/
 /*!
@@ -989,6 +820,104 @@ void drawRectangleRounded ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, 
 
 /**************************************************************************/
 /*!
+    @brief  Draws a gradient-filled rectangle
+
+    @param[in]  x0
+                Starting x co-ordinate
+    @param[in]  y0
+                Starting y co-ordinate
+    @param[in]  x1
+                Ending x co-ordinate
+    @param[in]  y1
+                Ending y co-ordinate
+    @param[in]  startColor
+                The color at the start of the gradient
+    @param[in]  endColor
+                The color at the end of the gradient
+
+    @section EXAMPLE
+
+    @code
+
+    #include "drivers/displays/tft/drawing.h"
+    #include "drivers/displays/tft/aafonts.h"
+    #include "drivers/displays/tft/aafonts/aa2/DejaVuSansCondensed14_AA2.h"
+
+    // Draw a gradient-filled rectangle with anti-aliased text inside it
+
+    uint16_t btnWidth, btnHeight, btnX, btnY;
+    uint16_t fntX, fntY;
+
+    btnWidth = 200;
+    btnHeight = 20;
+    btnX = 10;
+    btnY = 30;
+
+    lcdFillRGB(0xFFFF);
+
+    drawRectangle(btnX-1, btnY-1, btnX+btnWidth+1, btnY+btnHeight+1, COLOR_GRAY_80);
+    drawGradient(btnX, btnY, btnX+btnWidth, btnY+btnHeight, COLOR_WHITE, COLOR_GRAY_128);
+
+    // Center text vertically and horizontally
+    fntY = btnY + ((btnHeight - DejaVuSansCondensed14_AA2.fontHeight) / 2);
+    fntX = btnX + ((btnWidth - aafontsGetStringWidth(&DejaVuSansCondensed14_AA2, "Click to continue"))/2);
+    aafontsDrawString(fntX, fntY, COLORTABLE_AA2_BLACKONWHITE, &DejaVuSansCondensed14_AA2, "Click to continue");
+
+    @endcode
+*/
+/**************************************************************************/
+void drawGradient ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t startColor, uint16_t endColor)
+{
+  int height;
+  uint16_t x, y;
+  uint8_t r, g, b;
+  int16_t rDelta, gDelta, bDelta;
+
+  // Clear gradient steps, etc.
+  r = g = b = 0;
+  rDelta = gDelta = bDelta = 0;
+
+  if (y1 < y0)
+  {
+    // Switch y1 and y0
+    y = y1;
+    y1 = y0;
+    y0 = y;
+  }
+
+  if (x1 < x0)
+  {
+    // Switch x1 and x0
+    x = x1;
+    x1 = x0;
+    x0 = x;
+  }
+
+  height = y1 - y0;
+
+  // Calculate global r/g/b changes between start and end colors
+  rDelta = ((endColor >> 11) & 0x1F) - ((startColor >> 11) & 0x1F);
+  gDelta = ((endColor >> 5) & 0x3F) - ((startColor >> 5) & 0x3F);
+  bDelta = (endColor & 0x1F) - (startColor & 0x1F);
+
+  // Calculate interpolation deltas to 2 decimal places (fixed point)
+  rDelta = (rDelta * 100) / height;
+  gDelta = (gDelta * 100) / height;
+  bDelta = (bDelta * 100) / height;
+
+  // Draw individual lines
+  for (height = y0; y1 > height - 1; ++height)
+  {
+    // Calculate new rgb values based on: start color + (line number * interpolation delta)
+    r = ((startColor >> 11) & 0x1F) + ((rDelta * (height - y0)) / 100);
+    g = ((startColor >> 5) & 0x3F) + ((gDelta * (height - y0)) / 100);
+    b = (startColor & 0x1F) + ((bDelta * (height - y0)) / 100);
+    drawLine(x0, height, x1, height, ((r & 0x1F) << 11) | ((g & 0x3F) << 5) | (b & 0x1F));
+  }
+}
+
+/**************************************************************************/
+/*!
     @brief  Draws a triangle
 
     @param[in]  x0
@@ -1105,88 +1034,6 @@ void drawTriangleFilled ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, ui
 
 /**************************************************************************/
 /*!
-    @brief  Converts a 24-bit RGB color to an equivalent 16-bit RGB565 value
-
-    @param[in]  r
-                8-bit red
-    @param[in]  g
-                8-bit green
-    @param[in]  b
-                8-bit blue
-
-    @section Example
-
-    @code 
-
-    // Get 16-bit equivalent of 24-bit color
-    uint16_t gray = drawRGB24toRGB565(0x33, 0x33, 0x33);
-
-    @endcode
-*/
-/**************************************************************************/
-uint16_t drawRGB24toRGB565(uint8_t r, uint8_t g, uint8_t b)
-{
-  return ((r / 8) << 11) | ((g / 4) << 5) | (b / 8);
-}
-
-/**************************************************************************/
-/*!
-    @brief  Converts a 16-bit RGB565 color to a standard 32-bit BGRA32
-            color (with alpha set to 0xFF)
-
-    @param[in]  color
-                16-bit rgb565 color
-
-    @section Example
-
-    @code 
-
-    // First convert 24-bit color to RGB565
-    uint16_t rgb565 = drawRGB24toRGB565(0xFF, 0x00, 0x00);
-  
-    // Convert RGB565 color back to BGRA32
-    uint32_t bgra32 = drawRGB565toBGRA32(rgb565);
-  
-    // Display results
-    printf("BGRA32: 0x%08X R: %u G: %u B: %u A: %u \r\n", 
-        bgra32, 
-        (bgra32 & 0x000000FF),        // Blue
-        (bgra32 & 0x0000FF00) >> 8,   // Green
-        (bgra32 & 0x00FF0000) >> 16,  // Red
-        (bgra32 & 0xFF000000) >> 24); // Alpha
-
-    @endcode
-*/
-/**************************************************************************/
-uint32_t drawRGB565toBGRA32(uint16_t color)
-{
-  uint32_t bits = (uint32_t)color;
-  uint32_t blue = bits & 0x001F;     // 5 bits blue
-  uint32_t green = bits & 0x07E0;    // 6 bits green
-  uint32_t red = bits & 0xF800;      // 5 bits red
-
-  // Return shifted bits with alpha set to 0xFF
-  return (red << 8) | (green << 5) | (blue << 3) | 0xFF000000;
-}
-
-/**************************************************************************/
-/*! 
-    @brief  Reverses a 16-bit color from BGR to RGB
-*/
-/**************************************************************************/
-uint16_t drawBGR2RGB(uint16_t color)
-{   
-  uint16_t r, g, b;   
-   
-  b = (color>>0)  & 0x1f;   
-  g = (color>>5)  & 0x3f;   
-  r = (color>>11) & 0x1f;   
-     
-  return( (b<<11) + (g<<5) + (r<<0) );
-}
-
-/**************************************************************************/
-/*!
     @brief  Draws a progress bar with rounded corners
 
     @param[in]  x
@@ -1275,7 +1122,7 @@ void drawProgressBar ( uint16_t x, uint16_t y, uint16_t width, uint16_t height, 
     #include "drivers/displays/tft/drawing.h"  
     #include "drivers/displays/tft/fonts/dejavusans9.h"
 
-    // Draw two buttons using Vera Sans Bold 9
+    // Draw two buttons using DejaVu Sans 9
     drawButton(20, 195, 200, 35, &dejaVuSans9ptFontInfo, COLOR_GRAY_80, COLOR_GRAY_80, COLOR_WHITE, "System Settings");
     drawButton(20, 235, 200, 35, &dejaVuSans9ptFontInfo, COLOR_THEME_LIMEGREEN_DARKER, COLOR_THEME_LIMEGREEN_BASE, COLOR_BLACK, "System Settings");
 
@@ -1292,10 +1139,10 @@ void drawButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const F
   // Render text
   if (text != NULL)
   {
-    uint16_t textWidth = drawGetStringWidth(&*fontInfo, text);
+    uint16_t textWidth = fontsGetStringWidth(&*fontInfo, text);
     uint16_t xStart = x + (width / 2) - (textWidth / 2);
     uint16_t yStart = y + (height / 2) - (fontInfo->height / 2) + 1;
-    drawString(xStart, yStart, fontclr, &*fontInfo, text);
+    fontsDrawString(xStart, yStart, fontclr, &*fontInfo, text);
   }
 }
 

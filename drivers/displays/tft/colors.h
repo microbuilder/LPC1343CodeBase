@@ -91,4 +91,10 @@
 #define COLOR_THEME_DEFAULT_SHADOW          COLOR_THEME_LIMEGREEN_SHADOW
 #define COLOR_THEME_DEFAULT_ACCENT          COLOR_THEME_LIMEGREEN_ACCENT
 
+uint16_t colorsRGB24toRGB565  ( uint8_t r, uint8_t g, uint8_t b );
+uint32_t colorsRGB565toBGRA32 ( uint16_t color );
+uint16_t colorsBGR2RGB        ( uint16_t color );
+uint16_t colorsDim            ( uint16_t color, uint8_t intensity );
+uint16_t colorsBlend          ( uint16_t bgColor, uint16_t foreColor, uint8_t intensity );
+
 #endif

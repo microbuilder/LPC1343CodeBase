@@ -170,7 +170,7 @@ uint32_t tsReadY(void)
 /**************************************************************************/
 void tsCalibCenterText(char* text, uint16_t y, uint16_t color)
 {
-  drawString((lcdGetWidth() - drawGetStringWidth(&dejaVuSans9ptFontInfo, text)) / 2, y, color, &dejaVuSans9ptFontInfo, text);
+  fontsDrawString((lcdGetWidth() - fontsGetStringWidth(&dejaVuSans9ptFontInfo, text)) / 2, y, color, &dejaVuSans9ptFontInfo, text);
 }
 
 /**************************************************************************/

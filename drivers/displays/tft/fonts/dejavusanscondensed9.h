@@ -1,7 +1,7 @@
 #ifndef __DEJA_VU_SANS_CONDENSED_9__
 #define __DEJA_VU_SANS_CONDENSED_9__
 
-#include "bitmapfonts.h"
+#include "../fonts.h"
 
 extern const uint8_t dejaVuSansCondensed9ptCharBitmaps[];
 extern const FONT_CHAR_INFO dejaVuSansCondensed9ptCharDescriptors[];

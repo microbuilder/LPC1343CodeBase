@@ -172,21 +172,21 @@ void alphaRenderButton(uint8_t alphaPage, uint8_t col, uint8_t row, bool selecte
   {
     case '<':
       // Backspace
-      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, &dejaVuSans9ptFontInfo, 7, border, fill, font, NULL); 
+      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, ALPHA_BTN_HEIGHT, &dejaVuSans9ptFontInfo, border, fill, font, NULL); 
       drawArrow (alphaBtnX[col] + ALPHA_BTN_WIDTH / 2 - 3, alphaBtnY[row] + ALPHA_BTN_HEIGHT / 2, 7, DRAW_DIRECTION_LEFT, font);
       break;
     case '*':
       // Page Shift
-      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, &dejaVuSans9ptFontInfo, 7, border, fill, font, NULL); 
+      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, ALPHA_BTN_HEIGHT, &dejaVuSans9ptFontInfo, border, fill, font, NULL); 
       drawArrow (alphaBtnX[col] + ALPHA_BTN_WIDTH / 2, (alphaBtnY[row] + ALPHA_BTN_HEIGHT / 2) - 3, 7, DRAW_DIRECTION_UP, font);
       break;
     case '>':
       // OK
-      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, &dejaVuSans9ptFontInfo, 7, border, fill, font, "OK"); 
+      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, ALPHA_BTN_HEIGHT, &dejaVuSans9ptFontInfo, border, fill, font, "OK"); 
       break;
     default:
       // Standard character
-      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, &dejaVuSans9ptFontInfo, 7, border, fill, font, key); 
+      drawButton (alphaBtnX[col], alphaBtnY[row], ALPHA_BTN_WIDTH, ALPHA_BTN_HEIGHT, &dejaVuSans9ptFontInfo, border, fill, font, key); 
       break;
   }
 }
@@ -211,7 +211,7 @@ void alphaRefreshScreen(void)
 
   /* Render Text */
   drawRectangleRounded(ALPHA_BTN_SPACING, ALPHA_BTN_SPACING, lcdGetWidth() - 1 - ALPHA_BTN_SPACING, ALPHA_KEYPAD_TOP - ALPHA_BTN_SPACING, ALPHA_COLOR_INPUTFILL, 10, DRAW_ROUNDEDCORNERS_ALL);
-  drawString(ALPHA_BTN_SPACING * 3, ALPHA_BTN_SPACING * 3, ALPHA_COLOR_INPUTTEXT, &dejaVuSans9ptFontInfo, (char *)&alphaString);
+  fontsDrawString(ALPHA_BTN_SPACING * 3, ALPHA_BTN_SPACING * 3, ALPHA_COLOR_INPUTTEXT, &dejaVuSans9ptFontInfo, (char *)&alphaString);
 }
 
 /**************************************************************************/

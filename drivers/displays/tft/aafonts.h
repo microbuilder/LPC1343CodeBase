@@ -64,14 +64,6 @@ typedef struct aafontsFont_s
   const aafontsCharInfo_t *charTable;   /* Pointer to the aafontsCharInfo_t array containing the char data */
 } aafontsFont_t;
 
-// Common color lookup tables for AA2 (4-color anti-aliased) fonts
-const uint16_t COLORTABLE_AA2_WHITEONBLACK[4] = { 0x0000, 0x52AA, 0xAD55, 0xFFFF};
-const uint16_t COLORTABLE_AA2_BLACKONWHITE[4] = { 0xFFFF, 0xAD55, 0x52AA, 0x0000};
-
-// Common color lookup tables for AA4 (16-color anti-aliased) fonts
-const uint16_t COLORTABLE_AA4_WHITEONBLACK[16] = { 0x0000, 0x1082, 0x2104, 0x3186, 0x4208, 0x528A, 0x630C, 0x738E, 0x8410, 0x9492, 0xA514, 0xB596, 0xC618, 0xD69A, 0xE71C, 0xFFFF};
-const uint16_t COLORTABLE_AA4_BLACKONWHITE[16] = { 0xFFFF, 0xE71C, 0xD69A, 0xC618, 0xB596, 0xA514, 0x9492, 0x8410, 0x738E, 0x630C, 0x528A, 0x4208, 0x3186, 0x2104, 0x1082, 0x0000};
-
 uint16_t  aafontsBlendColor ( uint16_t bgColor, uint16_t foreColor, uint8_t intensity );
 void      aafontsDrawString( uint16_t x, uint16_t y, const uint16_t * colorTable, const aafontsFont_t *font, char *str );
 uint16_t  aafontsGetStringWidth( const aafontsFont_t *font, char *str );

@@ -38,6 +38,14 @@
 #include "drivers/displays/tft/lcd.h"
 #include "drivers/displays/tft/drawing.h"
 
+// Common color lookup tables for AA2 (4-color anti-aliased) fonts
+static const uint16_t COLORTABLE_AA2_WHITEONBLACK[4] = { 0x0000, 0x52AA, 0xAD55, 0xFFFF};
+static const uint16_t COLORTABLE_AA2_BLACKONWHITE[4] = { 0xFFFF, 0xAD55, 0x52AA, 0x0000};
+
+// Common color lookup tables for AA4 (16-color anti-aliased) fonts
+static const uint16_t COLORTABLE_AA4_WHITEONBLACK[16] = { 0x0000, 0x1082, 0x2104, 0x3186, 0x4208, 0x528A, 0x630C, 0x738E, 0x8410, 0x9492, 0xA514, 0xB596, 0xC618, 0xD69A, 0xE71C, 0xFFFF};
+static const uint16_t COLORTABLE_AA4_BLACKONWHITE[16] = { 0xFFFF, 0xE71C, 0xD69A, 0xC618, 0xB596, 0xA514, 0x9492, 0x8410, 0x738E, 0x630C, 0x528A, 0x4208, 0x3186, 0x2104, 0x1082, 0x0000};
+
 /**************************************************************************/
 /*                                                                        */
 /* ----------------------- Private Methods ------------------------------ */
@@ -66,9 +74,9 @@
                 Pointer to the 4 element color lookup table
 */
 /**************************************************************************/
-int aafontsDrawCharAA2( uint16_t x, uint16_t y, uint16_t height, aafontsCharInfo_t character, const uint16_t * colorTable)
+void aafontsDrawCharAA2( uint16_t x, uint16_t y, uint16_t height, aafontsCharInfo_t character, const uint16_t * colorTable)
 {
-  uint16_t w, h, xp, yp, pos;
+  uint16_t w, h, pos;
   uint8_t color;
 
   for (h = 0; h < height; h++)
@@ -121,9 +129,9 @@ int aafontsDrawCharAA2( uint16_t x, uint16_t y, uint16_t height, aafontsCharInfo
                 Pointer to the 16 element color lookup table
 */
 /**************************************************************************/
-int aafontsDrawCharAA4( uint16_t x, uint16_t y, uint16_t height, aafontsCharInfo_t character, const uint16_t * colorTable)
+void aafontsDrawCharAA4( uint16_t x, uint16_t y, uint16_t height, aafontsCharInfo_t character, const uint16_t * colorTable)
 {
-  uint16_t w, h, xp, yp;
+  uint16_t w, h;
   uint8_t color;
 
   for (h = 0; h < height; h++)
@@ -188,7 +196,6 @@ void aafontsDrawString(uint16_t x, uint16_t y, const uint16_t * colorTable, cons
 {
   uint16_t currentX, charWidth, characterToOutput;
   const aafontsCharInfo_t *charInfo;
-  uint16_t charOffset;
 
   // set current x, y to that of requested
   currentX = x;
@@ -198,7 +205,6 @@ void aafontsDrawString(uint16_t x, uint16_t y, const uint16_t * colorTable, cons
   {
     // get character to output
     characterToOutput = *str;
-    uint16_t last = font->lastChar;
 
     // Check if the character is within the font boundaries
     if ((characterToOutput > font->lastChar) || (characterToOutput < font->firstChar))
@@ -263,7 +269,6 @@ uint16_t aafontsGetStringWidth(const aafontsFont_t *font, char *str)
   uint16_t width = 0;
   const aafontsCharInfo_t *charInfo;
   uint32_t currChar;
-  uint32_t startChar = font->firstChar;
 
   // until termination
   for (currChar = *str; currChar; currChar = *(++str))

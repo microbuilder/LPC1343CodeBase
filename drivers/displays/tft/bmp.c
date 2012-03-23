@@ -122,7 +122,7 @@ bmp_error_t bmpParseBitmap(uint16_t x, uint16_t y, FIL file)
       // Render pixel
       // ToDo: This is a brutally slow way of rendering bitmaps ...
       //        update to pass one row of data at a time
-      drawPixel(x + px, y + py - 1, drawRGB24toRGB565(buffer[(px * 3) + 2], buffer[(px * 3) + 1], buffer[(px * 3)]));
+      drawPixel(x + px, y + py - 1, colorsRGB24toRGB565(buffer[(px * 3) + 2], buffer[(px * 3) + 1], buffer[(px * 3)]));
     }
   }
 
@@ -326,7 +326,7 @@ bmp_error_t bmpSaveScreenshot(const char* filename)
     for (x = 0; x < lcdWidth; x++)
     {
       rgb565 = lcdGetPixel(x, y - 1);               // Get RGB565 pixel
-      bgra32 = drawRGB565toBGRA32(rgb565);          // Convert RGB565 to 24-bit color
+      bgra32 = colorsRGB565toBGRA32(rgb565);          // Convert RGB565 to 24-bit color
       r = (bgra32 & 0x00FF0000) >> 16;
       g = (bgra32 & 0x0000FF00) >> 8;
       b = (bgra32 & 0x000000FF);

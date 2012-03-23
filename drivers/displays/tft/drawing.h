@@ -2,14 +2,12 @@
 /*! 
     @file     drawing.h
     @author   K. Townsend (microBuilder.eu)
-    @date     22 March 2010
-    @version  0.10
 
     @section LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, microBuilder SARL
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -41,7 +39,7 @@
 #include "projectconfig.h"
 #include "lcd.h"
 #include "colors.h"
-#include "drivers/displays/tft/fonts/bitmapfonts.h"
+#include "fonts.h"
 
 #if defined CFG_TFTLCD_INCLUDESMALLFONTS & CFG_TFTLCD_INCLUDESMALLFONTS == 1
   #include "drivers/displays/smallfonts.h"
@@ -96,16 +94,12 @@ void      drawArrow            ( uint16_t x, uint16_t y, uint16_t size, drawDire
 void      drawRectangle        ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color );
 void      drawRectangleFilled  ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color );
 void      drawRectangleRounded ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color, uint16_t radius, drawRoundedCorners_t corners );
-void      drawTriangle         ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color);
-void      drawTriangleFilled   ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color);
-void      drawString           ( uint16_t x, uint16_t y, uint16_t color, const FONT_INFO *fontInfo, char *str );
-uint16_t  drawGetStringWidth   ( const FONT_INFO *fontInfo, char *str );
+void      drawGradient         ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t startColor, uint16_t endColor );
+void      drawTriangle         ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color );
+void      drawTriangleFilled   ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color );
 void      drawProgressBar      ( uint16_t x, uint16_t y, uint16_t width, uint16_t height, drawRoundedCorners_t borderCorners, drawRoundedCorners_t progressCorners, uint16_t borderColor, uint16_t borderFillColor, uint16_t progressBorderColor, uint16_t progressFillColor, uint8_t progress );
 void      drawButton           ( uint16_t x, uint16_t y, uint16_t width, uint16_t height, const FONT_INFO *fontInfo, uint16_t borderclr, uint16_t fillclr, uint16_t fontclr, char* text );
 void      drawIcon16           ( uint16_t x, uint16_t y, uint16_t color, uint16_t icon[] );
-uint16_t  drawRGB24toRGB565    ( uint8_t r, uint8_t g, uint8_t b );
-uint32_t  drawRGB565toBGRA32   ( uint16_t color );
-uint16_t  drawBGR2RGB          ( uint16_t color );
 
 #if defined CFG_TFTLCD_INCLUDESMALLFONTS & CFG_TFTLCD_INCLUDESMALLFONTS == 1
 void      drawStringSmall      ( uint16_t x, uint16_t y, uint16_t color, char* text, struct FONT_DEF font );
