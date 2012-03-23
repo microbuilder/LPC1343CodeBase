@@ -300,7 +300,6 @@ int getDisplayPoint( tsPoint_t * displayPtr, tsPoint_t * screenPtr, tsMatrix_t *
   }
   else
   {
-    // ToDo: Default values required or you can never read LCD position!
     // return TS_ERROR_NOTCALIBRATED;
     return -1;
   }
