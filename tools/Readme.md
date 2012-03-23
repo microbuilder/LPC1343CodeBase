@@ -1,30 +1,31 @@
+# Tools
+
 This folder contains a number of tools that may be useful when developing with
 the LPC1343 Reference Board:
 
+## codelite_debug
+  
+  A beta version of a plugin that allows you to program the LPC1343 from 
+  CodeLite using GDB Server and a Segger J-Link for ARM (still a work in 
+  progress).  Created by AC Verbeck.
 
-===============================================================================
-  /dotfactory
-  -----------------------------------------------------------------------------
+## dotfactory
+
   An open-source (GPL) Windows-based program to convert TTF fonts to .c
   source files.  This application is included here for convenience sake and
   can be used to convert TTF fonts for use with the TFT LCD display with
   minor modifications to the generated source files.  See the existing fonts
   in 'drivers/displays/tft/fonts' for an example.
-===============================================================================
 
 
-===============================================================================
-  /examples
-  -----------------------------------------------------------------------------
+## examples
+
   Example software showing how to use the LPC1343 to accomplish certain tasks
   or how to use it with external devices, such as communicating with the PC
   using USB HID, etc.
-===============================================================================
 
+## lpcrc
 
-===============================================================================
-  /lpcrc
-  -----------------------------------------------------------------------------
   This utility fixes the CRC of any .bin files generated with GCC from the
   command line.  You must use this utility to patch any compiled firmware that
   will be deployed via the USB bootloader.
@@ -37,23 +38,20 @@ the LPC1343 Reference Board:
   If you are using the provided CodeLite project files, lpcrc will
   automatically be executed after every build.  You only need to run lpcrc if
   you are building directly from the command=line.
-===============================================================================
 
+## schematics
 
-===============================================================================
-  /schematics
-  -----------------------------------------------------------------------------
   Schematics showing the pin connections that are assumed to be used by the
   LPC1343 Code Base.
-===============================================================================
 
-          
-===============================================================================
-  /testfirmware
-  -----------------------------------------------------------------------------
+## testfirmware
+
   Various pre-compiled binaires files that can be used to test the
   functionality of the LPC1343.  This firmware assumes that the board follows
   the layout show in 'tools/schematics'
-===============================================================================
 
+## wsbridge
 
+  A utility to allow you to pipe 802.15.4 traffic (via Chibi) out to Wireshark
+  on the PC, so that you can use Chibi as an inexpensive wireless sniffer to 
+  capture and analyse any local 802.15.4 wireless traffic.
