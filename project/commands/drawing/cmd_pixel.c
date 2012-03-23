@@ -87,7 +87,7 @@ void cmd_getpixel(uint8_t argc, char **argv)
   uint16_t value = colorsBGR2RGB(lcdGetPixel(x, y));
 
   // Output the results
-  printf("%d%s", value, CFG_PRINTF_NEWLINE);
+  printf("0x%04X%s", value, CFG_PRINTF_NEWLINE);
 }
 
 #endif  
