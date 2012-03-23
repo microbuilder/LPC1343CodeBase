@@ -76,9 +76,9 @@ int main(void)
 
   // Render some text using DejaVu Sans 9 and Sans Mono 8
   // ---------------------------------------------------------------------
-  drawString(5, 10, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "DejaVu Sans 9 Bold");
-  drawString(5, 30, COLOR_BLACK, &dejaVuSans9ptFontInfo, "DejaVu Sans 9");
-  drawString(5, 50, COLOR_BLACK, &dejaVuSansMono8ptFontInfo, "DejaVu Sans Mono 8");
+  fontsDrawString(5, 10, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "DejaVu Sans 9 Bold");
+  fontsDrawString(5, 30, COLOR_BLACK, &dejaVuSans9ptFontInfo, "DejaVu Sans 9");
+  fontsDrawString(5, 50, COLOR_BLACK, &dejaVuSansMono8ptFontInfo, "DejaVu Sans Mono 8");
 
   // Change the LCD orientation to render text horizontally
   // ---------------------------------------------------------------------
@@ -90,7 +90,7 @@ int main(void)
     lcdSetOrientation(lcdGetOrientation() == LCD_ORIENTATION_PORTRAIT ? 
       LCD_ORIENTATION_LANDSCAPE : LCD_ORIENTATION_PORTRAIT);
     // Render some text in the new orientation
-    drawString(5, 10, COLOR_BLACK, &dejaVuSans9ptFontInfo, "DejaVu Sans 9 (Rotated)");
+    fontsDrawString(5, 10, COLOR_BLACK, &dejaVuSans9ptFontInfo, "DejaVu Sans 9 (Rotated)");
     // Change the orientation back
     lcdSetOrientation(lcdGetOrientation() == LCD_ORIENTATION_PORTRAIT ? 
       LCD_ORIENTATION_LANDSCAPE : LCD_ORIENTATION_PORTRAIT);
@@ -116,10 +116,10 @@ int main(void)
   // Draw some compound shapes
   // ---------------------------------------------------------------------
   drawProgressBar(70, 140, 75, 12, COLOR_BLACK, COLOR_MEDIUMGRAY, 78);
-  drawString(5, 144, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "Progress");
-  drawString(155, 144, COLOR_BLACK, &dejaVuSans9ptFontInfo, "78%");
+  fontsDrawString(5, 144, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "Progress");
+  fontsDrawString(155, 144, COLOR_BLACK, &dejaVuSans9ptFontInfo, "78%");
   drawRectangleFilled(0, 175, 239, 210, COLOR_DARKERGRAY);
-  drawButton(20, 180, 200, 25, &dejaVuSans9ptFontInfo, 7, "Click For Text Entry", false);
+  drawButton(20, 180, 200, 25, &dejaVuSans9ptFontInfo, "Click For Text Entry", false);
 
   // Wait for a valid touch event
   // ---------------------------------------------------------------------
@@ -149,9 +149,9 @@ int main(void)
       // At this point, results contains the text from the dialogue ... 
       // clear the screen and show the results
       drawFill(COLOR_WHITE);
-      drawString(10, 10, COLOR_BLACK, &dejaVuSans9ptFontInfo, "You Entered:");
-      drawString(10, 30, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, results);
-      drawString(10, 155, COLOR_BLACK, &dejaVuSans9ptFontInfo, "Thanks ... starting blinky!");
+      fontsDrawString(10, 10, COLOR_BLACK, &dejaVuSans9ptFontInfo, "You Entered:");
+      fontsDrawString(10, 30, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, results);
+      fontsDrawString(10, 155, COLOR_BLACK, &dejaVuSans9ptFontInfo, "Thanks ... starting blinky!");
       // Setting success to true allow the code to move in to blinky
       success = true;
     }

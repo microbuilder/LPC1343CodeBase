@@ -82,8 +82,8 @@ void renderMenuItem(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uin
 {
   drawRectangleRounded(x, y, x+headerWidth, y+height, active ? COL_MENUACTIVE : COL_MENU, 10, DRAW_ROUNDEDCORNERS_NONE);
   drawRectangleRounded(x+headerWidth, y, x+width, y+height, active ? COL_MENUACTIVELIGHTER : COL_MENULIGHTER, 10, DRAW_ROUNDEDCORNERS_NONE);
-  drawString(x+10, y+height/2, active ? COL_MENUACTIVETEXT : COL_MENUTEXT, FONT_BOLD, headerText);
-  drawString(x+headerWidth+25, y+height/2, active ? COL_MENUACTIVETEXT: COL_MENUTEXT, FONT_REGULAR, bodyText);
+  fontsDrawString(x+10, y+height/2, active ? COL_MENUACTIVETEXT : COL_MENUTEXT, FONT_BOLD, headerText);
+  fontsDrawString(x+headerWidth+25, y+height/2, active ? COL_MENUACTIVETEXT: COL_MENUTEXT, FONT_REGULAR, bodyText);
 
   if (active)
   {
@@ -182,7 +182,7 @@ int main(void)
 
   // Menu
   drawRectangleRounded(6, 30, 232, 160, COL_MENU, 10, DRAW_ROUNDEDCORNERS_ALL);
-  drawString(20, 45, COL_MENUTEXT, FONT_BOLD, "SYSTEM SETTINGS");
+  fontsDrawString(20, 45, COL_MENUTEXT, FONT_BOLD, "SYSTEM SETTINGS");
   renderMenuItem(8,  65, 222, 23, 90, false,  "LANGUAGE", "English");
   renderMenuItem(8,  90, 222, 23, 90, false, "TIMEZONE", "GMT+1");
   renderMenuItem(8, 115, 222, 23, 90, true, "SLEEP", "5 Minutes");
@@ -194,8 +194,8 @@ int main(void)
   renderIcons();
 
   // Action bar buttons
-  drawButton(5, 285, 75, 29, FONT_BOLD, 7, COL_BUTTONBORDER, COL_BUTTON, COL_BUTTONTEXT, "CANCEL");
-  drawButton(160, 285, 75, 29, FONT_BOLD, 7, COL_BUTTONBORDER, COL_BUTTON, COL_BUTTONTEXT, "SAVE");
+  drawButton(5, 285, 75, 29, FONT_BOLD, COL_BUTTONBORDER, COL_BUTTON, COL_BUTTONTEXT, "CANCEL");
+  drawButton(160, 285, 75, 29, FONT_BOLD, COL_BUTTONBORDER, COL_BUTTON, COL_BUTTONTEXT, "SAVE");
 
   tsTouchData_t touch;
   tsTouchError_t error;

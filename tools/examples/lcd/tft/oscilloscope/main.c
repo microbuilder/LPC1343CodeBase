@@ -65,32 +65,32 @@ void renderLCDFrame(void)
   drawFill(COLOR_DARKGRAY);
 
   // Render V references
-  drawString(245,  27, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "3.5V");
-  drawString(244,  26, COLOR_WHITE, &dejaVuSansBold9ptFontInfo, "3.5V");
-  drawString(245, 195, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "0.0V");
-  drawString(244, 194, COLOR_WHITE, &dejaVuSansBold9ptFontInfo, "0.0V");
+  fontsDrawString(245,  27, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "3.5V");
+  fontsDrawString(244,  26, COLOR_WHITE, &dejaVuSansBold9ptFontInfo, "3.5V");
+  fontsDrawString(245, 195, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "0.0V");
+  fontsDrawString(244, 194, COLOR_WHITE, &dejaVuSansBold9ptFontInfo, "0.0V");
 
   // Div settings
-  drawString( 10, 10, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "~100ms/Div");
-  drawString(  9,  9, COLOR_WHITE, &dejaVuSansBold9ptFontInfo, "~100ms/Div");
-  drawString( 95, 10, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "500mV/Div");
-  drawString( 94,  9, COLOR_WHITE, &dejaVuSansBold9ptFontInfo, "500mV/Div");
+  fontsDrawString( 10, 10, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "~100ms/Div");
+  fontsDrawString(  9,  9, COLOR_WHITE, &dejaVuSansBold9ptFontInfo, "~100ms/Div");
+  fontsDrawString( 95, 10, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "500mV/Div");
+  fontsDrawString( 94,  9, COLOR_WHITE, &dejaVuSansBold9ptFontInfo, "500mV/Div");
 
   // Clear the ADC output level just in case
   drawRectangleFilled(175, 5, 250, 18, COLOR_DARKGRAY);
 
   // Render the channel text
-  drawString( 25, 220, COLOR_BLACK,  &dejaVuSansBold9ptFontInfo, "P1.4 (Analog)");
-  drawString( 24, 219, adcEnabled ? COLOR_YELLOW : COLOR_MEDIUMGRAY, &dejaVuSansBold9ptFontInfo, "P1.4 (Analog)");
-  drawString(135, 220, COLOR_BLACK,  &dejaVuSansBold9ptFontInfo, "P2.0 (Digital)");
-  drawString(134, 219, digEnabled ? COLOR_GREEN : COLOR_MEDIUMGRAY, &dejaVuSansBold9ptFontInfo, "P2.0 (Digital)");
+  fontsDrawString( 25, 220, COLOR_BLACK,  &dejaVuSansBold9ptFontInfo, "P1.4 (Analog)");
+  fontsDrawString( 24, 219, adcEnabled ? COLOR_YELLOW : COLOR_MEDIUMGRAY, &dejaVuSansBold9ptFontInfo, "P1.4 (Analog)");
+  fontsDrawString(135, 220, COLOR_BLACK,  &dejaVuSansBold9ptFontInfo, "P2.0 (Digital)");
+  fontsDrawString(134, 219, digEnabled ? COLOR_GREEN : COLOR_MEDIUMGRAY, &dejaVuSansBold9ptFontInfo, "P2.0 (Digital)");
 
   // ADC Warning
-  drawString(245,  80, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "Warning:");
-  drawString(244,  79, COLOR_WHITE, &dejaVuSansBold9ptFontInfo, "Warning:");
-  drawString(244,  95, COLOR_WHITE, &dejaVuSans9ptFontInfo, "ADC input");
-  drawString(244, 110, COLOR_WHITE, &dejaVuSans9ptFontInfo, "is not 5.0V");
-  drawString(244, 125, COLOR_WHITE, &dejaVuSans9ptFontInfo, "tolerant!");
+  fontsDrawString(245,  80, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, "Warning:");
+  fontsDrawString(244,  79, COLOR_WHITE, &dejaVuSansBold9ptFontInfo, "Warning:");
+  fontsDrawString(244,  95, COLOR_WHITE, &dejaVuSans9ptFontInfo, "ADC input");
+  fontsDrawString(244, 110, COLOR_WHITE, &dejaVuSans9ptFontInfo, "is not 5.0V");
+  fontsDrawString(244, 125, COLOR_WHITE, &dejaVuSans9ptFontInfo, "tolerant!");
 }
 
 /**************************************************************************/
@@ -174,8 +174,8 @@ void renderLCDGrid(void)
     // Clear the previous text
     drawRectangleFilled(175, 5, 250, 18, COLOR_DARKGRAY);
     // Render the latest value in mV
-    drawString(180, 10, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, text);
-    drawString(179,  9, COLOR_YELLOW, &dejaVuSansBold9ptFontInfo, text);
+    fontsDrawString(180, 10, COLOR_BLACK, &dejaVuSansBold9ptFontInfo, text);
+    fontsDrawString(179,  9, COLOR_YELLOW, &dejaVuSansBold9ptFontInfo, text);
   }
 }
 

@@ -1,15 +1,13 @@
 /**************************************************************************/
 /*! 
-    @file     bitmapfonts.h
+    @file     fonts.h
     @author   K. Townsend (microBuilder.eu)
-    @date     22 March 2010
-    @version  0.10
 
     @section LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, microBuilder SARL
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -35,8 +33,8 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
-#ifndef __BITMAPFONTS_H__
-#define __BITMAPFONTS_H__
+#ifndef __FONTS_H__
+#define __FONTS_H__
 
 #include "projectconfig.h"
 
@@ -64,5 +62,8 @@ typedef struct
   const FONT_CHAR_INFO*	  charInfo;     // pointer to array of char information
   const uint8_t*          data;         // pointer to generated array of character visual representation
 } FONT_INFO;
+
+void      fontsDrawString      ( uint16_t x, uint16_t y, uint16_t color, const FONT_INFO *fontInfo, char *str );
+uint16_t  fontsGetStringWidth  ( const FONT_INFO *fontInfo, char *str ); 
 
 #endif
