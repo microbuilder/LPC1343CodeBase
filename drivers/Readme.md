@@ -10,7 +10,7 @@ saving Bitmap images, touch screen calibration, etc.
 
 Digital to Analog Converters
 
-## Displays
+## displays
 
 Drivers and functions to work with a wide variety of display types.
 
