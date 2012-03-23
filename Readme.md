@@ -40,10 +40,10 @@ includes project files for Rowley Associate's Crossworks for ARM, as
 well as project files for the free and open source CodeLite, which can
 be used in combination with a Segger J-Link for ARM and GDB Server.
 
-Project files for the two IDEs are stored in the /build folder
-
-For information on configuring your system to build from the command-
-line, see the links below:
+Project files for the two IDEs are stored in the /build folder, and
+project files for the free LPCXpresso IDE are stored in root (see
+http://www.microbuilder.eu/Projects/LPC1343ReferenceDesign/DebuggingWithLPCXpresso.aspx
+for more information on using LPCXpresso).
 
 ## Documentation
 
