@@ -84,18 +84,18 @@ void cmd_textw(uint8_t argc, char **argv)
     switch (font)
     {
       case 1:   // DejaVu Sans Mono 8
-        printf("%d %s", drawGetStringWidth(&dejaVuSansMono8ptFontInfo, data), CFG_PRINTF_NEWLINE);
+        printf("%d %s", fontsGetStringWidth(&dejaVuSansMono8ptFontInfo, data), CFG_PRINTF_NEWLINE);
         break;
       case 2:   // DejaVu Sans Bold 9
-        printf("%d %s", drawGetStringWidth(&dejaVuSansBold9ptFontInfo, data), CFG_PRINTF_NEWLINE);
+        printf("%d %s", fontsGetStringWidth(&dejaVuSansBold9ptFontInfo, data), CFG_PRINTF_NEWLINE);
         break;
       default:  // DejaVu Sans 9        
-        printf("%d %s", drawGetStringWidth(&dejaVuSans9ptFontInfo, data), CFG_PRINTF_NEWLINE);
+        printf("%d %s", fontsGetStringWidth(&dejaVuSans9ptFontInfo, data), CFG_PRINTF_NEWLINE);
         break;
     }
   #else
     // Always use DejaVu Sans 9 by default
-    printf("%d %s", drawGetStringWidth(&dejaVuSans9ptFontInfo, data), CFG_PRINTF_NEWLINE);
+    printf("%d %s", fontsGetStringWidth(&dejaVuSans9ptFontInfo, data), CFG_PRINTF_NEWLINE);
   #endif
 
 

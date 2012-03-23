@@ -88,18 +88,18 @@ void cmd_text(uint8_t argc, char **argv)
     switch (font)
     {
       case 1:   // DejaVu Sans Mono 8
-        drawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSansMono8ptFontInfo, (char *)&data);
+        fontsDrawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSansMono8ptFontInfo, (char *)&data);
         break;
       case 2:   // DejaVu Sans Bold 9
-        drawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSansBold9ptFontInfo, (char *)&data);
+        fontsDrawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSansBold9ptFontInfo, (char *)&data);
         break;
       default:  // DejaVu Sans 9        
-        drawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSans9ptFontInfo, (char *)&data);
+        fontsDrawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSans9ptFontInfo, (char *)&data);
         break;
     }
   #else
     // Always use Vera Mono 9 is used by default
-    drawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSans9ptFontInfo, (char *)&data);
+    fontsDrawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSans9ptFontInfo, (char *)&data);
   #endif
 }
 
