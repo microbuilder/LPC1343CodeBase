@@ -624,6 +624,7 @@
     PRINTF REDIRECTION
     -----------------------------------------------------------------------
 
+    CFG_PRINTF_MAXSTRINGSIZE  Maximum size of string buffer for printf
     CFG_PRINTF_UART           Will cause all printf statements to be 
                               redirected to UART
     CFG_PRINTF_USBCDC         Will cause all printf statements to be
@@ -635,36 +636,42 @@
     output will be ignored.
     -----------------------------------------------------------------------*/
     #ifdef CFG_BRD_LPC1343_REFDESIGN
+      #define CFG_PRINTF_MAXSTRINGSIZE    (255)
       // #define CFG_PRINTF_UART
       #define CFG_PRINTF_USBCDC
       #define CFG_PRINTF_NEWLINE          "\r\n"
     #endif
 
     #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
+      #define CFG_PRINTF_MAXSTRINGSIZE    (255)
       #define CFG_PRINTF_UART
       // #define CFG_PRINTF_USBCDC
       #define CFG_PRINTF_NEWLINE          "\r\n"
     #endif
 
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
+      #define CFG_PRINTF_MAXSTRINGSIZE    (255)
       // #define CFG_PRINTF_UART
       #define CFG_PRINTF_USBCDC
       #define CFG_PRINTF_NEWLINE          "\r\n"
     #endif
 
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
+      #define CFG_PRINTF_MAXSTRINGSIZE    (255)
       #define CFG_PRINTF_UART
       // #define CFG_PRINTF_USBCDC
       #define CFG_PRINTF_NEWLINE          "\n"
     #endif
 
     #ifdef CFG_BRD_LPC1343_802154USBSTICK
+      #define CFG_PRINTF_MAXSTRINGSIZE    (255)
       // #define CFG_PRINTF_UART
       #define CFG_PRINTF_USBCDC
       #define CFG_PRINTF_NEWLINE          "\r\n"
     #endif
 	
     #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      #define CFG_PRINTF_MAXSTRINGSIZE    (255)
       // #define CFG_PRINTF_UART
       #define CFG_PRINTF_USBCDC
       #define CFG_PRINTF_NEWLINE          "\r\n"

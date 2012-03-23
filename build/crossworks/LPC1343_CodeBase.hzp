@@ -114,11 +114,6 @@
               <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
             </file>
           </folder>
-          <folder Name="analogjoystick">
-            <file file_name="../../drivers/sensors/analogjoystick/analogjoystick.c">
-              <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
-            </file>
-          </folder>
           <folder Name="tsl2561">
             <file file_name="../../drivers/sensors/tsl2561/tsl2561.c">
               <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
@@ -348,7 +343,7 @@
             <file file_name="../../project/commands/drawing/cmd_clear.c"/>
             <file file_name="../../project/commands/drawing/cmd_bmp.c"/>
             <file file_name="../../project/commands/drawing/cmd_gettext.c">
-              <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
+              <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
             </file>
             <file file_name="../../project/commands/drawing/cmd_calibrate.c"/>
             <file file_name="../../project/commands/drawing/cmd_text.c">
