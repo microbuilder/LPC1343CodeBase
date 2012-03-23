@@ -143,7 +143,6 @@
           <File Name="../../drivers/displays/tft/hw/st7783.h"/>
         </VirtualDirectory>
         <VirtualDirectory Name="fonts">
-          <File Name="../../drivers/displays/tft/fonts/bitmapfonts.h"/>
           <File Name="../../drivers/displays/tft/fonts/dejavusans9.c"/>
           <File Name="../../drivers/displays/tft/fonts/dejavusans9.h"/>
           <File Name="../../drivers/displays/tft/fonts/dejavusansbold9.c"/>
@@ -182,6 +181,26 @@
         <File Name="../../drivers/displays/tft/readme.txt"/>
         <File Name="../../drivers/displays/tft/touchscreen.c"/>
         <File Name="../../drivers/displays/tft/touchscreen.h"/>
+        <File Name="../../drivers/displays/tft/aafonts.c"/>
+        <File Name="../../drivers/displays/tft/aafonts.h"/>
+        <File Name="../../drivers/displays/tft/fonts.c"/>
+        <File Name="../../drivers/displays/tft/fonts.h"/>
+        <VirtualDirectory Name="aafonts">
+          <VirtualDirectory Name="aa2">
+            <File Name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansCondensed14_AA2.c"/>
+            <File Name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansCondensed14_AA2.h"/>
+            <File Name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansCondensedBold14_AA2.c"/>
+            <File Name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansCondensedBold14_AA2.h"/>
+            <File Name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansMono10_AA2.c"/>
+            <File Name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansMono10_AA2.h"/>
+            <File Name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansMono13_AA2.c"/>
+            <File Name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansMono13_AA2.h"/>
+            <File Name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansMono14_AA2.c"/>
+            <File Name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansMono14_AA2.h"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="aa4"/>
+        </VirtualDirectory>
+        <File Name="../../drivers/displays/tft/colors.c"/>
       </VirtualDirectory>
       <VirtualDirectory Name="bitmap">
         <VirtualDirectory Name="st7565">

@@ -63,14 +63,25 @@ VPATH += drivers/rtc/isl12022m
 OBJS += isl12022m.o
 
 # TFT LCD support
-VPATH += drivers/displays/tft drivers/displays/tft/hw drivers/displays/tft/fonts
+VPATH += drivers/displays/tft drivers/displays/tft/hw 
 VPATH += drivers/displays/tft/dialogues
-OBJS += drawing.o touchscreen.o bmp.o alphanumeric.o
+OBJS += drawing.o touchscreen.o colors.o bmp.o alphanumeric.o
+
+# Bitmap (non-AA) fonts
+VPATH += drivers/displays/tft/fonts
+OBJS += fonts.o 
 OBJS += dejavusans9.o dejavusansbold9.o dejavusanscondensed9.o
 OBJS += dejavusansmono8.o dejavusansmonobold8.o
 OBJS += verdana9.o verdana14.o verdanabold14.o 
 
+# Anti-aliased fonts
+VPATH += drivers/displays/tft/aafonts/aa2 drivers/displays/tft/aafonts/aa4
+OBJS += aafonts.o 
+OBJS += DejaVuSansCondensed14_AA2.o DejaVuSansCondensedBold14_AA2.o
+OBJS += DejaVuSansMono10_AA2.o DejaVuSansMono13_AA2.o DejaVuSansMono14_AA2.o
+
 # LCD Driver (Only one can be included at a time!)
+# OBJS += hx8340b.o
 OBJS += ILI9328.o
 # OBJS += ILI9325.o
 # OBJS += ssd1331.o

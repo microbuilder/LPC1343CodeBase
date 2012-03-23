@@ -1,16 +1,7 @@
 <!DOCTYPE CrossStudio_for_ARM_Session_File>
 <session>
  <Bookmarks/>
- <Breakpoints>
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="BusFault" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="ExceptionEntryReturnFault" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="HardFault" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="MemManage" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="3" counter="0" expression="Reset" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="UsageFault_CheckingError" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="UsageFault_Coprocessor" />
-  <BreakpointListItem group="CM Exceptions" type="Exception" state="2" counter="0" expression="UsageFault_StateError" />
- </Breakpoints>
+ <Breakpoints/>
  <ETMWindow>
   <ETMRegister number="0" value="800" />
   <ETMRegister number="8" value="6f" />
@@ -33,9 +24,16 @@
   <ProjectSessionItem path="LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays;tft" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays;tft;dialogues" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;project" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;project;commands" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;project;commands;drawing" name="unnamed" />
  </Project>
  <Register1>
-  <RegisterWindow openNodes="USB;USB/USBRxPLen;USB/USBTxPLen;USB/USBCtrl" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU;USB" decimalNodes="" octalNodes="" asciiNodes="" />
+  <RegisterWindow openNodes="CPU;CoreDebug" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU;CoreDebug" decimalNodes="" octalNodes="" asciiNodes="" />
  </Register1>
  <Register2>
   <RegisterWindow openNodes="" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="" decimalNodes="" octalNodes="" asciiNodes="" />
@@ -67,8 +65,6 @@
  <Watch4>
   <Watches active="0" update="Never" />
  </Watch4>
- <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" y="67" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" left="0" selected="1" name="unnamed" top="19" />
- </Files>
- <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="Segger J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\rf\pn532\helpers" fileDialogDefaultFilter="" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Release" />
+ <Files/>
+ <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="SEGGER J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\displays\tft" fileDialogDefaultFilter="*.c" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Release" />
 </session>

@@ -5,26 +5,37 @@ v1.0.0 - Ongoing
 - *** Renamed '/drivers/spiflash' to '/drivers/storage/spiflash' ***
 - *** Renamed '/drivers/eeprom' to '/drivers/storage/eeprom' ***
 - *** Renamed '/drivers/lcd' to '/drivers/display' ***
+- Moved all color conversion and manipulation functions
+  to '/drivers/displays/tft/colors.c', and added a
+  few new functions: colorsDim(), etc.
+- Added code to render antialiased fonts, based on
+  lookup tables (fast) or alpha-blending (mixed color
+  backgrounds).  Support for AA2 (2-bit) and AA4
+  (4-bit) anti-aliased fonts included.  Alpha-blending
+  only possible on displays where pixels can be read
+  back.
+- Added drawGradient() to drawing.c
 - Removed height parameter from drawButton.  It's now
   calculated based on the font height, and centered.
 - Added bell to CLI when backspace is pressed beyond
   the starting position (cosmetic, but still useful)
 - Removed dependency on /core/libc files in Crossworks
   when redirecting printf (added printf replacement
-  to sysinit.c)
+  to sysinit.c instead)
 - Added basic AS1115 driver for segment displays
 - Added driver for HX8340-B based LCDs
 - Added flag to projectconfig.h to disable the default
-  GPIO IRQ Handler functions in code/gpio/gpio.c
+  GPIO IRQ Handler functions in code/gpio/gpio.c (in
+  case you want to make your own ISR elsewhere)
 - Added driver for Samsung VFD displays from Adafruit
-- Added average sampling option to projectconfig.h.
+- Added ADC average sampling option to projectconfig.h.
   This allows you to take several readings from the
-  ADC and return the average.  Helps reduces one-off
-  peaks and valleys in the ADC at the expense of
-  slower reads.
+  ADC and return the average.  Helps reduces peaks and
+  valleys in the ADC due to noisen but at the expense
+  of slower reads.
   See: "tools/validation/adctest" for more info
 - Added I2C driver for PN532
-- Updated and added PN532 examples at
+- Updated and added PN532 examples to
   /tools/examples/sensors/PN532
 - updated touchscreen.h to be a bit clearer during
   calibration, though it can still be much better
