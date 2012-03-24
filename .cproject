@@ -160,7 +160,7 @@
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="LPC1343_CodeBase_GIT.null.1796537098" name="LPC1343_CodeBase_GIT"/>
+		<project id="LPC1343_CodeBase.null.1796537098" name="LPC1343_CodeBase"/>
 	</storageModule>
 	<storageModule moduleId="com.crt.config">
 		<projectStorage>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&#13;
