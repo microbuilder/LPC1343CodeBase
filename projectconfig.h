@@ -110,13 +110,24 @@
 
         microBuilder.eu USB stick 802.15.4 868/915MHz RF transceiver
 
+    CFG_BRD_LPC1343_OLIMEX_P
+    ==============================
+
+        Simple Olimex LPC1343 breakout board
+
+    CFG_BRD_LPC1343_LPCXPRESSO
+    ==============================
+
+        LPC1343 LPCXpresso board
+
     -----------------------------------------------------------------------*/
-    #define CFG_BRD_LPC1343_REFDESIGN
+    // #define CFG_BRD_LPC1343_REFDESIGN
     // #define CFG_BRD_LPC1343_REFDESIGN_MINIMAL
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
     // #define CFG_BRD_LPC1343_802154USBSTICK
     // #define CFG_BRD_LPC1343_OLIMEX_P
+    #define CFG_BRD_LPC1343_LPCXPRESSO
 /*=========================================================================*/
 
 
@@ -293,6 +304,13 @@
       // #define GPIO_ENABLE_IRQ2
       // #define GPIO_ENABLE_IRQ3
     #endif
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
+      // #define GPIO_ENABLE_IRQ0
+      #define GPIO_ENABLE_IRQ1
+      // #define GPIO_ENABLE_IRQ2
+      // #define GPIO_ENABLE_IRQ3
+    #endif
 /*=========================================================================*/
 
 
@@ -358,6 +376,11 @@
       #define CFG_UART_BAUDRATE           (115200)
       #define CFG_UART_BUFSIZE            (512)
     #endif
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
+      #define CFG_UART_BAUDRATE           (115200)
+      #define CFG_UART_BUFSIZE            (512)
+    #endif
 /*=========================================================================*/
 
 
@@ -390,6 +413,11 @@
     #endif
 	
     #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      #define CFG_SSP0_SCKPIN_2_11
+      // #define CFG_SSP0_SCKPIN_0_6
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
       #define CFG_SSP0_SCKPIN_2_11
       // #define CFG_SSP0_SCKPIN_0_6
     #endif
@@ -432,6 +460,11 @@
     #endif
 	
     #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      #define ADC_AVERAGING_ENABLE    (0)
+      #define ADC_AVERAGING_SAMPLES   (5)
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
       #define ADC_AVERAGING_ENABLE    (0)
       #define ADC_AVERAGING_SAMPLES   (5)
     #endif
@@ -479,6 +512,13 @@
     #ifdef CFG_BRD_LPC1343_OLIMEX_P
       #define CFG_LED_PORT                (3)
       #define CFG_LED_PIN                 (2)
+      #define CFG_LED_ON                  (0)
+      #define CFG_LED_OFF                 (1)
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
+      #define CFG_LED_PORT                (0)
+      #define CFG_LED_PIN                 (7)
       #define CFG_LED_ON                  (0)
       #define CFG_LED_OFF                 (1)
     #endif
@@ -538,6 +578,13 @@
     #endif
 	
     #ifdef CFG_BRD_LPC1343_OLIMEX_P
+      // #define CFG_SDCARD
+      #define CFG_SDCARD_READONLY         (1) // Must be 0 or 1
+      #define CFG_SDCARD_CDPORT           (3)
+      #define CFG_SDCARD_CDPIN            (0)
+    #endif
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
       // #define CFG_SDCARD
       #define CFG_SDCARD_READONLY         (1) // Must be 0 or 1
       #define CFG_SDCARD_CDPORT           (3)
@@ -617,6 +664,14 @@
       #define CFG_USBCDC_INITTIMEOUT      (5000)
       #define CFG_USBCDC_BUFFERSIZE       (256)
     #endif	
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
+      // #define CFG_USBHID
+      #define CFG_USBCDC
+      #define CFG_USBCDC_BAUDRATE         (115200)
+      #define CFG_USBCDC_INITTIMEOUT      (5000)
+      #define CFG_USBCDC_BUFFERSIZE       (256)
+    #endif
 /*=========================================================================*/
 
 
@@ -676,6 +731,13 @@
       #define CFG_PRINTF_USBCDC
       #define CFG_PRINTF_NEWLINE          "\r\n"
     #endif	
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
+      #define CFG_PRINTF_MAXSTRINGSIZE    (255)
+      // #define CFG_PRINTF_UART
+      #define CFG_PRINTF_USBCDC
+      #define CFG_PRINTF_NEWLINE          "\r\n"
+    #endif
 /*=========================================================================*/
 
 
@@ -810,6 +872,19 @@
       #define CFG_INTERFACE_SHORTERRORS   (0)
       #define CFG_INTERFACE_CONFIRMREADY  (0)
     #endif
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
+      #define CFG_INTERFACE
+      #define CFG_INTERFACE_MAXMSGSIZE    (256)
+      #define CFG_INTERFACE_PROMPT        "LPC-P1343 >> "
+      #define CFG_INTERFACE_SILENTMODE    (0)
+      #define CFG_INTERFACE_DROPCR        (0)
+      #define CFG_INTERFACE_ENABLEIRQ     (0)
+      #define CFG_INTERFACE_IRQPORT       (0)
+      #define CFG_INTERFACE_IRQPIN        (7)
+      #define CFG_INTERFACE_SHORTERRORS   (0)
+      #define CFG_INTERFACE_CONFIRMREADY  (0)
+    #endif
 /*=========================================================================*/
 
 
@@ -885,6 +960,11 @@
       // #define CFG_I2CEEPROM
       #define CFG_I2CEEPROM_SIZE          (3072)
     #endif	
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
+      // #define CFG_I2CEEPROM
+      #define CFG_I2CEEPROM_SIZE          (3072)
+    #endif
 /*=========================================================================*/
 
 
@@ -1024,6 +1104,16 @@
       #define CFG_CHIBI_PROMISCUOUS       (0)
       #define CFG_CHIBI_BUFFERSIZE        (128)
     #endif	
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
+      // #define CFG_CHIBI
+      #define CFG_CHIBI_MODE              (0)                 // OQPSK_868MHZ
+      #define CFG_CHIBI_POWER             (0xE9)              // CHB_PWR_EU2_3DBM
+      #define CFG_CHIBI_CHANNEL           (0)                 // 868-868.6 MHz
+      #define CFG_CHIBI_PANID             (0x1234)
+      #define CFG_CHIBI_PROMISCUOUS       (0)
+      #define CFG_CHIBI_BUFFERSIZE        (128)
+    #endif
 /*=========================================================================*/
 
 
@@ -1094,6 +1184,13 @@
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
       #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
     #endif	
+
+    #ifdef CFG_BRD_LPC1343_LPCXPRESSO
+      // #define CFG_TFTLCD
+      #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
+      #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
+      #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
+    #endif
 /*=========================================================================*/
 
 
@@ -1156,8 +1253,9 @@
   !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB && \
   !defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART && \
   !defined CFG_BRD_LPC1343_802154USBSTICK && \
-  !defined CFG_BRD_LPC1343_OLIMEX_P    
-  #error "You must defined a target board (CFG_BRD_LPC1343_REFDESIGN or CFG_BRD_LPC1343_REFDESIGN_MINIMAL or CFG_BRD_LPC1343_TFTLCDSTANDALONE or CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART or CFG_BRD_LPC1343_802154USBSTICK)"
+  !defined CFG_BRD_LPC1343_OLIMEX_P && \
+  !defined CFG_BRD_LPC1343_LPCXPRESSO
+  #error "You must defined a target board (CFG_BRD_LPC1343_REFDESIGN or CFG_BRD_LPC1343_REFDESIGN_MINIMAL or CFG_BRD_LPC1343_TFTLCDSTANDALONE or CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART or CFG_BRD_LPC1343_802154USBSTICK or CFG_BRD_LPC1343_LPCXPRESSO)"
 #endif
 
 #if defined CFG_PRINTF_USBCDC && defined CFG_PRINTF_UART
