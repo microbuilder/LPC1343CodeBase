@@ -162,7 +162,6 @@ OBJCOPY = $(CROSS_COMPILE)objcopy
 OBJDUMP = $(CROSS_COMPILE)objdump
 OUTFILE = firmware
 LPCRC = ./lpcrc
-CP = cp
 
 ##########################################################################
 # GNU GCC compiler flags
@@ -219,9 +218,6 @@ firmware: $(OBJS) $(SYS_OBJS)
 	-@echo "}" >> $(LD_TEMP)
 	-@echo "INCLUDE $(LD_SCRIPT)" >> $(LD_TEMP)
 	$(LD) $(LDFLAGS) -T $(LD_TEMP) -o $(OUTFILE).elf $(OBJS) $(LDLIBS)
-	-@echo ""
-	-@echo "Removing temporary files"
-	rm -f $(OBJS) $(LD_TEMP)
 	-@echo ""
 	$(SIZE) $(OUTFILE).elf
 	-@echo ""
