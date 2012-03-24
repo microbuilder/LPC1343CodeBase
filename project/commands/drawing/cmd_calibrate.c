@@ -43,6 +43,7 @@
 #include "project/commands.h"       // Generic helper functions
 
 #if defined CFG_TFTLCD
+  #include "drivers/displays/tft/lcd.h"
   #include "drivers/displays/tft/touchscreen.h"  
 
 /**************************************************************************/
@@ -56,6 +57,9 @@ void cmd_calibrate(uint8_t argc, char **argv)
 
   // Run through the calibration process
   tsCalibrate();
+
+  // Clear the screen to avoid confusion
+  lcdFillRGB(0x0000);
 
   printf("Calibration complete%s", CFG_PRINTF_NEWLINE);
 }
