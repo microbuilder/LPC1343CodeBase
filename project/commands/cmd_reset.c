@@ -43,10 +43,6 @@
 #include "core/cpu/cpu.h"
 #include "project/commands.h"       // Generic helper functions
 
-#ifdef CFG_I2CEEPROM
-  #include "drivers/storage/eeprom/eeprom.h"
-  #include "core/uart/uart.h"
-
 /**************************************************************************/
 /*! 
     Resets the board using the AIRCR register
@@ -56,5 +52,3 @@ void cmd_reset(uint8_t argc, char **argv)
 {
   cpuReset();
 }
-
-#endif
