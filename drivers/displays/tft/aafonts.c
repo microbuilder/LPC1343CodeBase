@@ -39,12 +39,12 @@
 #include "drivers/displays/tft/drawing.h"
 
 // Common color lookup tables for AA2 (4-color anti-aliased) fonts
-static const uint16_t COLORTABLE_AA2_WHITEONBLACK[4] = { 0x0000, 0x52AA, 0xAD55, 0xFFFF};
-static const uint16_t COLORTABLE_AA2_BLACKONWHITE[4] = { 0xFFFF, 0xAD55, 0x52AA, 0x0000};
+const uint16_t COLORTABLE_AA2_WHITEONBLACK[4] = { 0x0000, 0x52AA, 0xAD55, 0xFFFF};
+const uint16_t COLORTABLE_AA2_BLACKONWHITE[4] = { 0xFFFF, 0xAD55, 0x52AA, 0x0000};
 
 // Common color lookup tables for AA4 (16-color anti-aliased) fonts
-static const uint16_t COLORTABLE_AA4_WHITEONBLACK[16] = { 0x0000, 0x1082, 0x2104, 0x3186, 0x4208, 0x528A, 0x630C, 0x738E, 0x8410, 0x9492, 0xA514, 0xB596, 0xC618, 0xD69A, 0xE71C, 0xFFFF};
-static const uint16_t COLORTABLE_AA4_BLACKONWHITE[16] = { 0xFFFF, 0xE71C, 0xD69A, 0xC618, 0xB596, 0xA514, 0x9492, 0x8410, 0x738E, 0x630C, 0x528A, 0x4208, 0x3186, 0x2104, 0x1082, 0x0000};
+const uint16_t COLORTABLE_AA4_WHITEONBLACK[16] = { 0x0000, 0x1082, 0x2104, 0x3186, 0x4208, 0x528A, 0x630C, 0x738E, 0x8410, 0x9492, 0xA514, 0xB596, 0xC618, 0xD69A, 0xE71C, 0xFFFF};
+const uint16_t COLORTABLE_AA4_BLACKONWHITE[16] = { 0xFFFF, 0xE71C, 0xD69A, 0xC618, 0xB596, 0xA514, 0x9492, 0x8410, 0x738E, 0x630C, 0x528A, 0x4208, 0x3186, 0x2104, 0x1082, 0x0000};
 
 /**************************************************************************/
 /*                                                                        */
@@ -290,4 +290,75 @@ uint16_t aafontsGetStringWidth(const aafontsFont_t *font, char *str)
 
   /* return the string width */
   return width;
+}
+
+/**************************************************************************/
+/*!
+    @brief  Creates a 4 or 16 shade color between the specified bg and
+            fore color for use with anti-aliased fonts.
+
+    @note   This method can be used to place anti-aliased in any color on
+            any known, solid-colored background.
+
+            You can get slightly higher-quality results by calculating
+            the color tables by hand, but this method is a convenient
+            method to create text in a variety of colors or on a variety
+            of backgrounds.  Please note, though, that the visual quality
+            of the text heavily on the colors being used.
+
+    @param[in]  bgColor
+                The RGB565 color of the background
+    @param[in]  foreColor
+                The RGB565 fore color for the anti-aliased text
+    @param[in]  colorTable
+                Pointer to the 4 or 16 element array that will be 
+                populated with the individual color values
+    @param[in]  tableSize
+                The number of elements in the colorTable array (acceptable
+                values are 4 for AA2 or 16 for AA4).
+
+    @section Example
+
+    @code 
+
+    #include "drivers/displays/tft/colors.h"
+    #include "drivers/displays/tft/drawing.h"
+    #include "drivers/displays/tft/aafonts.h"
+    #include "drivers/displays/tft/aafonts/aa2/DejaVuSansCondensed14_AA2.h"
+    #include "drivers/displays/tft/aafonts/aa2/DejaVuSansCondensedBold14_AA2.h"
+
+    uint16_t bgColor = COLOR_RED;
+    uint16_t foreColor = COLOR_YELLOW;
+    uint16_t ctable[4];
+
+    // Calculate a 4 color lookup table using the fore and bg colors
+    aafontsCalculateColorTable(bgColor, foreColor, &ctable[0], 4);
+
+    // Render a solid rectangle for the background
+    drawRectangleFilled(10, 10, 200, 50, bgColor);
+
+    // Draw some AA2 anti-aliased text using the generated color table
+    aafontsDrawString(10, 13, ctable, &DejaVuSansCondensed14_AA2, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    aafontsDrawString(10, 33, ctable, &DejaVuSansCondensedBold14_AA2, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+    @endcode
+*/
+/**************************************************************************/
+void aafontsCalculateColorTable(uint16_t bgColor, uint16_t foreColor, uint16_t *colorTable, size_t tableSize)
+{
+  uint16_t i, stepsize;
+
+  if ((tableSize != 4) && (tableSize != 16))
+    return;
+
+  colorTable[0] = bgColor;
+  colorTable[tableSize - 1] = foreColor;
+
+  stepsize = 100/(tableSize-1);
+
+  for (i = 1; i < tableSize - 1; i++)
+  {
+    // Gradually decrease the amount of alpha-blending from high to low
+    colorTable[i] = colorsAlphaBlend(bgColor, foreColor, 100-i*stepsize);
+  }
 }

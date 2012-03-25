@@ -206,39 +206,51 @@ uint16_t colorsDim(uint16_t color, uint8_t intensity)
                 Background color (rgb565)
     @param[in]  foreColor
                 Forground color (rgb565)
-    @param[in]  intensity
-                Intensity of the fore color for alpha-blending (0..100)
+    @param[in]  fadePercent
+                Visibility of the background color in percent (0..100).
+                The higher the number, the more visible the back color
+                becomes.  100% signifies that the back color is entirely
+                visible (only the BG color is shown), 0% signifies
+                that only the fore color is shown, and 25% would
+                indicate that the background is visible at approximately
+                25% intensity (combined with 75% of the fore color).
 
     @section Example
 
     @code
 
+    #include "drivers/displays/tft/drawing.h"
     #include "drivers/displays/tft/colors.h"
 
-    uint16_t mixedColor;
+    uint16_t bg = COLOR_GREEN;
+    uint16_t fore = COLOR_WHITE;
 
-    // Alpha-blend white onto a black background at 50% intensity
-    mixedColor = colorsBlend(COLOR_BLACK, COLOR_WHITE, 50);
+    // Calculate the intermediate color with 25% fading
+    uint16_t result = colorsAlphaBlend(bg, fore, 25);
+
+    drawRectangleFilled(10, 10, 50, 50, bg);
+    drawRectangleFilled(60, 10, 100, 50, fore);
+    drawRectangleFilled(35, 60, 75, 100, result);
 
     @endcode
 */
 /**************************************************************************/
-uint16_t colorsBlend(uint16_t bgColor, uint16_t foreColor, uint8_t intensity)
+uint16_t colorsAlphaBlend(uint16_t bgColor, uint16_t foreColor, uint8_t fadePercent)
 {
-  // Note: This algorithm is buggy and needs to be redone!
-
   uint16_t br, bg, bb;              // Background component colors
   uint16_t fr, fg, fb;              // Foreground component colors
   uint16_t newr, newg, newb;        // Blended component colors
 
-  if (intensity > 100)
+  if (fadePercent > 100)
   {
-    intensity = 100;
+    fadePercent = 100;
   }
 
   // Short cut if the color is full intensity
-  if (intensity == 100)
+  if (fadePercent == 100)
     return foreColor;
+
+  // Note: This algorithm can definately be optimised!
 
   // Break out component colors
   br = ((bgColor >> 11) & 0x1F);
@@ -248,9 +260,10 @@ uint16_t colorsBlend(uint16_t bgColor, uint16_t foreColor, uint8_t intensity)
   bb = (bgColor & 0x1F);
   fb = (foreColor & 0x1F);
 
-  newr = (((fr-br) * intensity) / 100 + br) & 0x1F;
-  newg = (((fg-bg) * intensity) / 100 + bg) & 0x3F;
-  newb = (((fb-bb) * intensity) / 100 + bb) & 0x1F;
+  // Z = intensity * bgcolor + (100 - intensity) * forecolor
+  newr = (fadePercent * br + (100 - fadePercent) * fr) / 100;
+  newg = (fadePercent * bg + (100 - fadePercent) * fg) / 200;   // Need to use 5-bit green for accurate colors :(
+  newb = (fadePercent * bb + (100 - fadePercent) * fb) / 100;
 
   return (newr << 11) | (newg << 6) | newb;
 }

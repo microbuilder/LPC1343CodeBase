@@ -64,8 +64,13 @@ typedef struct aafontsFont_s
   const aafontsCharInfo_t *charTable;   /* Pointer to the aafontsCharInfo_t array containing the char data */
 } aafontsFont_t;
 
-uint16_t  aafontsBlendColor ( uint16_t bgColor, uint16_t foreColor, uint8_t intensity );
-void      aafontsDrawString( uint16_t x, uint16_t y, const uint16_t * colorTable, const aafontsFont_t *font, char *str );
-uint16_t  aafontsGetStringWidth( const aafontsFont_t *font, char *str );
+extern const uint16_t COLORTABLE_AA2_WHITEONBLACK[4];
+extern const uint16_t COLORTABLE_AA2_BLACKONWHITE[4];
+extern const uint16_t COLORTABLE_AA4_WHITEONBLACK[16];
+extern const uint16_t COLORTABLE_AA4_BLACKONWHITE[16];
+
+void      aafontsDrawString ( uint16_t x, uint16_t y, const uint16_t * colorTable, const aafontsFont_t *font, char *str );
+uint16_t  aafontsGetStringWidth ( const aafontsFont_t *font, char *str );
+void      aafontsCalculateColorTable ( uint16_t bgColor, uint16_t foreColor, uint16_t *colorTable, size_t tableSize );
 
 #endif
