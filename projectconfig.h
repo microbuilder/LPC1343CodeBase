@@ -121,13 +121,13 @@
         LPC1343 LPCXpresso board
 
     -----------------------------------------------------------------------*/
-    // #define CFG_BRD_LPC1343_REFDESIGN
+    #define CFG_BRD_LPC1343_REFDESIGN
     // #define CFG_BRD_LPC1343_REFDESIGN_MINIMAL
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
     // #define CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
     // #define CFG_BRD_LPC1343_802154USBSTICK
     // #define CFG_BRD_LPC1343_OLIMEX_P
-    #define CFG_BRD_LPC1343_LPCXPRESSO
+    // #define CFG_BRD_LPC1343_LPCXPRESSO
 /*=========================================================================*/
 
 
