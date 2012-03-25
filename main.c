@@ -74,7 +74,7 @@ int main(void)
 
     // Poll for CLI input if CFG_INTERFACE is enabled in projectconfig.h
     #ifdef CFG_INTERFACE 
-      cmdPoll(); 
+      // cmdPoll(); 
     #endif
   }
 
