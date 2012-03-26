@@ -6,6 +6,7 @@ v1.0.0 - 23 March 2012
 - *** Renamed '/drivers/spiflash' to '/drivers/storage/spiflash' ***
 - *** Renamed '/drivers/eeprom' to '/drivers/storage/eeprom' ***
 - *** Renamed '/drivers/lcd' to '/drivers/display' ***
+- Added I2C support to the SSD1306 driver
 - Moved all color conversion and manipulation functions
   to '/drivers/displays/tft/colors.c', and added a
   few new functions: colorsDim(), etc.
