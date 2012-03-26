@@ -134,6 +134,7 @@
               </file>
               <file file_name="../../drivers/displays/bitmap/ssd1306/ssd1306_i2c.c">
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
+                <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
               </file>
             </folder>
             <folder Name="sharpmem">

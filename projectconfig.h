@@ -152,7 +152,8 @@
     ST7565      X X  X  X     X X X X X X X X X     . . . X
     ST7735      . .  .  .     X X X X X X . . .     . . . .
     SHARPMEM    . .  .  .     X X X X . . . . .     . . . .
-    SSD1306     . .  .  .     X X X . X X . . .     . . . .
+    SSD1306 SPI . .  .  .     X X X . X X . . .     . . . .
+    SSD1306 I2C . .  .  .     . X . . . . . . .     . . . .
     SSD1351     . .  .  .     X X X X X . . . .     . . . .
     MCP121      . .  .  .     . . . . . . . . .     . X . .
     PN532 [3]   . .  .  .     . . . . . . . . .     . X X . 
@@ -171,14 +172,15 @@
     ST7565      .     .     .     .       .       X X X X     .
     ST7535      .     .     .     .       .       . . . .     .
     SHARPMEM    .     .     .     .       .       . . . .     .
-    SSD1306     .     .     .     .       .       . . . .     .
+    SSD1306 SPI .     .     .     .       .       . . . .     .
+    SSD1306 I2C .     .     .     .       .       . . . .     .
     INTERFACE   .     .     .     .       .       . . . .     X[2]
 
     [1]  PMU uses 32-bit Timer 0 for SW wakeup from deep-sleep.  This timer
          can safely be used by other peripherals, but may need to be
          reconfigured when you wakeup from deep-sleep.
     [2]  INTERFACE can be configured to use either USBCDC or UART
-    [3]  3.2 only used when with the I2C bus (for IRQ)
+    [3]  P3.2 is only used with the I2C bus (for IRQ)
 
  **************************************************************************/
 
@@ -199,6 +201,7 @@
     TSL2561                     0x72      0111001x
     TCS3414                     0x72      0111001x
     PN532                       0x48      0100100x
+    SSD1306_I2C                 0x78      0111100x  // Assumes SA0 = GND
 
     [1]  Alternative addresses may exists, but the addresses listed in this
          table are the values used in the code base
@@ -1202,12 +1205,13 @@
                               the 128x64 pixel ST7565 LCD to be included
     CFG_SSD1306               If defined, this will cause drivers for
                               the 128x64 pixel SSD1306 OLED display to be
-                              included
+                              included (using bit-banged SPI)
     CFG_SHARPMEM              If defined, this will cause drivers for
                               Sharp Memory Displays to be included
 
     DEPENDENCIES:             ST7565 requires the use of pins 2.1-6.
     DEPENDENCIES:             SSD1306 requires the use of pins 2.1-6.
+    DEPENDENCIES:             SSD1306_I2C requires the use of pins 2.2.
     DEPENDENCIES:             SHARPMEM requires the use of pins 2.1-4.
     -----------------------------------------------------------------------*/
     // #define CFG_ST7565
