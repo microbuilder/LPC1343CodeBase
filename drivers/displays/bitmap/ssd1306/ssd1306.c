@@ -351,16 +351,6 @@ void ssd1306Init(uint8_t vccstate)
 
   // I2C Initialisation
   #if defined SSD1306_BUS_I2C
-    // Set all pins to output
-    gpioSetDir(SSD1306_RST_PORT, SSD1306_RST_PORT, gpioDirection_Output);
-
-    // Reset the LCD
-    gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 1);
-    DELAY(1);
-    gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 0);
-    DELAY(10);
-    gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 1);
-
     #if defined SSD1306_128_32
       // Init sequence taken from datasheet for UG-2832HSWEG04 (128x32 OLED module)
       ssd1306SendCommand(SSD1306_DISPLAYOFF);                // 0xAE

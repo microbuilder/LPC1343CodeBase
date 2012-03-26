@@ -109,16 +109,24 @@
     #endif
 /*=========================================================================*/
 
+
 // Pin Definitions
-#define SSD1306_DC_PORT                    (2)     // Data/Command ... used for SA0 with I2C
+// ---------------
+// The following are only relevant for SPI mode!
+// For I2C, connect Reset to the LPC1114 reset pin, and HW DC for 1 or 0 
+// to set last I2C address but to 1 or 0.  This means the OLED can not
+// be reset in SW seperate from the MCU, but allows the OLED to be used
+// with only the two I2C pins
+
+#define SSD1306_DC_PORT                    (2)     // Data/Command ... also used as SA0 for I2C
 #define SSD1306_DC_PIN                     (1)
-#define SSD1306_RST_PORT                   (2)     // Reset           (I2C + SPI)
+#define SSD1306_RST_PORT                   (2)     // Reset
 #define SSD1306_RST_PIN                    (2)
-#define SSD1306_CS_PORT                    (2)     // Select          (SPI only)
+#define SSD1306_CS_PORT                    (2)     // Select
 #define SSD1306_CS_PIN                     (3)
-#define SSD1306_SCLK_PORT                  (2)     // Serial Clock    (SPI only)
+#define SSD1306_SCLK_PORT                  (2)     // Serial Clock
 #define SSD1306_SCLK_PIN                   (5)
-#define SSD1306_SDAT_PORT                  (2)     // Serial Data     (SPI only)
+#define SSD1306_SDAT_PORT                  (2)     // Serial Data
 #define SSD1306_SDAT_PIN                   (6)
 
 // Commands

@@ -153,7 +153,6 @@
     ST7735      . .  .  .     X X X X X X . . .     . . . .
     SHARPMEM    . .  .  .     X X X X . . . . .     . . . .
     SSD1306 SPI . .  .  .     X X X . X X . . .     . . . .
-    SSD1306 I2C . .  .  .     . X . . . . . . .     . . . .
     SSD1351     . .  .  .     X X X X X . . . .     . . . .
     MCP121      . .  .  .     . . . . . . . . .     . X . .
     PN532 [3]   . .  .  .     . . . . . . . . .     . X X . 
@@ -173,7 +172,6 @@
     ST7535      .     .     .     .       .       . . . .     .
     SHARPMEM    .     .     .     .       .       . . . .     .
     SSD1306 SPI .     .     .     .       .       . . . .     .
-    SSD1306 I2C .     .     .     .       .       . . . .     .
     INTERFACE   .     .     .     .       .       . . . .     X[2]
 
     [1]  PMU uses 32-bit Timer 0 for SW wakeup from deep-sleep.  This timer
