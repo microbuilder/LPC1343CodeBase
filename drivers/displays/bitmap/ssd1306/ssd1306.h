@@ -43,7 +43,39 @@
 #include "drivers/displays/smallfonts.h"
 
 /*=========================================================================
-    SSD1306 Displays
+    Bus Select
+    -----------------------------------------------------------------------
+    The SSD1306 can be driven using either SPI or I2C.  Select the
+    appropriate bus below to indicate which one you wish to use.
+
+    SSD1306_BUS_SPI   Use bit-banged SPI
+
+    SSD1306_BUS_I2C   Use HW I2C
+
+    -----------------------------------------------------------------------*/
+    // #define SSD1306_BUS_SPI
+    #define SSD1306_BUS_I2C
+
+    #if defined SSD1306_BUS_SPI && defined SSD1306_BUS_I2C
+      #error "Only one SSD1306 bus interface can be specified at once in ssd1306.h"
+    #endif
+    #if !defined SSD1306_BUS_SPI && !defined SSD1306_BUS_I2C
+      #error "At least one SSD1306 bus interface must be specified in ssd1306.h"
+    #endif
+/*=========================================================================*/
+
+
+#if defined SSD1306_BUS_I2C
+/*=========================================================================
+    I2C Address - 011110+SA0+RW ... 0x78 for SA0 = 0, 0x7A for SA0 = 1
+    ---------------------------------------------------------------------*/
+    #define SSD1306_I2C_ADDRESS   (0x78)
+    #define SSD1306_I2C_READWRITE (0x01)
+/*=========================================================================*/
+#endif
+
+/*=========================================================================
+    Display Size
     -----------------------------------------------------------------------
     The driver is used in multiple displays (128x64, 128x32, etc.).
     Select the appropriate display below to create an appropriately
@@ -57,38 +89,37 @@
     appropriate size
 
     -----------------------------------------------------------------------*/
-    // #define SSD1306_128_64
-    #define SSD1306_128_32
+    #define SSD1306_128_64
+    // #define SSD1306_128_32
+
+    #if defined SSD1306_128_64 && defined SSD1306_128_32
+      #error "Only one SSD1306 display can be specified at once in ssd1306.h"
+    #endif
+    #if !defined SSD1306_128_64 && !defined SSD1306_128_32
+      #error "At least one SSD1306 display must be specified in ssd1306.h"
+    #endif
+
+    #if defined SSD1306_128_64
+      #define SSD1306_LCDWIDTH                  128
+      #define SSD1306_LCDHEIGHT                 64
+    #endif
+    #if defined SSD1306_128_32
+      #define SSD1306_LCDWIDTH                  128
+      #define SSD1306_LCDHEIGHT                 32
+    #endif
 /*=========================================================================*/
 
-#if defined SSD1306_128_64 && defined SSD1306_128_32
-  #error "Only one SSD1306 display can be specified at once in ssd1306.h"
-#endif
-#if !defined SSD1306_128_64 && !defined SSD1306_128_32
-  #error "At least one SSD1306 display must be specified in ssd1306.h"
-#endif
-
-#if defined SSD1306_128_64
-  #define SSD1306_LCDWIDTH                  128
-  #define SSD1306_LCDHEIGHT                 64
-#endif
-#if defined SSD1306_128_32
-  #define SSD1306_LCDWIDTH                  128
-  #define SSD1306_LCDHEIGHT                 32
-#endif
-
 // Pin Definitions
-#define SSD1306_DC_PORT                    (2)     // Data/Command
+#define SSD1306_DC_PORT                    (2)     // Data/Command ... used for SA0 with I2C
 #define SSD1306_DC_PIN                     (1)
-#define SSD1306_RST_PORT                   (2)     // Reset
+#define SSD1306_RST_PORT                   (2)     // Reset           (I2C + SPI)
 #define SSD1306_RST_PIN                    (2)
-#define SSD1306_CS_PORT                    (2)     // Select
+#define SSD1306_CS_PORT                    (2)     // Select          (SPI only)
 #define SSD1306_CS_PIN                     (3)
-#define SSD1306_SCLK_PORT                  (2)     // Serial Clock
+#define SSD1306_SCLK_PORT                  (2)     // Serial Clock    (SPI only)
 #define SSD1306_SCLK_PIN                   (5)
-#define SSD1306_SDAT_PORT                  (2)     // Serial Data
+#define SSD1306_SDAT_PORT                  (2)     // Serial Data     (SPI only)
 #define SSD1306_SDAT_PIN                   (6)
-
 
 // Commands
 #define SSD1306_SETCONTRAST               0x81

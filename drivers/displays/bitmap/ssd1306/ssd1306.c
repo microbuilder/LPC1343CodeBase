@@ -45,31 +45,46 @@
 #include "ssd1306.h"
 
 #include "core/gpio/gpio.h"
+#include "core/i2c/i2c.h"
 #include "core/systick/systick.h"
 #include "drivers/displays/smallfonts.h"
 
-void ssd1306SendByte(uint8_t byte);
-
-#define CMD(c)        do { gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 1 ); \
-                           gpioSetValue( SSD1306_DC_PORT, SSD1306_DC_PIN, 0 ); \
-                           gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 0 ); \
-                           ssd1306SendByte( c ); \
-                           gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 1 ); \
-                         } while (0);
-#define DATA(c)       do { gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 1 ); \
-                           gpioSetValue( SSD1306_DC_PORT, SSD1306_DC_PIN, 1 ); \
-                           gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 0 ); \
-                           ssd1306SendByte( c ); \
-                           gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 1 ); \
-                         } while (0);
 #define DELAY(mS)     do { systickDelay( mS / CFG_SYSTICK_DELAY_IN_MS ); } while(0);
 
+// LCD framebuffer
 uint8_t _ssd1306buffer[SSD1306_LCDWIDTH * SSD1306_LCDHEIGHT / 8];
+
+#if defined SSD1306_BUS_I2C
+  void ssd1306SendCommand(uint8_t byte);
+  void ssd1306SendData(uint8_t data);
+
+  extern volatile uint8_t   I2CMasterBuffer[I2C_BUFSIZE];
+  extern volatile uint8_t   I2CSlaveBuffer[I2C_BUFSIZE];
+  extern volatile uint32_t  I2CReadLength, I2CWriteLength;
+#endif
+
+#if defined SSD1306_BUS_SPI
+  void ssd1306SendByte(uint8_t byte);
+
+  #define CMD(c)        do { gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 1 ); \
+                             gpioSetValue( SSD1306_DC_PORT, SSD1306_DC_PIN, 0 ); \
+                             gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 0 ); \
+                             ssd1306SendByte( c ); \
+                             gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 1 ); \
+                           } while (0);
+  #define DATA(c)       do { gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 1 ); \
+                             gpioSetValue( SSD1306_DC_PORT, SSD1306_DC_PIN, 1 ); \
+                             gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 0 ); \
+                             ssd1306SendByte( c ); \
+                             gpioSetValue( SSD1306_CS_PORT, SSD1306_CS_PIN, 1 ); \
+                           } while (0);
+#endif
 
 /**************************************************************************/
 /* Private Methods                                                        */
 /**************************************************************************/
 
+#if defined SSD1306_BUS_SPI
 /**************************************************************************/
 /*! 
     @brief Simulates an SPI write using GPIO
@@ -96,6 +111,89 @@ void ssd1306SendByte(uint8_t byte)
     gpioSetValue(SSD1306_SCLK_PORT, SSD1306_SCLK_PIN, 1);
   }
 }
+#endif
+
+#if defined SSD1306_BUS_I2C
+/**************************************************************************/
+/*! 
+    @brief Sends a command via I2C
+
+    @param[in]  byte
+                The byte to send
+*/
+/**************************************************************************/
+void ssd1306SendCommand(uint8_t byte)
+{
+  uint8_t control = 0x00;   // Co = 0, D/C = 0
+  uint32_t i2cState;
+
+  // Clear write buffers
+  uint32_t i;
+  for ( i = 0; i < I2C_BUFSIZE; i++ )
+  {
+    I2CMasterBuffer[i] = 0x00;
+  }
+
+  // Send the specified bytes
+  I2CWriteLength = 3;
+  I2CReadLength = 0;
+  I2CMasterBuffer[0] = SSD1306_I2C_ADDRESS;
+  I2CMasterBuffer[1] = control;
+  I2CMasterBuffer[2] = byte;
+  i2cState = i2cEngine();
+
+  // Check if we got an ACK
+  if ((i2cState == I2CSTATE_NACK) || (i2cState == I2CSTATE_SLA_NACK))
+  {
+    // I2C slave didn't acknowledge the master transfer
+    // The PN532 probably isn't connected properly or the
+    // bus select pins are in the wrong state
+    // return PN532_ERROR_NACK;
+  }
+
+  // return PN532_ERROR_NONE;
+}
+
+/**************************************************************************/
+/*! 
+    @brief Sends data via I2C
+
+    @param[in]  byte
+                The byte to send
+*/
+/**************************************************************************/
+void ssd1306SendData(uint8_t data)
+{
+  uint8_t control = 0x40;   // Co = 0, D/C = 1
+  uint32_t i2cState;
+
+  // Clear write buffers
+  uint32_t i;
+  for ( i = 0; i < I2C_BUFSIZE; i++ )
+  {
+    I2CMasterBuffer[i] = 0x00;
+  }
+
+  // Send the specified bytes
+  I2CWriteLength = 3;
+  I2CReadLength = 0;
+  I2CMasterBuffer[0] = SSD1306_I2C_ADDRESS;
+  I2CMasterBuffer[1] = control;
+  I2CMasterBuffer[2] = data;
+  i2cState = i2cEngine();
+
+  // Check if we got an ACK
+  if ((i2cState == I2CSTATE_NACK) || (i2cState == I2CSTATE_SLA_NACK))
+  {
+    // I2C slave didn't acknowledge the master transfer
+    // The PN532 probably isn't connected properly or the
+    // bus select pins are in the wrong state
+    // return PN532_ERROR_NACK;
+  }
+
+  // return PN532_ERROR_NONE;
+}
+#endif
 
 /**************************************************************************/
 /*!
@@ -158,96 +256,187 @@ static void ssd1306DrawChar(uint16_t x, uint16_t y, uint8_t c, struct FONT_DEF f
 /**************************************************************************/
 void ssd1306Init(uint8_t vccstate)
 {
-  // Set all pins to output
-  gpioSetDir(SSD1306_SCLK_PORT, SSD1306_SCLK_PIN, gpioDirection_Output);
-  gpioSetDir(SSD1306_SDAT_PORT, SSD1306_SDAT_PIN, gpioDirection_Output);
-  gpioSetDir(SSD1306_DC_PORT, SSD1306_DC_PIN, gpioDirection_Output);
-  gpioSetDir(SSD1306_RST_PORT, SSD1306_RST_PIN, gpioDirection_Output);
-  gpioSetDir(SSD1306_CS_PORT, SSD1306_CS_PIN, gpioDirection_Output);
+  // SPI Initialisation
+  #if defined SSD1306_BUS_SPI
+    // Set all pins to output
+    gpioSetDir(SSD1306_SCLK_PORT, SSD1306_SCLK_PIN, gpioDirection_Output);
+    gpioSetDir(SSD1306_SDAT_PORT, SSD1306_SDAT_PIN, gpioDirection_Output);
+    gpioSetDir(SSD1306_DC_PORT, SSD1306_DC_PIN, gpioDirection_Output);
+    gpioSetDir(SSD1306_RST_PORT, SSD1306_RST_PIN, gpioDirection_Output);
+    gpioSetDir(SSD1306_CS_PORT, SSD1306_CS_PIN, gpioDirection_Output);
 
-  // Reset the LCD
-  gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 1);
-  DELAY(1);
-  gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 0);
-  DELAY(10);
-  gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 1);
+    // Reset the LCD
+    gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 1);
+    DELAY(1);
+    gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 0);
+    DELAY(10);
+    gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 1);
 
-  #if defined SSD1306_128_32
-    // Init sequence taken from datasheet for UG-2832HSWEG04 (128x32 OLED module)
-    CMD(SSD1306_DISPLAYOFF);                    // 0xAE
-    CMD(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
-    CMD(0x80);                                  // the suggested ratio 0x80
-    CMD(SSD1306_SETMULTIPLEX);                  // 0xA8
-    CMD(0x1F);                                  // 31
-    CMD(SSD1306_SETDISPLAYOFFSET);              // 0xD3
-    CMD(0x0);                                   // no offset
-    CMD(SSD1306_SETSTARTLINE | 0x0);            // line #0
-    CMD(SSD1306_CHARGEPUMP);                    // 0x8D
-    if (vccstate == SSD1306_EXTERNALVCC) 
-      { CMD(0x10) }
-    else 
-      { CMD(0x14) }
-    CMD(SSD1306_MEMORYMODE);                    // 0x20
-    CMD(0x00);                                  // 0x0 act like ks0108
-    CMD(SSD1306_SEGREMAP | 0x1);
-    CMD(SSD1306_COMSCANDEC);
-    CMD(SSD1306_SETCOMPINS);                    // 0xDA
-    CMD(0x02);
-    CMD(SSD1306_SETCONTRAST);                   // 0x81
-    if (vccstate == SSD1306_EXTERNALVCC) 
-      { CMD(0x9F) }
-    else 
-      { CMD(0xCF) }
-    CMD(SSD1306_SETPRECHARGE);                  // 0xd9
-    if (vccstate == SSD1306_EXTERNALVCC) 
-      { CMD(0x22) }
-    else 
-      { CMD(0xF1) }
-    CMD(SSD1306_SETVCOMDETECT);                 // 0xDB
-    CMD(0x40);
-    CMD(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
-    CMD(SSD1306_NORMALDISPLAY);                 // 0xA6
+    #if defined SSD1306_128_32
+      // Init sequence taken from datasheet for UG-2832HSWEG04 (128x32 OLED module)
+      CMD(SSD1306_DISPLAYOFF);                    // 0xAE
+      CMD(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
+      CMD(0x80);                                  // the suggested ratio 0x80
+      CMD(SSD1306_SETMULTIPLEX);                  // 0xA8
+      CMD(0x1F);                                  // 31
+      CMD(SSD1306_SETDISPLAYOFFSET);              // 0xD3
+      CMD(0x0);                                   // no offset
+      CMD(SSD1306_SETSTARTLINE | 0x0);            // line #0
+      CMD(SSD1306_CHARGEPUMP);                    // 0x8D
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { CMD(0x10) }
+      else 
+        { CMD(0x14) }
+      CMD(SSD1306_MEMORYMODE);                    // 0x20
+      CMD(0x00);                                  // 0x0 act like ks0108
+      CMD(SSD1306_SEGREMAP | 0x1);
+      CMD(SSD1306_COMSCANDEC);
+      CMD(SSD1306_SETCOMPINS);                    // 0xDA
+      CMD(0x02);
+      CMD(SSD1306_SETCONTRAST);                   // 0x81
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { CMD(0x9F) }
+      else 
+        { CMD(0xCF) }
+      CMD(SSD1306_SETPRECHARGE);                  // 0xd9
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { CMD(0x22) }
+      else 
+        { CMD(0xF1) }
+      CMD(SSD1306_SETVCOMDETECT);                 // 0xDB
+      CMD(0x40);
+      CMD(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
+      CMD(SSD1306_NORMALDISPLAY);                 // 0xA6
+    #endif
+
+    #if defined SSD1306_128_64
+      // Init sequence taken from datasheet for UG-2864HSWEG01 (128x64 OLED module)
+      CMD(SSD1306_DISPLAYOFF);                    // 0xAE
+      CMD(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
+      CMD(0x80);                                  // the suggested ratio 0x80
+      CMD(SSD1306_SETMULTIPLEX);                  // 0xA8
+      CMD(0x3F);                                  // 63
+      CMD(SSD1306_SETDISPLAYOFFSET);              // 0xD3
+      CMD(0x0);                                   // no offset
+      CMD(SSD1306_SETSTARTLINE | 0x0);            // line #0
+      CMD(SSD1306_CHARGEPUMP);                    // 0x8D
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { CMD(0x10) }
+      else 
+        { CMD(0x14) }
+      CMD(SSD1306_MEMORYMODE);                    // 0x20
+      CMD(0x00);                                  // 0x0 act like ks0108
+      CMD(SSD1306_SEGREMAP | 0x1);
+      CMD(SSD1306_COMSCANDEC);
+      CMD(SSD1306_SETCOMPINS);                    // 0xDA
+      CMD(0x12);
+      CMD(SSD1306_SETCONTRAST);                   // 0x81
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { CMD(0x9F) }
+      else 
+        { CMD(0xCF) }
+      CMD(SSD1306_SETPRECHARGE);                  // 0xd9
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { CMD(0x22) }
+      else 
+        { CMD(0xF1) }
+      CMD(SSD1306_SETVCOMDETECT);                 // 0xDB
+      CMD(0x40);
+      CMD(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
+      CMD(SSD1306_NORMALDISPLAY);                 // 0xA6
+    #endif
+    // Enabled the OLED panel
+    CMD(SSD1306_DISPLAYON);
   #endif
 
-  #if defined SSD1306_128_64
-    // Init sequence taken from datasheet for UG-2864HSWEG01 (128x64 OLED module)
-    CMD(SSD1306_DISPLAYOFF);                    // 0xAE
-    CMD(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
-    CMD(0x80);                                  // the suggested ratio 0x80
-    CMD(SSD1306_SETMULTIPLEX);                  // 0xA8
-    CMD(0x3F);                                  // 63
-    CMD(SSD1306_SETDISPLAYOFFSET);              // 0xD3
-    CMD(0x0);                                   // no offset
-    CMD(SSD1306_SETSTARTLINE | 0x0);            // line #0
-    CMD(SSD1306_CHARGEPUMP);                    // 0x8D
-    if (vccstate == SSD1306_EXTERNALVCC) 
-      { CMD(0x10) }
-    else 
-      { CMD(0x14) }
-    CMD(SSD1306_MEMORYMODE);                    // 0x20
-    CMD(0x00);                                  // 0x0 act like ks0108
-    CMD(SSD1306_SEGREMAP | 0x1);
-    CMD(SSD1306_COMSCANDEC);
-    CMD(SSD1306_SETCOMPINS);                    // 0xDA
-    CMD(0x12);
-    CMD(SSD1306_SETCONTRAST);                   // 0x81
-    if (vccstate == SSD1306_EXTERNALVCC) 
-      { CMD(0x9F) }
-    else 
-      { CMD(0xCF) }
-    CMD(SSD1306_SETPRECHARGE);                  // 0xd9
-    if (vccstate == SSD1306_EXTERNALVCC) 
-      { CMD(0x22) }
-    else 
-      { CMD(0xF1) }
-    CMD(SSD1306_SETVCOMDETECT);                 // 0xDB
-    CMD(0x40);
-    CMD(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
-    CMD(SSD1306_NORMALDISPLAY);                 // 0xA6
-  #endif
+  // I2C Initialisation
+  #if defined SSD1306_BUS_I2C
+    // Set all pins to output
+    gpioSetDir(SSD1306_RST_PORT, SSD1306_RST_PORT, gpioDirection_Output);
 
-  // Enabled the OLED panel
-  CMD(SSD1306_DISPLAYON);
+    // Reset the LCD
+    gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 1);
+    DELAY(1);
+    gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 0);
+    DELAY(10);
+    gpioSetValue(SSD1306_RST_PORT, SSD1306_RST_PIN, 1);
+
+    #if defined SSD1306_128_32
+      // Init sequence taken from datasheet for UG-2832HSWEG04 (128x32 OLED module)
+      ssd1306SendCommand(SSD1306_DISPLAYOFF);                // 0xAE
+      ssd1306SendCommand(SSD1306_SETDISPLAYCLOCKDIV);        // 0xD5
+      ssd1306SendCommand(0x80);                              // the suggested ratio 0x80
+      ssd1306SendCommand(SSD1306_SETMULTIPLEX);              // 0xA8
+      ssd1306SendCommand(0x1F);                              // 31
+      ssd1306SendCommand(SSD1306_SETDISPLAYOFFSET);          // 0xD3
+      ssd1306SendCommand(0x0);                               // no offset
+      ssd1306SendCommand(SSD1306_SETSTARTLINE | 0x0);        // line #0
+      ssd1306SendCommand(SSD1306_CHARGEPUMP);                // 0x8D
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { ssd1306SendCommand(0x10); }
+      else 
+        { ssd1306SendCommand(0x14); }
+      ssd1306SendCommand(SSD1306_MEMORYMODE);                // 0x20
+      ssd1306SendCommand(0x00);                              // 0x0 act like ks0108
+      ssd1306SendCommand(SSD1306_SEGREMAP | 0x1);
+      ssd1306SendCommand(SSD1306_COMSCANDEC);
+      ssd1306SendCommand(SSD1306_SETCOMPINS);                // 0xDA
+      ssd1306SendCommand(0x02);
+      ssd1306SendCommand(SSD1306_SETCONTRAST);               // 0x81
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { ssd1306SendCommand(0x9F); }
+      else 
+        { ssd1306SendCommand(0xCF); }
+      ssd1306SendCommand(SSD1306_SETPRECHARGE);              // 0xd9
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { ssd1306SendCommand(0x22); }
+      else 
+        { ssd1306SendCommand(0xF1); }
+      ssd1306SendCommand(SSD1306_SETVCOMDETECT);             // 0xDB
+      ssd1306SendCommand(0x40);
+      ssd1306SendCommand(SSD1306_DISPLAYALLON_RESUME);       // 0xA4
+      ssd1306SendCommand(SSD1306_NORMALDISPLAY);             // 0xA6
+    #endif
+
+    #if defined SSD1306_128_64
+      // Init sequence taken from datasheet for UG-2864HSWEG01 (128x64 OLED module)
+      ssd1306SendCommand(SSD1306_DISPLAYOFF);                // 0xAE
+      ssd1306SendCommand(SSD1306_SETDISPLAYCLOCKDIV);        // 0xD5
+      ssd1306SendCommand(0x80);                              // the suggested ratio 0x80
+      ssd1306SendCommand(SSD1306_SETMULTIPLEX);              // 0xA8
+      ssd1306SendCommand(0x3F);                              // 63
+      ssd1306SendCommand(SSD1306_SETDISPLAYOFFSET);          // 0xD3
+      ssd1306SendCommand(0x0);                               // no offset
+      ssd1306SendCommand(SSD1306_SETSTARTLINE | 0x0);        // line #0
+      ssd1306SendCommand(SSD1306_CHARGEPUMP);                // 0x8D
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { ssd1306SendCommand(0x10); }
+      else 
+        { ssd1306SendCommand(0x14); }
+      ssd1306SendCommand(SSD1306_MEMORYMODE);                // 0x20
+      ssd1306SendCommand(0x00);                              // 0x0 act like ks0108
+      ssd1306SendCommand(SSD1306_SEGREMAP | 0x1);
+      ssd1306SendCommand(SSD1306_COMSCANDEC);
+      ssd1306SendCommand(SSD1306_SETCOMPINS);                // 0xDA
+      ssd1306SendCommand(0x12);
+      ssd1306SendCommand(SSD1306_SETCONTRAST);               // 0x81
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { ssd1306SendCommand(0x9F); }
+      else 
+        { ssd1306SendCommand(0xCF); }
+      ssd1306SendCommand(SSD1306_SETPRECHARGE);              // 0xd9
+      if (vccstate == SSD1306_EXTERNALVCC) 
+        { ssd1306SendCommand(0x22); }
+      else 
+        { ssd1306SendCommand(0xF1); }
+      ssd1306SendCommand(SSD1306_SETVCOMDETECT);             // 0xDB
+      ssd1306SendCommand(0x40);
+      ssd1306SendCommand(SSD1306_DISPLAYALLON_RESUME);       // 0xA4
+      ssd1306SendCommand(SSD1306_NORMALDISPLAY);             // 0xA6
+    #endif
+    // Enable the OLED panel
+    ssd1306SendCommand(SSD1306_DISPLAYON);
+  #endif
 }
 
 /**************************************************************************/
@@ -321,15 +510,29 @@ void ssd1306ClearScreen()
 /**************************************************************************/
 void ssd1306Refresh(void) 
 {
-  CMD(SSD1306_SETLOWCOLUMN | 0x0);  // low col = 0
-  CMD(SSD1306_SETHIGHCOLUMN | 0x0);  // hi col = 0
-  CMD(SSD1306_SETSTARTLINE | 0x0); // line #0
+  #if defined SSD1306_BUS_SPI
+    CMD(SSD1306_SETLOWCOLUMN | 0x0);  // low col = 0
+    CMD(SSD1306_SETHIGHCOLUMN | 0x0);  // hi col = 0
+    CMD(SSD1306_SETSTARTLINE | 0x0); // line #0
 
-  uint16_t i;
-  for (i=0; i<1024; i++) 
-  {
-    DATA(_ssd1306buffer[i]);
-  }
+    uint16_t i;
+    for (i=0; i<1024; i++) 
+    {
+      DATA(_ssd1306buffer[i]);
+    }
+  #endif
+
+  #if defined SSD1306_BUS_I2C
+    ssd1306SendCommand(SSD1306_SETLOWCOLUMN | 0x0);  // low col = 0
+    ssd1306SendCommand(SSD1306_SETHIGHCOLUMN | 0x0);  // hi col = 0
+    ssd1306SendCommand(SSD1306_SETSTARTLINE | 0x0); // line #0
+
+    uint16_t i;
+    for (i=0; i<1024; i++) 
+    {
+      ssd1306SendData(_ssd1306buffer[i]);
+    }
+  #endif
 }
 
 /**************************************************************************/
