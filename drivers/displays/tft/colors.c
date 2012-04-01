@@ -248,7 +248,7 @@ uint16_t colorsAlphaBlend(uint16_t bgColor, uint16_t foreColor, uint8_t fadePerc
 
   // Short cut if the color is full intensity
   if (fadePercent == 100)
-    return foreColor;
+    return bgColor;
 
   // Note: This algorithm can definately be optimised!
 
