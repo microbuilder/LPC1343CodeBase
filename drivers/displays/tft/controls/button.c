@@ -1,16 +1,15 @@
 /**************************************************************************/
 /*! 
-    @file     cmd_textw.c
+    @file     button.c
     @author   K. Townsend (microBuilder.eu)
 
-    @brief    Code to execute for cmd_textw in the 'core/cmd'
-              command-line interpretter.
+    @brief    Renders a button
 
     @section LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, K. Townsend
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -36,59 +35,57 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
-#include <stdio.h>
 #include <string.h>
 
-#include "projectconfig.h"
-#include "core/cmd/cmd.h"
-#include "project/commands.h"       // Generic helper functions
-
-#ifdef CFG_TFTLCD    
-  #include "drivers/displays/tft/lcd.h"    
-  #include "drivers/displays/tft/drawing.h"  
+#include "button.h"
 
 /**************************************************************************/
-/*! 
-    Returns the width of the supplied text in pixels.
+/*!
+    @brief  Draws a simple button with centered text
+
+    @param[in]  x
+                Starting x co-ordinate
+    @param[in]  y
+                Starting y co-ordinate
+    @param[in]  width
+                Button width in pixels
+    @param[in]  height
+                Button height in pixels
+    @param[in]  fontColor
+                Color used when rendering the text
+    @param[in]  text
+                Text to center inside the button
 */
 /**************************************************************************/
-void cmd_textw(uint8_t argc, char **argv)
+void buttonRender(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t fontColor, char *text, theme_t theme)
 {
-  int32_t font;
-  uint8_t i, len;
-  char *data_ptr, data[80];
-  
-  // Convert supplied parameters
-  getNumber (argv[0], &font);
-
-  // Get message contents
-  data_ptr = data;
-  for (i=0; i<argc-1; i++)
-  {
-    len = strlen(argv[i+1]);
-    strcpy((char *)data_ptr, (char *)argv[i+1]);
-    data_ptr += len;
-    *data_ptr++ = ' ';
-  }
-  *data_ptr++ = '\0';
-
   #if CFG_TFTLCD_USEAAFONTS
-    switch (font)
+    uint16_t ctable[4];
+
+    // Calculate 4 color lookup table using the appropriate fore and bg colors
+    // This should really be optimized out into theme.h!
+    aafontsCalculateColorTable(theme.colorFill, fontColor, &ctable[0], 4);
+
+    // Draw the primitive shapes for the button
+    drawRoundedRectangleFilled(x, y, x+width, y+height, theme.colorBorder, 5, DRAW_CORNERS_ALL);
+    drawRoundedRectangleFilled(x+1, y+1, x+width-1, y+height-1, theme.colorFill, 5, DRAW_CORNERS_ALL);
+
+    if (text != NULL)
     {
-      default:  // Only enough space for one font for now
-        printf("%d %s", aafontsGetStringWidth(&THEME_FONT, data), CFG_PRINTF_NEWLINE);
-        break;
+      aafontsCenterString(x + width / 2, y + 1 + (height / 2) - (THEME_FONT.fontHeight / 2), ctable, &THEME_FONT, text);
     }
   #else
-    switch (font)
+    // Draw the primitive shapes for the button
+    drawRoundedRectangleFilled(x, y, x+width, y+height, theme.colorBorder, 5, DRAW_CORNERS_ALL);
+    drawRoundedRectangleFilled(x+1, y+1, x+width-1, y+height-1, theme.colorFill, 5, DRAW_CORNERS_ALL);
+
+    // Render text
+    if (text != NULL)
     {
-      default:  // Only enough space for one font for now
-        printf("%d %s", fontsGetStringWidth(&THEME_FONT, data), CFG_PRINTF_NEWLINE);
-        break;
+      uint16_t textWidth = fontsGetStringWidth(&THEME_FONT, text);
+      uint16_t xStart = x + (width / 2) - (textWidth / 2);
+      uint16_t yStart = y + (height / 2) - (THEME_FONT.height / 2) + 1;
+      fontsDrawString(xStart, yStart, fontColor, &THEME_FONT, text);
     }
   #endif
-
-  return;
 }
-
-#endif  

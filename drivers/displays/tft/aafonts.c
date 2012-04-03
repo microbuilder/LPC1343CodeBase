@@ -241,6 +241,30 @@ void aafontsDrawString(uint16_t x, uint16_t y, const uint16_t * colorTable, cons
 
 /**************************************************************************/
 /*!
+    @brief  Draws a string using the supplied anti-aliased font, centering
+            it on the specified X/Y co-ordinate
+
+    @param[in]  x
+                Center x co-ordinate
+    @param[in]  y
+                Center y co-ordinate
+    @param[in]  colorTable
+                The color lookup table to use for the antialiased pixels
+    @param[in]  font
+                Pointer to the aafontsFont_t to use when drawing the string
+    @param[in]  str
+                The string to render
+*/
+/**************************************************************************/
+void aafontsCenterString(uint16_t x, uint16_t y, const uint16_t * colorTable, const aafontsFont_t *font, char *str)
+{
+  uint32_t stringWidth;
+  stringWidth = aafontsGetStringWidth(font, str);
+  aafontsDrawString(x - stringWidth/2, y, colorTable, font, str);
+}
+
+/**************************************************************************/
+/*!
     @brief  Returns the width in pixels of a string when it is rendered
 
     This method can be used to determine whether a string will fit

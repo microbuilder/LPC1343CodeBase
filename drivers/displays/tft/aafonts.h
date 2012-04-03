@@ -70,6 +70,7 @@ extern const uint16_t COLORTABLE_AA4_WHITEONBLACK[16];
 extern const uint16_t COLORTABLE_AA4_BLACKONWHITE[16];
 
 void      aafontsDrawString ( uint16_t x, uint16_t y, const uint16_t * colorTable, const aafontsFont_t *font, char *str );
+void      aafontsCenterString ( uint16_t x, uint16_t y, const uint16_t * colorTable, const aafontsFont_t *font, char *str );
 uint16_t  aafontsGetStringWidth ( const aafontsFont_t *font, char *str );
 void      aafontsCalculateColorTable ( uint16_t bgColor, uint16_t foreColor, uint16_t *colorTable, size_t tableSize );
 

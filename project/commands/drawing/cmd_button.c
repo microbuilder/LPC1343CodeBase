@@ -47,7 +47,7 @@
   #include "drivers/displays/tft/lcd.h"    
   #include "drivers/displays/tft/drawing.h"  
   #include "drivers/displays/tft/touchscreen.h"
-  #include "drivers/displays/tft/fonts/dejavusans9.h"
+  #include "drivers/displays/tft/controls/button.h"
 
 /**************************************************************************/
 /*! 
@@ -60,7 +60,7 @@
 /**************************************************************************/
 void cmd_button(uint8_t argc, char **argv)
 {
-  int32_t x, y, w, h, border, fill, font;
+  int32_t x, y, w, h, fontcolor;
   
   // ToDo: Validate data!
 
@@ -69,31 +69,29 @@ void cmd_button(uint8_t argc, char **argv)
   getNumber (argv[1], &y);
   getNumber (argv[2], &w);
   getNumber (argv[3], &h);
-  getNumber (argv[4], &border);
-  getNumber (argv[5], &fill);
-  getNumber (argv[6], &font);
+  getNumber (argv[4], &fontcolor);
 
-  if (argc == 7)
+  if (argc == 5)
   {
     // Render the button with no text
-    drawButton(x, y, w, h, &dejaVuSans9ptFontInfo, (uint16_t)border, (uint16_t)fill, (uint16_t)font, NULL);
+    buttonRender(x, y, w, h, (uint16_t)fontcolor, NULL, THEME_DEFAULT);
   }
   else
   {
     // Get text contents
     uint8_t i, len, *data_ptr, data[50];
     data_ptr = data;
-    for (i = 0; i < argc - 7; i++)
+    for (i = 0; i < argc - 5; i++)
     {
-      len = strlen(argv[i + 7]);
-      strcpy((char *)data_ptr, (char *)argv[i + 7]);
+      len = strlen(argv[i + 5]);
+      strcpy((char *)data_ptr, (char *)argv[i + 5]);
       data_ptr += len;
       *data_ptr++ = ' ';
     }
     *data_ptr++ = '\0';
 
     // Render the button with text
-    drawButton(x, y, w, h, &dejaVuSans9ptFontInfo, (uint16_t)border, (uint16_t)fill, (uint16_t)font, (char *)&data);
+    buttonRender(x, y, w, h, (uint16_t)fontcolor, (char *)&data, THEME_DEFAULT);
   }
 }
 

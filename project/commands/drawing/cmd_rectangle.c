@@ -125,7 +125,7 @@ void cmd_rectangleround(uint8_t argc, char **argv)
   }
   else
   {
-    drawRectangleRounded(x1, y1, x2, y2, (uint16_t)c, radius, corners);
+    drawRoundedRectangleFilled(x1, y1, x2, y2, (uint16_t)c, radius, corners);
   }
 }
 

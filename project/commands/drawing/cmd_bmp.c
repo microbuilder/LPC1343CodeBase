@@ -45,6 +45,7 @@
 #if defined CFG_TFTLCD && defined CFG_SDCARD
   #include "drivers/displays/tft/lcd.h"    
   #include "drivers/displays/tft/drawing.h"  
+  #include "drivers/displays/tft/bmp.h"  
 
 /**************************************************************************/
 /*! 
@@ -63,7 +64,7 @@ void cmd_bmp(uint8_t argc, char **argv)
 
   // Render image
   bmp_error_t error;
-  error = drawBitmapImage(x, y, filename);
+  error = bmpDrawBitmap(x, y, filename);
 
   switch (error)
   {

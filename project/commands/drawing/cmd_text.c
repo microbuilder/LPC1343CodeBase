@@ -46,13 +46,6 @@
 #ifdef CFG_TFTLCD    
   #include "drivers/displays/tft/lcd.h"    
   #include "drivers/displays/tft/drawing.h"  
-  #include "drivers/displays/tft/fonts/dejavusans9.h"
-
-  // Only include this w/UART since there isn't enough space otherwise!
-  #ifdef CFG_PRINTF_UART
-  #include "drivers/displays/tft/fonts/dejavusansmono8.h"
-  #include "drivers/displays/tft/fonts/dejavusansbold9.h"
-  #endif
 
 /**************************************************************************/
 /*! 
@@ -61,7 +54,7 @@
 /**************************************************************************/
 void cmd_text(uint8_t argc, char **argv)
 {
-  int32_t x, y, color;
+  int32_t x, y, bgcolor, fontcolor;
   int32_t font;
   uint8_t i, len;
   char *data_ptr, data[80];
@@ -69,37 +62,39 @@ void cmd_text(uint8_t argc, char **argv)
   // Convert supplied parameters
   getNumber (argv[0], &x);
   getNumber (argv[1], &y);
-  getNumber (argv[2], &color);
-  getNumber (argv[3], &font);
+  getNumber (argv[2], &bgcolor);
+  getNumber (argv[3], &fontcolor);
+  getNumber (argv[4], &font);
 
   // Get message contents
   data_ptr = data;
-  for (i=0; i<argc-4; i++)
+  for (i=0; i<argc-5; i++)
   {
-    len = strlen(argv[i+4]);
-    strcpy((char *)data_ptr, (char *)argv[i+4]);
+    len = strlen(argv[i+5]);
+    strcpy((char *)data_ptr, (char *)argv[i+5]);
     data_ptr += len;
     *data_ptr++ = ' ';
   }
   *data_ptr++ = '\0';
 
-  // Only include this w/UART since there isn't enough space otherwise!
-  #ifdef CFG_PRINTF_UART
+  #if CFG_TFTLCD_USEAAFONTS
+    uint16_t ctable[4];
+    // Calculate 4 color lookup table using the appropriate fore and bg colors
+    // This should really be optimized out into theme.h!
+    aafontsCalculateColorTable(bgcolor, (uint16_t)fontcolor, &ctable[0], 4);
     switch (font)
     {
-      case 1:   // DejaVu Sans Mono 8
-        fontsDrawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSansMono8ptFontInfo, (char *)&data);
-        break;
-      case 2:   // DejaVu Sans Bold 9
-        fontsDrawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSansBold9ptFontInfo, (char *)&data);
-        break;
-      default:  // DejaVu Sans 9        
-        fontsDrawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSans9ptFontInfo, (char *)&data);
+      default:  // Only enough space for the default font for now
+        aafontsDrawString((uint16_t)x, (uint16_t)y, ctable, &THEME_FONT, (char *)&data);
         break;
     }
   #else
-    // Always use Vera Mono 9 is used by default
-    fontsDrawString((uint16_t)x, (uint16_t)y, (uint16_t)color, &dejaVuSans9ptFontInfo, (char *)&data);
+    switch (font)
+    {
+      default:  // Only enough space for the default font for now
+        fontsDrawString((uint16_t)x, (uint16_t)y, (uint16_t)fontcolor, &THEME_FONT, (char *)&data);
+        break;
+    }
   #endif
 }
 

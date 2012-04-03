@@ -36,7 +36,6 @@
 #ifndef __DEJAVUSANSCONDENSEDBOLD14_AA2_H__
 #define __DEJAVUSANSCONDENSEDBOLD14_AA2_H__
 
-#include "projectconfig.h"
 #include "drivers/displays/tft/aafonts.h"
 
 extern aafontsFont_t DejaVuSansCondensedBold14_AA2;

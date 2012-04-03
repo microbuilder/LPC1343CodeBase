@@ -1,16 +1,15 @@
 /**************************************************************************/
 /*! 
-    @file     cmd_textw.c
+    @file     label.c
     @author   K. Townsend (microBuilder.eu)
 
-    @brief    Code to execute for cmd_textw in the 'core/cmd'
-              command-line interpretter.
+    @brief    Renders a label
 
     @section LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, K. Townsend
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -36,59 +35,40 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
-#include <stdio.h>
 #include <string.h>
 
-#include "projectconfig.h"
-#include "core/cmd/cmd.h"
-#include "project/commands.h"       // Generic helper functions
-
-#ifdef CFG_TFTLCD    
-  #include "drivers/displays/tft/lcd.h"    
-  #include "drivers/displays/tft/drawing.h"  
+#include "label.h"
 
 /**************************************************************************/
-/*! 
-    Returns the width of the supplied text in pixels.
+/*!
+    @brief  Draws a simple label
+
+    @param[in]  x
+                Starting x co-ordinate
+    @param[in]  y
+                Starting y co-ordinate
+    @param[in]  bgColor
+                Color used for the background (required for AA fonts)
+    @param[in]  fontColor
+                Color used when rendering the text
+    @param[in]  text
+                Text to center inside the label
 */
 /**************************************************************************/
-void cmd_textw(uint8_t argc, char **argv)
+void labelRender(uint16_t x, uint16_t y, uint16_t bgColor, uint16_t fontColor, char *text, theme_t theme)
 {
-  int32_t font;
-  uint8_t i, len;
-  char *data_ptr, data[80];
-  
-  // Convert supplied parameters
-  getNumber (argv[0], &font);
-
-  // Get message contents
-  data_ptr = data;
-  for (i=0; i<argc-1; i++)
-  {
-    len = strlen(argv[i+1]);
-    strcpy((char *)data_ptr, (char *)argv[i+1]);
-    data_ptr += len;
-    *data_ptr++ = ' ';
-  }
-  *data_ptr++ = '\0';
-
   #if CFG_TFTLCD_USEAAFONTS
-    switch (font)
+    uint16_t ctable[4];
+    if (text != NULL)
     {
-      default:  // Only enough space for one font for now
-        printf("%d %s", aafontsGetStringWidth(&THEME_FONT, data), CFG_PRINTF_NEWLINE);
-        break;
+      aafontsCalculateColorTable(bgColor, fontColor, &ctable[0], 4);
+      aafontsDrawString(x, y, ctable, &THEME_FONT, text);
     }
   #else
-    switch (font)
+    // Render text
+    if (text != NULL)
     {
-      default:  // Only enough space for one font for now
-        printf("%d %s", fontsGetStringWidth(&THEME_FONT, data), CFG_PRINTF_NEWLINE);
-        break;
+      fontsDrawString(x, y, fontColor, &THEME_FONT, text);
     }
   #endif
-
-  return;
 }
-
-#endif  

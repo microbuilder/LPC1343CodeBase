@@ -118,7 +118,7 @@ cmd_t cmd_tbl[] =
   #endif
 
   #ifdef CFG_TFTLCD
-  { "b",    7,  99, 0, cmd_button            , "Button"                         , "'b <x> <y> <w> <h> <brdrclr> <fillclr> <fontclr> [<txt>]'" },
+  { "b",    5,  99, 0, cmd_button            , "Button"                         , "'b <x> <y> <w> <h> <fontclr> [<txt>]'" },
   #ifdef CFG_SDCARD
   { "B",    3,  3,  0, cmd_bmp               , "Bitmap (SD Card)"               , "'B <x> <y> <file>'" },
   #endif
@@ -131,11 +131,11 @@ cmd_t cmd_tbl[] =
   { "n",    5,  5,  0, cmd_roundedcorner     , "Rounded Corner"                 , "'n <x> <y> <radius> <corner> <color>'" },
   { "o",    0,  1,  0, cmd_orientation       , "LCD Orientation"                , "'o [<0|1>]'" },
   { "p",    3,  3,  0, cmd_pixel             , "Draw Pixel"                     , "'p <x> <y> <color>'" },
-  { "P",    9,  9,  0, cmd_progress          , "Progress Bar"                   , "'P <x> <y> <w> <h> <%> <bclr> <bfillclr> <pbrdclr> <pfillclr>'" },
+  { "P",    6,  6,  0, cmd_progress          , "Progress Bar"                   , "'P <x> <y> <w> <h> <%> <barclr>'" },
   { "r",    5,  7,  0, cmd_rectangle         , "Rectangle"                      , "'r <x1> <y1> <x2> <y2> <color> [<filled[0|1]> <bcolor>]'" },
   { "R",    7,  7,  0, cmd_rectangleround    , "Rounded Rectangle"              , "'R <x1> <y1> <x2> <y2> <color> <radius> <corners>'" },
   { "s",    2, 99,  0, cmd_textw             , "Text Width"                     , "'s <font#> <msg>'" },
-  { "t",    5, 99,  0, cmd_text              , "Text"                           , "'t <x> <y> <color> <font#> <msg>'" },
+  { "t",    6, 99,  0, cmd_text              , "Text"                           , "'t <x> <y> <bgcolor> <fontcolor> <font#> <msg>'" },
   { "v",    7,  8,  0, cmd_triangle          , "Triangle"                       , "'v <x1> <y1> <x2> <y2> <x3> <y3> <color> [<filled[0|1]>]'" },
   { "W",    0,  1,  0, cmd_tswait            , "Wait for Touch"                 , "'W [<ms>]'" },
   { "x",    0,  1,  0, cmd_tsthreshhold      , "Touch Threshold"                , "'x [<0..254>]'" },

@@ -1,5 +1,51 @@
+v1.1.0 - Ongoing
+==============================================================================
+BREAKING CHANGES
+------------------------------------------------------------------------------
+- Rewrote corner and rounded rectangle code.  Only one corner enum is now used
+  (drawCorners_t)
+- Renamed drawRectangleRounded to drawRoundedRectangleFilled
+- Removed drawProgressBar and drawButton from drawing.c, since drawing should
+  only contain drawing primitives
+- Reorganised a lot of the TFT drawing library to support external controls,
+  and dynamically switch between bitmap and anti-aliased fonts.  In the future
+  everything that isn't a basic drawing primitive will be placed in it's own
+  control.  The main benefit of this is that it's much easier to customize the
+  look and feel of your UI without having to modify drawing.c and the basic
+  drawing primitives, and to be able to switch from bitmap to anti-aliased
+  fonts depending on how much flash space you have free, etc.
+- Removed bmp_error_t drawBitmapImage(uint16_t x, uint16_t y, char *filename)
+  to keep better seperation of primitives and more complex features, and
+  reduce external dependencies in drawing.c.  Call bmpDrawImage (bmp.c)
+  directly instead.
+
+NEW FEATURES
+------------------------------------------------------------------------------
+- Added drawCorner to graphics.c
+- Added new 'controls/' folder to the GFX library, and added a number of
+  controls that will render correctly with the theme settings, as well as
+  using bitmap or anti-aliased fonts, depending on projectconfig.h
+- New controls:
+  - button
+  - hsbchart (Hue/saturation/brightness chart for color pickers)
+  - huechart (Hue selection gradient for color pickers)
+  - label
+  - labelcentered
+  - progressbar
+- Added theme.h to try to define all of the color and font settings used by
+  the controls in one location to make it easier to update or modify
+- Added aafontsCenterString to aafonts.c
+
+BUG FIXES/OPTIMISATION/ETC.
+------------------------------------------------------------------------------
+- Updated Crossworks Project to use LPC1000 Lib 1.19 (uses CMSIS 3.0)
+- Some performance improvements to core/gpio/gpio.c (thanks Tom for the
+  suggestion)
+- Fixed alpha blending when alpha = 100%
+- Change gpioSetValue to be inline (should optimise to a single operation)
+
 v1.0.0 - 23 March 2012
-======================
+===========================================================
 - Added support for LPCXpresso IDE
 - *** Moved '/drivers/chibi' to '/drivers/rf/chibi' ***
 - *** Moved '/drivers/sensors/pn532' to '/drivers/rf/pn532' ***

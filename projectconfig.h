@@ -211,7 +211,7 @@
     FIRMWARE VERSION SETTINGS
     -----------------------------------------------------------------------*/
     #define CFG_FIRMWARE_VERSION_MAJOR            (1)
-    #define CFG_FIRMWARE_VERSION_MINOR            (0)
+    #define CFG_FIRMWARE_VERSION_MINOR            (1)
     #define CFG_FIRMWARE_VERSION_REVISION         (0)
 /*=========================================================================*/
 
@@ -1134,6 +1134,12 @@
                                 support for larger fonts generated with
                                 Dot Factory 
                                 http://www.pavius.net/downloads/tools/53-the-dot-factory
+    CFG_TFTLCD_USEAAFONTS       If set to a non-zero value, anti-aliased
+                                fonts will be used instead of regular 1-bit
+                                font.  These result in much higher-
+                                quality text, but the fonts are 2 or 4
+                                times larger than plain bitmap fonts and
+                                take a bit more rendering time to display.
     CFG_TFTLCD_TS_DEFAULTTHRESHOLD  Default minimum threshold to trigger a
                                 touch event with the touch screen (and exit
                                 from 'tsWaitForEvent' in touchscreen.c).
@@ -1154,6 +1160,7 @@
     #ifdef CFG_BRD_LPC1343_REFDESIGN
       // #define CFG_TFTLCD
       #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
+      #define CFG_TFTLCD_USEAAFONTS          (1)
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
       #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
     #endif
@@ -1161,6 +1168,7 @@
     #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
       // #define CFG_TFTLCD
       #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
+      #define CFG_TFTLCD_USEAAFONTS          (0)
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
       #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
     #endif
@@ -1168,6 +1176,7 @@
     #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       #define CFG_TFTLCD
       #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
+      #define CFG_TFTLCD_USEAAFONTS          (1)
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
       #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
     #endif
@@ -1175,6 +1184,7 @@
     #ifdef CFG_BRD_LPC1343_802154USBSTICK
       // #define CFG_TFTLCD
       #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
+      #define CFG_TFTLCD_USEAAFONTS          (0)
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
       #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
     #endif
@@ -1182,6 +1192,7 @@
     #ifdef CFG_BRD_LPC1343_OLIMEX_P
       // #define CFG_TFTLCD
       #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
+      #define CFG_TFTLCD_USEAAFONTS          (0)
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
       #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
     #endif	
@@ -1189,6 +1200,7 @@
     #ifdef CFG_BRD_LPC1343_LPCXPRESSO
       // #define CFG_TFTLCD
       #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
+      #define CFG_TFTLCD_USEAAFONTS          (0)
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
       #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
     #endif

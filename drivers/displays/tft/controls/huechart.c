@@ -1,16 +1,15 @@
 /**************************************************************************/
 /*! 
-    @file     cmd_textw.c
+    @file     huechart.c
     @author   K. Townsend (microBuilder.eu)
 
-    @brief    Code to execute for cmd_textw in the 'core/cmd'
-              command-line interpretter.
+    @brief    Renders a hue/saturation/brightness chart
 
     @section LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, K. Townsend
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -36,59 +35,37 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
-#include <stdio.h>
 #include <string.h>
 
-#include "projectconfig.h"
-#include "core/cmd/cmd.h"
-#include "project/commands.h"       // Generic helper functions
-
-#ifdef CFG_TFTLCD    
-  #include "drivers/displays/tft/lcd.h"    
-  #include "drivers/displays/tft/drawing.h"  
+#include "huechart.h"
 
 /**************************************************************************/
 /*! 
-    Returns the width of the supplied text in pixels.
+    @brief  Draws a rectangular hue chart showing the full spectrum
+			of fully saturated colors
+
+    @param[in]  x
+                Starting x co-ordinate
+    @param[in]  y
+                Starting y co-ordinate
+    @param[in]  width
+                Width of the chart in pixels
+    @param[in]  height
+                Width of the chart in pixels
 */
 /**************************************************************************/
-void cmd_textw(uint8_t argc, char **argv)
+void huechartRender(uint16_t x, uint16_t y, uint16_t width, uint16_t height, theme_t theme)
 {
-  int32_t font;
-  uint8_t i, len;
-  char *data_ptr, data[80];
-  
-  // Convert supplied parameters
-  getNumber (argv[0], &font);
+  uint32_t delta = (height - 2) / 6;
 
-  // Get message contents
-  data_ptr = data;
-  for (i=0; i<argc-1; i++)
-  {
-    len = strlen(argv[i+1]);
-    strcpy((char *)data_ptr, (char *)argv[i+1]);
-    data_ptr += len;
-    *data_ptr++ = ' ';
-  }
-  *data_ptr++ = '\0';
+  // Draw border
+  drawRectangle(x, y, x+width, y+height, theme.colorBorderDarker);
 
-  #if CFG_TFTLCD_USEAAFONTS
-    switch (font)
-    {
-      default:  // Only enough space for one font for now
-        printf("%d %s", aafontsGetStringWidth(&THEME_FONT, data), CFG_PRINTF_NEWLINE);
-        break;
-    }
-  #else
-    switch (font)
-    {
-      default:  // Only enough space for one font for now
-        printf("%d %s", fontsGetStringWidth(&THEME_FONT, data), CFG_PRINTF_NEWLINE);
-        break;
-    }
-  #endif
-
-  return;
+  // Draw gradient (R > M > B > C > G > Y > R)
+  drawGradient(x+1, y+1, x+width-1, y+delta-1, COLOR_RED, COLOR_MAGENTA);
+  drawGradient(x+1, y+delta, x+width-1, y+(delta*2)-1, COLOR_MAGENTA, COLOR_BLUE);
+  drawGradient(x+1, y+(delta*2), x+width-1, y+(delta*3)-1, COLOR_BLUE, COLOR_CYAN);
+  drawGradient(x+1, y+(delta*3), x+width-1, y+(delta*4)-1, COLOR_CYAN, COLOR_GREEN);
+  drawGradient(x+1, y+(delta*4), x+width-1, y+(delta*5)-1, COLOR_GREEN, COLOR_YELLOW);
+  drawGradient(x+1, y+(delta*5), x+width-1, y+height-1, COLOR_YELLOW, COLOR_RED);
 }
-
-#endif  

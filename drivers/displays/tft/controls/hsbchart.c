@@ -1,16 +1,15 @@
 /**************************************************************************/
 /*! 
-    @file     cmd_textw.c
+    @file     hsbchart.c
     @author   K. Townsend (microBuilder.eu)
 
-    @brief    Code to execute for cmd_textw in the 'core/cmd'
-              command-line interpretter.
+    @brief    Renders a hue/saturation/brightness chart
 
     @section LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, K. Townsend
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -36,59 +35,47 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
-#include <stdio.h>
 #include <string.h>
 
-#include "projectconfig.h"
-#include "core/cmd/cmd.h"
-#include "project/commands.h"       // Generic helper functions
-
-#ifdef CFG_TFTLCD    
-  #include "drivers/displays/tft/lcd.h"    
-  #include "drivers/displays/tft/drawing.h"  
+#include "hsbchart.h"
 
 /**************************************************************************/
 /*! 
-    Returns the width of the supplied text in pixels.
+    @brief  Draws a square HSB (hue, saturation, brightness) chart
+
+    @param[in]  x
+                Starting x co-ordinate
+    @param[in]  y
+                Starting y co-ordinate
+    @param[in]  size
+                Width/height of the chart
+    @param[in]  baseColor
+                The fully saturated color to use for the chart
 */
 /**************************************************************************/
-void cmd_textw(uint8_t argc, char **argv)
+void hsbchartRender(uint16_t x, uint16_t y, uint16_t size, uint16_t baseColor, theme_t theme)
 {
-  int32_t font;
-  uint8_t i, len;
-  char *data_ptr, data[80];
-  
-  // Convert supplied parameters
-  getNumber (argv[0], &font);
+  uint32_t delta;   // Alpha channel difference per pixel
+  uint16_t colorS;  // Alpha-blended color for saturation
+  uint16_t color;   // Alpha-blended color for saturation + brightness
+  uint32_t b;       // Brightness counter
+  uint32_t s;       // Saturation counter
 
-  // Get message contents
-  data_ptr = data;
-  for (i=0; i<argc-1; i++)
+  drawRectangle(x, y, x+size, y+size, theme.colorBorderDarker);
+
+  if (size > 2)
   {
-    len = strlen(argv[i+1]);
-    strcpy((char *)data_ptr, (char *)argv[i+1]);
-    data_ptr += len;
-    *data_ptr++ = ' ';
+    delta = 10000/(size-2);       // Calculate difference in perfect per pixel (fixed point math, * 100)
+    for (b = 0; b<size-1; b++)
+    {
+      // Calculate color for saturation
+      colorS = colorsAlphaBlend(COLOR_WHITE, baseColor, 100 - (b*delta) / 100);
+      for (s = 0; s<size-1; s++)
+      {
+        // Calculate color for brightness
+        color = colorsAlphaBlend(colorS, COLOR_BLACK, 100 - (s*delta) / 100);
+        drawPixel(x+b+1, y+s+1, color);
+      }
+    }
   }
-  *data_ptr++ = '\0';
-
-  #if CFG_TFTLCD_USEAAFONTS
-    switch (font)
-    {
-      default:  // Only enough space for one font for now
-        printf("%d %s", aafontsGetStringWidth(&THEME_FONT, data), CFG_PRINTF_NEWLINE);
-        break;
-    }
-  #else
-    switch (font)
-    {
-      default:  // Only enough space for one font for now
-        printf("%d %s", fontsGetStringWidth(&THEME_FONT, data), CFG_PRINTF_NEWLINE);
-        break;
-    }
-  #endif
-
-  return;
 }
-
-#endif  

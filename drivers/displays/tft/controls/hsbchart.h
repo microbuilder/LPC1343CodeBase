@@ -1,16 +1,13 @@
 /**************************************************************************/
 /*! 
-    @file     cmd_textw.c
+    @file     hsbchart.h
     @author   K. Townsend (microBuilder.eu)
-
-    @brief    Code to execute for cmd_textw in the 'core/cmd'
-              command-line interpretter.
 
     @section LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, K. Townsend
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -36,59 +33,12 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
-#include <stdio.h>
-#include <string.h>
+#ifndef __HSBCHART_H__
+#define __HSBCHART_H__
 
 #include "projectconfig.h"
-#include "core/cmd/cmd.h"
-#include "project/commands.h"       // Generic helper functions
+#include "drivers/displays/tft/drawing.h"
 
-#ifdef CFG_TFTLCD    
-  #include "drivers/displays/tft/lcd.h"    
-  #include "drivers/displays/tft/drawing.h"  
+void hsbchartRender(uint16_t x, uint16_t y, uint16_t size, uint16_t baseColor, theme_t theme);
 
-/**************************************************************************/
-/*! 
-    Returns the width of the supplied text in pixels.
-*/
-/**************************************************************************/
-void cmd_textw(uint8_t argc, char **argv)
-{
-  int32_t font;
-  uint8_t i, len;
-  char *data_ptr, data[80];
-  
-  // Convert supplied parameters
-  getNumber (argv[0], &font);
-
-  // Get message contents
-  data_ptr = data;
-  for (i=0; i<argc-1; i++)
-  {
-    len = strlen(argv[i+1]);
-    strcpy((char *)data_ptr, (char *)argv[i+1]);
-    data_ptr += len;
-    *data_ptr++ = ' ';
-  }
-  *data_ptr++ = '\0';
-
-  #if CFG_TFTLCD_USEAAFONTS
-    switch (font)
-    {
-      default:  // Only enough space for one font for now
-        printf("%d %s", aafontsGetStringWidth(&THEME_FONT, data), CFG_PRINTF_NEWLINE);
-        break;
-    }
-  #else
-    switch (font)
-    {
-      default:  // Only enough space for one font for now
-        printf("%d %s", fontsGetStringWidth(&THEME_FONT, data), CFG_PRINTF_NEWLINE);
-        break;
-    }
-  #endif
-
-  return;
-}
-
-#endif  
+#endif

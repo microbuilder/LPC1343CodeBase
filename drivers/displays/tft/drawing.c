@@ -40,10 +40,6 @@
 
 #include "drawing.h"
 
-#ifdef CFG_SDCARD
-  #include "bmp.h"
-#endif
-
 /**************************************************************************/
 /*                                                                        */
 /* ----------------------- Private Methods ------------------------------ */
@@ -110,40 +106,6 @@ void drawCharSmall(uint16_t x, uint16_t y, uint16_t color, uint8_t c, struct FON
 #endif
 
 /**************************************************************************/
-/*!
-    @brief  Helper method to accurately draw individual circle points
-*/
-/**************************************************************************/
-void drawCirclePoints(int cx, int cy, int x, int y, uint16_t color)
-{    
-  if (x == 0) 
-  {
-      drawPixel(cx, cy + y, color);
-      drawPixel(cx, cy - y, color);
-      drawPixel(cx + y, cy, color);
-      drawPixel(cx - y, cy, color);
-  } 
-  else if (x == y) 
-  {
-      drawPixel(cx + x, cy + y, color);
-      drawPixel(cx - x, cy + y, color);
-      drawPixel(cx + x, cy - y, color);
-      drawPixel(cx - x, cy - y, color);
-  } 
-  else if (x < y) 
-  {
-      drawPixel(cx + x, cy + y, color);
-      drawPixel(cx - x, cy + y, color);
-      drawPixel(cx + x, cy - y, color);
-      drawPixel(cx - x, cy - y, color);
-      drawPixel(cx + y, cy + x, color);
-      drawPixel(cx - y, cy + x, color);
-      drawPixel(cx + y, cy - x, color);
-      drawPixel(cx - y, cy - x, color);
-  }
-}
-
-/**************************************************************************/
 /*                                                                        */
 /* ----------------------- Public Methods ------------------------------- */
 /*                                                                        */
@@ -163,14 +125,10 @@ void drawCirclePoints(int cx, int cy, int x, int y, uint16_t color)
 /**************************************************************************/
 void drawPixel(uint16_t x, uint16_t y, uint16_t color)
 {
-  if ((x >= lcdGetWidth()) || (y >= lcdGetHeight()))
+  if ((x < lcdGetWidth()) && (y < lcdGetHeight()))
   {
-    // Pixel out of range
-    return;
+    lcdDrawPixel(x, y, color);
   }
-
-  // Redirect to LCD
-  lcdDrawPixel(x, y, color);
 }
 
 /**************************************************************************/
@@ -422,25 +380,11 @@ void drawLineDotted ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16
 /**************************************************************************/
 void drawCircle (uint16_t xCenter, uint16_t yCenter, uint16_t radius, uint16_t color)
 {
-  int x = 0;
-  int y = radius;
-  int p = (5 - radius*4)/4;
-
-  drawCirclePoints(xCenter, yCenter, x, y, color);
-  while (x < y) 
-  {
-    x++;
-    if (p < 0) 
-    {
-      p += 2*x+1;
-    } 
-    else 
-    {
-      y--;
-      p += 2*(x-y)+1;
-    }
-    drawCirclePoints(xCenter, yCenter, x, y, color);
-  }
+  drawPixel(xCenter, yCenter+radius, color);
+  drawPixel(xCenter, yCenter-radius, color);
+  drawPixel(xCenter+radius, yCenter, color);
+  drawPixel(xCenter-radius, yCenter, color);
+  drawCorner(xCenter, yCenter, radius, DRAW_CORNERS_ALL, color);
 }
 
 /**************************************************************************/
@@ -499,6 +443,74 @@ void drawCircleFilled (uint16_t xCenter, uint16_t yCenter, uint16_t radius, uint
 
 /**************************************************************************/
 /*!
+    @brief  Draws a single 1-pixel wide corner
+
+    @note   Code courtesy Adafruit's excellent GFX lib:
+            https://github.com/adafruit/Adafruit-GFX-Library
+
+    @param[in]  xCenter
+                The horizontal center of the circle
+    @param[in]  yCenter
+                The vertical center of the circle
+    @param[in]  corner
+                The drawCorners_t representing the corner(s) to draw
+    @param[in]  color
+                Color used when drawing
+    
+    @section EXAMPLE
+
+    @code
+
+    // Draw a top-left corner with a 10 pixel radius, centered at 20, 20
+    drawCorner(20, 20, 10, DRAW_CORNER_TOPLEFT, COLOR_GRAY_128);
+
+    @endcode
+*/
+/**************************************************************************/
+void drawCorner (uint16_t xCenter, uint16_t yCenter, uint16_t r, drawCorners_t corner, uint16_t color) 
+{
+  int16_t f     = 1 - r;
+  int16_t ddF_x = 1;
+  int16_t ddF_y = -2 * r;
+  int16_t x     = 0;
+  int16_t y     = r;
+
+  while (x<y) 
+  {
+    if (f >= 0) 
+    {
+      y--;
+      ddF_y += 2;
+      f     += ddF_y;
+    }
+    x++;
+    ddF_x += 2;
+    f     += ddF_x;
+    if (corner & DRAW_CORNERS_BOTTOMRIGHT) 
+    {
+      drawPixel(xCenter + x, yCenter + y, color);
+      drawPixel(xCenter + y, yCenter + x, color);
+    } 
+    if (corner & DRAW_CORNERS_TOPRIGHT) 
+    {
+      drawPixel(xCenter + x, yCenter - y, color);
+      drawPixel(xCenter + y, yCenter - x, color);
+    }
+    if (corner & DRAW_CORNERS_BOTTOMLEFT) 
+    {
+      drawPixel(xCenter - y, yCenter + x, color);
+      drawPixel(xCenter - x, yCenter + y, color);
+    }
+    if (corner & DRAW_CORNERS_TOPLEFT) 
+    {
+      drawPixel(xCenter - y, yCenter - x, color);
+      drawPixel(xCenter - x, yCenter - y, color);
+    }
+  }
+}
+
+/**************************************************************************/
+/*!
     @brief  Draws a filled rounded corner
 
     @param[in]  xCenter
@@ -514,7 +526,7 @@ void drawCircleFilled (uint16_t xCenter, uint16_t yCenter, uint16_t radius, uint
                 Color used when drawing
 */
 /**************************************************************************/
-void drawCornerFilled (uint16_t xCenter, uint16_t yCenter, uint16_t radius, drawCornerPosition_t position, uint16_t color)
+void drawCornerFilled (uint16_t xCenter, uint16_t yCenter, uint16_t radius, drawCorners_t position, uint16_t color)
 {
   int16_t f = 1 - radius;
   int16_t ddF_x = 1;
@@ -524,16 +536,14 @@ void drawCornerFilled (uint16_t xCenter, uint16_t yCenter, uint16_t radius, draw
   int16_t xc_px, yc_my, xc_mx, xc_py, yc_mx, xc_my;
   int16_t lcdWidth = lcdGetWidth();
 
-  switch (position)
+
+  if ((position & DRAW_CORNERS_TOPRIGHT) || (position & DRAW_CORNERS_TOPLEFT))
   {
-    case DRAW_CORNERPOSITION_TOPRIGHT:
-    case DRAW_CORNERPOSITION_TOPLEFT:
-      if (xCenter < lcdWidth) drawLine(xCenter, yCenter-radius < 0 ? 0 : yCenter-radius, xCenter, yCenter, color);
-      break;
-    case DRAW_CORNERPOSITION_BOTTOMRIGHT:
-    case DRAW_CORNERPOSITION_BOTTOMLEFT:
-      if (xCenter < lcdWidth) drawLine(xCenter, yCenter-radius < 0 ? 0 : yCenter, xCenter, (yCenter-radius) + (2*radius), color);
-      break;
+    if (xCenter < lcdWidth) drawLine(xCenter, yCenter-radius < 0 ? 0 : yCenter-radius, xCenter, yCenter, color);
+  }
+  if ((position & DRAW_CORNERS_BOTTOMRIGHT) || (position & DRAW_CORNERS_BOTTOMLEFT))
+  {
+    if (xCenter < lcdWidth) drawLine(xCenter, yCenter-radius < 0 ? 0 : yCenter, xCenter, (yCenter-radius) + (2*radius), color);
   }
   
   while (x<y) 
@@ -555,24 +565,26 @@ void drawCornerFilled (uint16_t xCenter, uint16_t yCenter, uint16_t radius, draw
     yc_mx = yCenter-x;
     yc_my = yCenter-y;
 
-    switch (position)
+
+    if (position & DRAW_CORNERS_TOPRIGHT)
     {
-      case DRAW_CORNERPOSITION_TOPRIGHT:
         if ((xc_px < lcdWidth) && (xc_px >= 0)) drawLine(xc_px, yc_my, xc_px, yCenter, color);
         if ((xc_py < lcdWidth) && (xc_py >= 0)) drawLine(xc_py, yc_mx, xc_py, yCenter, color);
-        break;
-      case DRAW_CORNERPOSITION_BOTTOMRIGHT:
+    }
+    if (position & DRAW_CORNERS_BOTTOMRIGHT)
+    {
         if ((xc_px < lcdWidth) && (xc_px >= 0)) drawLine(xc_px, yCenter, xc_px, yc_my + 2*y, color);
         if ((xc_py < lcdWidth) && (xc_py >= 0)) drawLine(xc_py, yCenter, xc_py, yc_mx + 2*x, color);
-        break;
-      case DRAW_CORNERPOSITION_TOPLEFT:
+    }
+    if (position & DRAW_CORNERS_TOPLEFT)
+    {
         if ((xc_mx < lcdWidth) && (xc_mx >= 0)) drawLine(xc_mx, yc_my, xc_mx, yCenter, color);
         if ((xc_my < lcdWidth) && (xc_my >= 0)) drawLine(xc_my, yc_mx, xc_my, yCenter, color);
-        break;
-      case DRAW_CORNERPOSITION_BOTTOMLEFT:
+    }
+    if (position & DRAW_CORNERS_BOTTOMLEFT)
+    {
         if ((xc_mx < lcdWidth) && (xc_mx >= 0)) drawLine(xc_mx, yCenter, xc_mx, yc_my + 2*y, color);
         if ((xc_my < lcdWidth) && (xc_my >= 0)) drawLine(xc_my, yCenter, xc_my, yc_mx + 2*x, color);
-        break;
     }
   }
 }
@@ -740,12 +752,12 @@ void drawRectangleFilled ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, u
                 Which corners to round
 */
 /**************************************************************************/
-void drawRectangleRounded ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color, uint16_t radius, drawRoundedCorners_t corners )
+void drawRoundedRectangleFilled ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color, uint16_t radius, drawCorners_t corners )
 {
   int height;
   uint16_t y;
 
-  if (corners == DRAW_ROUNDEDCORNERS_NONE)
+  if (corners == DRAW_CORNERS_NONE)
   {
     drawRectangleFilled(x0, y0, x1, y1, color);
     return;
@@ -772,41 +784,41 @@ void drawRectangleRounded ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, 
 
   switch (corners)
   {
-    case DRAW_ROUNDEDCORNERS_ALL:
-      drawCircleFilled(x0 + radius, y0 + radius, radius, color);
-      drawCircleFilled(x1 - radius, y0 + radius, radius, color);
-      drawCircleFilled(x0 + radius, y1 - radius, radius, color);
-      drawCircleFilled(x1 - radius, y1 - radius, radius, color);
+    case DRAW_CORNERS_ALL:
+      drawCornerFilled(x0 + radius, y0 + radius, radius, DRAW_CORNERS_TOPLEFT, color);
+      drawCornerFilled(x1 - radius, y0 + radius, radius, DRAW_CORNERS_TOPRIGHT, color);
+      drawCornerFilled(x0 + radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMLEFT, color);
+      drawCornerFilled(x1 - radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMRIGHT, color);
       if (radius*2+1 < height)
       {
         drawRectangleFilled(x0, y0 + radius, x0 + radius, y1 - radius, color);
         drawRectangleFilled(x1 - radius, y0 + radius, x1, y1 - radius, color);
       }
       break;
-    case DRAW_ROUNDEDCORNERS_TOP:
-      drawCircleFilled(x0 + radius, y0 + radius, radius, color);
-      drawCircleFilled(x1 - radius, y0 + radius, radius, color);
+    case DRAW_CORNERS_TOP:
+      drawCornerFilled(x0 + radius, y0 + radius, radius, DRAW_CORNERS_TOPLEFT, color);
+      drawCornerFilled(x1 - radius, y0 + radius, radius, DRAW_CORNERS_TOPRIGHT, color);
       drawRectangleFilled(x0, y0 + radius, x0 + radius, y1, color); 
       drawRectangleFilled(x1 - radius, y0 + radius, x1, y1, color); 
       break;
-    case DRAW_ROUNDEDCORNERS_BOTTOM:
-      drawCircleFilled(x0 + radius, y1 - radius, radius, color);
-      drawCircleFilled(x1 - radius, y1 - radius, radius, color);
+    case DRAW_CORNERS_BOTTOM:
+      drawCornerFilled(x0 + radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMLEFT, color);
+      drawCornerFilled(x1 - radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMRIGHT, color);
       drawRectangleFilled(x0, y0, x0 + radius, y1 - radius, color);
       drawRectangleFilled(x1 - radius, y0, x1, y1 - radius, color);
       break;
-    case DRAW_ROUNDEDCORNERS_LEFT:
-      drawCircleFilled(x0 + radius, y0 + radius, radius, color);
-      drawCircleFilled(x0 + radius, y1 - radius, radius, color);
+    case DRAW_CORNERS_LEFT:
+      drawCornerFilled(x0 + radius, y0 + radius, radius, DRAW_CORNERS_TOPLEFT, color);
+      drawCornerFilled(x0 + radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMLEFT, color);
       if (radius*2+1 < height)
       {
         drawRectangleFilled(x0, y0 + radius, x0 + radius, y1 - radius, color);
       }
       drawRectangleFilled(x1 - radius, y0, x1, y1, color);
       break;
-    case DRAW_ROUNDEDCORNERS_RIGHT:
-      drawCircleFilled(x1 - radius, y0 + radius, radius, color);
-      drawCircleFilled(x1 - radius, y1 - radius, radius, color);
+    case DRAW_CORNERS_RIGHT:
+      drawCornerFilled(x1 - radius, y0 + radius, radius, DRAW_CORNERS_TOPRIGHT, color);
+      drawCornerFilled(x1 - radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMRIGHT, color);
       if (radius*2+1 < height)
       {
         drawRectangleFilled(x1 - radius, y0 + radius, x1, y1 - radius, color);
@@ -1033,120 +1045,6 @@ void drawTriangleFilled ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, ui
 }
 
 /**************************************************************************/
-/*!
-    @brief  Draws a progress bar with rounded corners
-
-    @param[in]  x
-                Starting x location
-    @param[in]  y
-                Starting y location
-    @param[in]  width
-                Total width of the progress bar in pixels
-    @param[in]  height
-                Total height of the progress bar in pixels
-    @param[in]  borderCorners
-                The type of rounded corners to render with the progress bar border
-    @param[in]  progressCorners
-                The type of rounded corners to render with the inner progress bar
-    @param[in]  borderColor
-                16-bit color for the outer border
-    @param[in]  borderFillColor
-                16-bit color for the interior of the outer border
-    @param[in]  progressBorderColor
-                16-bit color for the progress bar's border
-    @param[in]  progressFillColor
-                16-bit color for the inner bar's fill
-    @param[in]  progress
-                Progress percentage (between 0 and 100)
-
-    @section Example
-
-    @code 
-    #include "drivers/displays/tft/drawing.h"
-
-    // Draw a the progress bar (150x15 pixels large, starting at X:10, Y:195
-    // with rounded corners on the top and showing 72% progress)
-    drawProgressBar(10, 195, 150, 15, DRAW_ROUNDEDCORNERS_TOP, DRAW_ROUNDEDCORNERS_TOP, COLOR_DARKERGRAY, COLOR_DARKGRAY, COLOR_LIMEGREENDIM, COLOR_LIMEGREEN, 72 );
-
-    @endcode
-*/
-/**************************************************************************/
-void drawProgressBar ( uint16_t x, uint16_t y, uint16_t width, uint16_t height, drawRoundedCorners_t borderCorners, drawRoundedCorners_t progressCorners, uint16_t borderColor, uint16_t borderFillColor, uint16_t progressBorderColor, uint16_t progressFillColor, uint8_t progress )
-{
-  // Draw border with rounded corners
-  drawRectangleRounded(x, y, x + width, y + height, borderColor, 5, borderCorners);
-  drawRectangleRounded(x+1, y+1, x + width - 1, y + height - 1, borderFillColor, 5, borderCorners);
-
-  // Progress bar
-  if (progress > 0 && progress <= 100)
-  {
-    // Calculate bar size
-    uint16_t bw;
-    bw = (width - 6);   // bar at 100%
-    if (progress != 100)
-    {
-      bw = (bw * progress) / 100;
-    } 
-    drawRectangleRounded(x + 3, y + 3, bw + x + 3, y + height - 3, progressBorderColor, 5, progressCorners);
-    drawRectangleRounded(x + 4, y + 4, bw + x + 3 - 1, y + height - 4, progressFillColor, 5, progressCorners);
-  }
-}
-
-/**************************************************************************/
-/*!
-    @brief  Draws a simple button
-
-    @param[in]  x
-                Starting x location
-    @param[in]  y
-                Starting y location
-    @param[in]  width
-                Total width of the button in pixels
-    @param[in]  height
-                Total height of the button in pixels
-    @param[in]  fontInfo
-                Pointer to the FONT_INFO used to render the button text
-    @param[in]  borderclr
-                The rgb565 border color
-    @param[in]  fillclr
-                The rgb565 background color
-    @param[in]  fontclr
-                The rgb565 font color
-    @param[in]  text
-                The text to render on the button
-
-    @section Example
-
-    @code 
-
-    #include "drivers/displays/tft/drawing.h"  
-    #include "drivers/displays/tft/fonts/dejavusans9.h"
-
-    // Draw two buttons using DejaVu Sans 9
-    drawButton(20, 195, 200, 35, &dejaVuSans9ptFontInfo, COLOR_GRAY_80, COLOR_GRAY_80, COLOR_WHITE, "System Settings");
-    drawButton(20, 235, 200, 35, &dejaVuSans9ptFontInfo, COLOR_THEME_LIMEGREEN_DARKER, COLOR_THEME_LIMEGREEN_BASE, COLOR_BLACK, "System Settings");
-
-    @endcode
-*/
-/**************************************************************************/
-void drawButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const FONT_INFO *fontInfo, uint16_t borderclr, uint16_t fillclr, uint16_t fontclr, char* text)
-{
-  // Border
-  drawRectangleRounded(x, y, x + width, y + height, borderclr, 5, DRAW_ROUNDEDCORNERS_ALL);
-  // Fill
-  drawRectangleRounded(x+2, y+2, x+width-2, y+height-2, fillclr, 5, DRAW_ROUNDEDCORNERS_ALL);
-
-  // Render text
-  if (text != NULL)
-  {
-    uint16_t textWidth = fontsGetStringWidth(&*fontInfo, text);
-    uint16_t xStart = x + (width / 2) - (textWidth / 2);
-    uint16_t yStart = y + (height / 2) - (fontInfo->height / 2) + 1;
-    fontsDrawString(xStart, yStart, fontclr, &*fontInfo, text);
-  }
-}
-
-/**************************************************************************/
 /*! 
     @brief  Renders a 16x16 monochrome icon using the supplied uint16_t
             array.
@@ -1199,54 +1097,3 @@ void drawIcon16(uint16_t x, uint16_t y, uint16_t color, uint16_t icon[])
     if (icon[i] & (0X0001)) drawPixel(x+15, y+i, color);
   }
 }
-
-#ifdef CFG_SDCARD
-/**************************************************************************/
-/*!
-    @brief  Loads a 24-bit Windows bitmap image from an SD card and
-            renders it
-
-    @section Example
-
-    @code 
-
-    #include "drivers/displays/tft/drawing.h"
-
-    // Draw image.bmp (from the root folder) starting at pixel 0,0
-    bmp_error_t error = drawBitmapImage(0, 0, "/image.bmp");
-
-    if (error)
-    {
-      switch (error)
-      {
-        case BMP_ERROR_SDINITFAIL:
-          break;
-        case BMP_ERROR_FILENOTFOUND:
-          break;
-        case BMP_ERROR_NOTABITMAP:
-          // First two bytes of image not 'BM'
-          break;
-        case BMP_ERROR_INVALIDBITDEPTH:
-          // Image is not 24-bits
-          break;
-        case BMP_ERROR_COMPRESSEDDATA:
-          // Image contains compressed data
-          break;
-        case BMP_ERROR_INVALIDDIMENSIONS:
-          // Width or Height is > LCD size
-          break;
-        case BMP_ERROR_PREMATUREEOF:
-          // EOF unexpectedly reached in pixel data
-          break;
-      }
-    }
-        
-    @endcode
-*/
-/**************************************************************************/
-bmp_error_t drawBitmapImage(uint16_t x, uint16_t y, char *filename)
-{
-  return bmpDrawBitmap(x, y, filename);
-}
-
-#endif

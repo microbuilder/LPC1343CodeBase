@@ -156,6 +156,7 @@ uint16_t colorsBGR2RGB(uint16_t color)
 
     @code
 
+    #include "drivers/displays/tft/drawing.h"
     #include "drivers/displays/tft/colors.h"
 
     uint16_t newColor;
@@ -225,7 +226,7 @@ uint16_t colorsDim(uint16_t color, uint8_t intensity)
     uint16_t bg = COLOR_GREEN;
     uint16_t fore = COLOR_WHITE;
 
-    // Calculate the intermediate color with 25% fading
+    // Calculate the intermediate color with 25% bg blending
     uint16_t result = colorsAlphaBlend(bg, fore, 25);
 
     drawRectangleFilled(10, 10, 50, 50, bg);

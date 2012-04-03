@@ -146,12 +146,34 @@ bmp_error_t bmpParseBitmap(uint16_t x, uint16_t y, FIL file)
 
     #include "drivers/displays/tft/bmp.h"
 
-    bmp_error_t error;
-
     // Draw image.bmp (from the root folder) starting at pixel 0,0
-    error = bmpDrawBitmap(0, 0, "/image.bmp");
+    bmp_error_t error = bmpDrawBitmap(0, 0, "/image.bmp");
 
-    // Check 'error' for problems such as BMP_ERROR_FILENOTFOUND
+    if (error)
+    {
+      switch (error)
+      {
+        case BMP_ERROR_SDINITFAIL:
+          break;
+        case BMP_ERROR_FILENOTFOUND:
+          break;
+        case BMP_ERROR_NOTABITMAP:
+          // First two bytes of image not 'BM'
+          break;
+        case BMP_ERROR_INVALIDBITDEPTH:
+          // Image is not 24-bits
+          break;
+        case BMP_ERROR_COMPRESSEDDATA:
+          // Image contains compressed data
+          break;
+        case BMP_ERROR_INVALIDDIMENSIONS:
+          // Width or Height is > LCD size
+          break;
+        case BMP_ERROR_PREMATUREEOF:
+          // EOF unexpectedly reached in pixel data
+          break;
+      }
+    }
 
     @endcode
 */

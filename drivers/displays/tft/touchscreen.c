@@ -43,7 +43,7 @@
 #include "drivers/storage/eeprom/eeprom.h"
 #include "drivers/displays/tft/lcd.h"
 #include "drivers/displays/tft/drawing.h"
-#include "drivers/displays/tft/fonts/dejavusans9.h"
+#include "drivers/displays/tft/controls/labelcentered.h"
 
 #define TS_LINE1 "Touch the center of"
 #define TS_LINE2 "the red circle using"
@@ -170,7 +170,7 @@ uint32_t tsReadY(void)
 /**************************************************************************/
 void tsCalibCenterText(char* text, uint16_t y, uint16_t color)
 {
-  fontsDrawString((lcdGetWidth() - fontsGetStringWidth(&dejaVuSans9ptFontInfo, text)) / 2, y, color, &dejaVuSans9ptFontInfo, text);
+  labelcenteredRender(lcdGetWidth()/2, y, COLOR_WHITE, color, text, THEME_DEFAULT);
 }
 
 /**************************************************************************/

@@ -70,8 +70,12 @@ OBJS += isl12022m.o
 
 # TFT LCD support
 VPATH += drivers/displays/tft drivers/displays/tft/hw 
-VPATH += drivers/displays/tft/dialogues
-OBJS += drawing.o touchscreen.o colors.o bmp.o alphanumeric.o
+OBJS += drawing.o touchscreen.o colors.o bmp.o
+
+# GUI Controls
+VPATH += drivers/displays/tft/controls
+OBJS += button.o hsbchart.o huechart.o label.o
+OBJS += labelcentered.o progressbar.o
 
 # Bitmap (non-AA) fonts
 VPATH += drivers/displays/tft/fonts

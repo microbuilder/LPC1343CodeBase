@@ -39,40 +39,31 @@
 #include "projectconfig.h"
 #include "lcd.h"
 #include "colors.h"
-#include "fonts.h"
+#include "theme.h"
 
-#if defined CFG_TFTLCD_INCLUDESMALLFONTS & CFG_TFTLCD_INCLUDESMALLFONTS == 1
+#if CFG_TFTLCD_USEAAFONTS
+  #include "aafonts.h"
+#else
+  #include "fonts.h"
+#endif
+
+#if CFG_TFTLCD_INCLUDESMALLFONTS
   #include "drivers/displays/smallfonts.h"
 #endif
 
-#ifdef CFG_SDCARD
-  #include "bmp.h"
-#endif
-
-typedef struct
-{
-  uint8_t red;
-  uint8_t green;
-  uint8_t blue;
-} drawColorRGB24_t;
-
 typedef enum
 {
-  DRAW_ROUNDEDCORNERS_NONE    = 0,
-  DRAW_ROUNDEDCORNERS_ALL     = 1,
-  DRAW_ROUNDEDCORNERS_TOP     = 2,
-  DRAW_ROUNDEDCORNERS_BOTTOM  = 3,
-  DRAW_ROUNDEDCORNERS_LEFT    = 4,
-  DRAW_ROUNDEDCORNERS_RIGHT   = 5
-} drawRoundedCorners_t;
-
-typedef enum
-{
-  DRAW_CORNERPOSITION_TOPLEFT     = 0,
-  DRAW_CORNERPOSITION_TOPRIGHT    = 1,
-  DRAW_CORNERPOSITION_BOTTOMLEFT  = 2,
-  DRAW_CORNERPOSITION_BOTTOMRIGHT = 3
-} drawCornerPosition_t;
+  DRAW_CORNERS_NONE        = 0x00,
+  DRAW_CORNERS_TOPLEFT     = 0x01,
+  DRAW_CORNERS_TOPRIGHT    = 0x02,
+  DRAW_CORNERS_BOTTOMLEFT  = 0x04,
+  DRAW_CORNERS_BOTTOMRIGHT = 0x08,
+  DRAW_CORNERS_ALL         = 0x0F, // 0x01 + 0x02 + 0x04 + 0x08
+  DRAW_CORNERS_TOP         = 0x03, // 0x01 + 0x02
+  DRAW_CORNERS_BOTTOM      = 0x0C, // 0x04 + 0x08
+  DRAW_CORNERS_LEFT        = 0x05, // 0x01 + 0x04
+  DRAW_CORNERS_RIGHT       = 0x0A  // 0x02 + 0x08
+} drawCorners_t;
 
 typedef enum
 {
@@ -89,24 +80,19 @@ void      drawLine             ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t
 void      drawLineDotted       ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t space, uint16_t solid, uint16_t color );
 void      drawCircle           ( uint16_t xCenter, uint16_t yCenter, uint16_t radius, uint16_t color );
 void      drawCircleFilled     ( uint16_t xCenter, uint16_t yCenter, uint16_t radius, uint16_t color );
-void      drawCornerFilled     (uint16_t xCenter, uint16_t yCenter, uint16_t radius, drawCornerPosition_t position, uint16_t color);
+void      drawCorner           ( uint16_t xCenter, uint16_t yCenter, uint16_t r, drawCorners_t corner, uint16_t color );
+void      drawCornerFilled     ( uint16_t xCenter, uint16_t yCenter, uint16_t radius, drawCorners_t position, uint16_t color );
 void      drawArrow            ( uint16_t x, uint16_t y, uint16_t size, drawDirection_t, uint16_t color );
 void      drawRectangle        ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color );
 void      drawRectangleFilled  ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color );
-void      drawRectangleRounded ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color, uint16_t radius, drawRoundedCorners_t corners );
+void      drawRoundedRectangleFilled ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color, uint16_t radius, drawCorners_t corners );
 void      drawGradient         ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t startColor, uint16_t endColor );
 void      drawTriangle         ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color );
 void      drawTriangleFilled   ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color );
-void      drawProgressBar      ( uint16_t x, uint16_t y, uint16_t width, uint16_t height, drawRoundedCorners_t borderCorners, drawRoundedCorners_t progressCorners, uint16_t borderColor, uint16_t borderFillColor, uint16_t progressBorderColor, uint16_t progressFillColor, uint8_t progress );
-void      drawButton           ( uint16_t x, uint16_t y, uint16_t width, uint16_t height, const FONT_INFO *fontInfo, uint16_t borderclr, uint16_t fillclr, uint16_t fontclr, char* text );
 void      drawIcon16           ( uint16_t x, uint16_t y, uint16_t color, uint16_t icon[] );
 
-#if defined CFG_TFTLCD_INCLUDESMALLFONTS & CFG_TFTLCD_INCLUDESMALLFONTS == 1
+#if CFG_TFTLCD_INCLUDESMALLFONTS
 void      drawStringSmall      ( uint16_t x, uint16_t y, uint16_t color, char* text, struct FONT_DEF font );
-#endif
-
-#if defined CFG_SDCARD
-bmp_error_t   drawBitmapImage  ( uint16_t x, uint16_t y, char *filename );
 #endif
 
 #endif
