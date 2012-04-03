@@ -97,15 +97,15 @@ typedef enum gpioPullupMode_e
 }
 gpioPullupMode_t;
 
-void gpioInit (void);
-void gpioSetDir (uint32_t portNum, uint32_t bitPos, gpioDirection_t dir);
-uint32_t gpioGetValue (uint32_t portNum, uint32_t bitPos);
-void gpioSetValue (uint32_t portNum, uint32_t bitPos, uint32_t bitVal);
-void gpioSetInterrupt (uint32_t portNum, uint32_t bitPos, gpioInterruptSense_t sense, gpioInterruptEdge_t edge, gpioInterruptEvent_t event);
-void gpioIntEnable (uint32_t portNum, uint32_t bitPos);
-void gpioIntDisable (uint32_t portNum, uint32_t bitPos);
-uint32_t  gpioIntStatus (uint32_t portNum, uint32_t bitPos);
-void gpioIntClear (uint32_t portNum, uint32_t bitPos);
-void gpioSetPullup (volatile uint32_t *ioconRegister, gpioPullupMode_t mode);
+void        gpioInit          ( void );
+void        gpioSetDir        ( uint32_t portNum, uint32_t bitPos, gpioDirection_t dir );
+uint32_t    gpioGetValue      ( uint32_t portNum, uint32_t bitPos );
+extern void gpioSetValue      ( const uint32_t portNum, const uint32_t bitPos, const uint32_t bitVal );
+void        gpioSetInterrupt  ( uint32_t portNum, uint32_t bitPos, gpioInterruptSense_t sense, gpioInterruptEdge_t edge, gpioInterruptEvent_t event );
+void        gpioIntEnable     ( uint32_t portNum, uint32_t bitPos );
+void        gpioIntDisable    ( uint32_t portNum, uint32_t bitPos );
+uint32_t    gpioIntStatus     ( uint32_t portNum, uint32_t bitPos );
+void        gpioIntClear      ( uint32_t portNum, uint32_t bitPos );
+void        gpioSetPullup     ( volatile uint32_t *ioconRegister, gpioPullupMode_t mode );
 
 #endif

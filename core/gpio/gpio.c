@@ -280,30 +280,9 @@ uint32_t gpioGetValue (uint32_t portNum, uint32_t bitPos)
                 the pin low and 1 will set the pin high.
 */
 /**************************************************************************/
-void gpioSetValue (uint32_t portNum, uint32_t bitPos, uint32_t bitVal)
+inline void gpioSetValue (const uint32_t portNum, const uint32_t bitPos, const uint32_t bitVal)
 {
   if (!_gpioInitialised) gpioInit();
-
-  //  // Get the appropriate register (handled this way to optimise code size)
-  //  REG32 *gpiodata = &GPIO_GPIO0DATA;
-  //  switch (portNum)
-  //  {
-  //    case 0:
-  //      gpiodata = &GPIO_GPIO0DATA;
-  //      break;
-  //    case 1:
-  //      gpiodata = &GPIO_GPIO1DATA;
-  //      break;
-  //    case 2:
-  //      gpiodata = &GPIO_GPIO2DATA;
-  //      break;
-  //    case 3:
-  //      gpiodata = &GPIO_GPIO3DATA;
-  //      break;
-  //  }
-  //
-  //  // Toggle value
-  //  bitVal == 1 ? (*gpiodata |= (1 << bitPos)) : (*gpiodata &= ~(1 << bitPos));
 
   // Take advantage of the fact the GPIO registers are bit-banded
   (*(pREG32 ((GPIO_GPIO0_BASE + (portNum << 16)) + ((1 << bitPos) << 2)))) = bitVal ? 0xFFF : 0;
