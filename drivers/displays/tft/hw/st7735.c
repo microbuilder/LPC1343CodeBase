@@ -433,8 +433,7 @@ void lcdScroll(int16_t pixels, uint16_t fillColor)
 /*************************************************/
 uint16_t lcdGetControllerID(void)
 {
-  // ToDo
-  return 0;
+  return 0x7735;
 }
 
 /*************************************************/

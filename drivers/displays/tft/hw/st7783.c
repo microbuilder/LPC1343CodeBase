@@ -149,15 +149,6 @@ void st7783Command(uint16_t command, uint16_t data)
 }
 
 /*************************************************/
-/* Returns the 4-hexdigit controller code        */
-/*************************************************/
-uint16_t st7783Type(void)
-{
-  st7783WriteCmd(0x0);
-  return st7783ReadData();
-}
-
-/*************************************************/
 void st7783SetCursor(uint16_t x, uint16_t y)
 {
   uint16_t he, ve, al, ah;
@@ -496,7 +487,7 @@ void lcdScroll(int16_t pixels, uint16_t fillColor)
 /*************************************************/
 uint16_t lcdGetControllerID(void)
 {
-  return st7783Type();
+  return 0x7783;
 }
 
 /*************************************************/
