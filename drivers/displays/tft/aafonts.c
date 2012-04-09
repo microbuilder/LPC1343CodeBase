@@ -318,17 +318,11 @@ uint16_t aafontsGetStringWidth(const aafontsFont_t *font, char *str)
 
 /**************************************************************************/
 /*!
-    @brief  Creates a 4 or 16 shade color between the specified bg and
-            fore color for use with anti-aliased fonts.
+    @brief  Calculates a 4 or 16 color lookup table between the specified
+	        bg and fore colors for use with anti-aliased fonts.
 
-    @note   This method can be used to place anti-aliased in any color on
-            any known, solid-colored background.
-
-            You can get slightly higher-quality results by calculating
-            the color tables by hand, but this method is a convenient
-            method to create text in a variety of colors or on a variety
-            of backgrounds.  Please note, though, that the visual quality
-            of the text heavily on the colors being used.
+    @note   This method can be used to place anti-aliased text on any color
+	        of background, as long as it's a single solid color.
 
     @param[in]  bgColor
                 The RGB565 color of the background
