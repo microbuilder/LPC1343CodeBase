@@ -236,6 +236,7 @@
               <file file_name="../../drivers/displays/tft/controls/label.c"/>
               <file file_name="../../drivers/displays/tft/controls/labelcentered.c"/>
             </folder>
+            <file file_name="../../drivers/displays/tft/theme.c"/>
           </folder>
           <folder Name="character">
             <folder Name="samsung_20T202DA2JA">
@@ -415,5 +416,5 @@
   <configuration Name="Debug" build_debug_information="Yes" c_preprocessor_definitions="DEBUG" gcc_optimization_level="None" hidden="Yes" link_include_startup_code="No"/>
   <configuration Name="THUMB Flash Release" inherited_configurations="THUMB;Flash;Release"/>
   <configuration Name="Release" build_debug_information="No" build_remove_unused_symbols="Yes" c_additional_options="-g1" c_preprocessor_definitions="NDEBUG;STARTUP_FROM_RESET" gcc_optimization_level="Optimize For Size" hidden="Yes" link_include_startup_code="No"/>
-  <configuration Name="Common" arm_linker_allow_multiple_definition="Yes" c_user_include_directories="$(ProjectDir)/../../;$(ProjectDir)/../../Project/"/>
+  <configuration Name="Common" arm_gcc_target="arm-unknown-eabi" arm_library_optimization="Small" arm_linker_allow_multiple_definition="Yes" c_user_include_directories="$(ProjectDir)/../../;$(ProjectDir)/../../Project/"/>
 </solution>

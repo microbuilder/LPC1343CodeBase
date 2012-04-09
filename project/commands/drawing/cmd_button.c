@@ -74,7 +74,7 @@ void cmd_button(uint8_t argc, char **argv)
   if (argc == 5)
   {
     // Render the button with no text
-    buttonRender(x, y, w, h, (uint16_t)fontcolor, NULL, THEME_DEFAULT);
+    buttonRender(x, y, w, h, (uint16_t)fontcolor, NULL, themeGetDefault());
   }
   else
   {
@@ -91,7 +91,7 @@ void cmd_button(uint8_t argc, char **argv)
     *data_ptr++ = '\0';
 
     // Render the button with text
-    buttonRender(x, y, w, h, (uint16_t)fontcolor, (char *)&data, THEME_DEFAULT);
+    buttonRender(x, y, w, h, (uint16_t)fontcolor, (char *)&data, themeGetDefault());
   }
 }
 

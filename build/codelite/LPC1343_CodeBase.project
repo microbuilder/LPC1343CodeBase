@@ -168,10 +168,6 @@
           <File Name="../../drivers/displays/tft/fonts/verdanabold14.c"/>
           <File Name="../../drivers/displays/tft/fonts/verdanabold14.h"/>
         </VirtualDirectory>
-        <VirtualDirectory Name="dialogues">
-          <File Name="../../drivers/displays/tft/dialogues/alphanumeric.c"/>
-          <File Name="../../drivers/displays/tft/dialogues/alphanumeric.h"/>
-        </VirtualDirectory>
         <File Name="../../drivers/displays/tft/bmp.c"/>
         <File Name="../../drivers/displays/tft/bmp.h"/>
         <File Name="../../drivers/displays/tft/colors.h"/>
@@ -201,6 +197,22 @@
           <VirtualDirectory Name="aa4"/>
         </VirtualDirectory>
         <File Name="../../drivers/displays/tft/colors.c"/>
+        <VirtualDirectory Name="controls">
+          <File Name="../../drivers/displays/tft/controls/button.c"/>
+          <File Name="../../drivers/displays/tft/controls/button.h"/>
+          <File Name="../../drivers/displays/tft/controls/hsbchart.c"/>
+          <File Name="../../drivers/displays/tft/controls/hsbchart.h"/>
+          <File Name="../../drivers/displays/tft/controls/huechart.c"/>
+          <File Name="../../drivers/displays/tft/controls/huechart.h"/>
+          <File Name="../../drivers/displays/tft/controls/label.c"/>
+          <File Name="../../drivers/displays/tft/controls/label.h"/>
+          <File Name="../../drivers/displays/tft/controls/labelcentered.c"/>
+          <File Name="../../drivers/displays/tft/controls/labelcentered.h"/>
+          <File Name="../../drivers/displays/tft/controls/progressbar.c"/>
+          <File Name="../../drivers/displays/tft/controls/progressbar.h"/>
+        </VirtualDirectory>
+        <File Name="../../drivers/displays/tft/theme.c"/>
+        <File Name="../../drivers/displays/tft/theme.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="bitmap">
         <VirtualDirectory Name="st7565">

@@ -27,7 +27,7 @@
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays;tft" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;project" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays;tft;controls" name="unnamed" />
  </Project>
  <Register1>
   <RegisterWindow openNodes="GPIO2" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU;CoreDebug;GPIO2" decimalNodes="" octalNodes="" asciiNodes="" />
@@ -63,8 +63,7 @@
   <Watches active="0" update="Never" />
  </Watch4>
  <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\projectconfig.h" y="554" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\projectconfig.h" left="0" selected="0" name="unnamed" top="507" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" y="175" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" left="0" selected="1" name="unnamed" top="147" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="27" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" y="42" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" left="0" selected="1" name="unnamed" top="30" />
  </Files>
- <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="SEGGER J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\displays\tft\controls" fileDialogDefaultFilter="*.c" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Release" />
+ <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="SEGGER J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\displays\tft" fileDialogDefaultFilter="" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Release" />
 </session>

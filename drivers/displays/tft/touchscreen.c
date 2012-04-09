@@ -170,7 +170,7 @@ uint32_t tsReadY(void)
 /**************************************************************************/
 void tsCalibCenterText(char* text, uint16_t y, uint16_t color)
 {
-  labelcenteredRender(lcdGetWidth()/2, y, COLOR_WHITE, color, text, THEME_DEFAULT);
+  labelcenteredRender(lcdGetWidth()/2, y, COLOR_WHITE, color, text, themeGetDefault());
 }
 
 /**************************************************************************/

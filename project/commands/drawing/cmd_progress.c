@@ -77,7 +77,7 @@ void cmd_progress(uint8_t argc, char **argv)
   }
 
   // Draw the progress bar (always use rounded corners for simplicity sake)
-  progressbarRender(x, y, w, h, percent, progressfill, THEME_DEFAULT);
+  progressbarRender(x, y, w, h, percent, progressfill, themeGetDefault());
 }
 
 #endif  

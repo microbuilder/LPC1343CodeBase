@@ -782,6 +782,13 @@
                               addition to CFG_INTERFACE_ENABLEIRQ if
                               this is also enabled.  The character used
                               is defined below.
+    CFG_INTERFACE_LONGSYSINFO If this is set to 1 extra information will
+                              be included in the Sys Info ('V') command
+                              on the CLI. This can be useful when trying
+                              to debug problems on remote HW, or with 
+                              unknown firmware.  It will also use about
+                              0.5KB flash, though, so only enable it is
+                              necessary.
 
     NOTE:                     The command-line interface will use either
                               USB-CDC or UART depending on whether
@@ -799,6 +806,7 @@
       #define CFG_INTERFACE_IRQPIN        (7)
       #define CFG_INTERFACE_SHORTERRORS   (0)
       #define CFG_INTERFACE_CONFIRMREADY  (0)
+      #define CFG_INTERFACE_LONGSYSINFO   (0)
     #endif
 
     #ifdef CFG_BRD_LPC1343_REFDESIGN_MINIMAL
@@ -812,6 +820,7 @@
       #define CFG_INTERFACE_IRQPIN        (7)
       #define CFG_INTERFACE_SHORTERRORS   (0)
       #define CFG_INTERFACE_CONFIRMREADY  (0)
+      #define CFG_INTERFACE_LONGSYSINFO   (0)
     #endif
 
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB
@@ -829,6 +838,7 @@
       #define CFG_INTERFACE_SHORTERRORS_TOOMANYARGS       ">"
       #define CFG_INTERFACE_SHORTERRORS_TOOFEWARGS        "<"
       #define CFG_INTERFACE_CONFIRMREADY_TEXT             "."
+      #define CFG_INTERFACE_LONGSYSINFO   (0)
     #endif
 
     #ifdef CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
@@ -846,6 +856,7 @@
       #define CFG_INTERFACE_SHORTERRORS_TOOMANYARGS       ">"
       #define CFG_INTERFACE_SHORTERRORS_TOOFEWARGS        "<"
       #define CFG_INTERFACE_CONFIRMREADY_TEXT             "."
+      #define CFG_INTERFACE_LONGSYSINFO   (0)
     #endif
 
     #ifdef CFG_BRD_LPC1343_802154USBSTICK
@@ -859,6 +870,7 @@
       #define CFG_INTERFACE_IRQPIN        (7)
       #define CFG_INTERFACE_SHORTERRORS   (0)
       #define CFG_INTERFACE_CONFIRMREADY  (0)
+      #define CFG_INTERFACE_LONGSYSINFO   (0)
     #endif
 	
     #ifdef CFG_BRD_LPC1343_OLIMEX_P
@@ -872,6 +884,7 @@
       #define CFG_INTERFACE_IRQPIN        (7)
       #define CFG_INTERFACE_SHORTERRORS   (0)
       #define CFG_INTERFACE_CONFIRMREADY  (0)
+      #define CFG_INTERFACE_LONGSYSINFO   (0)
     #endif
 
     #ifdef CFG_BRD_LPC1343_LPCXPRESSO
@@ -885,6 +898,7 @@
       #define CFG_INTERFACE_IRQPIN        (7)
       #define CFG_INTERFACE_SHORTERRORS   (0)
       #define CFG_INTERFACE_CONFIRMREADY  (0)
+      #define CFG_INTERFACE_LONGSYSINFO   (0)
     #endif
 /*=========================================================================*/
 
@@ -1160,7 +1174,7 @@
     #ifdef CFG_BRD_LPC1343_REFDESIGN
       // #define CFG_TFTLCD
       #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
-      #define CFG_TFTLCD_USEAAFONTS          (1)
+      #define CFG_TFTLCD_USEAAFONTS          (0)
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
       #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
     #endif
@@ -1176,7 +1190,7 @@
     #if defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_USB || defined CFG_BRD_LPC1343_TFTLCDSTANDALONE_UART
       #define CFG_TFTLCD
       #define CFG_TFTLCD_INCLUDESMALLFONTS   (0)
-      #define CFG_TFTLCD_USEAAFONTS          (1)
+      #define CFG_TFTLCD_USEAAFONTS          (0)
       #define CFG_TFTLCD_TS_DEFAULTTHRESHOLD (50)
       #define CFG_TFTLCD_TS_KEYPADDELAY      (100)
     #endif

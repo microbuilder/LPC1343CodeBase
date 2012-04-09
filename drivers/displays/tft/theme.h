@@ -86,23 +86,13 @@ typedef struct theme_s
   uint16_t colorFillAlt;                    // Slightly lighter or darker fill for window and control backgrounds
 } theme_t;
 
-// Grayscale Theme (Default Setting)
-theme_t themeGrayscale =                  { COLOR_WHITE,                  // Background Color
-                                            COLOR_GRAY_128,               // Border Color
-                                            COLOR_GRAY_80,                // Border Darker
-                                            COLOR_BLACK,                  // Text Color
-                                            COLOR_GRAY_50,                // Alt. Text Color
-                                            COLOR_GRAY_200,               // Fill (Normal)
-                                            COLOR_GRAY_225 };             // Fill (Alternate)
-
-// Default theme
-#define THEME_DEFAULT                       themeGrayscale
-
 // Default font
 #if CFG_TFTLCD_USEAAFONTS
   #define THEME_FONT                        DejaVuSansCondensedBold14_AA2
 #else
   #define THEME_FONT                        dejaVuSans9ptFontInfo
 #endif
+
+theme_t themeGetDefault(void);
 
 #endif
