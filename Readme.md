@@ -56,8 +56,8 @@ particular has been reorganized quite a bit.
 General API Documentation:
 http://www.microbuilder.eu/Projects/LPC1343ReferenceDesign/CodeBaseDocumentation.aspx
 
-TFT LCD API:
-http://www.microbuilder.eu/Projects/LPC1343ReferenceDesign/TFTLCDAPI.aspx
+TFT/OLED Graphics Sub-System:
+http://www.microbuilder.eu/Projects/LPC1343ReferenceDesign/TFTLCDAPI_v1_1_0.aspx
 
 Other tutorials and links:
 http://www.microbuilder.eu/Projects/LPC1343ReferenceDesign.aspx
