@@ -43,6 +43,11 @@
   #include "core/cmd/cmd.h"
 #endif
 
+#include "drivers/displays/tft/lcd.h"    
+#include "drivers/displays/tft/drawing.h"  
+#include "drivers/displays/tft/touchscreen.h"
+#include "drivers/displays/tft/controls/button.h"
+
 /**************************************************************************/
 /*! 
     Main program entry point.  After reset, normal code execution will

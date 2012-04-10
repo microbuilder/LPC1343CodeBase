@@ -101,7 +101,8 @@ void cmd_rectangle(uint8_t argc, char **argv)
 /**************************************************************************/
 void cmd_rectangleround(uint8_t argc, char **argv)
 {
-  int32_t x1, y1, x2, y2, c, radius, corners;
+  int32_t x1, y1, x2, y2, c, radius, corners, filled, border;
+  filled = 0;
 
   // Convert supplied parameters
   getNumber (argv[0], &x1);
@@ -111,6 +112,19 @@ void cmd_rectangleround(uint8_t argc, char **argv)
   getNumber (argv[4], &c);
   getNumber (argv[5], &radius);
   getNumber (argv[6], &corners);
+  if (argc >= 8)
+  {
+    getNumber (argv[7], &filled);
+  }
+  if (argc == 9)
+  {
+    getNumber (argv[8], &border);
+    if (border < 0 || border > 0xFFFF)
+    {
+      printf("Invalid Border Color%s", CFG_PRINTF_NEWLINE);
+      return;
+    }
+  }
 
   // ToDo: Validate data!
   if (c < 0 || c > 0xFFFF)
@@ -119,13 +133,15 @@ void cmd_rectangleround(uint8_t argc, char **argv)
     return;
   }
 
-  if ((radius == 0) || (corners == 0) || (corners > 5))
-  {
-    drawRectangleFilled(x1, y1, x2, y2, (uint16_t)c);
-  }
-  else
-  {
+  if (filled)
     drawRoundedRectangleFilled(x1, y1, x2, y2, (uint16_t)c, radius, corners);
+  else
+    drawRoundedRectangle(x1, y1, x2, y2, (uint16_t)c, radius, corners);
+
+  // Draw border if it's not the same color
+  if (argc == 9)
+  {
+    drawRoundedRectangle(x1, y1, x2, y2, (uint16_t)border, radius, corners);
   }
 }
 

@@ -79,11 +79,8 @@ void progressbarRender(uint16_t x, uint16_t y, uint16_t width, uint16_t height, 
   // Make sure we don't end up in negative territory with really small values
   if (progressEnd < x + 2) progressEnd = x+2;
 
-  // Calculate slightly brighter and darker colors for the border and gradient
-  brighter = colorsAlphaBlend(COLOR_WHITE, color, 50);
-  darker = colorsAlphaBlend(COLOR_BLACK, color, 35);
-
   // Draw the outline and background gradient
+  // This needs to be square to avoid flickering with rapid updates :/
   drawRectangle(x, y, x+width, y+height, theme.colorBorderDarker);
   drawRectangle(x+1, y+1, x+width-1, y+height-1, theme.colorFill);
   drawGradient(progressEnd+1, y+2, x+width-2, y+height-2, theme.colorFill, theme.colorBorder);
@@ -91,6 +88,10 @@ void progressbarRender(uint16_t x, uint16_t y, uint16_t width, uint16_t height, 
   // Draw the progress gradient if required
   if (progress)
   { 
+    // Calculate slightly brighter and darker colors for the border and gradient
+    brighter = colorsAlphaBlend(COLOR_WHITE, color, 50);
+    darker = colorsAlphaBlend(COLOR_BLACK, color, 35);
+    // Draw border rectangle and gradient fill
     drawRectangle(x+2, y+2, progressEnd, y+height-2, darker);
     drawGradient(x+3, y+3, progressEnd-1, y+height-3, brighter, color);
   }

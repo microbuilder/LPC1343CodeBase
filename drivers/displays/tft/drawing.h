@@ -85,6 +85,7 @@ void      drawCornerFilled     ( uint16_t xCenter, uint16_t yCenter, uint16_t ra
 void      drawArrow            ( uint16_t x, uint16_t y, uint16_t size, drawDirection_t, uint16_t color );
 void      drawRectangle        ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color );
 void      drawRectangleFilled  ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color );
+void      drawRoundedRectangle ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color, uint16_t radius, drawCorners_t corners );
 void      drawRoundedRectangleFilled ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color, uint16_t radius, drawCorners_t corners );
 void      drawGradient         ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t startColor, uint16_t endColor );
 void      drawTriangle         ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color );

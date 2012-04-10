@@ -133,7 +133,7 @@ cmd_t cmd_tbl[] =
   { "p",    3,  3,  0, cmd_pixel             , "Draw Pixel"                     , "'p <x> <y> <color>'" },
   { "P",    6,  6,  0, cmd_progress          , "Progress Bar"                   , "'P <x> <y> <w> <h> <%> <barclr>'" },
   { "r",    5,  7,  0, cmd_rectangle         , "Rectangle"                      , "'r <x1> <y1> <x2> <y2> <color> [<filled[0|1]> <bcolor>]'" },
-  { "R",    7,  7,  0, cmd_rectangleround    , "Rounded Rectangle"              , "'R <x1> <y1> <x2> <y2> <color> <radius> <corners>'" },
+  { "R",    7,  9,  0, cmd_rectangleround    , "Rounded Rectangle"              , "'R <x1> <y1> <x2> <y2> <color> <radius> <corners> [<filled[0|1]> <bcolor>]'" },
   { "s",    2, 99,  0, cmd_textw             , "Text Width"                     , "'s <font#> <msg>'" },
   { "t",    6, 99,  0, cmd_text              , "Text"                           , "'t <x> <y> <bgcolor> <fontcolor> <font#> <msg>'" },
   { "v",    7,  8,  0, cmd_triangle          , "Triangle"                       , "'v <x1> <y1> <x2> <y2> <x3> <y3> <color> [<filled[0|1]>]'" },

@@ -1,3 +1,12 @@
+v1.1.1 - Ongoing
+==============================================================================
+NEW FEATURES
+------------------------------------------------------------------------------
+- Added drawRoundedRectangle to drawing.c
+- Added ability to select filled or empty rounded rectangles to the 'R' CLI
+  command
+
+
 v1.1.0 - 9 April 2012
 ==============================================================================
 BREAKING CHANGES
@@ -21,7 +30,7 @@ BREAKING CHANGES
 
 NEW FEATURES
 ------------------------------------------------------------------------------
-- Added drawCorner to graphics.c
+- Added drawCorner to drawing.c
 - Added new 'controls/' folder to the GFX library, and added a number of
   controls that will render correctly with the theme settings, as well as
   using bitmap or anti-aliased fonts, depending on projectconfig.h

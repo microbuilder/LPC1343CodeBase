@@ -734,6 +734,119 @@ void drawRectangleFilled ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, u
 
 /**************************************************************************/
 /*!
+    @brief  Draws a rectangle with rounded corners
+
+    @param[in]  x0
+                Starting x co-ordinate
+    @param[in]  y0
+                Starting y co-ordinate
+    @param[in]  x1
+                Ending x co-ordinate
+    @param[in]  y1
+                Ending y co-ordinate
+    @param[in]  color
+                Color used when drawing
+    @param[in]  radius
+                Corner radius in pixels
+    @param[in]  corners
+                Which corners to round
+
+    @section    EXAMPLE
+    @code
+
+    drawRoundedRectangle ( 10, 10, 200, 200, COLOR_BLACK, 10, DRAW_CORNERS_ALL );
+
+    @endcode
+
+*/
+/**************************************************************************/
+void drawRoundedRectangle ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color, uint16_t radius, drawCorners_t corners )
+{
+  int height;
+  uint16_t y;
+
+  if (corners == DRAW_CORNERS_NONE)
+  {
+    drawRectangle(x0, y0, x1, y1, color);
+    return;
+  }
+
+  // Calculate height
+  if (y1 < y0)
+  {
+    y = y1;
+    y1 = y0;
+    y0 = y;
+  }
+  height = y1 - y0;
+
+  // Check radius
+  if (radius > height / 2)
+  {
+    radius = height / 2;
+  }
+  radius -= 1;
+
+  switch (corners)
+  {
+    case DRAW_CORNERS_ALL:
+      drawCorner(x0 + radius, y0 + radius, radius, DRAW_CORNERS_TOPLEFT, color);
+      drawCorner(x1 - radius, y0 + radius, radius, DRAW_CORNERS_TOPRIGHT, color);
+      drawCorner(x0 + radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMLEFT, color);
+      drawCorner(x1 - radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMRIGHT, color);
+      if (radius*2+1 < height)
+      {
+        drawLine(x0, y0+radius, x0, y1-radius, color);
+        drawLine(x1, y0+radius, x1, y1-radius, color);
+      }
+      drawLine(x0+radius, y0, x1-radius, y0, color);
+      drawLine(x0+radius, y1, x1-radius, y1, color);
+      break;
+    case DRAW_CORNERS_TOP:
+      drawCorner(x0 + radius, y0 + radius, radius, DRAW_CORNERS_TOPLEFT, color);
+      drawCorner(x1 - radius, y0 + radius, radius, DRAW_CORNERS_TOPRIGHT, color);
+      drawLine(x0, y0+radius, x0, y1, color);
+      drawLine(x0, y1, x1, y1, color);
+      drawLine(x1, y1, x1, y0+radius, color);
+      drawLine(x0+radius, y0, x1-radius, y0, color);
+      break;
+    case DRAW_CORNERS_BOTTOM:
+      drawCorner(x0 + radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMLEFT, color);
+      drawCorner(x1 - radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMRIGHT, color);
+      drawLine(x0, y0, x1, y0, color);
+      drawLine(x1, y0, x1, y1-radius, color );
+      drawLine(x1-radius, y1, x0+radius, y1, color);
+      drawLine(x0, y1-radius, x0, y0, color);
+      break;
+    case DRAW_CORNERS_LEFT:
+      drawCorner(x0 + radius, y0 + radius, radius, DRAW_CORNERS_TOPLEFT, color);
+      drawCorner(x0 + radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMLEFT, color);
+      if (radius*2+1 < height)
+      {
+        drawLine(x0, y0+radius, x0, y1-radius, color);
+      }
+      drawLine(x1, y0, x1, y1, color);
+      drawLine(x0+radius, y0, x1, y0, color);
+      drawLine(x0+radius, y1, x1, y1, color);
+      break;
+    case DRAW_CORNERS_RIGHT:
+      drawCorner(x1 - radius, y0 + radius, radius, DRAW_CORNERS_TOPRIGHT, color);
+      drawCorner(x1 - radius, y1 - radius, radius, DRAW_CORNERS_BOTTOMRIGHT, color);
+      if (radius*2+1 < height)
+      {
+        drawLine(x1, y0+radius, x1, y1-radius, color);
+      }
+      drawLine(x0, y0, x0, y1, color);
+      drawLine(x0, y0, x1-radius, y0, color);
+      drawLine(x0, y1, x1-radius, y1, color);
+      break;
+    default:
+      break;
+  }
+}
+
+/**************************************************************************/
+/*!
     @brief  Draws a filled rectangle with rounded corners
 
     @param[in]  x0
