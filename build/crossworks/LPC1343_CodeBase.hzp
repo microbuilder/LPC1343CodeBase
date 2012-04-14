@@ -211,9 +211,6 @@
             <file file_name="../../drivers/displays/tft/lcd.h"/>
             <file file_name="../../drivers/displays/tft/touchscreen.c"/>
             <folder Name="aafonts">
-              <folder Name="aa4">
-                <file file_name="../../drivers/displays/tft/aafonts/aa4/FontCalibri18_AA4.c"/>
-              </folder>
               <folder Name="aa2">
                 <file file_name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansCondensed14_AA2.c"/>
                 <file file_name="../../drivers/displays/tft/aafonts/aa2/DejaVuSansCondensedBold14_AA2.c"/>
