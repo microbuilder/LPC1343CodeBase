@@ -24,6 +24,10 @@
   <ProjectSessionItem path="LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays;bitmap" name="unnamed" />
+  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;displays;bitmap;ssd1306" name="unnamed" />
  </Project>
  <Register1>
   <RegisterWindow openNodes="GPIO2" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU;CoreDebug;GPIO2" decimalNodes="" octalNodes="" asciiNodes="" />
@@ -43,10 +47,10 @@
  </TraceWindow>
  <Watch1>
   <Watches active="1" update="Each Second" >
-   <Watchpoint linenumber="155" radix="16" name="Tick" expression="Tick" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/freertos/tasks.c" />
-   <Watchpoint linenumber="155" radix="-1" name="xTickCount" expression="xTickCount" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/freertos/tasks.c" />
-   <Watchpoint linenumber="138" radix="16" name="timer32_0_counter" expression="timer32_0_counter" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/core/timer32/timer32.c" />
    <Watchpoint linenumber="66" radix="10" name="msTicks" expression="msTicks" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/core/systick/systick.c" />
+   <Watchpoint linenumber="138" radix="16" name="timer32_0_counter" expression="timer32_0_counter" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/core/timer32/timer32.c" />
+   <Watchpoint linenumber="155" radix="-1" name="xTickCount" expression="xTickCount" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/freertos/tasks.c" />
+   <Watchpoint linenumber="155" radix="16" name="Tick" expression="Tick" filename="c:/documents and settings/kevin/my documents/my dropbox/microbuilder/code/lpc1343/lpc1343_codebase/freertos/tasks.c" />
   </Watches>
  </Watch1>
  <Watch2>
@@ -59,7 +63,9 @@
   <Watches active="0" update="Never" />
  </Watch4>
  <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="15" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" y="59" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" left="0" selected="1" name="unnamed" top="3" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="2" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\displays\bitmap\ssd1306\ssd1306.c" y="498" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\displays\bitmap\ssd1306\ssd1306.c" left="0" selected="0" name="unnamed" top="488" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\displays\bitmap\ssd1306\ssd1306.h" y="60" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\displays\bitmap\ssd1306\ssd1306.h" left="0" selected="0" name="unnamed" top="45" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" y="35" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" left="0" selected="1" name="unnamed" top="24" />
  </Files>
  <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="SEGGER J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\displays\tft" fileDialogDefaultFilter="*.c" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Release" />
 </session>
