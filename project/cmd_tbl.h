@@ -93,6 +93,8 @@ void cmd_lm75b_gettemp(uint8_t argc, char **argv);
 void cmd_sd_dir(uint8_t argc, char **argv);
 #endif
 
+void cmd_pwm(uint8_t argc, char **argv);
+
 #define CMD_NOPARAMS "This command has no parameters"
 
 /**************************************************************************/
@@ -153,6 +155,7 @@ cmd_t cmd_tbl[] =
   #ifdef CFG_SDCARD
   { "d",    0,  1,  0,  cmd_sd_dir           , "Dir (SD Card)"                  , "'d [<path>]'" },
   #endif
+  { "pwm", 0, 2, 0, cmd_pwm, "PWM Control", "'pwm [<duty_cycle>] [<frequency>]'" },
 };
 
 #endif
