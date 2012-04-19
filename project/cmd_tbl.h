@@ -156,9 +156,6 @@ cmd_t cmd_tbl[] =
   { "d",    0,  1,  0,  cmd_sd_dir           , "Dir (SD Card)"                  , "'d [<path>]'" },
   #endif
   { "pwm", 0, 2, 0, cmd_pwm, "PWM Control", "'pwm [<duty_cycle>] [<frequency>]'" },
-
-}
-
 };
 
 #endif
