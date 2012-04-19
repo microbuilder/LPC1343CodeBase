@@ -69,6 +69,7 @@
 
 volatile uint32_t timer32_0_counter = 0;
 volatile uint32_t timer32_1_counter = 0;
+void (*interruptHandler)(void) = NULL;
 
 /**************************************************************************/
 /*! 
@@ -123,6 +124,19 @@ void timer32Delay(uint8_t timerNum, uint32_t delay)
   return;
 }
 
+uint32_t timer32GetCount(uint8_t timerNum) {
+    if(0 == timerNum) {
+        return timer32_0_counter;
+    } else {
+        return timer32_1_counter;
+    }
+    
+}
+
+void timer32SetIntHandler(void (*handler)(void)) {
+    interruptHandler = handler;
+}
+
 /**************************************************************************/
 /*! 
     @brief Interrupt handler for 32-bit timer 0
@@ -130,14 +144,17 @@ void timer32Delay(uint8_t timerNum, uint32_t delay)
 /**************************************************************************/
 void TIMER32_0_IRQHandler(void)
 {  
-  /* Clear the interrupt flag */
-  TMR_TMR32B0IR = TMR_TMR32B0IR_MR0;
+    if(NULL != interruptHandler) {
+        (*interruptHandler)();
+    }
+    /* Clear the interrupt flag */
+    TMR_TMR32B0IR = TMR_TMR32B0IR_MR0;
 
-  /* If you wish to perform some action after each timer 'tick' (such as 
+    /* If you wish to perform some action after each timer 'tick' (such as 
      incrementing a counter variable) you can do so here */
-  timer32_0_counter++;
+    timer32_0_counter++;
 
-  return;
+    return;
 }
 
 /**************************************************************************/
@@ -341,4 +358,11 @@ void timer32Init(uint8_t timerNum, uint32_t timerInterval)
   return;
 }
 
+void timer32ResetCounter(uint8_t timerNum){
+    if(0 == timerNum){
+        timer32_0_counter = 0;
+    } else if(1 == timerNum) {
+        timer32_1_counter = 0;
+    }
+}
 
