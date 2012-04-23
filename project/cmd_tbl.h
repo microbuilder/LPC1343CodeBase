@@ -95,6 +95,15 @@ void cmd_sd_dir(uint8_t argc, char **argv);
 
 void cmd_pwm(uint8_t argc, char **argv);
 
+void cmd_adc0read(uint8_t argc, char **argv);
+
+void cmd_gpioSetOutput(uint8_t argc, char **argv);
+void cmd_gpioSet(uint8_t argc, char **argv);
+void cmd_setTemperature(uint8_t argc, char **argv);
+void cmd_pid(uint8_t argc, char **argv);
+
+        
+        
 #define CMD_NOPARAMS "This command has no parameters"
 
 /**************************************************************************/
@@ -156,6 +165,10 @@ cmd_t cmd_tbl[] =
   { "d",    0,  1,  0,  cmd_sd_dir           , "Dir (SD Card)"                  , "'d [<path>]'" },
   #endif
   { "pwm", 0, 2, 0, cmd_pwm, "PWM Control", "'pwm [<duty_cycle>] [<frequency>]'" },
+  { "adc", 0, 0, 0, cmd_adc0read, "ADC0 read", CMD_NOPARAMS },
+  { "setPin", 3, 3, 0, cmd_gpioSet, "Set GPIO pin to value", "setPin <port> <pin> <0|1>" },
+  { "temp", 1, 1, 0, cmd_setTemperature, "Set temperature for PID controller", "temp <temperatureInDegreesC>}"},
+  { "pid", 3, 3, 0, cmd_pid, "Set pid gains", "pid <p, i, d>" }
 };
 
 #endif

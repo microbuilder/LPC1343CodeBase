@@ -42,6 +42,8 @@ OBJS += cmd_i2ceeprom_read.o cmd_i2ceeprom_write.o cmd_lm75b_gettemp.o
 OBJS += cmd_reset.o cmd_sd_dir.o cmd_sysinfo.o cmd_uart.o 
 OBJS += cmd_roundedcorner.o
 OBJS += cmd_pwm.o 
+OBJS += cmd_adc.o 
+OBJS += cmd_gpio.o 
 
 VPATH += project/commands/drawing
 OBJS += cmd_backlight.o cmd_bmp.o cmd_button.o cmd_calibrate.o
@@ -139,6 +141,10 @@ OBJS += tcs3414.o tsl2561.o
 # SPI Flash
 VPATH += drivers/storage/spiflash/w25q16bv
 OBJS += w25q16bv.o
+
+#PID control
+VPATH += drivers/pid
+OBJS += pid.o
 
 ##########################################################################
 # Library files 

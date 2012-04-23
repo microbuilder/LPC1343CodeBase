@@ -37,37 +37,120 @@
 #include "sysinit.h"
 
 #include "core/gpio/gpio.h"
+#include "core/timer32/timer32.h"
 #include "core/systick/systick.h"
+#include "core/gpio/gpio.h"
+#include "core/adc/adc.h"
+#include "drivers/pid/pid.h"
 
 #ifdef CFG_INTERFACE
   #include "core/cmd/cmd.h"
 #endif
 
-/**************************************************************************/
-/*! 
-    Main program entry point.  After reset, normal code execution will
-    begin here.
-*/
-/**************************************************************************/
+
+uint16_t controlLoopTotal = 10; //sekundziu trunka sildytuvo veikimo ciklas
+int16_t controlValue = 0;
+
+uint16_t temp;
+int16_t error;
+BOOL controlLoopDone = TRUE;
+
+void heaterOn() {
+    gpioSetValue(3, 3, 1);
+}
+
+void heaterOff() {
+    gpioSetValue(3, 3, 0);
+}
+
+uint8_t waitasec = FALSE;
+void controlAction() {
+    if(timer32GetCount(0) < controlLoopTotal) {
+        if((controlValue > 0) && timer32GetCount(0) <= controlValue) {
+            heaterOn();
+//            printf("Heater ON%s", CFG_PRINTF_NEWLINE);
+        } else {
+            heaterOff();
+//            printf("Heater OFF%s", CFG_PRINTF_NEWLINE);
+        }
+    } else {
+        if(waitasec) {
+            timer32Disable(0);
+            controlLoopDone = TRUE;
+            waitasec = FALSE;
+        } else {
+            heaterOff();
+            waitasec = TRUE;
+        }
+    }
+}
+
+void heaterSetup() {
+    gpioSetDir(3, 3, gpioDirection_Output);
+    gpioSetValue(3, 3, 0);
+}
+
+uint16_t getTemperature() {
+    uint32_t adcOversampled = 0;
+    uint16_t adc0Value;
+    uint16_t j;
+    for(j = 0; j < 4096; j++){
+        adc0Value = adcRead(0);
+        adcOversampled += adc0Value;
+    }
+    adcOversampled = adcOversampled >> 6;
+    double voltage = (double)(((double)adcOversampled / 65535.0F) * 3300.0F);
+    
+    return (uint16_t)(voltage / 3.0);
+    
+}
+
+
 int main(void)
 {
   // Configure cpu and mandatory peripherals
   systemInit();
+    
+    heaterSetup();
+    timer32Init(0, TIMER32_CCLK_1S);
+    timer32SetIntHandler(controlAction);
+    
+    pid.iState = 0;
+    pid.iMax = 2000;
+    pid.iMin = -2000;
+    pid.iGain = 0;
+    pid.dGain = 0;
+    pid.pGain = 0.07;
+    
 
   uint32_t currentSecond, lastSecond;
   currentSecond = lastSecond = 0;
 
+    temp = getTemperature();
+    error = setPoint - temp;
+    
+    controlValue = updatePID(&pid, error, temp);
+
   while (1)
   {
-    // Toggle LED once per second
     currentSecond = systickGetSecondsActive();
     if (currentSecond != lastSecond)
     {
       lastSecond = currentSecond;
       gpioSetValue(CFG_LED_PORT, CFG_LED_PIN, lastSecond % 2);
-    }
 
-    // Poll for CLI input if CFG_INTERFACE is enabled in projectconfig.h
+    }
+      
+      if(controlLoopDone) {
+          timer32ResetCounter(0);
+          temp = getTemperature();
+          error = setPoint - temp;
+          controlValue = updatePID(&pid, error, temp);
+          controlLoopDone = FALSE;
+          
+          timer32Enable(0);
+      }
+      
     #ifdef CFG_INTERFACE 
       cmdPoll(); 
     #endif
