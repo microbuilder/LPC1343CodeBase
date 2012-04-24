@@ -413,20 +413,9 @@ tsTouchError_t tsRead(tsTouchData_t* data, uint8_t calibrating)
   tsPoint_t location, touch;
   touch.x = x1;
   touch.y = y1;
-  // Only calculate the relative LCD value if this isn't for calibration
-  if (!calibrating)
-  {
-    getDisplayPoint( &location, &touch, &_tsMatrix) ;
-    data->xlcd = location.x;
-    data->ylcd = location.y;
-  }
-  else
-  {
-    // Assign some false values, but only xraw and yraw are
-    // used for calibration
-    data->xlcd = 0;
-    data->ylcd = 0;
-  }
+  getDisplayPoint( &location, &touch, &_tsMatrix) ;
+  data->xlcd = location.x;
+  data->ylcd = location.y;
   data->valid = true;
 
   return TS_ERROR_NONE;
