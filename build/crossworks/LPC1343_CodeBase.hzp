@@ -144,7 +144,7 @@
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
               </file>
               <file file_name="../../drivers/displays/tft/hw/ILI9328.c">
-                <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
+                <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
               </file>
               <file file_name="../../drivers/displays/tft/hw/ssd1331.c">
@@ -152,7 +152,7 @@
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
               </file>
               <file file_name="../../drivers/displays/tft/hw/ssd1351.c">
-                <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
+                <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
               </file>
               <file file_name="../../drivers/displays/tft/hw/st7735.c">
@@ -387,6 +387,7 @@
           </folder>
           <file file_name="../../project/commands/cmd_uart.c"/>
           <file file_name="../../project/commands/cmd_reset.c"/>
+          <file file_name="../../project/commands/cmd_pwm.c"/>
         </folder>
         <file file_name="../../project/cmd_tbl.h"/>
       </folder>

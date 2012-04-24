@@ -45,7 +45,7 @@
 #include "core/gpio/gpio.h"
 
 static lcdOrientation_t lcdOrientation = LCD_ORIENTATION_PORTRAIT;
-static lcdProperties_t st7735Properties = { 128, 160, FALSE, FALSE, FALSE };
+static lcdProperties_t st7735Properties = { 128, 160, false, false, false, true, true };
 
 /*************************************************/
 /* Private Methods                               */

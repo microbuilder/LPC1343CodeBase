@@ -95,7 +95,7 @@ void drawCharSmall(uint16_t x, uint16_t y, uint16_t color, uint8_t c, struct FON
     {
       uint8_t bit = 0x00;
       bit = (column[xoffset] << (8 - (yoffset + 1)));     // Shift current row bit left
-      bit = (bit >> 7);                     // Shift current row but right (results in 0x01 for black, and 0x00 for white)
+      bit = (bit >> 7);                                   // Shift current row bit right (results in 0x01 for black, and 0x00 for white)
       if (bit)
       {
         drawPixel(x + xoffset, y + yoffset, color);
@@ -238,6 +238,11 @@ void drawLine ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t col
 /**************************************************************************/
 void drawLineDotted ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t empty, uint16_t solid, uint16_t color )
 {
+  lcdProperties_t properties;
+
+  // Get the LCD properties (to check for HW acceleration in the driver)
+  properties = lcdGetProperties();
+
   if (solid == 0)
   {
     return;
@@ -250,7 +255,7 @@ void drawLineDotted ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16
   y1 = y1 > 65000 ? 0 : y1;
 
   // Check if we can use the optimised horizontal line method
-  if ((y0 == y1) && (empty == 0))
+  if ((y0 == y1) && (empty == 0) && properties.fastHLine)
   {
     lcdDrawHLine(x0, x1, y0, color);
     return;
@@ -259,7 +264,7 @@ void drawLineDotted ( uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16
   // Check if we can use the optimised vertical line method.
   // This can make a huge difference in performance, but may
   // not work properly on every LCD controller:
-  if ((x0 == x1) && (empty == 0))
+  if ((x0 == x1) && (empty == 0) && properties.fastVLine)
   {
     // Warning: This may actually be slower than drawing individual pixels on 
     // short lines ... Set a minimum line size to use the 'optimised' method
