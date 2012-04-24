@@ -1,7 +1,7 @@
 /**************************************************************************/
 /*! 
     @file     cmd_sysinfo.c
-    @author   K. Townsend (microBuilder.eu)
+    @author   Miceuz
 
     @brief    Code to execute for cmd_sysinfo in the 'core/cmd'
               command-line interpretter.
@@ -10,7 +10,7 @@
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
+    Copyright (c) 2012, microBuilder SARL
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -40,14 +40,10 @@
 
 #include "projectconfig.h"
 #include "core/cmd/cmd.h"
-#include "core/systick/systick.h"
-#include "core/iap/iap.h"
 #include "project/commands.h"       // Generic helper functions
-#include "core/pwm/pwm.h"
 
-#ifdef CFG_PRINTF_UART
-  #include "core/uart/uart.h"
-#endif
+#ifdef CFG_PWM
+  #include "core/pwm/pwm.h"
 
 /**************************************************************************/
 /*! 
@@ -58,27 +54,26 @@ uint8_t pwmStarted = 0;
 
 void cmd_pwm(uint8_t argc, char **argv) {
     int32_t frequencyTicks = 65535;
-    int32_t dutyCycle = 25;
+    int32_t dutyCycle = CFG_PWM_DEFAULT_DUTYCYCLE;
     
     if(argc > 0) {
         getNumber (argv[0], &dutyCycle);
         if(dutyCycle < 1 || dutyCycle > 100) {
-            printf("Invalid duty cycle. Duty cycle must be [1 .. 65535]%s", CFG_PRINTF_NEWLINE);
+            printf("Invalid duty cycle [1..65535]%s", CFG_PRINTF_NEWLINE);
             return;
         }
 
         if(argc > 1) {
             getNumber (argv[1], &frequencyTicks);
             if(frequencyTicks < 0 || frequencyTicks > 0xffff) {
-                printf("Invalid frequency. Frequency must be [1 .. 65535]%s", CFG_PRINTF_NEWLINE);
+                printf("Invalid frequency [1..65535]%s", CFG_PRINTF_NEWLINE);
                 return;
             }
         } else {
             frequencyTicks = 65535;
         }
     } else {
-        dutyCycle = 25;
-
+        dutyCycle = CFG_PWM_DEFAULT_DUTYCYCLE;
     }
 
     if(! pwmStarted) {
@@ -95,3 +90,4 @@ void cmd_pwm(uint8_t argc, char **argv) {
         pwmStarted = 1;
     }
 }
+#endif
