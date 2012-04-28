@@ -56,11 +56,11 @@ int16_t error;
 BOOL controlLoopDone = TRUE;
 
 void heaterOn() {
-    gpioSetValue(3, 3, 1);
+    gpioSetValue(2, 1, 1);
 }
 
 void heaterOff() {
-    gpioSetValue(3, 3, 0);
+    gpioSetValue(2, 1, 0);
 }
 
 uint8_t waitasec = FALSE;
@@ -86,8 +86,8 @@ void controlAction() {
 }
 
 void heaterSetup() {
-    gpioSetDir(3, 3, gpioDirection_Output);
-    gpioSetValue(3, 3, 0);
+    gpioSetDir(2, 1, gpioDirection_Output);
+    gpioSetValue(2, 1, 0);
 }
 
 uint16_t getTemperature() {
