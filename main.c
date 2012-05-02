@@ -126,6 +126,7 @@ int main(void)
   uint32_t currentSecond, lastSecond;
   currentSecond = lastSecond = 0;
 
+    setPoint = 100;
     temp = getTemperature();
     error = setPoint - temp;
     
@@ -133,13 +134,13 @@ int main(void)
 
   while (1)
   {
-    currentSecond = systickGetSecondsActive();
-    if (currentSecond != lastSecond)
-    {
-      lastSecond = currentSecond;
-      gpioSetValue(CFG_LED_PORT, CFG_LED_PIN, lastSecond % 2);
-
-    }
+//    currentSecond = systickGetSecondsActive();
+//    if (currentSecond != lastSecond)
+//    {
+//      lastSecond = currentSecond;
+//      gpioSetValue(CFG_LED_PORT, CFG_LED_PIN, lastSecond % 2);
+//
+//    }
       
       if(controlLoopDone) {
           timer32ResetCounter(0);
