@@ -53,8 +53,8 @@
     SSD1306_BUS_I2C   Use HW I2C
 
     -----------------------------------------------------------------------*/
-    // #define SSD1306_BUS_SPI
-    #define SSD1306_BUS_I2C
+    #define SSD1306_BUS_SPI
+    // #define SSD1306_BUS_I2C
 
     #if defined SSD1306_BUS_SPI && defined SSD1306_BUS_I2C
       #error "Only one SSD1306 bus interface can be specified at once in ssd1306.h"
@@ -69,7 +69,7 @@
 /*=========================================================================
     I2C Address - 011110+SA0+RW ... 0x78 for SA0 = 0, 0x7A for SA0 = 1
     ---------------------------------------------------------------------*/
-    #define SSD1306_I2C_ADDRESS   (0x78)
+    #define SSD1306_I2C_ADDRESS   (0x7A)
     #define SSD1306_I2C_READWRITE (0x01)
 /*=========================================================================*/
 #endif

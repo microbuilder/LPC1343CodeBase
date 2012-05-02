@@ -43,15 +43,15 @@
 #include "core/systick/systick.h"
 
 static volatile lcdOrientation_t lcdOrientation = LCD_ORIENTATION_PORTRAIT;
-static lcdProperties_t ssd1351Properties = { 128, 128, false, false, false };
+static lcdProperties_t ssd1351Properties = { 128, 128, false, false, false, true, false };
 
 /*************************************************/
 /* Private Methods                               */
 /*************************************************/
 
 #define CMD(c)        do { SET_CS; CLR_CS; CLR_DC; ssd1351SendByte( c, 1 ); SET_CS; } while (0)
-#define DATA(c)       do { SET_CS; CLR_CS; SET_DC; ssd1351SendByte( c, 0 ); SET_CS; } while (0);
-#define DELAY(mS)     do { systickDelay( mS / CFG_SYSTICK_DELAY_IN_MS ); } while(0);
+#define DATA(c)       do { SET_CS; CLR_CS; SET_DC; ssd1351SendByte( c, 0 ); SET_CS; } while (0)
+#define DELAY(mS)     do { systickDelay( mS / CFG_SYSTICK_DELAY_IN_MS ); } while(0)
 
 /**************************************************************************/
 /*! 
@@ -113,7 +113,6 @@ void ssd1351SetCursor(uint8_t x, uint8_t y)
   if ((x >= ssd1351Properties.width) || (y >= ssd1351Properties.height))
     return;
 
-  CMD(SSD1351_CMD_WRITERAM);
   CMD(SSD1351_CMD_SETCOLUMNADDRESS);
   DATA(x);                            // Start Address
   DATA(ssd1351Properties.width-1);    // End Address (0x7F)
@@ -121,7 +120,16 @@ void ssd1351SetCursor(uint8_t x, uint8_t y)
   CMD(SSD1351_CMD_SETROWADDRESS);
   DATA(y);                            // Start Address
   DATA(ssd1351Properties.height-1);   // End Address (0x7F)
-  CMD(SSD1351_CMD_WRITERAM);
+}
+
+/**************************************************************************/
+/*! 
+    @brief  Sets the cursor to 0, 0 and resets the window size
+*/
+/**************************************************************************/
+void ssd1351GoHome(void)
+{
+  ssd1351SetCursor(0, 0);
 }
 
 /*************************************************/
@@ -145,6 +153,9 @@ void lcdInit(void)
   gpioSetDir(SSD1351_DC_PORT, SSD1351_DC_PIN, gpioDirection_Output);
 #endif
 
+  // Make sure CS starts low
+  // CLR_CS;
+
   // Reset the LCD
   SET_RST;
   DELAY(20);
@@ -153,53 +164,72 @@ void lcdInit(void)
   SET_RST;
   DELAY(20);
 
-  // Disable pullups
+  // Disable internal pullup resistors
   SSD1351_DISABLEPULLUPS();
 
   CMD(SSD1351_CMD_SETCOMMANDLOCK);
   DATA(0x12);                               // Unlocked to enter commands
+
   CMD(SSD1351_CMD_SETCOMMANDLOCK);
   DATA(0xB1);                               // Make all commands accessible 
+
   CMD(SSD1351_CMD_SLEEPMODE_DISPLAYOFF);
+
   CMD(SSD1351_CMD_SETFRONTCLOCKDIV);
-  DATA(0xF1);
+  DATA(0xF1);                               // 7:4 = Oscillator Frequency, 3:0 = CLK Div Ratio (A[3:0]+1 = 1..16)
+
   CMD(SSD1351_CMD_SETMUXRRATIO);
   DATA(0x7F);
+
   CMD(SSD1351_CMD_COLORDEPTH);
   DATA(0x74);                               // Bit 7:6 = 65,536 Colors, Bit 3 = BGR or RGB
+
   CMD(SSD1351_CMD_SETCOLUMNADDRESS);
   DATA(0x00);
   DATA(0x7F);
+
   CMD(SSD1351_CMD_SETROWADDRESS);
   DATA(0x00);
   DATA(0x7F);
+
   CMD(SSD1351_CMD_SETDISPLAYSTARTLINE);
   DATA(0x00);
+
   CMD(SSD1351_CMD_SETDISPLAYOFFSET);
   DATA(0x00);
+ 
   CMD(SSD1351_CMD_SETGPIO);
   DATA(0x00);                               // Disable GPIO pins
+
   CMD(SSD1351_CMD_FUNCTIONSELECTION);
-  DATA(0x01);                               // External VDD (0 = External, 1 = Internal)
+  DATA(0x01);                               // External VDD (1 = External bias using diode drop, 0 = internal)
+
   CMD(SSD1351_CMD_SETPHASELENGTH);
   DATA(0x32);
-  CMD(SSD1351_CMD_SETSEGMENTLOWVOLTAGE);
-  DATA(0xA0);                               // Enable External VSL
-  DATA(0xB5);
-  DATA(0x55);
+
   CMD(SSD1351_CMD_SETPRECHARGEVOLTAGE);
-  DATA(0x17);
+  DATA(0x32);  // was 0x17
+
   CMD(SSD1351_CMD_SETVCOMHVOLTAGE);
   DATA(0x05);
+
+  CMD(SSD1351_CMD_SETDISPLAYMODE_RESET);
+
   CMD(SSD1351_CMD_SETCONTRAST);
   DATA(0xC8);
   DATA(0x80);
   DATA(0xC8);
+
   CMD(SSD1351_CMD_MASTERCONTRAST);
   DATA(0x0F);                               // Maximum contrast
+
+  CMD(SSD1351_CMD_SETSEGMENTLOWVOLTAGE);
+  DATA(0xA0);                               // Enable External VSL
+  DATA(0xB5);
+  DATA(0x55);
+
   CMD(SSD1351_CMD_SETSECONDPRECHARGEPERIOD);
   DATA(0x01);
-  CMD(SSD1351_CMD_SETDISPLAYMODE_RESET);
 
   // Use default grayscale for now to save flash space, but here are
   // the values if someone wants to change them ...
@@ -322,6 +352,7 @@ void lcdFillRGB(uint16_t data)
 {
   uint16_t i;
   ssd1351SetCursor(0, 0);
+  CMD(SSD1351_CMD_WRITERAM);
   for (i=1; i<=((ssd1351Properties.width)*(ssd1351Properties.height)) * 2;i++)
   {
     DATA(data >> 8);
@@ -340,6 +371,7 @@ void lcdDrawPixel(uint16_t x, uint16_t y, uint16_t color)
     return;
 
   ssd1351SetCursor((uint8_t)x, (uint8_t)y);
+  CMD(SSD1351_CMD_WRITERAM);
   DATA(color >> 8);
   DATA(color);
 }
@@ -363,7 +395,35 @@ void lcdDrawPixels(uint16_t x, uint16_t y, uint16_t *data, uint32_t len)
 /**************************************************************************/
 void lcdDrawHLine(uint16_t x0, uint16_t x1, uint16_t y, uint16_t color)
 {
-  // ToDo
+  // Allows for slightly better performance than setting individual pixels
+  uint16_t x, pixels;
+
+  if (x1 < x0)
+  {
+    // Switch x1 and x0
+    x = x1;
+    x1 = x0;
+    x0 = x;
+  }
+
+  // Check limits
+  if (x1 >= ssd1351Properties.width)
+  {
+    x1 = ssd1351Properties.width - 1;
+  }
+  if (x0 >= ssd1351Properties.width)
+  {
+    x0 = ssd1351Properties.width - 1;
+  }
+
+  ssd1351SetCursor(x0, y);
+  CMD(SSD1351_CMD_WRITERAM);
+  for (pixels = 0; pixels < x1 - x0 + 1; pixels++)
+  {
+    DATA(color >> 8);
+    DATA(color);
+  }
+  ssd1351GoHome();
 }
 
 /**************************************************************************/
@@ -374,7 +434,7 @@ void lcdDrawHLine(uint16_t x0, uint16_t x1, uint16_t y, uint16_t color)
 /**************************************************************************/
 void lcdDrawVLine(uint16_t x, uint16_t y0, uint16_t y1, uint16_t color)
 {
-  // ToDo
+  // Not supported
 }
 
 /**************************************************************************/
@@ -384,7 +444,7 @@ void lcdDrawVLine(uint16_t x, uint16_t y0, uint16_t y1, uint16_t color)
 /**************************************************************************/
 uint16_t lcdGetPixel(uint16_t x, uint16_t y)
 {
-  // ToDo
+  // Not supported
   return 0;
 }
 
@@ -438,7 +498,7 @@ uint16_t lcdGetHeight(void)
 /**************************************************************************/
 void lcdScroll(int16_t pixels, uint16_t fillColor)
 {
-  // ToDo
+  // Not Supported
 }
 
 /**************************************************************************/

@@ -43,7 +43,7 @@
 #include "core/systick/systick.h"
 
 static volatile lcdOrientation_t lcdOrientation = LCD_ORIENTATION_PORTRAIT;
-static lcdProperties_t ssd1331Properties = { 96, 64, false, false, false };
+static lcdProperties_t ssd1331Properties = { 96, 64, false, false, false, true, true };
 
 /*************************************************/
 /* Private Methods                               */
@@ -89,28 +89,6 @@ void ssd1331SendByte(uint8_t byte)
 
 /**************************************************************************/
 /*! 
-    @brief  Reads a 16-bit value from the 8-bit data bus
-*/
-/**************************************************************************/
-uint16_t ssd1331ReadData(void)
-{
-  // ToDo
-  return 0;
-}
-
-/**************************************************************************/
-/*! 
-    @brief  Reads a 16-bit value
-*/
-/**************************************************************************/
-uint16_t ssd1331Read(uint16_t addr)
-{
-  // ToDo
-  return 0;
-}
-
-/**************************************************************************/
-/*! 
     @brief  Sets the cursor to the specified X/Y position
 */
 /**************************************************************************/
@@ -135,7 +113,7 @@ void ssd1331SetCursor(uint8_t x, uint8_t y)
 /**************************************************************************/
 void ssd1331DrawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint16_t color) 
 {  
-  uint16_t x, pixels;
+  uint16_t x;
 
   if ((x1 >= ssd1331Properties.width) || (x2 >= ssd1331Properties.width) ||
       (y1 >= ssd1331Properties.height) || (y2 >= ssd1331Properties.height)) {
