@@ -144,7 +144,7 @@
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
               </file>
               <file file_name="../../drivers/displays/tft/hw/ILI9328.c">
-                <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
+                <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
               </file>
               <file file_name="../../drivers/displays/tft/hw/ssd1331.c">
@@ -152,7 +152,7 @@
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
               </file>
               <file file_name="../../drivers/displays/tft/hw/ssd1351.c">
-                <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
+                <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
               </file>
               <file file_name="../../drivers/displays/tft/hw/st7735.c">
@@ -315,6 +315,11 @@
               <file file_name="../../drivers/storage/spiflash/w25q16bv/w25q16bv.c"/>
             </folder>
             <file file_name="../../drivers/storage/spiflash/spiflash.h"/>
+          </folder>
+        </folder>
+        <folder Name="audio">
+          <folder Name="tea5767">
+            <file file_name="../../drivers/audio/tea5767/tea5767.c"/>
           </folder>
         </folder>
       </folder>
