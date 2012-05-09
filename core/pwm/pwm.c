@@ -178,7 +178,7 @@ int pwmSetDutyCycle(uint32_t percentage)
   }
 
   /* Set Duty Cycle (MR0) */
-  TMR_TMR16B1MR0 = ((pwmPulseWidth * (100 - (pwmDutyCycle = percentage))) / 100) + 1;
+  TMR_TMR16B1MR0 = (pwmPulseWidth * (100 - (pwmDutyCycle = percentage))) / 100;
 
   return 0;
 }
@@ -246,7 +246,7 @@ int pwmSetFrequencyInMicroseconds(uint16_t us)
   TMR_TMR16B1MR3 = (pwmPulseWidth = ticks - 1);
 
   /* Adjust Duty Cycle (MR0) */
-  TMR_TMR16B1MR0 = ((pwmPulseWidth * (100 - pwmDutyCycle)) / 100) + 1;
+  TMR_TMR16B1MR0 = (pwmPulseWidth * (100 - pwmDutyCycle)) / 100;
 
   return 0;  
 }
