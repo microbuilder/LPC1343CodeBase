@@ -81,9 +81,9 @@ void cmd_pwm(uint8_t argc, char **argv) {
         pwmInit();
     }
     
-    printf("Setting frequency ticks to %u%s", (uint16_t) frequencyTicks, CFG_PRINTF_NEWLINE);
+    printf("Setting frequency: %u ticks%s", (uint16_t) frequencyTicks, CFG_PRINTF_NEWLINE);
     pwmSetFrequencyInTicks(frequencyTicks);
-    printf("Setting duty cycle to %u%s", (uint16_t) dutyCycle, CFG_PRINTF_NEWLINE);
+    printf("Setting duty cycle: %u%%%s", (uint16_t) dutyCycle, CFG_PRINTF_NEWLINE);
     pwmSetDutyCycle(dutyCycle);
     if(! pwmStarted) {
         pwmStart();
