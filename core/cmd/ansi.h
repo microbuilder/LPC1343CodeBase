@@ -41,6 +41,8 @@
 
 // See: http://www.inwap.com/pdp10/ansicode.txt
 
+// Ex: printf("%s%s%s Bold Black Inverted Text %s \r\n", ANSICODES_GRAPHICS_STYLE_BOLD, ANSICODES_GRAPHICS_FORECOLOR_BLACK, ANSICODES_GRAPHICS_STYLE_NEGATIVE, ANSICODES_GRAPHICS_CLEARALL);
+
 #define ANSICODES_GRAPHICS_CLEARALL               "\e[0m"
 #define ANSICODES_GRAPHICS_STYLE_BOLD             "\e[1m"
 #define ANSICODES_GRAPHICS_STYLE_DIM              "\e[2m"
