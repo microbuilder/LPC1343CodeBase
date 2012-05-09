@@ -159,7 +159,7 @@ cmd_t cmd_tbl[] =
   #endif
 
   #ifdef CFG_PWM
-  { "M",    0,  2,  0,  cmd_pwm              , "PWM Control"                    , "'M [<dutycycle(%)>] [<dutycycle(ticks)>]'" },
+  { "M",    0,  2,  0,  cmd_pwm              , "PWM Control"                    , "'M [<dutycycle(%)>] [<frequency(ticks)>]'" },
   #endif
 };
 
