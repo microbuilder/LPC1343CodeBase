@@ -1,3 +1,16 @@
+v1.1.2 - ongoing
+==============================================================================
+NEW FEATURES
+------------------------------------------------------------------------------
+- Added basic TEA5767 drive
+- Added fastHLine and fastVLine to lcdProperties_t for all lcd drivers (to
+  known whether an accelerated vertical or horizontal line drawing function
+  is present in the driver or not)
+- Updated all LCD drivers to include the fastHLine and fastVLine flags
+- Added PWM command to CLI (thanks Miceuz)
+- Added optional callback in 32-bit timer ISR (thanks again Miceuz)
+
+
 v1.1.1 - 14 April 2012
 ==============================================================================
 NEW FEATURES

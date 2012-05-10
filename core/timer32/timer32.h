@@ -62,7 +62,7 @@ void timer32Enable(uint8_t timerNum);
 void timer32Disable(uint8_t timerNum);
 void timer32Reset(uint8_t timerNum);
 void timer32Init(uint8_t timerNum, uint32_t timerInterval);
-uint32_t timer32GetCount(uint8_t timerNum);
 void timer32SetIntHandler(void (*handler)(void));
+uint32_t timer32GetCount(uint8_t timerNum);
 void timer32ResetCounter(uint8_t);
 #endif

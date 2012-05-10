@@ -59,6 +59,8 @@ typedef struct
   bool     touchscreen;   // Whether the LCD has a touch screen
   bool     orientation;   // Whether the LCD orientation can be modified
   bool     hwscrolling;   // Whether the LCD support HW scrolling
+  bool     fastHLine;     // Whether the driver contains an accelerated horizontal line function
+  bool     fastVLine;     // Whether the driver contains an accelerated vertical line function
 } lcdProperties_t;
 
 extern void     lcdInit(void);

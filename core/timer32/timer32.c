@@ -69,7 +69,7 @@
 
 volatile uint32_t timer32_0_counter = 0;
 volatile uint32_t timer32_1_counter = 0;
-void (*interruptHandler)(void) = NULL;
+void (*interruptHandler0)(void) = NULL;
 
 /**************************************************************************/
 /*! 
@@ -124,19 +124,6 @@ void timer32Delay(uint8_t timerNum, uint32_t delay)
   return;
 }
 
-uint32_t timer32GetCount(uint8_t timerNum) {
-    if(0 == timerNum) {
-        return timer32_0_counter;
-    } else {
-        return timer32_1_counter;
-    }
-    
-}
-
-void timer32SetIntHandler(void (*handler)(void)) {
-    interruptHandler = handler;
-}
-
 /**************************************************************************/
 /*! 
     @brief Interrupt handler for 32-bit timer 0
@@ -144,9 +131,12 @@ void timer32SetIntHandler(void (*handler)(void)) {
 /**************************************************************************/
 void TIMER32_0_IRQHandler(void)
 {  
-    if(NULL != interruptHandler) {
-        (*interruptHandler)();
+    /* Call the callback function if required */
+    if(NULL != interruptHandler0) 
+    {
+        (*interruptHandler0)();
     }
+
     /* Clear the interrupt flag */
     TMR_TMR32B0IR = TMR_TMR32B0IR_MR0;
 
@@ -358,11 +348,79 @@ void timer32Init(uint8_t timerNum, uint32_t timerInterval)
   return;
 }
 
-void timer32ResetCounter(uint8_t timerNum){
-    if(0 == timerNum){
+/**************************************************************************/
+/*! 
+    @brief Sets the optional callback function for 32-bit timer 0
+
+    @section EXAMPLE
+
+    @code
+    #include "core/timer32/timer32.h"
+
+    static volatile int32_t timerCounter;
+
+    // Callback function for 32-bit timer 0
+    void ct32b0Callback(void)
+    {
+      timerCounter++;
+    }
+
+    int main(void)
+    {
+      // Configure cpu and mandatory peripherals
+      systemInit();
+
+      // Init timer 0 with 1ms delay
+      timer32Init(0, TIMER32_CCLK_1MS);
+
+      // Setup the interrupt callback
+      timer32SetIntHandler(ct32b0Callback);
+
+      // Enable the timer
+      timer32Enable(0);
+
+      while (1)
+      {
+      }
+    }
+    @endcode
+*/
+/**************************************************************************/
+void timer32SetIntHandler(void (*handler)(void)) 
+{
+    interruptHandler0 = handler;
+}
+
+/**************************************************************************/
+/*! 
+    @brief Returns the value of the auto-incrementing timer counter(s)
+*/
+/**************************************************************************/
+uint32_t timer32GetCount(uint8_t timerNum) 
+{
+    if (0 == timerNum) 
+    {
+        return timer32_0_counter;
+    } 
+    else 
+    {
+        return timer32_1_counter;
+    }    
+}
+
+/**************************************************************************/
+/*! 
+    @brief Resets the auto-incrementing timer counter(s)
+*/
+/**************************************************************************/
+void timer32ResetCounter(uint8_t timerNum)
+{
+    if (0 == timerNum)
+    {
         timer32_0_counter = 0;
-    } else if(1 == timerNum) {
+    } 
+    else if (1 == timerNum) 
+    {
         timer32_1_counter = 0;
     }
 }
-

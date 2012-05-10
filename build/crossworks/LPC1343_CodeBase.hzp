@@ -317,6 +317,11 @@
             <file file_name="../../drivers/storage/spiflash/spiflash.h"/>
           </folder>
         </folder>
+        <folder Name="audio">
+          <folder Name="tea5767">
+            <file file_name="../../drivers/audio/tea5767/tea5767.c"/>
+          </folder>
+        </folder>
       </folder>
       <file file_name="../../sysinit.c"/>
       <folder Name="project">
@@ -387,6 +392,7 @@
           </folder>
           <file file_name="../../project/commands/cmd_uart.c"/>
           <file file_name="../../project/commands/cmd_reset.c"/>
+          <file file_name="../../project/commands/cmd_pwm.c"/>
         </folder>
         <file file_name="../../project/cmd_tbl.h"/>
       </folder>

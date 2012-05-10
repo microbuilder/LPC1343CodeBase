@@ -195,11 +195,13 @@
     ISL12022M (SRAM)            0xAE      1010111x
     LM75B                       0x90      1001000x
     MCP24AA                     0xA0      1010000x
-    MCP4725                     0xC0      1100000x
+    MCP4725                     0xC0      1100000x ***
+	TEA5767                     0xC0      1100000x ***
     TSL2561                     0x72      0111001x
     TCS3414                     0x72      0111001x
     PN532                       0x48      0100100x
     SSD1306_I2C                 0x78      0111100x  // Assumes SA0 = GND
+	INA219                      0xF0      10000000x // Assumes A0+A1 = GND
 
     [1]  Alternative addresses may exists, but the addresses listed in this
          table are the values used in the code base

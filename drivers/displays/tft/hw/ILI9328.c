@@ -47,7 +47,7 @@
 #define ILI9238_USE_INLINE_METHODS (1)
 
 static volatile lcdOrientation_t lcdOrientation = LCD_ORIENTATION_PORTRAIT;
-static lcdProperties_t ili9328Properties = { 240, 320, TRUE, TRUE, TRUE };
+static lcdProperties_t ili9328Properties = { 240, 320, true, true, true, true, true };
 
 /*************************************************/
 /* Private Methods                               */

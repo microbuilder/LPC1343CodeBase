@@ -54,7 +54,7 @@
 // #define ILI9235_USE_INLINE_METHODS (1)
 
 static lcdOrientation_t lcdOrientation = LCD_ORIENTATION_PORTRAIT;
-static lcdProperties_t ili9325Properties = { 240, 320, TRUE, TRUE, TRUE };
+static lcdProperties_t ili9325Properties = { 240, 320, true, true, true, true, true };
 
 /*************************************************/
 /* Private Methods                               */
