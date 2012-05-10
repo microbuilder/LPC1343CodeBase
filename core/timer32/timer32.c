@@ -351,6 +351,39 @@ void timer32Init(uint8_t timerNum, uint32_t timerInterval)
 /**************************************************************************/
 /*! 
     @brief Sets the optional callback function for 32-bit timer 0
+
+    @section EXAMPLE
+
+    @code
+    #include "core/timer32/timer32.h"
+
+    static volatile int32_t timerCounter;
+
+    // Callback function for 32-bit timer 0
+    void ct32b0Callback(void)
+    {
+      timerCounter++;
+    }
+
+    int main(void)
+    {
+      // Configure cpu and mandatory peripherals
+      systemInit();
+
+      // Init timer 0 with 1ms delay
+      timer32Init(0, TIMER32_CCLK_1MS);
+
+      // Setup the interrupt callback
+      timer32SetIntHandler(ct32b0Callback);
+
+      // Enable the timer
+      timer32Enable(0);
+
+      while (1)
+      {
+      }
+    }
+    @endcode
 */
 /**************************************************************************/
 void timer32SetIntHandler(void (*handler)(void)) 

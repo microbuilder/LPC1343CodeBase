@@ -178,7 +178,7 @@ int pwmSetDutyCycle(uint32_t percentage)
   }
 
   /* Set Duty Cycle (MR0) */
-  TMR_TMR16B1MR0 = (pwmPulseWidth * (100 - (pwmDutyCycle = percentage))) / 100;
+  TMR_TMR16B1MR0 = ((pwmPulseWidth * (100 - (pwmDutyCycle = percentage))) / 100) + 1;
 
   return 0;
 }
@@ -202,7 +202,7 @@ int pwmSetFrequencyInTicks(uint16_t ticks)
   }
 
   /* Set Pulse Width (MR3)*/
-  TMR_TMR16B1MR3 = (pwmPulseWidth = ticks);
+  TMR_TMR16B1MR3 = (pwmPulseWidth = ticks - 1);
 
   /* Adjust Duty Cycle (MR0) */
   TMR_TMR16B1MR0 = (pwmPulseWidth * (100 - pwmDutyCycle)) / 100;
@@ -224,8 +224,8 @@ int pwmSetFrequencyInTicks(uint16_t ticks)
     @Warning    Because a 16-bit timer is used here by default, the
                 maximum frequency is quite small.  Running at 36MHz, the
                 largest possible pulse-width/frequency is ~1,82mS or
-                1820 microSeconds.  At 12MHz its 5461 uS, and at 48MHz
-                its 1365 uS.
+                1820 microSeconds.  At 12MHz its 5461 uS, at 48MHz
+                its 1365 uS, at 72MHz its 909uS.
 */
 /**************************************************************************/
 int pwmSetFrequencyInMicroseconds(uint16_t us)
@@ -243,10 +243,10 @@ int pwmSetFrequencyInMicroseconds(uint16_t us)
   }
 
   /* Set Pulse Width (MR3)*/
-  TMR_TMR16B1MR3 = (pwmPulseWidth = ticks);
+  TMR_TMR16B1MR3 = (pwmPulseWidth = ticks - 1);
 
   /* Adjust Duty Cycle (MR0) */
-  TMR_TMR16B1MR0 = (pwmPulseWidth * (100 - pwmDutyCycle)) / 100;
+  TMR_TMR16B1MR0 = ((pwmPulseWidth * (100 - pwmDutyCycle)) / 100) + 1;
 
   return 0;  
 }

@@ -53,8 +53,8 @@
     SSD1306_BUS_I2C   Use HW I2C
 
     -----------------------------------------------------------------------*/
-    #define SSD1306_BUS_SPI
-    // #define SSD1306_BUS_I2C
+    // #define SSD1306_BUS_SPI
+    #define SSD1306_BUS_I2C
 
     #if defined SSD1306_BUS_SPI && defined SSD1306_BUS_I2C
       #error "Only one SSD1306 bus interface can be specified at once in ssd1306.h"

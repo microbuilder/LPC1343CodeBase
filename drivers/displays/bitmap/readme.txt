@@ -6,7 +6,8 @@ or text-only displays.  They are placed in a seperate folder because the
 drawing routines are handled quite differently than the generic drawing code
 for 16-bit TFT LCDs.
 
+SHARPMEM           Basic driver for Sharp memory displays.
 ST7565             Driver for  128x64 pixel I2C-based displays (available from
                    Adafruit Industries, for example).
 SSD1306            Driver for 128x64 pixel OLED displays (also available from
-                   Adafruit Industries).
+                   Adafruit Industries).  Supports I2C and SPI.
