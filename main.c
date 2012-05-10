@@ -55,6 +55,11 @@ uint16_t temp;
 int16_t error;
 BOOL controlLoopDone = TRUE;
 
+#define RING_BUFFER_SIZE (6)
+
+uint16_t ringBuffer[RING_BUFFER_SIZE] = {0, 0, 0, 0, 0, 0};
+uint8_t ringIndex = 0;
+
 void heaterOn() {
     gpioSetValue(2, 1, 1);
 }
@@ -95,7 +100,7 @@ uint16_t getTemperature() {
     uint16_t adc0Value;
     uint16_t j;
     for(j = 0; j < 4096; j++){
-        adc0Value = adcRead(0);
+        adc0Value = adcReadSingle(0);
         adcOversampled += adc0Value;
     }
     adcOversampled = adcOversampled >> 6;
@@ -105,31 +110,52 @@ uint16_t getTemperature() {
     
 }
 
+void recordTemp(uint16_t t) {
+    ringBuffer[ringIndex] = t;
+    ringIndex++;
+    if(ringIndex >= RING_BUFFER_SIZE) {
+        ringIndex = 0;
+    }     
+}
+
+uint16_t getAverageTemp() {
+    uint8_t i;
+    uint16_t sum = 0;
+    for(i = 0; i < RING_BUFFER_SIZE; i++){
+        sum += ringBuffer[i];
+    }
+    return sum / RING_BUFFER_SIZE;
+}
 
 int main(void)
 {
   // Configure cpu and mandatory peripherals
-  systemInit();
+    systemInit();
     
     heaterSetup();
     timer32Init(0, TIMER32_CCLK_1S);
     timer32SetIntHandler(controlAction);
     
+    pid.pGain = (double) ((double) 350 / 1000.0);
+    pid.iGain = (double) 30 / 1000.0;
+    pid.dGain = (double) 400 / 1000.0;
+    
     pid.iState = 0;
-    pid.iMax = 2000;
-    pid.iMin = -2000;
-    pid.iGain = 0;
-    pid.dGain = 0;
-    pid.pGain = 0.07;
+    pid.iMax = 5.0 / pid.iGain;
+    pid.iMin = 5.0 / pid.iGain * -1;
     
+    
+    uint32_t currentSecond, lastSecond;
+    currentSecond = lastSecond = 0;
 
-  uint32_t currentSecond, lastSecond;
-  currentSecond = lastSecond = 0;
-
-    setPoint = 100;
+    setPoint = 0;
     temp = getTemperature();
+    recordTemp(temp);
+
+    setupPrimary();
+    startPidProgram(0);
+
     error = setPoint - temp;
-    
     controlValue = updatePID(&pid, error, temp);
 
   while (1)
@@ -145,6 +171,11 @@ int main(void)
       if(controlLoopDone) {
           timer32ResetCounter(0);
           temp = getTemperature();
+          recordTemp(temp);
+
+          processPidProgramStep(getAverageTemp());
+
+          printf("%d, ", getAverageTemp());
           error = setPoint - temp;
           controlValue = updatePID(&pid, error, temp);
           controlLoopDone = FALSE;

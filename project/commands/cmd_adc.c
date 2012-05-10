@@ -60,7 +60,7 @@ void cmd_adc0read(uint8_t argc, char **argv) {
     for(i = 0; i < 100; i++) {
         adcOversampled = 0;
         for(j = 0; j < 4096; j++){
-            adc0Value = adcRead(0);
+            adc0Value = adcReadSingle(0);
             adcOversampled += adc0Value;
         }
         adcOversampled = adcOversampled >> 6;

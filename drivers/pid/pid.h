@@ -53,4 +53,26 @@ Pid pid;
 
 uint16_t updatePID(Pid *pid, int16_t error, uint16_t position) ;
 
+#define COMMAND_TYPE_RISE 1
+#define COMMAND_TYPE_HOLD 2
+
+typedef struct {
+    int type;
+    uint16_t temperature;
+    uint32_t time;
+} Command;
+
+#define MAX_PID_PROGRAM_LENGHT 400
+
+Command pidProgram[MAX_PID_PROGRAM_LENGHT];
+
+void initPidProgram();
+void addPidCommand(uint16_t index, Command cmd);
+void deletePidCommand(uint16_t index);
+void printPidProgram();
+void processPidProgramStep(uint16_t temp);
+void startPidProgram(uint16_t index);
+void stopPidProgram();
+
+void setupPrimary();
 #endif

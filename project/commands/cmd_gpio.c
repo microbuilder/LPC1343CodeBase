@@ -36,6 +36,7 @@
 */
 /**************************************************************************/
 #include <stdio.h>
+#include <string.h>
 
 #include "projectconfig.h"
 #include "core/cmd/cmd.h"
@@ -98,4 +99,53 @@ void cmd_pid(uint8_t argc, char **argv) {
     pid.iState = 0;
     pid.iMax = 5.0 / pid.iGain;
     pid.iMin = 5.0 / pid.iGain * -1;
+}
+
+void cmd_list(uint8_t argc, char **argv) {
+    printPidProgram();
+}
+
+void cmd_addCommand(uint8_t argc, char **argv) {
+    char *rise = "rise";
+    char *hold = "hold";
+    Command c;
+    int32_t index, temp, time;
+    
+    getNumber(argv[0], &index);
+    
+    printf("index: %d ", index);
+    if(!strcmp(argv[1], "rise")) {
+        printf(" rise ");
+        c.type = COMMAND_TYPE_RISE;
+        getNumber(argv[2], &temp);
+        c.temperature = temp;
+        c.time = 0;
+    } else if(!strcmp(argv[1], "hold")) {
+        printf(" hold ");
+        c.type = COMMAND_TYPE_HOLD;
+        getNumber(argv[2], &temp);
+        c.temperature = temp;
+        getNumber(argv[3], &time);
+        c.time = time;
+    }
+    printf(" adding PID command...");
+    addPidCommand(index, c);
+}
+
+void cmd_delCommand(uint8_t argc, char **argv) {
+    int32_t index;
+    getNumber(argv[0], &index);
+    deletePidCommand(index);
+}
+
+void cmd_start(uint8_t argc, char **argv) {
+    int32_t index = 0;
+    if(argc > 0) {
+        getNumber(argv[0], &index);        
+    }
+    startPidProgram(index);
+}
+
+void cmd_stop(uint8_t argc, char **argv) {
+    stopPidProgram();
 }
