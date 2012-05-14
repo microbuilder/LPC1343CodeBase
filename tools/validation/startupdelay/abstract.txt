@@ -1,0 +1,7 @@
+This simple code can be used to test the startup delay, or more precisely
+the delay between the moment that reset is deasserted and code execution
+begins in main().
+
+GPIO pin 2.1 is set to output and high as soon as main is entered, so you
+simply need to monitor the reset line and GPIO 2.1 on a two-channel
+oscilliloscope, and measure the delay between the two rising edges.
