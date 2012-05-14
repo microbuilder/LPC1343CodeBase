@@ -59,9 +59,6 @@
 /**************************************************************************/
 void buttonRender(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t fontColor, char *text, theme_t theme)
 {
-  uint16_t brighter, darker;
-  uint16_t buttonEnd;
-
   // Draw background gradient then outline
   drawGradient(x+2, y+2, x+width-2, y+height-2, theme.colorFill, theme.colorBorder);
   drawRoundedRectangle(x+1, y+1, x+width-1, y+height-1, theme.colorFill, 5, DRAW_CORNERS_ALL);

@@ -2,7 +2,9 @@ v1.1.2 - ongoing
 ==============================================================================
 NEW FEATURES
 ------------------------------------------------------------------------------
+- Cleaned up /tools/testfirmware to include more recent blinky, etc.
 - Added basic TEA5767 drive
+- Added core/cmd/ansi.h (rediscover the joy of ANSI graphics codes :)
 - Added fastHLine and fastVLine to lcdProperties_t for all lcd drivers (to
   known whether an accelerated vertical or horizontal line drawing function
   is present in the driver or not)
@@ -10,6 +12,10 @@ NEW FEATURES
 - Added PWM command to CLI (thanks Miceuz)
 - Added optional callback in 32-bit timer ISR (thanks again Miceuz)
 
+BUG FIXES/OPTIMISATIONS/ETC.
+------------------------------------------------------------------------------
+- Minor accuracy improvement to pwm.c (off by 1 error)
+- Fixed typos in cmd_pwm.c and cmd_tbl.h
 
 v1.1.1 - 14 April 2012
 ==============================================================================

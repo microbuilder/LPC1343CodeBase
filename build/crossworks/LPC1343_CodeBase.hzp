@@ -73,6 +73,7 @@
             <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
             <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
           </file>
+          <file file_name="../../core/cmd/ansi.h"/>
         </folder>
         <folder Name="usbcdc">
           <file file_name="../../core/usbcdc/cdcuser.c">
@@ -121,6 +122,9 @@
           </folder>
           <folder Name="tcs3414">
             <file file_name="../../drivers/sensors/tcs3414/tcs3414.c"/>
+          </folder>
+          <folder Name="ina219">
+            <file file_name="../../drivers/sensors/ina219/ina219.c"/>
           </folder>
         </folder>
         <folder Name="displays" file_name="">

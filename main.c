@@ -7,7 +7,7 @@
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2012, microBuilder SARL
+    Copyright (c) 2011, microBuilder SARL
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,10 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "projectconfig.h"
 #include "sysinit.h"
 
@@ -56,7 +60,7 @@ int main(void)
 
   uint32_t currentSecond, lastSecond;
   currentSecond = lastSecond = 0;
-
+  
   while (1)
   {
     // Toggle LED once per second

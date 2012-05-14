@@ -56,38 +56,29 @@ void cmd_pwm(uint8_t argc, char **argv) {
     int32_t frequencyTicks = 65535;
     int32_t dutyCycle = CFG_PWM_DEFAULT_DUTYCYCLE;
     
-    if(argc > 0) {
-        getNumber (argv[0], &dutyCycle);
-        if(dutyCycle < 1 || dutyCycle > 100) {
-            printf("Invalid duty cycle [1..65535]%s", CFG_PRINTF_NEWLINE);
-            return;
-        }
-
-        if(argc > 1) {
-            getNumber (argv[1], &frequencyTicks);
-            if(frequencyTicks < 0 || frequencyTicks > 0xffff) {
-                printf("Invalid frequency [1..65535]%s", CFG_PRINTF_NEWLINE);
-                return;
-            }
-        } else {
-            frequencyTicks = 65535;
-        }
-    } else {
-        dutyCycle = CFG_PWM_DEFAULT_DUTYCYCLE;
+    getNumber (argv[0], &dutyCycle);
+    if(dutyCycle < 1 || dutyCycle > 100) 
+    {
+      printf("Invalid duty cycle [1..65535]%s", CFG_PRINTF_NEWLINE);
+      return;
     }
 
-    if(! pwmStarted) {
-        printf("Initializing PWM%s", CFG_PRINTF_NEWLINE);
-        pwmInit();
+    getNumber (argv[1], &frequencyTicks);
+    if(frequencyTicks < 0 || frequencyTicks > 0xffff) 
+    {
+      printf("Invalid frequency [1..65535]%s", CFG_PRINTF_NEWLINE);
+      return;
     }
-    
+
     printf("Setting frequency: %u ticks%s", (uint16_t) frequencyTicks, CFG_PRINTF_NEWLINE);
     pwmSetFrequencyInTicks(frequencyTicks);
     printf("Setting duty cycle: %u%%%s", (uint16_t) dutyCycle, CFG_PRINTF_NEWLINE);
     pwmSetDutyCycle(dutyCycle);
-    if(! pwmStarted) {
-        pwmStart();
-        pwmStarted = 1;
+    if(! pwmStarted) 
+    {
+      printf("Initializing PWM%s", CFG_PRINTF_NEWLINE);
+      pwmStart();
+      pwmStarted = 1;
     }
 }
 #endif
