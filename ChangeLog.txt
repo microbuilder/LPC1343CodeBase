@@ -2,6 +2,7 @@ v1.1.2 - ongoing
 ==============================================================================
 NEW FEATURES
 ------------------------------------------------------------------------------
+- Added drivers/dac/mcp4901 (courtesy tauonteilchen, thanks!)
 - Cleaned up /tools/testfirmware to include more recent blinky, etc.
 - Added basic TEA5767 drive
 - Added core/cmd/ansi.h (rediscover the joy of ANSI graphics codes :)

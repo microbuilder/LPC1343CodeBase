@@ -277,6 +277,9 @@
           <folder Name="mcp4725">
             <file file_name="../../drivers/dac/mcp4725/mcp4725.c"/>
           </folder>
+          <folder Name="mcp4901">
+            <file file_name="../../drivers/dac/mcp4901/mcp4901.c"/>
+          </folder>
         </folder>
         <folder Name="rtc">
           <folder Name="isl12022m">
