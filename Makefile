@@ -123,8 +123,8 @@ VPATH += drivers/rsa
 OBJS += rsa.o
 
 # DAC
-VPATH += drivers/dac/mcp4725
-OBJS += mcp4725.o
+VPATH += drivers/dac/mcp4725 drivers/dac/mcp4901
+OBJS += mcp4725.o mcp4901.o
 
 # RFID/NFC
 VPATH += drivers/rf/pn532 drivers/rf/pn532/helpers
