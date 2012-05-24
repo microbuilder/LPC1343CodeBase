@@ -92,6 +92,7 @@ OBJS += DejaVuSansMono10_AA2.o DejaVuSansMono13_AA2.o DejaVuSansMono14_AA2.o
 
 # LCD Driver (Only one can be included at a time!)
 # OBJS += hx8340b.o
+# OBJS += hx8347d.o
 OBJS += ILI9328.o
 # OBJS += ILI9325.o
 # OBJS += ssd1331.o
