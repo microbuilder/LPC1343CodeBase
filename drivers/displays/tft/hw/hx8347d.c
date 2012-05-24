@@ -1,42 +1,32 @@
 /**************************************************************************/
 /*!
     @file     hx8347d.c
-    @author   TauonTeilchen
+    @author   Tauon {TauonTeilchen} Jabber ID Tauon[at]jabber.ccc.de
 
     @section  DESCRIPTION
+	Driver for hx8347h 240x320 pixel TFT LCD displays.
     Is written for MI0283QT-2 LCD from watterott.com
     More infos: http://www.watterott.com/de/MI0283QT-2-Adapter
-    Based on Watterott C Lib for MI0283QT-2
     http://www.watterott.com/index.php?page=product&info=1597&dl_media=3202
 
     @section  LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
-    All rights reserved.
-
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are met:
-    1. Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in the
-    documentation and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holders nor the
-    names of its contributors may be used to endorse or promote products
-    derived from this software without specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
-    EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY
-    DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    Copyright (c) 2012, TauonTeilchen 
+	----------------------------------------------------------------------------
+	"THE ClubMate-WARE LICENSE" (Revision 42):
+	JID: <Tauon@jabber.ccc.de> wrote this file. As long as you retain this notice you
+	can do whatever you want with this stuff. If we meet some day, and you think
+	this stuff is worth it, you can buy me a ClubMate in return Tauon
+	----------------------------------------------------------------------------
+	----------------------------------------------------------------------------
+	 "THE ClubMate-WARE LICENSE" (Revision 42):
+	 JID: <Tauon@jabber.ccc.de> schrieb diese Datei. Solange Sie diesen Vermerk nicht entfernen, k�nnen
+	 Sie mit dem Material machen, was Sie m�chten. Wenn wir uns eines Tages treffen und Sie
+	 denken, das Material ist es wert, k�nnen Sie mir daf�r ein ClubMate ausgeben. Tauon
+	----------------------------------------------------------------------------
+	
 */
 /**************************************************************************/
 #include "drivers/displays/tft/hw/hx8347d.h"
@@ -114,14 +104,14 @@ uint16_t offset;
 /* Private Methods                               */
 /*************************************************/
 void lcd_drawstart(void);
-void lcd_cmd(unsigned int reg, unsigned int param);
-void lcd_clear(unsigned int color);
-void lcd_draw(unsigned int color);
+void lcd_cmd(uint16_t reg, uint16_t param);
+void lcd_clear(uint16_t color);
+void lcd_draw(uint16_t color);
 void lcd_drawstart(void);
 void lcd_drawstop(void);
 void hx8347d_DisplayOnFlow(void);
 void hx8347d_DisplayOffFlow(void);
-void lcd_area(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1);
+void lcd_area(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
 
 
 void hx8347d_Scroll(uint16_t tfa,uint16_t vsa,uint16_t bfa, uint16_t vsp)
@@ -153,7 +143,7 @@ void displayOffFlow(void)
 	lcd_cmd(Display_Control_3, Display_Control_3_D0);
 }
 
-void lcd_cmd(unsigned int reg, unsigned int param)
+void lcd_cmd(uint16_t reg, uint16_t param)
 {
 	uint8_t b_first[2];
 	uint8_t b_sec[2];
@@ -174,7 +164,7 @@ void lcd_cmd(unsigned int reg, unsigned int param)
 
   return;
 }
-void lcd_clear(unsigned int color)
+void lcd_clear(uint16_t color)
 {
   unsigned int i;
 
@@ -197,7 +187,7 @@ void lcd_clear(unsigned int color)
   return;
 }
 
-void lcd_draw(unsigned int color)
+void lcd_draw(uint16_t color)
 {
 	// Writing data in 16Bit mode for saving a lot of time
     /* Move on only if NOT busy and TX FIFO not full. */
@@ -247,10 +237,18 @@ void lcd_drawstart(void)
 }
 
 
-void lcd_area(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1)
+void lcd_area(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1)
 {
-	y0 = ((320-offset)+ y0) % 320;
-	y1 = ((320-offset)+ y1) % 320;
+	if(hx8347dPOrientation == LCD_ORIENTATION_PORTRAIT)
+	{
+		y0 = ((320-offset)+ y0) % 320;
+		y1 = ((320-offset)+ y1) % 320;
+	}
+	else
+	{
+		x0 = ((320-offset)+ x0) % 320;
+		x1 = ((320-offset)+ x1) % 320;		
+	}
 	lcd_cmd(Column_Address_Start_1, (x0>>0)); //set x0
 	lcd_cmd(Column_Address_Start_2, (x0>>8)); //set x0
 	lcd_cmd(Column_Address_End_1  , (x1>>0)); //set x1
@@ -262,12 +260,12 @@ void lcd_area(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1
 
   return;
 }
-void lcd_cursor(unsigned int x, unsigned int y)
+void lcd_cursor(uint16_t x, uint16_t y)
 {
   lcd_area(x, y, x, y);
   return;
 }
-void lcd_data(unsigned int c)
+void lcd_data(uint16_t c)
 {
 	LCD_CS_ENABLE();
 	uint8_t b[3];
@@ -414,6 +412,7 @@ void lcdInit(void)
 	lcd_cmd(0x28, 0x003C);
 
 	lcdSetOrientation(hx8347dPOrientation);
+	offset = 0;
 	return;
 }
 /**************************************************************************/
@@ -562,6 +561,7 @@ void lcdDrawVLine(uint16_t x, uint16_t y0, uint16_t y1, uint16_t color)
 /**************************************************************************/
 uint16_t lcdGetPixel(uint16_t x, uint16_t y)
 {
+	return 0;
 }
 
 /**************************************************************************/

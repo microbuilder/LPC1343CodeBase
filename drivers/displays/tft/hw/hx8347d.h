@@ -1,41 +1,25 @@
 /**************************************************************************/
 /*!
     @file     hx8347d.h
-    @author   TauonTeilchen
-
-    @section  DESCRIPTION
-    Is written for MI0283QT-2 LCD from watterott.com
-    More infos: http://www.watterott.com/de/MI0283QT-2-Adapter
-    http://www.watterott.com/index.php?page=product&info=1597&dl_media=3202
+    @author   Tauon {TauonTeilchen} Jabber ID Tauon[at]jabber.ccc.de
 
     @section  LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2010, microBuilder SARL
-    All rights reserved.
-
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are met:
-    1. Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in the
-    documentation and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holders nor the
-    names of its contributors may be used to endorse or promote products
-    derived from this software without specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
-    EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY
-    DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    Copyright (c) 2012, TauonTeilchen 
+	----------------------------------------------------------------------------
+	"THE BEER-WARE LICENSE" (Revision 42):
+	JID: <Tauon@jabber.ccc.de> wrote this file. As long as you retain this notice you
+	can do whatever you want with this stuff. If we meet some day, and you think
+	this stuff is worth it, you can buy me a ClubMate in return Tauon
+	----------------------------------------------------------------------------
+	----------------------------------------------------------------------------
+	 "THE ClubMate-WARE LICENSE" (Revision 42):
+	 JID: <Tauon@jabber.ccc.de> schrieb diese Datei. Solange Sie diesen Vermerk nicht entfernen, koennen
+	 Sie mit dem Material machen, was Sie möechten. Wenn wir uns eines Tages treffen und Sie
+	 denken, das Material ist es wert, koennen Sie mir dafuer ein ClubMate ausgeben. Tauon
+	----------------------------------------------------------------------------
 */
 /**************************************************************************/
 
@@ -43,7 +27,7 @@
 // LCD BACK_LIGHT       Pin 6 of Port 2
 // LCD CS               Pin 5 of Port 2
 // LCD RESET            Pin 4 of Port 2
-// Morr infos           https://github.com/watterott/MI0283QT-Adapter/raw/master/img/connecting-uno.jpg
+// More infos           https://github.com/watterott/MI0283QT-Adapter/raw/master/img/connecting-uno.jpg
 //
 /**************************************************************************/
 #include "core/systick/systick.h"
@@ -55,7 +39,7 @@
 
 
 // Screen width, height, has touchscreen, support orientation changes, support hw scrolling
-static lcdOrientation_t hx8347dPOrientation = LCD_ORIENTATION_PORTRAIT;
+static lcdOrientation_t hx8347dPOrientation = LCD_ORIENTATION_LANDSCAPE;
 
 // Screen width, height, has touchscreen, support orientation changes, support hw scrolling
 static lcdProperties_t hx8347dProperties = { 320, 240, false, true, true };
@@ -77,7 +61,7 @@ static lcdProperties_t hx8347dProperties = { 320, 240, false, true, true };
     @brief  Configures any pins or HW and initialises the LCD controller
 */
 /**************************************************************************/
-uint16_t pwmDutyCycleLCDBacklight = 50;
+
 void lcdInit(void);
 void lcdBacklight(bool state);
 void lcdTest(void);
