@@ -141,7 +141,7 @@ static void ina219Read16(uint8_t reg, uint16_t *value)
     @note   These calculations assume a 0.1 ohm resistor is present
 */
 /**************************************************************************/
-static void ina219SetCalibration_32V_2A(void)
+void ina219SetCalibration_32V_2A(void)
 {
   // By default we use a pretty huge range for the input voltage,
   // which probably isn't the most appropriate choice for system
@@ -230,7 +230,7 @@ static void ina219SetCalibration_32V_2A(void)
     @note   These calculations assume a 0.1 ohm resistor is present
 */
 /**************************************************************************/
-static void ina219SetCalibration_32V_1A(void)
+void ina219SetCalibration_32V_1A(void)
 {
   // By default we use a pretty huge range for the input voltage,
   // which probably isn't the most appropriate choice for system
@@ -321,7 +321,7 @@ static void ina219SetCalibration_32V_1A(void)
     @note   These calculations assume a 0.1 ohm resistor is present
 */
 /**************************************************************************/
-static void ina219SetCalibration_16V_500mA(void)
+void ina219SetCalibration_16V_500mA(void)
 {
   // VBUS_MAX = 16V
   // VSHUNT_MAX = 0.08	(Assumes Gain 2, 80mV, can also be 0.32, 0.16, 0.04)
@@ -406,7 +406,7 @@ static void ina219SetCalibration_16V_500mA(void)
     @note   These calculations assume a 0.1 ohm resistor is present
 */
 /**************************************************************************/
-static void ina219SetCalibration_16V_200mA(void)
+void ina219SetCalibration_16V_200mA(void)
 {
   // VBUS_MAX = 16V
   // VSHUNT_MAX = 0.04	(Assumes Gain 1, 40mV, can also be 0.32, 0.16, 0.08)
