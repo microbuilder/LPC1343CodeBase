@@ -8,18 +8,18 @@
     Software License Agreement (BSD License)
 
     Copyright (c) 2012, TauonTeilchen 
-	----------------------------------------------------------------------------
-	"THE BEER-WARE LICENSE" (Revision 42):
-	JID: <Tauon@jabber.ccc.de> wrote this file. As long as you retain this notice you
-	can do whatever you want with this stuff. If we meet some day, and you think
-	this stuff is worth it, you can buy me a ClubMate in return Tauon
-	----------------------------------------------------------------------------
-	----------------------------------------------------------------------------
-	 "THE ClubMate-WARE LICENSE" (Revision 42):
-	 JID: <Tauon@jabber.ccc.de> schrieb diese Datei. Solange Sie diesen Vermerk nicht entfernen, koennen
-	 Sie mit dem Material machen, was Sie möechten. Wenn wir uns eines Tages treffen und Sie
-	 denken, das Material ist es wert, koennen Sie mir dafuer ein ClubMate ausgeben. Tauon
-	----------------------------------------------------------------------------
+    ----------------------------------------------------------------------------
+    "THE BEER-WARE LICENSE" (Revision 42):
+    JID: <Tauon@jabber.ccc.de> wrote this file. As long as you retain this notice you
+    can do whatever you want with this stuff. If we meet some day, and you think
+    this stuff is worth it, you can buy me a ClubMate in return Tauon
+    ----------------------------------------------------------------------------
+    ----------------------------------------------------------------------------
+     "THE ClubMate-WARE LICENSE" (Revision 42):
+     JID: <Tauon@jabber.ccc.de> schrieb diese Datei. Solange Sie diesen Vermerk nicht entfernen, koennen
+     Sie mit dem Material machen, was Sie möechten. Wenn wir uns eines Tages treffen und Sie
+     denken, das Material ist es wert, koennen Sie mir dafuer ein ClubMate ausgeben. Tauon
+    ----------------------------------------------------------------------------
 */
 /**************************************************************************/
 

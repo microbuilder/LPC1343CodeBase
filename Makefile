@@ -144,6 +144,10 @@ OBJS += w25q16bv.o
 VPATH += drivers/audio/tea5767
 OBJS += tea5767.o
 
+# IN219 Current Sensor
+VPATH += drivers/sensors/ina219
+OBJS += ina219.o
+
 ##########################################################################
 # Library files 
 ##########################################################################

@@ -171,6 +171,10 @@
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
                 <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
               </file>
+              <file file_name="../../drivers/displays/tft/hw/hx8347d.c">
+                <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
+                <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
+              </file>
             </folder>
             <folder Name="fonts">
               <file file_name="../../drivers/displays/tft/fonts/dejavusans9.c">

@@ -2,6 +2,8 @@ v1.1.2 - ongoing
 ==============================================================================
 NEW FEATURES
 ------------------------------------------------------------------------------
+- Added drivers/sensors/ina219/ina219.c (work in progress!)
+- Added drivers/displays/tft/hw/hx8347d.C (courtesy tauonteilchen again)
 - Added drivers/dac/mcp4901 (courtesy tauonteilchen, thanks!)
 - Cleaned up /tools/testfirmware to include more recent blinky, etc.
 - Added basic TEA5767 drive
@@ -17,6 +19,7 @@ BUG FIXES/OPTIMISATIONS/ETC.
 ------------------------------------------------------------------------------
 - Minor accuracy improvement to pwm.c (off by 1 error)
 - Fixed typos in cmd_pwm.c and cmd_tbl.h
+- Changed I2C default speed to 400kHz (from 100kHz)
 
 v1.1.1 - 14 April 2012
 ==============================================================================
