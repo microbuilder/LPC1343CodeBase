@@ -158,6 +158,9 @@ BOOL shouldProgramAdvance(uint16_t temp, uint32_t sysSeconds) {
             return TRUE;
         }
     } else if(COMMAND_TYPE_RISE == getCurrentPidCommand().type) {
+        if(temp > 900 && temp > getCurrentPidCommand().temperature - 3) {
+            
+        }
         if(temp >= getCurrentPidCommand().temperature) {
             return TRUE;
         }
@@ -203,41 +206,4 @@ void startPidProgram(uint16_t index) {
 
 void stopPidProgram() {
     currentCommand = MAX_PID_PROGRAM_LENGHT;
-}
-
-void setupPrimary() {
-    pidProgram[10] = (Command){COMMAND_TYPE_RISE, 60, 0};
-    pidProgram[20] = (Command){COMMAND_TYPE_HOLD, 60, 3600};
-    pidProgram[30] = (Command){COMMAND_TYPE_RISE, 110, 0};
-    pidProgram[40] = (Command){COMMAND_TYPE_HOLD, 110, 900};
-    pidProgram[50] = (Command){COMMAND_TYPE_RISE, 160, 0};
-    pidProgram[60] = (Command){COMMAND_TYPE_HOLD, 160, 900};
-    pidProgram[70] = (Command){COMMAND_TYPE_RISE, 210, 0};
-    pidProgram[80] = (Command){COMMAND_TYPE_HOLD, 210, 900};
-    pidProgram[90] = (Command){COMMAND_TYPE_RISE, 260, 0};
-    pidProgram[100] = (Command){COMMAND_TYPE_HOLD, 260, 900};
-    pidProgram[110] = (Command){COMMAND_TYPE_RISE, 310, 0};
-    pidProgram[120] = (Command){COMMAND_TYPE_HOLD, 310, 900};
-    pidProgram[130] = (Command){COMMAND_TYPE_RISE, 360, 0};
-    pidProgram[140] = (Command){COMMAND_TYPE_HOLD, 360, 900};
-    pidProgram[150] = (Command){COMMAND_TYPE_RISE, 400, 0};
-    pidProgram[160] = (Command){COMMAND_TYPE_HOLD, 400, 900};
-    pidProgram[180] = (Command){COMMAND_TYPE_RISE, 470, 0};
-    pidProgram[190] = (Command){COMMAND_TYPE_HOLD, 470, 900};
-    pidProgram[200] = (Command){COMMAND_TYPE_RISE, 540, 0};
-    pidProgram[210] = (Command){COMMAND_TYPE_HOLD, 540, 900};
-    pidProgram[220] = (Command){COMMAND_TYPE_RISE, 610, 0};
-    pidProgram[230] = (Command){COMMAND_TYPE_HOLD, 610, 900};
-    pidProgram[240] = (Command){COMMAND_TYPE_RISE, 680, 0};
-    pidProgram[250] = (Command){COMMAND_TYPE_HOLD, 680, 900};
-    pidProgram[260] = (Command){COMMAND_TYPE_RISE, 750, 0};
-    pidProgram[270] = (Command){COMMAND_TYPE_HOLD, 750, 900};
-    pidProgram[280] = (Command){COMMAND_TYPE_RISE, 830, 0};
-    pidProgram[290] = (Command){COMMAND_TYPE_HOLD, 830, 900};
-    pidProgram[300] = (Command){COMMAND_TYPE_RISE, 900, 0};
-    pidProgram[310] = (Command){COMMAND_TYPE_HOLD, 900, 900};
-    pidProgram[320] = (Command){COMMAND_TYPE_RISE, 960, 0};
-    pidProgram[330] = (Command){COMMAND_TYPE_RISE, 600, 0};
-    pidProgram[340] = (Command){COMMAND_TYPE_HOLD, 600, 600};
-    pidProgram[350] = (Command){COMMAND_TYPE_RISE, 0, 0};
 }
