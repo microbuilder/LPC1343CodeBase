@@ -159,7 +159,7 @@ BOOL shouldProgramAdvance(uint16_t temp, uint32_t sysSeconds) {
         }
     } else if(COMMAND_TYPE_RISE == getCurrentPidCommand().type) {
         if(temp > 900 && temp > getCurrentPidCommand().temperature - 3) {
-            
+            return TRUE;
         }
         if(temp >= getCurrentPidCommand().temperature) {
             return TRUE;
@@ -193,15 +193,24 @@ void processPidProgramStep(uint16_t temp) {
 void startPidProgram(uint16_t index) {
     if(index < MAX_PID_PROGRAM_LENGHT) {
         currentCommand = index;
+        Command c = getCurrentPidCommand();
+        
         //jei nurodytame indexe buvo tuscia komanda, prasukam iki netuscios (arba iki pabaigos)
-        if(0 == getCurrentPidCommand().type) {
-            Command c = nextPidCommand();
-            if(0 != c.type) {
-                printf("STARTING program at line %d", currentCommand);
-                executeCommand(c, systickGetSecondsActive());
+        if(0 == c.type) {
+            c = nextPidCommand();
+            if(0 == c.type) {
+                printf("Could not start program - no command after index %d%s", index, CFG_PRINTF_NEWLINE);
+                return;
             }
         }
+        printf("STARTING program at line %d%s", currentCommand, CFG_PRINTF_NEWLINE);
+        printPidCommand(c);
+        executeCommand(c, systickGetSecondsActive());
     }
+}
+
+BOOL isPidProgramRunning() {
+    return currentCommand < MAX_PID_PROGRAM_LENGHT;
 }
 
 void stopPidProgram() {
