@@ -164,6 +164,48 @@ uint32_t adcReadSingle (uint8_t channelNum)
 
 /**************************************************************************/
 /*! 
+ @brief Returns the oversampled conversion results on the specified ADC channel.
+ 
+ This function will manually start A/D conversions on a single
+ channel sum and divide results to get a value of increased resolution. 
+ 
+ Read more: AVR121: Enhancing ADC resolution by oversampling [http://www.atmel.com/Images/doc8003.pdf]
+ 
+ @param[in]  channelNum
+ The A/D channel [0..7] that will be used during the A/D 
+ conversion.  (Note that only A/D channel's 0..3 are 
+ configured by default in adcInit.)
+
+ @param[in] extraBits
+ Additional bits you want to add to resolution. Hardware resolution is
+ 10bits, if 6 is psecified as extraBits, the resolution will be increated to
+ 16 bit. 
+ 
+ @return     0 if an overrun error occured, otherwise a 10-bit value
+ containing the A/D conversion results.
+ 
+ @warning    Only AD channels 0..3 are configured for A/D in adcInit.
+ If you wish to use A/D pins 4..7 they will also need to
+ be added to the adcInit function.
+ */
+/**************************************************************************/
+
+uint32_t adcReadOversampled (uint8_t channelNum, uint8_t extraBits) {
+    uint32_t sampleCount = 1 << (extraBits * 2);
+    uint16_t i;
+    uint32_t adcOversampled = 0;
+    
+    for(i = 0; i < sampleCount; i++) {
+        uint16_t adcValue = adcReadSingle(channelNum);
+        adcOversampled += adcValue;
+    }
+    
+    adcOversampled = adcOversampled >> extraBits;
+    return adcOversampled;
+}
+
+/**************************************************************************/
+/*! 
     @brief Returns the conversion results on the specified ADC channel.
 
     This function will manually start an A/D conversion on a single
