@@ -92,6 +92,7 @@ OBJS += DejaVuSansMono10_AA2.o DejaVuSansMono13_AA2.o DejaVuSansMono14_AA2.o
 
 # LCD Driver (Only one can be included at a time!)
 # OBJS += hx8340b.o
+# OBJS += hx8347d.o
 OBJS += ILI9328.o
 # OBJS += ILI9325.o
 # OBJS += ssd1331.o
@@ -123,8 +124,8 @@ VPATH += drivers/rsa
 OBJS += rsa.o
 
 # DAC
-VPATH += drivers/dac/mcp4725
-OBJS += mcp4725.o
+VPATH += drivers/dac/mcp4725 drivers/dac/mcp4901
+OBJS += mcp4725.o mcp4901.o
 
 # RFID/NFC
 VPATH += drivers/rf/pn532 drivers/rf/pn532/helpers
@@ -142,6 +143,10 @@ OBJS += w25q16bv.o
 # FM Radio
 VPATH += drivers/audio/tea5767
 OBJS += tea5767.o
+
+# IN219 Current Sensor
+VPATH += drivers/sensors/ina219
+OBJS += ina219.o
 
 ##########################################################################
 # Library files 

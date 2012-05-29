@@ -39,7 +39,8 @@
 
 #include "projectconfig.h"
 
-#define MCP4725_ADDRESS                 (0xC0)   // 1100000x - Assumes A0 is GND and A2,A1 are 0 (MCP4725A0T-E/CH)
+//#define MCP4725_ADDRESS                 (0xC0)   // 1100000x - Assumes A0 is GND and A2,A1 are 00 (MCP4725A0T-E/CH)
+#define MCP4725_ADDRESS                 (0xC4)   // 1100010x - Assumes A0 is GND and A2,A1 are 01 (MCP4725A1T-E/CH)
 #define MCP4725_READ                    (0x01)
 #define MCP4726_CMD_WRITEDAC            (0x40)  // Writes data to the DAC
 #define MCP4726_CMD_WRITEDACEEPROM      (0x60)  // Writes data to the DAC and the EEPROM (persisting the assigned value after reset)

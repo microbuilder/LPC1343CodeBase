@@ -2,6 +2,8 @@ HW-Specific TFT and RGB OLED Drivers
 ====================================
 
 hx8340b   - 176x220 16-bit display (Bit-banged SPI interface)
+hx8347g   - 240x320 16-bit display (8-bit interface)
+hx8347h   - 240x320 16-bit display (Hardware SPI via SSP0)
 ILI9325   - 240x320 16-bit display  (8-bit interface)
 ILI9328   - 240x320 16-bit display  (8-bit interface)
 st7735    - 128x160 16-bit display  (Bit-banged SPI interface)

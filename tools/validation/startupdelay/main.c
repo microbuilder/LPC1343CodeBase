@@ -33,48 +33,38 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
 #include "projectconfig.h"
-#include "sysinit.h"
 
 #include "core/gpio/gpio.h"
-#include "core/systick/systick.h"
-
-#ifdef CFG_INTERFACE
-  #include "core/cmd/cmd.h"
-#endif
 
 /**************************************************************************/
 /*! 
-    Main program entry point.  After reset, normal code execution will
-    begin here.
+    As soon as the chip comes out of reset and the startup code has
+    finished executing, sets up GPIO pin 2.1 as an ouput and high.
+
+    This can be used to determine the startup delay, by measuring the
+    time between reset be deasserted and the GPIO pin going high, minus
+    the GPIO overhead of a few clock cycles.
+
+    HW Setup: Set channel one of the oscilliscope to the reset pin, and
+              channel two of the oscilliscope to GPIO pin 2.1.
+
+              Set a trigger on the rising edge of the reset pin, and
+              measure the delay between the rising edge of reset and the
+              rising edge of GPIO 2.1.
 */
 /**************************************************************************/
 int main(void)
 {
-  // Configure cpu and mandatory peripherals
-  systemInit();
+  /* Enable AHB clock to the GPIO domain. */
+  SCB_SYSAHBCLKCTRL |= (SCB_SYSAHBCLKCTRL_GPIO);
 
-  uint32_t currentSecond, lastSecond;
-  currentSecond = lastSecond = 0;
-  
-  while (1)
+  /* Set 2.1 to output and high */
+  GPIO_GPIO2DIR  |= (1 << 1);    // pin 1 = Output
+  GPIO_GPIO2DATA |= (1 << 1);    // pin 1 = High
+
+  while(1)
   {
-    // Toggle LED once per second
-    currentSecond = systickGetSecondsActive();
-    if (currentSecond != lastSecond)
-    {
-      lastSecond = currentSecond;
-      gpioSetValue(CFG_LED_PORT, CFG_LED_PIN, lastSecond % 2);
-    }
-
-    // Poll for CLI input if CFG_INTERFACE is enabled in projectconfig.h
-    #ifdef CFG_INTERFACE 
-      cmdPoll(); 
-    #endif
   }
 
   return 0;

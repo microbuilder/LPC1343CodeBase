@@ -73,6 +73,7 @@
             <configuration Name="THUMB Flash Debug" build_exclude_from_build="No"/>
             <configuration Name="THUMB Flash Release" build_exclude_from_build="No"/>
           </file>
+          <file file_name="../../core/cmd/ansi.h"/>
         </folder>
         <folder Name="usbcdc">
           <file file_name="../../core/usbcdc/cdcuser.c">
@@ -122,6 +123,9 @@
           <folder Name="tcs3414">
             <file file_name="../../drivers/sensors/tcs3414/tcs3414.c"/>
           </folder>
+          <folder Name="ina219">
+            <file file_name="../../drivers/sensors/ina219/ina219.c"/>
+          </folder>
         </folder>
         <folder Name="displays" file_name="">
           <folder Name="bitmap">
@@ -166,6 +170,10 @@
               <file file_name="../../drivers/displays/tft/hw/ILI9325.c">
                 <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
                 <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
+              </file>
+              <file file_name="../../drivers/displays/tft/hw/hx8347d.c">
+                <configuration Name="THUMB Flash Release" build_exclude_from_build="Yes"/>
+                <configuration Name="THUMB Flash Debug" build_exclude_from_build="Yes"/>
               </file>
             </folder>
             <folder Name="fonts">
@@ -272,6 +280,9 @@
         <folder Name="dac">
           <folder Name="mcp4725">
             <file file_name="../../drivers/dac/mcp4725/mcp4725.c"/>
+          </folder>
+          <folder Name="mcp4901">
+            <file file_name="../../drivers/dac/mcp4901/mcp4901.c"/>
           </folder>
         </folder>
         <folder Name="rtc">

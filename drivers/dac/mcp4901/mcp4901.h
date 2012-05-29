@@ -1,16 +1,13 @@
 /**************************************************************************/
-/*! 
-    @file     cmd_sysinfo.c
-    @author   Miceuz
-
-    @brief    Code to execute for cmd_sysinfo in the 'core/cmd'
-              command-line interpretter.
+/*!
+    @file     mcp4901.h
+    @author   Tauon
 
     @section LICENSE
 
     Software License Agreement (BSD License)
 
-    Copyright (c) 2012, microBuilder SARL
+    Copyright (c) 2012, Tauon
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -36,49 +33,16 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 /**************************************************************************/
-#include <stdio.h>
+
+#ifndef _MCP4901_H_
+#define _MCP4901_H_
 
 #include "projectconfig.h"
-#include "core/cmd/cmd.h"
-#include "project/commands.h"       // Generic helper functions
+#include "core/gpio/gpio.h"
 
-#ifdef CFG_PWM
-  #include "core/pwm/pwm.h"
+void mcp4901Init(void);
+void mcp4901SetVoltage( uint8_t output);
+void mcp4901LDAC(void);
+void mcp4901ChangeSettings(bool BUFFER, bool GAIN, bool SHUTDOWN);
 
-/**************************************************************************/
-/*! 
-    PWM command handler
-*/
-/**************************************************************************/
-uint8_t pwmStarted = 0;
-
-void cmd_pwm(uint8_t argc, char **argv) {
-    int32_t frequencyTicks = 65535;
-    int32_t dutyCycle = CFG_PWM_DEFAULT_DUTYCYCLE;
-    
-    getNumber (argv[0], &dutyCycle);
-    if(dutyCycle < 1 || dutyCycle > 100) 
-    {
-      printf("Invalid duty cycle [1..65535]%s", CFG_PRINTF_NEWLINE);
-      return;
-    }
-
-    getNumber (argv[1], &frequencyTicks);
-    if(frequencyTicks < 0 || frequencyTicks > 0xffff) 
-    {
-      printf("Invalid frequency [1..65535]%s", CFG_PRINTF_NEWLINE);
-      return;
-    }
-
-    printf("Setting frequency: %u ticks%s", (uint16_t) frequencyTicks, CFG_PRINTF_NEWLINE);
-    pwmSetFrequencyInTicks(frequencyTicks);
-    printf("Setting duty cycle: %u%%%s", (uint16_t) dutyCycle, CFG_PRINTF_NEWLINE);
-    pwmSetDutyCycle(dutyCycle);
-    if(! pwmStarted) 
-    {
-      printf("Initializing PWM%s", CFG_PRINTF_NEWLINE);
-      pwmStart();
-      pwmStarted = 1;
-    }
-}
 #endif
