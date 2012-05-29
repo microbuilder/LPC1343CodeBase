@@ -42,6 +42,7 @@
 #include "projectconfig.h"
 
 uint32_t   adcRead (uint8_t channelNum);
+uint32_t   adcReadOversampled (uint8_t channelNum, uint8_t extraBits);
 uint32_t adcReadSingle(uint8_t channelNum);
 void  adcInit (void);
 
