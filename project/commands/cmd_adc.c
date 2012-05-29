@@ -49,7 +49,15 @@
 
 uint8_t adcInitialized = 0;
 
-void cmd_adc0read(uint8_t argc, char **argv) {
+void cmd_adcRead(uint8_t argc, char **argv) {
+    int32_t channel = 0;
+    if(argc > 0) {
+        getNumber(argv[0], &channel);
+        if(channel < 0 || channel > 3) {
+            printf("Only channels 0 to 3 are available");
+        }
+    }
+    
     if(!adcInitialized) {
         adcInit();
         adcInitialized = 1;
@@ -60,7 +68,7 @@ void cmd_adc0read(uint8_t argc, char **argv) {
     for(i = 0; i < 100; i++) {
         adcOversampled = 0;
         for(j = 0; j < 4096; j++){
-            adc0Value = adcReadSingle(0);
+            adc0Value = adcReadSingle(channel);
             adcOversampled += adc0Value;
         }
         adcOversampled = adcOversampled >> 6;

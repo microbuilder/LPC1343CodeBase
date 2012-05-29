@@ -97,7 +97,7 @@ void cmd_sd_dir(uint8_t argc, char **argv);
 void cmd_pwm(uint8_t argc, char **argv);
 #endif
 
-void cmd_adc0read(uint8_t argc, char **argv);
+void cmd_adcRead(uint8_t argc, char **argv);
 
 void cmd_gpioSetOutput(uint8_t argc, char **argv);
 void cmd_gpioSet(uint8_t argc, char **argv);
@@ -170,7 +170,7 @@ cmd_t cmd_tbl[] =
   #ifdef CFG_SDCARD
   { "d",    0,  1,  0,  cmd_sd_dir           , "Dir (SD Card)"                  , "'d [<path>]'" },
   #endif
-  { "adc", 0, 0, 0, cmd_adc0read, "ADC0 read", CMD_NOPARAMS },
+  { "adc", 0, 1, 0, cmd_adcRead, "ADC read", "ADC [<adc channel number>] default channel number is 0" },
   { "setPin", 3, 3, 0, cmd_gpioSet, "Set GPIO pin to value", "setPin <port> <pin> <0|1>" },
   { "temp", 1, 1, 0, cmd_setTemperature, "Set temperature for PID controller", "temp <temperatureInDegreesC>}"},
   { "pid", 3, 3, 0, cmd_pid, "Set pid gains", "pid <p> <i> <d>" },
