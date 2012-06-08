@@ -99,13 +99,53 @@ gpioPullupMode_t;
 
 void        gpioInit          ( void );
 void        gpioSetDir        ( uint32_t portNum, uint32_t bitPos, gpioDirection_t dir );
-uint32_t    gpioGetValue      ( uint32_t portNum, uint32_t bitPos );
-extern void gpioSetValue      ( const uint32_t portNum, const uint32_t bitPos, const uint32_t bitVal );
 void        gpioSetInterrupt  ( uint32_t portNum, uint32_t bitPos, gpioInterruptSense_t sense, gpioInterruptEdge_t edge, gpioInterruptEvent_t event );
 void        gpioIntEnable     ( uint32_t portNum, uint32_t bitPos );
 void        gpioIntDisable    ( uint32_t portNum, uint32_t bitPos );
 uint32_t    gpioIntStatus     ( uint32_t portNum, uint32_t bitPos );
 void        gpioIntClear      ( uint32_t portNum, uint32_t bitPos );
 void        gpioSetPullup     ( volatile uint32_t *ioconRegister, gpioPullupMode_t mode );
+
+/* Inline Functions */
+INLINE uint32_t gpioGetValue ( const uint32_t portNum, const uint32_t bitPos ) INLINE_POST;
+INLINE void     gpioSetValue ( const uint32_t portNum, const uint32_t bitPos, const uint32_t bitVal) INLINE_POST;
+
+/**************************************************************************/
+/*! 
+    @brief Gets the value for a specific port pin
+
+    @param[in]  portNum
+                The port number (0..3)
+    @param[in]  bitPos
+                The bit position (0..31)
+
+    @return     The current value for the specified port pin (0..1)
+*/
+/**************************************************************************/
+INLINE uint32_t gpioGetValue (uint32_t portNum, uint32_t bitPos)
+{
+   // Take advantage of the fact the GPIO registers are bit-banded
+  return (*(pREG32 ((GPIO_GPIO0_BASE + (portNum << 16)) + ((1 << bitPos) << 2)))) & (1 << bitPos) ? 1 : 0;
+}
+
+/**************************************************************************/
+/*! 
+    @brief Sets the value for a specific port pin (only relevant when a
+           pin is configured as output).
+
+    @param[in]  portNum
+                The port number (0..3)
+    @param[in]  bitPos
+                The bit position (0..31)
+    @param[in]  bitValue
+                The value to set for the specified bit (0..1).  0 will set
+                the pin low and 1 will set the pin high.
+*/
+/**************************************************************************/
+INLINE void gpioSetValue (uint32_t portNum, uint32_t bitPos, uint32_t bitVal)
+{
+  // Take advantage of the fact the GPIO registers are bit-banded
+  (*(pREG32 ((GPIO_GPIO0_BASE + (portNum << 16)) + ((1 << bitPos) << 2)))) = bitVal ? 0xFFF : 0;
+}
 
 #endif

@@ -104,6 +104,9 @@
         <folder Name="pwm">
           <file file_name="../../core/pwm/pwm.c"/>
         </folder>
+        <folder Name="swspi">
+          <file file_name="../../core/swspi/swspi.c"/>
+        </folder>
       </folder>
       <file file_name="../../lpc134x.h"/>
       <file file_name="../../projectconfig.h"/>

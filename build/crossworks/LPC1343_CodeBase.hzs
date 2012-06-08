@@ -1,7 +1,9 @@
 <!DOCTYPE CrossStudio_for_ARM_Session_File>
 <session>
  <Bookmarks/>
- <Breakpoints/>
+ <Breakpoints>
+  <BreakpointListItem line="184" action="" hardwareBreakpoint="" trigger="" useHWbreakpoint="false" group="Breakpoints" type="Breakpoint" state="2" counter="0" isFunctionBreakpoint="false" filename="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\sensors\adbm-a350\adbm-a350.c" expression="" />
+ </Breakpoints>
  <ETMWindow>
   <ETMRegister number="0" value="800" />
   <ETMRegister number="8" value="6f" />
@@ -24,12 +26,9 @@
   <ProjectSessionItem path="LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase" name="unnamed" />
   <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;dac" name="unnamed" />
-  <ProjectSessionItem path="LPC1343_CodeBase;LPC1343_CodeBase;Source Files;drivers;dac;mcp4725" name="unnamed" />
  </Project>
  <Register1>
-  <RegisterWindow openNodes="GPIO2" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU;CoreDebug;GPIO2" decimalNodes="" octalNodes="" asciiNodes="" />
+  <RegisterWindow openNodes="GPIO1" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU;CoreDebug;GPIO2;GPIO1" decimalNodes="" octalNodes="" asciiNodes="" />
  </Register1>
  <Register2>
   <RegisterWindow openNodes="" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="" decimalNodes="" octalNodes="" asciiNodes="" />
@@ -62,14 +61,7 @@
   <Watches active="0" update="Never" />
  </Watch4>
  <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="3" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" y="69" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" left="0" selected="1" name="unnamed" top="54" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\core\adc\adc.c" y="30" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\core\adc\adc.c" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\dropbox\microbuilder\code\lpc1343\lpc1343_codebase_git\drivers\sensors\ina219\ina219.c" y="115" path="C:\dropbox\microbuilder\code\lpc1343\lpc1343_codebase_git\drivers\sensors\ina219\ina219.c" left="0" selected="0" name="unnamed" top="81" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\sensors\ina219\ina219.h" y="133" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\sensors\ina219\ina219.h" left="0" selected="0" name="unnamed" top="117" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\core\cmd\cmd.c" y="314" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\core\cmd\cmd.c" left="0" selected="0" name="unnamed" top="270" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="72" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\dac\mcp4725\mcp4725.c" y="43" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\dac\mcp4725\mcp4725.c" left="0" selected="0" name="unnamed" top="30" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\core\i2c\i2c.c" y="0" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\core\i2c\i2c.c" left="0" selected="0" name="unnamed" top="351" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\core\i2c\i2c.h" y="92" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\core\i2c\i2c.h" left="0" selected="0" name="unnamed" top="54" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" y="8" path="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\main.c" left="0" selected="1" name="unnamed" top="0" />
  </Files>
- <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="SEGGER J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\dac\mcp4901" fileDialogDefaultFilter="*.c" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Release" />
+ <ARMCrossStudioWindow activeProject="LPC1343_CodeBase" autoConnectTarget="SEGGER J-Link" debugSearchFileMap="" fileDialogInitialDirectory="C:\Dropbox\microBuilder\Code\LPC1343\LPC1343_CodeBase_GIT\drivers\sensors\ina219" fileDialogDefaultFilter="" autoConnectCapabilities="388991" debugSearchPath="" buildConfiguration="THUMB Flash Release" />
 </session>

@@ -19,7 +19,7 @@
     // Request the current value from the DAC
     uint8_t status = 0;
     uint16_t value = 0;
-    mcp472ReadConfig(&status, &value);
+    mcp4725ReadConfig(&status, &value);
 
     @endcode
 
@@ -135,7 +135,7 @@ void mcp4725SetVoltage( uint16_t output, bool writeEEPROM )
                 Pointer to hold the output value of the 12-bit DAC
 */
 /**************************************************************************/
-void mcp472ReadConfig( uint8_t *status, uint16_t *value )
+void mcp4725ReadConfig( uint8_t *status, uint16_t *value )
 {
   if (!_mcp4725Initialised) mcp4725Init();
 

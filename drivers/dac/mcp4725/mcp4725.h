@@ -47,6 +47,6 @@
 
 int  mcp4725Init();
 void mcp4725SetVoltage( uint16_t output, bool writeEEPROM );
-void mcp472ReadConfig( uint8_t *status, uint16_t *value );
+void mcp4725ReadConfig( uint8_t *status, uint16_t *value );
 
 #endif

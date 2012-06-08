@@ -179,7 +179,7 @@ void sspInit (uint8_t portNum, sspClockPolarity_t polarity, sspClockPhase_t phas
     gpioSetValue(SSP0_CSPORT, SSP0_CSPIN, 1);
     gpioSetPullup(&IOCON_PIO0_2, gpioPullupMode_Inactive);  // Board has external pull-up
   
-    /* If SSP0CLKDIV = DIV1 -- (PCLK / (CPSDVSR � [SCR+1])) = (72,000,000 / (2 x [8 + 1])) = 4.0 MHz */
+    /* If SSP0CLKDIV = DIV1 -- (PCLK / (CPSDVSR * [SCR+1])) = (72,000,000 / (2 x [8 + 1])) = 4.0 MHz */
     uint32_t configReg = ( SSP_SSP0CR0_DSS_8BIT   // Data size = 8-bit
                   | SSP_SSP0CR0_FRF_SPI           // Frame format = SPI
                   | SSP_SSP0CR0_SCR_8);           // Serial clock rate = 8

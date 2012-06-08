@@ -43,6 +43,24 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef ASM
+#  define ASM __asm volatile
+#endif
+
+#ifndef INLINE
+# if __GNUC__ && !__GNUC_STDC_INLINE__
+#  define INLINE extern inline
+# else
+#  define INLINE inline
+# endif
+#endif
+
+// GCC does not inline any functions when not optimizing unless you specify
+// the 'always_inline' attribute for the function
+#ifndef INLINE_POST
+#  define INLINE_POST __attribute__((always_inline))
+#endif
+
 // Stay compatible with ugly "windows" style
 #define BOOL bool
 

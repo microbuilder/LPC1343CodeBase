@@ -229,67 +229,6 @@ void gpioSetDir (uint32_t portNum, uint32_t bitPos, gpioDirection_t dir)
 
 /**************************************************************************/
 /*! 
-    @brief Gets the value for a specific port pin
-
-    @param[in]  portNum
-                The port number (0..3)
-    @param[in]  bitPos
-                The bit position (0..31)
-
-    @return     The current value for the specified port pin (0..1)
-*/
-/**************************************************************************/
-uint32_t gpioGetValue (uint32_t portNum, uint32_t bitPos)
-{
-  if (!_gpioInitialised) gpioInit();
-
-  uint32_t value = 0;
-
-  switch (portNum)
-  {
-    case 0:
-      value = (GPIO_GPIO0DATA & (1 << bitPos)) ? 1 : 0;
-      break;
-    case 1:
-      value = (GPIO_GPIO1DATA & (1 << bitPos)) ? 1 : 0;
-      break;
-    case 2:
-      value = (GPIO_GPIO2DATA & (1 << bitPos)) ? 1 : 0;
-      break;
-    case 3:
-      value = (GPIO_GPIO3DATA & (1 << bitPos)) ? 1 : 0;
-      break;
-    default:
-      break;
-  }
-
-  return value;
-}
-
-/**************************************************************************/
-/*! 
-    @brief Sets the value for a specific port pin (only relevant when a
-           pin is configured as output).
-
-    @param[in]  portNum
-                The port number (0..3)
-    @param[in]  bitPos
-                The bit position (0..31)
-    @param[in]  bitValue
-                The value to set for the specified bit (0..1).  0 will set
-                the pin low and 1 will set the pin high.
-*/
-/**************************************************************************/
-inline void gpioSetValue (const uint32_t portNum, const uint32_t bitPos, const uint32_t bitVal)
-{
-  if (!_gpioInitialised) gpioInit();
-
-  // Take advantage of the fact the GPIO registers are bit-banded
-  (*(pREG32 ((GPIO_GPIO0_BASE + (portNum << 16)) + ((1 << bitPos) << 2)))) = bitVal ? 0xFFF : 0;
-}
-
-/**************************************************************************/
-/*! 
     @brief Sets the interrupt sense, event, etc.
 
     @param[in]  portNum
