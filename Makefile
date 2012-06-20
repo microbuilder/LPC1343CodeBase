@@ -148,6 +148,10 @@ OBJS += tea5767.o
 VPATH += drivers/sensors/ina219
 OBJS += ina219.o
 
+# MPL115A2 Barometric Pressure Sensor
+VPATH += drivers/sensors/mpl115a2
+OBJS += mpl115a2.o
+
 ##########################################################################
 # Library files 
 ##########################################################################
