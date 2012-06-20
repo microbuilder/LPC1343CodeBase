@@ -179,7 +179,7 @@ mpl115a2Error_t mpl115a2GetPressure(float *pressure)
   Pcomp = _mpl115a2_a0 + (_mpl115a2_b1 + _mpl115a2_c12 * Tadc ) * Padc + _mpl115a2_b2 * Tadc;
 
   // Return pressure as floating point value
-  *pressure = ((65.0 / 1023.0)*(float)Pcomp) + 50;
+  *pressure = ((65.0F / 1023.0F)*(float)Pcomp) + 50;
 
   return error;
 }
