@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*! 
+/*!
     @file     ads1015.h
     @author   K. Townsend (microBuilder.eu)
 
@@ -87,7 +87,7 @@
     #define ADS1015_REG_CONFIG_MODE_CONTIN  (0x0000)  // Continuous conversion mode
     #define ADS1015_REG_CONFIG_MODE_SINGLE  (0x0100)  // Power-down single-shot mode (default)
 
-    #define ADS1015_REG_CONFIG_DR_MASK      (0x00E0)  
+    #define ADS1015_REG_CONFIG_DR_MASK      (0x00E0)
     #define ADS1015_REG_CONFIG_DR_128SPS    (0x0000)  // 128 samples per second
     #define ADS1015_REG_CONFIG_DR_250SPS    (0x0020)  // 250 samples per second
     #define ADS1015_REG_CONFIG_DR_490SPS    (0x0040)  // 490 samples per second
@@ -129,6 +129,8 @@ ads1015Error_t ads1015Init(void);
 ads1015Error_t ads1015ReadADC_SingleEnded(uint8_t channel, uint16_t *value);
 ads1015Error_t ads1015ReadADC_Differential_0_1(int16_t *value);
 ads1015Error_t ads1015ReadADC_Differential_2_3(int16_t *value);
+ads1015Error_t ads1015StartComparator_SingleEnded(uint8_t channel, int16_t threshold);
+ads1015Error_t ads1015GetLastConversionResults(int16_t *value);
 
 #endif
 

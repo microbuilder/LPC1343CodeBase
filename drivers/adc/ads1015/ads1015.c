@@ -1,8 +1,8 @@
 /**************************************************************************/
-/*! 
+/*!
     @file     ads1015.c
     @author   K. Townsend (microBuilder.eu)
-	
+
     @brief    Drivers for the TI ADS1015 12-Bit I2C ADC
 
     @section DESCRIPTION
@@ -52,7 +52,7 @@ extern volatile uint32_t  I2CReadLength, I2CWriteLength;
 static bool _ads1015Initialised = false;
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Sends a single command byte over I2C
 */
 /**************************************************************************/
@@ -80,7 +80,7 @@ static ads1015Error_t ads1015WriteRegister (uint8_t reg, uint16_t value)
 }
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Reads a 16 bit values over I2C
 */
 /**************************************************************************/
@@ -100,7 +100,7 @@ static ads1015Error_t ina219Read16(uint8_t reg, uint16_t *value)
   I2CMasterBuffer[0] = ADS1015_ADDRESS;           // I2C device address
   I2CMasterBuffer[1] = reg;                       // Command register
   // Append address w/read bit
-  I2CMasterBuffer[2] = ADS1015_ADDRESS | ADS1015_READBIT;  
+  I2CMasterBuffer[2] = ADS1015_ADDRESS | ADS1015_READBIT;
   i2cEngine();
 
   // Shift values to create properly formed integer
@@ -111,7 +111,7 @@ static ads1015Error_t ina219Read16(uint8_t reg, uint16_t *value)
 }
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Initialises the I2C block
 */
 /**************************************************************************/
@@ -130,7 +130,7 @@ ads1015Error_t ads1015Init(void)
 }
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Reads the 12-bit conversion results from the specified channel
 */
 /**************************************************************************/
@@ -198,7 +198,7 @@ ads1015Error_t ads1015ReadADC_SingleEnded(uint8_t channel, uint16_t *value)
 }
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Reads the 12-bit conversion results, measuring the voltage
             difference between the P (AIN0) and N (AIN1) input.  Generates
             a signed 12-bit value since the difference can be either
@@ -249,7 +249,7 @@ ads1015Error_t ads1015ReadADC_Differential_0_1(int16_t *value)
 }
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Reads the 12-bit conversion results, measuring the voltage
             difference between the P (AIN2) and N (AIN3) input.  Generates
             a signed 12-bit value since the difference can be either
@@ -298,4 +298,109 @@ ads1015Error_t ads1015ReadADC_Differential_2_3(int16_t *value)
 
   return error;
 }
+
+/**************************************************************************/
+/*!
+    @brief  Sets up the comparator to operate in basic mode, causing the
+            ALERT/RDY pin to assert (go from high to low) when the ADC
+            value exceeds the specified threshold.
+
+            This will also set the ADC in continuous conversion mode.
+
+    @section EXAMPLE
+
+    @code
+    ads1015Init();
+
+    // Setup 3V comparator on channel 0
+    ads1015StartComparator_SingleEnded(0, 1000);
+
+    int16_t results;
+    while(1)
+    {
+      // Need to read to clear com bit once it's set
+      ads1015GetLastConversionResults(&results);
+      printf("%d\r\n", results);
+    }
+    @endcode
+*/
+/**************************************************************************/
+ads1015Error_t ads1015StartComparator_SingleEnded(uint8_t channel, int16_t threshold)
+{
+  uint16_t value;
+
+  ads1015Error_t error = ADS1015_ERROR_OK;
+
+  if (!(_ads1015Initialised))
+  {
+    ads1015Init();
+  }
+
+  // Start with default values
+  uint16_t config = ADS1015_REG_CONFIG_CQUE_1CONV   | // Comparator enabled and asserts on 1 match
+                    ADS1015_REG_CONFIG_CLAT_LATCH   | // Latching mode
+                    ADS1015_REG_CONFIG_CPOL_ACTVLOW | // Alert/Rdy active low   (default val)
+                    ADS1015_REG_CONFIG_CMODE_TRAD   | // Traditional comparator (default val)
+                    ADS1015_REG_CONFIG_DR_1600SPS   | // 1600 samples per second (default)
+                    ADS1015_REG_CONFIG_MODE_CONTIN  | // Continuous conversion mode
+                    ADS1015_REG_CONFIG_PGA_6_144V   | // +/- 6.144V range (limited to VDD +0.3V max!)
+                    ADS1015_REG_CONFIG_MODE_CONTIN;   // Continuous conversion mode
+
+  // Set single-ended input channel
+  switch (channel)
+  {
+    case (0):
+      config |= ADS1015_REG_CONFIG_MUX_SINGLE_0;
+      break;
+    case (1):
+      config |= ADS1015_REG_CONFIG_MUX_SINGLE_1;
+      break;
+    case (2):
+      config |= ADS1015_REG_CONFIG_MUX_SINGLE_2;
+      break;
+    case (3):
+      config |= ADS1015_REG_CONFIG_MUX_SINGLE_3;
+      break;
+  }
+
+  // Set the high threshold register
+  error = ads1015WriteRegister(ADS1015_REG_POINTER_HITHRESH, threshold << 4);
+  if (error) return error;
+
+  // Write config register to the ADC
+  error = ads1015WriteRegister(ADS1015_REG_POINTER_CONFIG, config);
+  if (error) return error;
+}
+
+/**************************************************************************/
+/*!
+    @brief  In order to clear the comparator, we need to read the
+            conversion results.  This function reads the last conversion
+            results without changing the config value.
+*/
+/**************************************************************************/
+ads1015Error_t ads1015GetLastConversionResults(int16_t *value)
+{
+  ads1015Error_t error = ADS1015_ERROR_OK;
+
+  if (!(_ads1015Initialised))
+  {
+    ads1015Init();
+  }
+
+  // Wait for the conversion to complete
+  systickDelay(1);
+
+  // Read the conversion results
+  error = ina219Read16(ADS1015_REG_POINTER_CONVERT, value);
+  if (error) return error;
+
+  // Shift results 4-bits to the right
+  *value = *value >> 4;
+
+  return error;
+}
+
+
+
 
