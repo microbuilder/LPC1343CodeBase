@@ -21,10 +21,9 @@ endif
 
 DEFS += -DCFG_UART_BAUDRATE='(${CFG_UART_BAUDRATE})' -DCFG_UART_BUFSIZE='(${CFG_UART_BUFSIZE})'
 
-ifeq (${CFG_SSP0_SCKPIN},)
-$(error An SCK pin must be selected for SSP0 (CFG_SSP0_SCKPIN_2_11 or CFG_SSP0_SCKPIN_0_6))
+ifneq (${CFG_SSP0_SCKPIN},)
+	DEFS += -DCFG_SSP0_SCKPIN_${CFG_SSP0_SCKPIN}
 endif
-DEFS += -DCFG_SSP0_SCKPIN_${CFG_SSP0_SCKPIN}
 
 ifeq (${ADC_AVERAGING_ENABLE},1)
 	DEFS += -DADC_AVERAGING_ENABLE='(1)' -DADC_AVERAGING_SAMPLES='(${ADC_AVERAGING_SAMPLES})'
@@ -37,6 +36,9 @@ DEFS += -DCFG_LED_PORT='(${CFG_LED_PORT})' -DCFG_LED_PIN='(${CFG_LED_PIN})' -DCF
 ifeq (${CFG_SDCARD},1)
 	ifeq (${CFG_STEPPER},1)
 $(error CFG_SDCARD and CFG_STEPPER can not be defined at the same time since they both use pin 3.0.)
+	endif
+	ifeq (${CFG_SSP0_SCKPIN},)
+$(error CFG_SDCARD requires CFG_SSP0_SCKPIN to use SSP)
 	endif
 	
 	DEFS += -DCFG_SDCARD -DCFG_SDCARD_READONLY='(${CFG_SDCARD_READONLY})' -DCFG_SDCARD_CDPORT='(${CFG_SDCARD_CDPORT})' -DCFG_SDCARD_CDPIN='(${CFG_SDCARD_CDPIN})'
@@ -144,6 +146,10 @@ ifeq (${CFG_STEPPER},1)
 endif
 
 ifeq (${CFG_I2CEEPROM},1)
+	ifeq (${CFG_SSP0_SCKPIN},)
+$(error CFG_I2CEEPROM requires CFG_SSP0_SCKPIN to use SSP)
+	endif
+	
 	DEFS += -DCFG_I2CEEPROM -DCFG_I2CEEPROM_SIZE='(${CFG_I2CEEPROM_SIZE})'
 	VPATH += drivers/storage/eeprom drivers/storage/eeprom/mcp24aa
 	OBJS += eeprom.o mcp24aa.o
@@ -170,6 +176,9 @@ ifeq (${CFG_LM75B},1)
 endif
 
 ifeq (${CFG_CHIBI},1)
+	ifeq (${CFG_SSP0_SCKPIN},)
+$(error CFG_CHIBI requires CFG_SSP0_SCKPIN to use SSP)
+	endif
 	ifneq (${CFG_I2CEEPROM},1)
 $(error CFG_CHIBI requires CFG_I2CEEPROM to store and retrieve addresses)
 	endif
@@ -217,6 +226,12 @@ $(error CFG_TFTLCD and CFG_PWM can not be defined at the same time since they bo
 	endif
 	ifneq (${CFG_I2CEEPROM},1)
 $(error CFG_TFTLCD requires CFG_I2CEEPROM to store and retrieve configuration settings)
+	endif
+	
+	ifeq (${CFG_TFTLCD_DRIVER},hx8347d)
+		ifeq (${CFG_SSP0_SCKPIN},)
+$(error CFG_TFTLCD_DRIVER=hx8347d requires CFG_SSP0_SCKPIN to use SSP)
+		endif
 	endif
 	
 	DEFS += -DCFG_TFTLCD
