@@ -49,6 +49,7 @@ endif
 SRAM_USB = 0
 ifneq (${CFG_USBHID}${CFG_USBCDC},)
 	DEFS += -DCFG_USB_VID='(0x${CFG_USB_VID})' -DCFG_USB_PID='(0x${CFG_USB_PID})'
+	DEFS += -DCFG_USB_SOFTCONNECT='(${CFG_USB_SOFTCONNECT})'
 	OBJS += usbcore.o usbdesc.o usbhw.o usbuser.o
 	
 	ifeq (${CFG_USBHID},1)
