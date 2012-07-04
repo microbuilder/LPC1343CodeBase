@@ -1,19 +1,8 @@
-##########################################################################
-# User configuration and firmware specific object files	
-##########################################################################
+include boards/defaults
+include projectconfig
+include configparser.make
 
-# The target, flash and ram of the LPC1xxx microprocessor.
-# Use for the target the value: LPC11xx, LPC13xx or LPC17xx
-TARGET = LPC13xx
-FLASH = 32K
-SRAM = 8K
-
-# For USB HID support the LPC134x reserves 384 bytes from the sram,
-# if you don't want to use the USB features, just use 0 here.
-SRAM_USB = 384
-
-VPATH = 
-OBJS = main.o
+OBJS += main.o
 
 ##########################################################################
 # Debug settings
@@ -34,94 +23,14 @@ OPTDEFINES = -D __NEWLIB__
 ##########################################################################
 
 VPATH += project
-OBJS += commands.o
-
-VPATH += project/commands
-OBJS += cmd_chibi_addr.o cmd_chibi_tx.o
-OBJS += cmd_i2ceeprom_read.o cmd_i2ceeprom_write.o cmd_lm75b_gettemp.o
-OBJS += cmd_reset.o cmd_sd_dir.o cmd_sysinfo.o cmd_uart.o 
-OBJS += cmd_roundedcorner.o cmd_pwm.o
-
-VPATH += project/commands/drawing
-OBJS += cmd_backlight.o cmd_bmp.o cmd_button.o cmd_calibrate.o
-OBJS += cmd_circle.o cmd_clear.o cmd_line.o cmd_orientation.o
-OBJS += cmd_pixel.o cmd_progress.o cmd_rectangle.o cmd_text.o
-OBJS += cmd_textw.o cmd_tsthreshhold.o cmd_tswait.o cmd_triangle.o
 
 ##########################################################################
 # Optional driver files 
 ##########################################################################
 
-# Chibi Light-Weight Wireless Stack (AT86RF212)
-VPATH += drivers/rf/chibi
-OBJS += chb.o chb_buf.o chb_drvr.o chb_eeprom.o chb_spi.o
-
-# 4K EEPROM
-VPATH += drivers/storage/eeprom drivers/storage/eeprom/mcp24aa
-OBJS += eeprom.o mcp24aa.o
-
-# LM75B temperature sensor
-VPATH += drivers/sensors/lm75b
-OBJS += lm75b.o
-
 # ISL12022M RTC
 VPATH += drivers/rtc/isl12022m
 OBJS += isl12022m.o
-
-# TFT LCD support
-VPATH += drivers/displays/tft drivers/displays/tft/hw 
-OBJS += drawing.o touchscreen.o colors.o theme.o bmp.o
-
-# GUI Controls
-VPATH += drivers/displays/tft/controls
-OBJS += button.o hsbchart.o huechart.o label.o
-OBJS += labelcentered.o progressbar.o
-
-# Bitmap (non-AA) fonts
-VPATH += drivers/displays/tft/fonts
-OBJS += fonts.o 
-OBJS += dejavusans9.o dejavusansbold9.o dejavusanscondensed9.o
-OBJS += dejavusansmono8.o dejavusansmonobold8.o
-OBJS += verdana9.o verdana14.o verdanabold14.o 
-
-# Anti-aliased fonts
-VPATH += drivers/displays/tft/aafonts/aa2 drivers/displays/tft/aafonts/aa4
-OBJS += aafonts.o 
-OBJS += DejaVuSansCondensed14_AA2.o DejaVuSansCondensedBold14_AA2.o
-OBJS += DejaVuSansMono10_AA2.o DejaVuSansMono13_AA2.o DejaVuSansMono14_AA2.o
-
-# LCD Driver (Only one can be included at a time!)
-# OBJS += hx8340b.o
-# OBJS += hx8347d.o
-OBJS += ILI9328.o
-# OBJS += ILI9325.o
-# OBJS += ssd1331.o
-# OBJS += ssd1351.o
-# OBJS += st7735.o
-# OBJS += st7783.o
-
-# Bitmap/Monochrome LCD support (ST7565, SSD1306, etc.)
-VPATH += drivers/displays
-VPATH += drivers/displays/bitmap/sharpmem
-VPATH += drivers/displays/bitmap/st7565
-VPATH += drivers/displays/bitmap/ssd1306
-OBJS += smallfonts.o sharpmem.o st7565.o ssd1306.o
-
-#Character Displays (VFD text displays, etc.)
-VPATH += drivers/displays/character/samsung_20T202DA2JA
-OBJS += samsung_20T202DA2JA.o
-
-# ChaN FatFS and SD card support
-VPATH += drivers/fatfs
-OBJS += ff.o mmc.o
-
-# Motors
-VPATH += drivers/motor/stepper
-OBJS += stepper.o
-
-# RSA Encryption/Descryption
-VPATH += drivers/rsa
-OBJS += rsa.o
 
 # DAC
 VPATH += drivers/dac/mcp4725 drivers/dac/mcp4901
@@ -158,13 +67,13 @@ OBJS += mpl115a2.o
 
 VPATH += core core/adc core/cmd core/cpu core/gpio core/i2c core/pmu
 VPATH += core/ssp core/systick core/timer16 core/timer32 core/uart
-VPATH += core/usbhid-rom core/wdt core/usbcdc core/pwm core/iap
+VPATH += core/wdt core/iap
 VPATH += core/libc
 OBJS += stdio.o string.o
-OBJS += adc.o cpu.o cmd.o gpio.o i2c.o pmu.o ssp.o systick.o timer16.o
-OBJS += timer32.o uart.o uart_buf.o usbconfig.o usbhid.o
-OBJS += wdt.o cdcuser.o cdc_buf.o usbcore.o usbdesc.o usbhw.o usbuser.o 
-OBJS += sysinit.o pwm.o iap.o
+OBJS += adc.o cpu.o gpio.o i2c.o pmu.o ssp.o systick.o timer16.o
+OBJS += timer32.o uart.o uart_buf.o
+OBJS += wdt.o
+OBJS += sysinit.o iap.o
 
 ##########################################################################
 # GNU GCC compiler prefix and location
@@ -208,13 +117,16 @@ OBJS += $(TARGET)_handlers.o LPC1xxx_startup.o
 # Compiler settings, parameters and flags
 ##########################################################################
 ifeq (TRUE,$(DEBUGBUILD))
-  CFLAGS  = -c -g -O0 $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -DTARGET=$(TARGET) -fno-builtin $(OPTDEFINES)
-  ASFLAGS = -c -g -O0 $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -D__ASSEMBLY__ -x assembler-with-cpp
+  CFLAGS  = -g -O0
+  ASFLAGS = -g -O0
 else
-  CFLAGS  = -c -g -Os $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -DTARGET=$(TARGET) -fno-builtin $(OPTDEFINES)
-  ASFLAGS = -c -g -Os $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -D__ASSEMBLY__ -x assembler-with-cpp
+  CFLAGS  = -g -Os
+  ASFLAGS = -g -Os
 endif
 
+
+xCFLAGS  = -c $(CFLAGS) $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -DTARGET=$(TARGET) -fno-builtin $(OPTDEFINES) $(DEFS)
+xASFLAGS = -c $(ASFLAGS) $(INCLUDE_PATHS) -Wall -mthumb -ffunction-sections -fdata-sections -fmessage-length=0 -mcpu=$(CPU_TYPE) -D__ASSEMBLY__ -x assembler-with-cpp
 LDFLAGS = -nostartfiles -mthumb -mcpu=$(CPU_TYPE) -Wl,--gc-sections
 LDLIBS  = -lm
 OCFLAGS = --strip-unneeded
@@ -222,10 +134,12 @@ OCFLAGS = --strip-unneeded
 all: firmware
 
 %.o : %.c
-	$(CC) $(CFLAGS) -o $@ $<
+	@echo CC $<
+	@$(CC) $(xCFLAGS) -o $@ $<
 
 %.o : %.s
-	$(AS) $(ASFLAGS) -o $@ $<
+	@echo AS $<
+	@$(AS) $(xASFLAGS) -o $@ $<
 
 firmware: $(OBJS) $(SYS_OBJS)
 	-@echo "MEMORY" > $(LD_TEMP)

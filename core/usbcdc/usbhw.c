@@ -67,8 +67,10 @@ void USBIOClkConfig( void )
   IOCON_PIO0_1 |= IOCON_PIO0_1_FUNC_CLKOUT;           // CLK OUT
   IOCON_PIO0_3 &= ~IOCON_PIO0_3_FUNC_MASK;
   IOCON_PIO0_3 |= IOCON_PIO0_3_FUNC_USB_VBUS;         // VBus
+#if CFG_USB_SOFTCONNECT
   IOCON_PIO0_6 &= ~IOCON_PIO0_6_FUNC_MASK;
   IOCON_PIO0_6 |= IOCON_PIO0_6_FUNC_USB_CONNECT;      // Soft Connect
+#endif
 
   return;
 }

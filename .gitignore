@@ -1,0 +1,10 @@
+*.o
+*~
+firmware.*
+lpc1xxx/memory.ld
+lpcrc
+*.rej
+*.orig
+*.patch
+a.*
+?
