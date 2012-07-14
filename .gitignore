@@ -1,6 +1,8 @@
 *.o
 *~
-firmware.*
+*.bin
+*.elf
+*.hex
 lpc1xxx/memory.ld
 lpcrc
 *.rej

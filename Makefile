@@ -2,8 +2,6 @@ include boards/defaults
 include projectconfig
 include configparser.make
 
-OBJS += main.o
-
 ##########################################################################
 # Debug settings
 ##########################################################################
@@ -86,7 +84,6 @@ LD = $(CROSS_COMPILE)gcc
 SIZE = $(CROSS_COMPILE)size
 OBJCOPY = $(CROSS_COMPILE)objcopy
 OBJDUMP = $(CROSS_COMPILE)objdump
-OUTFILE = firmware
 LPCRC = ./lpcrc
 
 ##########################################################################
@@ -131,7 +128,7 @@ LDFLAGS = -nostartfiles -mthumb -mcpu=$(CPU_TYPE) -Wl,--gc-sections
 LDLIBS  = -lm
 OCFLAGS = --strip-unneeded
 
-all: firmware
+all: $(OUTFILE)
 
 %.o : %.c
 	@echo CC $<
@@ -141,7 +138,7 @@ all: firmware
 	@echo AS $<
 	@$(AS) $(xASFLAGS) -o $@ $<
 
-firmware: $(OBJS) $(SYS_OBJS)
+$(OUTFILE): $(OBJS) $(SYS_OBJS)
 	-@echo "MEMORY" > $(LD_TEMP)
 	-@echo "{" >> $(LD_TEMP)
 	-@echo "  flash(rx): ORIGIN = 0x00000000, LENGTH = $(FLASH)" >> $(LD_TEMP)
@@ -156,7 +153,7 @@ firmware: $(OBJS) $(SYS_OBJS)
 	$(OBJCOPY) $(OCFLAGS) -O binary $(OUTFILE).elf $(OUTFILE).bin
 	$(OBJCOPY) $(OCFLAGS) -O ihex $(OUTFILE).elf $(OUTFILE).hex
 	-@echo ""
-	$(LPCRC) firmware.bin
+	$(LPCRC) $(OUTFILE).bin
 
 clean:
 	rm -f $(OBJS) $(LD_TEMP) $(OUTFILE).elf $(OUTFILE).bin $(OUTFILE).hex

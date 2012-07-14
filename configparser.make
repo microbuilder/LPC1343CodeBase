@@ -1,3 +1,15 @@
+OUTFILE = firmware
+ifeq (${PROJECTDIR},)
+	OBJS += main.o
+else
+	OUTFILE = $(shell echo "${PROJECTDIR}" | sed 's/[/\\]*$$//;s/.*[/\\]//')
+	ifeq ($(wildcard ${PROJECTDIR}/project.make),)
+		OBJS += $(patsubst %.c,%.o,$(wildcard ${PROJECTDIR}/*.c))
+	else
+		include ${PROJECTDIR}/project.make
+	endif
+endif
+
 DEFS += -DCFG_CPU_CCLK='(${CFG_CPU_CCLK})'
 DEFS += -DCFG_SYSTICK_DELAY_IN_MS='(${CFG_SYSTICK_DELAY_IN_MS})'
 DEFS += -DCFG_FIRMWARE_VERSION_MAJOR='(${CFG_FIRMWARE_VERSION_MAJOR})' -DCFG_FIRMWARE_VERSION_MINOR='(${CFG_FIRMWARE_VERSION_MINOR})' -DCFG_FIRMWARE_VERSION_REVISION='(${CFG_FIRMWARE_VERSION_REVISION})'
