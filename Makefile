@@ -1,5 +1,7 @@
+PROJECTCFG=projectconfig
+
 include boards/defaults
-include projectconfig
+include $(PROJECTCFG)
 include configparser.make
 
 ##########################################################################
