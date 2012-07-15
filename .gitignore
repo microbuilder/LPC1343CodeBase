@@ -1,0 +1,12 @@
+*.o
+*~
+*.bin
+*.elf
+*.hex
+lpc1xxx/memory.ld
+lpcrc
+*.rej
+*.orig
+*.patch
+a.*
+?
