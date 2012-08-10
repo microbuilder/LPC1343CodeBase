@@ -1,9 +1,9 @@
 /**************************************************************************/
 /*! 
-    @file     lm75b.h
-    @author   K. Townsend (microBuilder.eu)
-    @date     22 March 2010
-    @version  0.10
+    @file     ds18b20.h
+    @author   Albertas Mickenas (mic@wemakethings.net)
+    @date     8 August 2012
+    @version  1.0
 
     @section LICENSE
 
