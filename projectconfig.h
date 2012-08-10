@@ -617,9 +617,9 @@
                               CDC (see 'puts' in systeminit.c).
 
     -----------------------------------------------------------------------*/
-    #define CFG_USB_VID                   (0x1d50)
-    #define CFG_USB_PID                   (0x600c)
-
+    #define CFG_USB_VID                   (0x239A)
+    #define CFG_USB_PID                   (0x1002)
+	
     #ifdef CFG_BRD_LPC1343_REFDESIGN
       // #define CFG_USBHID
       #define CFG_USBCDC
