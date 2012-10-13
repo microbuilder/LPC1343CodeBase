@@ -97,6 +97,8 @@ void cmd_sd_dir(uint8_t argc, char **argv);
 void cmd_pwm(uint8_t argc, char **argv);
 #endif
 
+void cmd_adc_read(uint8_t argc, char **argv);
+
 #define CMD_NOPARAMS "This command has no parameters"
 
 /**************************************************************************/
@@ -114,7 +116,7 @@ cmd_t cmd_tbl[] =
   { "?",    0,  0,  0, cmd_help              , "Help"                           , CMD_NOPARAMS },
   { "V",    0,  0,  0, cmd_sysinfo           , "System Info"                    , CMD_NOPARAMS },
   { "Z",    0,  0,  0, cmd_reset             , "Reset"                          , CMD_NOPARAMS },
-
+  { "adc",  1,  2,  0, cmd_adc_read          , "ADC read"                       , "adc <channel> <num reads>" },
   #ifdef CFG_I2CEEPROM
   { "e",    1,  1,  0, cmd_i2ceeprom_read    , "EEPROM Read"                    , "'e <addr>'" },
   { "w",    2,  2,  0, cmd_i2ceeprom_write   , "EEPROM Write"                   , "'w <addr> <val>'" },
