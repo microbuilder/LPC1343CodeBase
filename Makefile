@@ -41,6 +41,7 @@ OBJS += cmd_chibi_addr.o cmd_chibi_tx.o
 OBJS += cmd_i2ceeprom_read.o cmd_i2ceeprom_write.o cmd_lm75b_gettemp.o
 OBJS += cmd_reset.o cmd_sd_dir.o cmd_sysinfo.o cmd_uart.o 
 OBJS += cmd_roundedcorner.o cmd_pwm.o
+OBJS += cmd_adc.o
 
 VPATH += project/commands/drawing
 OBJS += cmd_backlight.o cmd_bmp.o cmd_button.o cmd_calibrate.o
