@@ -306,7 +306,7 @@ void gpioSetInterrupt (uint32_t portNum, uint32_t bitPos, gpioInterruptSense_t s
     *gpiois |= (0x1<<bitPos);
   }
 
-  event == gpioInterruptEvent_ActiveHigh ? (*gpioiev &= ~(0x1<<bitPos)) : (*gpioiev |= (0x1<<bitPos));
+  event == gpioInterruptEvent_ActiveLow ? (*gpioiev &= ~(0x1<<bitPos)) : (*gpioiev |= (0x1<<bitPos));
 
   return;
 }
