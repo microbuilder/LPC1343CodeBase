@@ -2019,6 +2019,12 @@ static inline void NVIC_DisableIRQ(IRQn_t IRQn)
   NVIC->ICER[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
 }
 
+static inline void NVIC_SetIRQPriority(IRQn_t IRQn, uint8_t priority)
+{
+  NVIC->IP[(uint32_t)(IRQn)] = ((priority << 5) & 0xff);        /* set Priority for device specific Interrupts  */
+}
+
+
 /*##############################################################################
 ## GPIO - General Purpose I/O
 ##############################################################################*/
