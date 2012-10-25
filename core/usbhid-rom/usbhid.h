@@ -34,8 +34,8 @@
 */
 /**************************************************************************/
 
-#ifndef _USBCONFIG_H_
-#define _USBCONFIG_H_
+#ifndef _USBHID_H_
+#define _USBHID_H_
 
 #include "projectconfig.h"
 
