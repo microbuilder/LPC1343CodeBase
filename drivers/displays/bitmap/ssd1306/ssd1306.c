@@ -490,7 +490,7 @@ uint8_t ssd1306GetPixel(uint8_t x, uint8_t y)
 /**************************************************************************/
 void ssd1306ClearScreen() 
 {
-  memset(_ssd1306buffer, 0x00, 1024);
+  memset(_ssd1306buffer, 0x00, sizeof(_ssd1306buffer));
 }
 
 /**************************************************************************/
@@ -506,7 +506,7 @@ void ssd1306Refresh(void)
     CMD(SSD1306_SETSTARTLINE | 0x0); // line #0
 
     uint16_t i;
-    for (i=0; i<1024; i++) 
+    for (i = 0; i < sizeof(_ssd1306buffer); i++)
     {
       DATA(_ssd1306buffer[i]);
     }
@@ -518,7 +518,7 @@ void ssd1306Refresh(void)
     ssd1306SendCommand(SSD1306_SETSTARTLINE | 0x0); // line #0
 
     uint16_t i;
-    for (i=0; i<1024; i++) 
+    for (i = 0; i < sizeof(_ssd1306buffer); i++)
     {
       ssd1306SendData(_ssd1306buffer[i]);
     }
