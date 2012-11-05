@@ -134,7 +134,7 @@ void drawChar(uint16_t x, uint16_t y, uint8_t c, struct FONT_DEF font)
     // Retrieve appropriate columns from font data
     for (col = 0; col < font.u8Width; col++)
     {
-      column[col] = font.au8FontTable[((c - 32) * font.u8Width) + col];    // Get first column of appropriate character
+      column[col] = font.au8FontTable[((c - font.u8FirstChar) * font.u8Width) + col];    // Get first column of appropriate character
     }
   }
   else
