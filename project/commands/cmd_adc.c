@@ -1,6 +1,6 @@
 /**************************************************************************/
 /*! 
-    @file     cmd_sysinfo.c
+    @file     cmd_adc.c
     @author   Miceuz
 
     @brief    Code to execute for cmd_sysinfo in the 'core/cmd'
@@ -46,7 +46,7 @@
 
 /**************************************************************************/
 /*! 
-    PWM command handler
+    ADC command handler
 */
 /**************************************************************************/
 
@@ -55,9 +55,9 @@ void cmd_adc_read(uint8_t argc, char **argv) {
     int32_t numReads = 1;
     
     getNumber (argv[0], &channel);
-    if(channel < 0) 
+    if(channel < 0 || channel > 2) 
     {
-      printf("Invalid duty channel, only channels [0..2] avalable%s", CFG_PRINTF_NEWLINE);
+      printf("Invalid ADC channel, only channels [0..2] are avalable%s", CFG_PRINTF_NEWLINE);
       return;
     }
 
