@@ -180,7 +180,7 @@ void ds18b20Init(uint32_t portNumber, uint32_t bitPosition, volatile uint32_t *i
     @note Reading is returned mutiplied by 10000 i.e. 
           for 25.8750 degrees the result will be 258750
 */
-uint32_t ds18b20GetTemparature(){ 
+uint32_t ds18b20GetTemperature(){ 
 	//Reset, skip ROM and start temperature conversion 
 	if(reset()) {
         printf("DS18B20 is not responding%s", CFG_PRINTF_NEWLINE);

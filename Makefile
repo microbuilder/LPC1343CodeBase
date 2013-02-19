@@ -65,6 +65,9 @@ OBJS += eeprom.o mcp24aa.o
 VPATH += drivers/sensors/lm75b
 OBJS += lm75b.o
 
+VPATH += drivers/sensors/ds18b20
+OBJS += ds18b20.o
+
 # ISL12022M RTC
 VPATH += drivers/rtc/isl12022m
 OBJS += isl12022m.o
