@@ -1786,11 +1786,19 @@
 #define IOCON_PIO3_1_HYS_DISABLE                  ((unsigned int) 0x00000000)
 #define IOCON_PIO3_1_HYS_ENABLE                   ((unsigned int) 0x00000020)
 
-#define IOCON_PIO2_3 (*(pREG32 (0x4004408C)))
-#define IOCON_PIO2_3_FUNC_MASK 0x7
-#define IOCON_PIO2_3_MODE_MASK 0x18
-#define IOCON_PIO2_3_HYS_MASK 0x20
-#define IOCON_PIO2_3_HYS 0x20
+#define IOCON_PIO2_3                              (*(pREG32 (0x4004408C)))
+#define IOCON_PIO2_3_FUNC_MASK                    ((unsigned int) 0x00000007)
+#define IOCON_PIO2_3_FUNC_GPIO                    ((unsigned int) 0x00000000)
+#define IOCON_PIO2_3_FUNC_RI                      ((unsigned int) 0x00000001)
+#define IOCON_PIO2_3_FUNC_MOSI                    ((unsigned int) 0x00000002)
+#define IOCON_PIO2_3_MODE_MASK                    ((unsigned int) 0x00000018)
+#define IOCON_PIO2_3_MODE_INACTIVE                ((unsigned int) 0x00000000)
+#define IOCON_PIO2_3_MODE_PULLDOWN                ((unsigned int) 0x00000008)
+#define IOCON_PIO2_3_MODE_PULLUP                  ((unsigned int) 0x00000010)
+#define IOCON_PIO2_3_MODE_REPEATER                ((unsigned int) 0x00000018)
+#define IOCON_PIO2_3_HYS_MASK                     ((unsigned int) 0x00000020)
+#define IOCON_PIO2_3_HYS_DISABLE                  ((unsigned int) 0x00000000)
+#define IOCON_PIO2_3_HYS_ENABLE                   ((unsigned int) 0x00000020)
 
 #define IOCON_SWDIO_PIO1_3                        (*(pREG32 (0x40044090)))
 #define IOCON_SWDIO_PIO1_3_FUNC_MASK              ((unsigned int) 0x00000007)
