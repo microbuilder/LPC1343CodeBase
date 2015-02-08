@@ -78,10 +78,10 @@ volatile uint32_t systickRollovers = 0;
 /**************************************************************************/
 void SysTick_Handler (void)
 {
-  systickTicks++;
-
   // Increment rollover counter
   if (systickTicks == 0xFFFFFFFF) systickRollovers++;
+
+  systickTicks++;
 
   #ifdef CFG_SDCARD
   fatTicks++;
