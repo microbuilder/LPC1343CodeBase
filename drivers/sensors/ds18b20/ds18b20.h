@@ -44,7 +44,7 @@
 
 
 void ds18b20Init(uint32_t portNum, uint32_t bitPos, volatile uint32_t *ioconReg);
-uint32_t ds18b20GetTemparature();
+uint32_t ds18b20GetTemperature();
 #endif
 
 
